@@ -1,9 +1,10 @@
 package io.w4t3rcs.python.connection;
 
+import io.w4t3rcs.python.executor.PythonExecutor;
 import org.springframework.boot.autoconfigure.service.connection.ConnectionDetails;
 
 /**
- * Defines connection parameters required to establish a link with a Python server.
+ * Defines connection parameters required to establish a link with a Python server inside the {@link PythonExecutor}.
  *
  * <p>This interface extends {@link ConnectionDetails} and provides
  * credentials and the target server URI in a structured manner. It is intended
@@ -26,6 +27,7 @@ import org.springframework.boot.autoconfigure.service.connection.ConnectionDetai
  * }</pre>
  *
  * @see ConnectionDetails
+ * @see PythonExecutor
  * @author w4t3rcs
  * @since 1.0.0
  */

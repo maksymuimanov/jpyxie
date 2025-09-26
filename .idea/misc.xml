@@ -7,26 +7,11 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/spring-python-executor/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-core/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-autoconfigure/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-starter/pom.xml" />
-        <option value="$PROJECT_DIR$/example/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-cache/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-testcontainers/pom.xml" />
-        <option value="$PROJECT_DIR$/python-server-tset/pom.xml" />
-        <option value="$PROJECT_DIR$/python-server-testcontainers/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-common/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-cache-autoconfigure/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-cache-starter/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-dependencies/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/demo-app/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/demo-app/pom.xml" />
         <option value="$PROJECT_DIR$/spring-python-executor/pom.xml" />
       </set>
     </option>

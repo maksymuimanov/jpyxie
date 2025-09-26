@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.w4t3rcs</groupId>
     <artifactId>spring-boot-python-executor-parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
     <name>Spring Boot Python Executor Parent</name>
     <description>Parent module for managing all submodules of Spring Boot Python Executor.</description>
@@ -28,16 +28,16 @@
         <developerConnection>scm:git:ssh://git@github.com:w4t3rcs/spring-boot-python-executor.git</developerConnection>
     </scm>
     <modules>
-        <module>python-server-testcontainers</module>
-        <module>spring-boot-python-executor-common</module>
-        <module>spring-boot-python-executor-core</module>
-        <module>spring-boot-python-executor-autoconfigure</module>
-        <module>spring-boot-python-executor-starter</module>
-        <module>spring-boot-python-executor-cache</module>
-        <module>spring-boot-python-executor-cache-autoconfigure</module>
-        <module>spring-boot-python-executor-cache-starter</module>
-        <module>spring-boot-python-executor-testcontainers</module>
-        <module>spring-boot-python-executor-dependencies</module>
+        <module>common/spring-boot-python-executor-common</module>
+        <module>core/spring-boot-python-executor-core</module>
+        <module>core/spring-boot-python-executor-autoconfigure</module>
+        <module>core/spring-boot-python-executor-starter</module>
+        <module>cache/spring-boot-python-executor-cache</module>
+        <module>cache/spring-boot-python-executor-cache-autoconfigure</module>
+        <module>cache/spring-boot-python-executor-cache-starter</module>
+        <module>test/python-server-testcontainers</module>
+        <module>test/spring-boot-python-executor-testcontainers</module>
+        <module>common/spring-boot-python-executor-dependencies</module>
     </modules>
     <properties>
         <java.version>17</java.version>
