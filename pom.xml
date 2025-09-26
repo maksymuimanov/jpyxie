@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <name>Spring Boot Python Executor Parent</name>
     <description>Parent module for managing all submodules of Spring Boot Python Executor.</description>
-    <url>https://github.com/w4t3rcs/spring-boot-python-executor</url>
+    <url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
     <licenses>
         <license>
             <name>The MIT License</name>
@@ -18,14 +18,14 @@
     </licenses>
     <developers>
         <developer>
-            <name>w4t3rcs</name>
-            <email>w4t3rofficial@gmail.com</email>
+            <name>Maksym Uimanov</name>
+            <email>uimanovmaks@gmail.com</email>
         </developer>
     </developers>
     <scm>
-        <url>https://github.com/w4t3rcs/spring-boot-python-executor</url>
-        <connection>scm:git:git://github.com/w4t3rcs/spring-boot-python-executor.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:w4t3rcs/spring-boot-python-executor.git</developerConnection>
+        <url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
+        <connection>scm:git:git://github.com/maksymuimanov/spring-boot-python-executor.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:maksymuimanov/spring-boot-python-executor.git</developerConnection>
     </scm>
     <modules>
         <module>common/spring-boot-python-executor-common</module>
