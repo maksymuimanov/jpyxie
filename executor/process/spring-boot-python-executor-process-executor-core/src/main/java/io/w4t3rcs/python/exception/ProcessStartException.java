@@ -1,6 +1,6 @@
 package io.w4t3rcs.python.exception;
 
-import io.w4t3rcs.python.local.BasicPythonProcessStarter;
+import io.w4t3rcs.python.starter.impl.BasicPythonProcessStarter;
 
 /**
  * Exception thrown when an error occurs while starting a process.

@@ -37,8 +37,6 @@ import java.net.http.HttpResponse;
  * @see PythonExecutor
  * @see ScriptRequest
  * @see PythonServerConnectionDetails
- * @see GrpcPythonExecutor
- * @see LocalPythonExecutor
  * @author w4t3rcs
  * @since 1.0.0
  */
