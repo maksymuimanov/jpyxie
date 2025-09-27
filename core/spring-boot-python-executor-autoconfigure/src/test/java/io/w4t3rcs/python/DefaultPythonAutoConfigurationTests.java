@@ -1,7 +1,7 @@
 package io.w4t3rcs.python;
 
 import io.w4t3rcs.python.config.PythonAutoConfiguration;
-import io.w4t3rcs.python.executor.LocalPythonExecutor;
+import io.w4t3rcs.python.executor.ProcessPythonExecutor;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.file.BasicPythonFileHandler;
 import io.w4t3rcs.python.file.PythonFileHandler;
@@ -32,7 +32,7 @@ class DefaultPythonAutoConfigurationTests {
         Assertions.assertInstanceOf(SpelythonResolver.class, applicationContext.getBean("spelythonResolver"));
         Assertions.assertInstanceOf(ResultResolver.class, applicationContext.getBean("resultResolver"));
         Assertions.assertInstanceOf(BasicPythonResolverHolder.class, applicationContext.getBean(PythonResolverHolder.class));
-        Assertions.assertInstanceOf(LocalPythonExecutor.class, applicationContext.getBean(PythonExecutor.class));
+        Assertions.assertInstanceOf(ProcessPythonExecutor.class, applicationContext.getBean(PythonExecutor.class));
         Assertions.assertInstanceOf(BasicPythonProcessor.class, applicationContext.getBean(PythonProcessor.class));
         Assertions.assertFalse(applicationContext.containsBean("gatewayServer"));
     }
