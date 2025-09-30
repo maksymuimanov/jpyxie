@@ -23,7 +23,6 @@ import org.springframework.context.annotation.PropertySource;
  *
  * @see PythonAspectConfiguration
  * @see PythonProcessorConfiguration
- * @see Py4JConfiguration
  * @see PythonFileHandlerConfiguration
  * @see PythonResolverConfiguration
  * @author w4t3rcs
@@ -32,7 +31,6 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @EnableAspectJAutoProxy
 @Import({
-        Py4JConfiguration.class,
         PythonFileHandlerConfiguration.class,
         PythonResolverConfiguration.class,
         PythonProcessorConfiguration.class,

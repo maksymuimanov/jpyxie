@@ -18,6 +18,15 @@
         <option value="$PROJECT_DIR$/spring-boot-python-executor-process-executor-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/executor/process/spring-boot-python-executor-process-executor-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/executor/process/spring-boot-python-executor-process-executor-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/executor/grpc/spring-boot-python-executor-grpc-executor-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/other/py4j/spring-boot-python-executor-py4j-core/pom.xml" />
+        <option value="$PROJECT_DIR$/other/py4j/spring-boot-python-executor-py4j-autoconfigure/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-boot-python-executor-py4j-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/other/py4j/spring-boot-python-executor-py4j-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/resolver/restricted/spring-boot-python-executor-restricted-resolver-core/pom.xml" />
+        <option value="$PROJECT_DIR$/resolver/result/spring-boot-python-executor-result-resolver-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-boot-python-executor-spelython-resolver-autoconfigure/pom.xml" />
+        <option value="$PROJECT_DIR$/test-app/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -25,6 +34,8 @@
         <option value="$PROJECT_DIR$/spring-boot-python-executor-grpc-executor-core/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot-python-executor-process-executor-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot-python-executor-process-executor-core/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-boot-python-executor-py4j-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-boot-python-executor-spelython-resolver-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/spring-python-executor/pom.xml" />
       </set>
     </option>

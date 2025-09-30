@@ -1,6 +1,6 @@
 package io.w4t3rcs.python;
 
-import io.w4t3rcs.python.config.RestPythonExecutorAutoconfiguration;
+import io.w4t3rcs.python.config.RestPythonExecutorAutoConfiguration;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.executor.RestPythonExecutor;
 import org.junit.jupiter.api.Assertions;
@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = {RestPythonExecutorAutoconfiguration.class})
+@ContextConfiguration(classes = {RestPythonExecutorAutoConfiguration.class})
 class RestPythonExecutorConfigurationTests {
     @Autowired
     private PythonExecutor pythonExecutor;

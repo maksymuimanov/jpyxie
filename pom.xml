@@ -34,6 +34,18 @@
         <module>core/spring-boot-python-executor-autoconfigure</module>
         <module>core/spring-boot-python-executor-starter</module>
 
+        <module>resolver/spelython/spring-boot-python-executor-spelython-resolver-core</module>
+        <module>resolver/spelython/spring-boot-python-executor-spelython-resolver-autoconfigure</module>
+        <module>resolver/spelython/spring-boot-python-executor-spelython-resolver-starter</module>
+
+        <module>resolver/restricted/spring-boot-python-executor-restricted-resolver-core</module>
+        <module>resolver/restricted/spring-boot-python-executor-restricted-resolver-autoconfigure</module>
+        <module>resolver/restricted/spring-boot-python-executor-restricted-resolver-starter</module>
+
+        <module>resolver/result/spring-boot-python-executor-result-resolver-core</module>
+        <module>resolver/result/spring-boot-python-executor-result-resolver-autoconfigure</module>
+        <module>resolver/result/spring-boot-python-executor-result-resolver-starter</module>
+
         <module>executor/rest/spring-boot-python-executor-rest-executor-core</module>
         <module>executor/rest/spring-boot-python-executor-rest-executor-autoconfigure</module>
         <module>executor/rest/spring-boot-python-executor-rest-executor-starter</module>
@@ -45,6 +57,10 @@
         <module>executor/process/spring-boot-python-executor-process-executor-core</module>
         <module>executor/process/spring-boot-python-executor-process-executor-autoconfigure</module>
         <module>executor/process/spring-boot-python-executor-process-executor-starter</module>
+
+        <module>other/py4j/spring-boot-python-executor-py4j-core</module>
+        <module>other/py4j/spring-boot-python-executor-py4j-autoconfigure</module>
+        <module>other/py4j/spring-boot-python-executor-py4j-starter</module>
 
         <module>cache/spring-boot-python-executor-cache</module>
         <module>cache/spring-boot-python-executor-cache-autoconfigure</module>

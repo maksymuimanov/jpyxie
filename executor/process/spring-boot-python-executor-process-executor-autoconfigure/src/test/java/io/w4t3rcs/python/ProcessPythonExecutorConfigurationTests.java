@@ -1,6 +1,6 @@
 package io.w4t3rcs.python;
 
-import io.w4t3rcs.python.config.ProcessPythonExecutorAutoconfiguration;
+import io.w4t3rcs.python.config.ProcessPythonExecutorAutoConfiguration;
 import io.w4t3rcs.python.executor.ProcessPythonExecutor;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.finisher.ProcessFinisher;
@@ -19,7 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = {ProcessPythonExecutorAutoconfiguration.class})
+@ContextConfiguration(classes = {ProcessPythonExecutorAutoConfiguration.class})
 class ProcessPythonExecutorConfigurationTests {
     @Autowired
     private PythonExecutor pythonExecutor;

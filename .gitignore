@@ -7,3 +7,5 @@ gen
 
 /target/
 *.asc
+
+/test-app/

@@ -1,6 +1,6 @@
 package io.w4t3rcs.python;
 
-import io.w4t3rcs.python.config.GrpcPythonExecutorAutoconfiguration;
+import io.w4t3rcs.python.config.GrpcPythonExecutorAutoConfiguration;
 import io.w4t3rcs.python.executor.GrpcPythonExecutor;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.proto.PythonServiceGrpc;
@@ -14,7 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = {GrpcPythonExecutorAutoconfiguration.class})
+@ContextConfiguration(classes = {GrpcPythonExecutorAutoConfiguration.class})
 class PythonExecutorConfigurationTests {
     @MockitoBean
     private PythonServiceGrpc.PythonServiceBlockingStub stub;

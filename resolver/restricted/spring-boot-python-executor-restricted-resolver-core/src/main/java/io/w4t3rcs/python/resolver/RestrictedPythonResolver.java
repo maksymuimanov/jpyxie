@@ -1,0 +1,89 @@
+package io.w4t3rcs.python.resolver;
+
+import io.w4t3rcs.python.properties.RestrictedPythonResolverProperties;
+import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * {@link PythonResolver} implementation that processes Python scripts for secure execution
+ * using the {@code RestrictedPython} library.
+ *
+ * <p>This resolver acts as a proxy, injecting necessary setup code to enable safe execution of Python code with RestrictedPython.
+ * It performs the following operations:
+ * <ul>
+ *   <li>Removes existing import lines matching a configured regex and collects import names.</li>
+ *   <li>Wraps the original script code in a string variable for compilation.</li>
+ *   <li>Initializes local variables container for execution results.</li>
+ *   <li>Compiles the wrapped script with RestrictedPython's compile_restricted method.</li>
+ *   <li>Executes the compiled code in a safe globals context augmented with collected imports.</li>
+ *   <li>Replaces configured body fragments with JSON serialization code if enabled.</li>
+ *   <li>Inserts necessary import statements and setup for safe globals and optional print support.</li>
+ * </ul>
+ *
+ * @see PythonResolver
+ * @see AbstractPythonResolver
+ * @see PythonResolverHolder
+ * @see RestrictedPythonResolverProperties
+ * @see <a href="https://github.com/zopefoundation/RestrictedPython">RestrictedPython</a>
+ * @author w4t3rcs
+ * @since 1.0.0
+ */
+@RequiredArgsConstructor
+public class RestrictedPythonResolver extends AbstractPythonResolver {
+    private final RestrictedPythonResolverProperties resolverProperties;
+
+    /**
+     * Resolves the given Python script by injecting RestrictedPython setup code to
+     * enable secure execution.
+     *
+     * @param script the original Python script content (non-null)
+     * @param arguments unused map of variables for script execution context, may be null
+     * @return the transformed Python script ready for execution with RestrictedPython
+     */
+    @Override
+    public String resolve(String script, Map<String, Object> arguments) {
+        StringBuilder resolvedScript = new StringBuilder(script);
+        List<String> importLines = new ArrayList<>();
+        List<String> importNames = new ArrayList<>();
+        this.removeScriptLines(resolvedScript, resolverProperties.scriptImportsRegex(),
+                (matcher, fragment) -> {
+            importLines.add(fragment);
+            List<String> currentImportNames = this.findImportVariables(fragment);
+            importNames.addAll(currentImportNames);
+        });
+        resolvedScript.insert(AbstractPythonResolver.STRING_BUILDER_START_INDEX, resolverProperties.codeVariableName() + " = \"\"\"\n");
+        this.appendNextLine(resolvedScript, "\n\"\"\"");
+        this.appendNextLine(resolvedScript, builder -> builder.append(resolverProperties.localVariablesName())
+                .append(" = {}"));
+        this.appendNextLine(resolvedScript, builder -> builder.append("restricted_byte_code = compile_restricted(")
+                .append(resolverProperties.codeVariableName())
+                .append(", '<inline>', 'exec')"));
+        this.appendNextLine(resolvedScript, builder -> builder.append("exec(restricted_byte_code, safe_globals_with_imports, ")
+                .append(resolverProperties.localVariablesName())
+                .append(")"));
+        for (int i = importNames.size() - 1; i >= 0; i--) {
+            String importName = importNames.get(i);
+            this.insertUniqueLineToStart(resolvedScript, "safe_globals_with_imports['" + importName + "'] = " + importName);
+        }
+        boolean printEnabled = resolverProperties.printEnabled();
+        if (printEnabled) {
+            this.insertUniqueLineToStart(resolvedScript, "safe_globals_with_imports['_getattr_'] = _getattr_");
+            this.insertUniqueLineToStart(resolvedScript, "safe_globals_with_imports['_print_'] = _print_");
+        }
+        this.insertUniqueLineToStart(resolvedScript, "safe_globals_with_imports = dict(safe_globals)");
+        if (printEnabled) {
+            this.insertUniqueLineToStart(resolvedScript, "_getattr_ = getattr");
+            this.insertUniqueLineToStart(resolvedScript, "_print_ = PrintCollector");
+            this.insertUniqueLineToStart(resolvedScript, "from RestrictedPython.PrintCollector import PrintCollector");
+        }
+        for (int i = importLines.size() - 1; i >= 0; i--) {
+            this.insertUniqueLineToStart(resolvedScript, importLines.get(i));
+        }
+        this.insertUniqueLineToStart(resolvedScript, AbstractPythonResolver.IMPORT_JSON);
+        this.insertUniqueLineToStart(resolvedScript, resolverProperties.importLine());
+        return resolvedScript.toString();
+    }
+}
