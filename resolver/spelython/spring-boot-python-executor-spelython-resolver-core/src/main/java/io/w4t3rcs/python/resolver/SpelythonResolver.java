@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.exception.SpelythonProcessingException;
 import io.w4t3rcs.python.properties.SpelythonResolverProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.expression.BeanFactoryResolver;
@@ -28,14 +29,13 @@ import java.util.Map;
  * Errors during JSON serialization are wrapped and rethrown as {@link SpelythonProcessingException}.</p>
  *
  * @see PythonResolver
- * @see AbstractPythonResolver
  * @see PythonResolverHolder
  * @see SpelythonResolverProperties
  * @author w4t3rcs
  * @since 1.0.0
  */
 @RequiredArgsConstructor
-public class SpelythonResolver extends AbstractPythonResolver {
+public class SpelythonResolver implements PythonResolver {
     private final SpelythonResolverProperties resolverProperties;
     private final ApplicationContext applicationContext;
     private final ObjectMapper objectMapper;
@@ -53,9 +53,8 @@ public class SpelythonResolver extends AbstractPythonResolver {
      * @return non-null-resolved script with SpEL expressions replaced by JSON-wrapped results
      */
     @Override
-    public String resolve(String script, Map<String, Object> arguments) {
-        StringBuilder resolvedScript = new StringBuilder(script);
-        this.insertUniqueLineToStart(resolvedScript, AbstractPythonResolver.IMPORT_JSON);
+    public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
+        script.appendImport(IMPORT_JSON);
         ExpressionParser parser = new SpelExpressionParser();
         StandardEvaluationContext context = new StandardEvaluationContext();
         if (arguments != null && !arguments.isEmpty()) {
@@ -64,28 +63,30 @@ public class SpelythonResolver extends AbstractPythonResolver {
                             .setValue(context, value));
         }
         context.setBeanResolver(new BeanFactoryResolver(applicationContext));
-        this.replaceScriptFragments(resolvedScript, resolverProperties.regex(),
-                resolverProperties.positionFromStart(), resolverProperties.positionFromEnd(),
-                (matcher, fragment, result) -> {
-                    try {
-                        Expression expression = parser.parseExpression(fragment.toString());
-                        Object expressionValue = expression.getValue(context, Object.class);
-                        String jsonResult = objectMapper.writeValueAsString(expressionValue).replace("'", "\\'");
-                        if (jsonResult.startsWith("\"\\\"") && jsonResult.endsWith("\\\"\"")) {
-                            int beginIndex = 3;
-                            int endIndex = jsonResult.length() - beginIndex;
-                            jsonResult = jsonResult.substring(beginIndex, endIndex);
-                            return result.append("'")
-                                    .append(jsonResult)
-                                    .append("'");
-                        }
-                        return result.append("json.loads('")
-                                .append(jsonResult)
-                                .append("')");
-                    } catch (JsonProcessingException e) {
-                        throw new SpelythonProcessingException(e);
-                    }
-                });
-        return resolvedScript.toString();
+        script.replaceAll(resolverProperties.regex(),
+                resolverProperties.positionFromStart(),
+                resolverProperties.positionFromEnd(),
+                (group, result) -> {
+            try {
+                Expression expression = parser.parseExpression(group);
+                Object expressionValue = expression.getValue(context, Object.class);
+                String jsonResult = objectMapper.writeValueAsString(expressionValue).replace("'", "\\'");
+                if (jsonResult.startsWith("\"\\\"") && jsonResult.endsWith("\\\"\"")) {
+                    int beginIndex = 3;
+                    int endIndex = jsonResult.length() - beginIndex;
+                    jsonResult = jsonResult.substring(beginIndex, endIndex);
+                    result.append("'")
+                            .append(jsonResult)
+                            .append("'");
+                } else {
+                    result.append("json.loads('")
+                            .append(jsonResult)
+                            .append("')");
+                }
+            } catch (JsonProcessingException e) {
+                throw new SpelythonProcessingException(e);
+            }
+        });
+        return script;
     }
 }

@@ -1,6 +1,6 @@
 package io.w4t3rcs.python.exception;
 
-import io.w4t3rcs.python.file.PythonFileHandler;
+import io.w4t3rcs.python.file.PythonFileReader;
 
 /**
  * Exception thrown when there is an error getting the path to a Python script.
@@ -11,7 +11,7 @@ import io.w4t3rcs.python.file.PythonFileHandler;
  * This exception extends {@link RuntimeException} and indicates failure
  * in resolving or retrieving the Python script path.
  *
- * @see PythonFileHandler
+ * @see PythonFileReader
  * @since 1.0.0
  * @author w4t3rcs
  */

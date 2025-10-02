@@ -34,7 +34,7 @@ public class RestrictedPythonResolverAutoConfiguration {
     /**
      * Order value for {@link RestrictedPythonResolver} bean.
      */
-    public static final int RESTRICTED_PYTHON_RESOLVER_ORDER = 100;
+    public static final int RESTRICTED_PYTHON_RESOLVER_ORDER = 150;
 
     /**
      * Creates a {@link RestrictedPythonResolver} bean.

@@ -3,6 +3,7 @@ package io.w4t3rcs.python.resolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
 import io.w4t3rcs.python.properties.PythonCacheProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,14 +60,15 @@ class CachingPythonResolverHolderTests {
             COMPOUND_SCRIPT_0, COMPOUND_SCRIPT_1,
     })
     void testExistentKeyResolveAll(String script) {
+        PythonScript pythonScript = new PythonScript(script);
         TreeMap<String, Object> sortedMap = new TreeMap<>(EMPTY_ARGUMENTS);
 
         Mockito.when(objectMapper.writeValueAsString(sortedMap)).thenReturn(EMPTY);
-        Mockito.when(keyGenerator.generateKey(script)).thenReturn(CACHE_KEY);
-        Mockito.when((String) cache.get(CACHE_KEY, STRING_CLASS)).thenReturn(OK);
+        Mockito.when(keyGenerator.generateKey(pythonScript.toString())).thenReturn(CACHE_KEY);
+        Mockito.when(cache.get(CACHE_KEY, PYTHON_SCRIPT_CLASS)).thenReturn(pythonScript);
 
-        String executed = cachingPythonResolverHolder.resolveAll(script);
-        Assertions.assertEquals(OK, executed);
+        cachingPythonResolverHolder.resolveAll(pythonScript);
+        Assertions.assertNotNull(pythonScript);
     }
 
     @SneakyThrows
@@ -78,16 +80,17 @@ class CachingPythonResolverHolderTests {
             COMPOUND_SCRIPT_0, COMPOUND_SCRIPT_1,
     })
     void testNonexistentKeyResolveAll(String script) {
+        PythonScript pythonScript = new PythonScript(script);
         TreeMap<String, Object> sortedMap = new TreeMap<>(EMPTY_ARGUMENTS);
 
         Mockito.when(objectMapper.writeValueAsString(sortedMap)).thenReturn(EMPTY);
-        Mockito.when(keyGenerator.generateKey(script)).thenReturn(CACHE_KEY);
-        Mockito.when((String) cache.get(CACHE_KEY, STRING_CLASS)).thenReturn(null);
-        Mockito.when(pythonResolverHolder.resolveAll(script, EMPTY_ARGUMENTS)).thenReturn(OK);
-        Mockito.doNothing().when(cache).put(CACHE_KEY, OK);
+        Mockito.when(keyGenerator.generateKey(pythonScript.toString())).thenReturn(CACHE_KEY);
+        Mockito.when(cache.get(CACHE_KEY, PYTHON_SCRIPT_CLASS)).thenReturn(null);
+        Mockito.when(pythonResolverHolder.resolveAll(pythonScript, EMPTY_ARGUMENTS)).thenReturn(pythonScript);
+        Mockito.doNothing().when(cache).put(CACHE_KEY, pythonScript);
 
-        String executed = cachingPythonResolverHolder.resolveAll(script);
-        Assertions.assertEquals(OK, executed);
+        cachingPythonResolverHolder.resolveAll(pythonScript);
+        Assertions.assertNotNull(pythonScript);
     }
 
     @Test

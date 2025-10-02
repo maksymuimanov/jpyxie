@@ -3,6 +3,7 @@ package io.w4t3rcs.python.executor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.finisher.ProcessFinisher;
 import io.w4t3rcs.python.input.ProcessHandler;
+import io.w4t3rcs.python.script.PythonScript;
 import io.w4t3rcs.python.starter.ProcessStarter;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
@@ -35,15 +36,16 @@ class ProcessPythonExecutorTests {
     @ParameterizedTest
     @ValueSource(strings = {SIMPLE_SCRIPT_0})
     void testExecute(String script) {
-        Process process = new ProcessBuilder("python3", "-c", script).start();
+        PythonScript pythonScript = new PythonScript(script);
+        Process process = new ProcessBuilder("python3", "-c", pythonScript.toString()).start();
         process.waitFor();
 
-        Mockito.when(processStarter.start(script)).thenReturn(process);
+        Mockito.when(processStarter.start(pythonScript)).thenReturn(process);
         Mockito.when(inputProcessHandler.handle(process)).thenReturn(OK);
         Mockito.doNothing().when(processFinisher).finish(process);
-        Mockito.when((String) objectMapper.readValue(OK, STRING_CLASS)).thenReturn(OK);
+        Mockito.when(objectMapper.readValue(OK, STRING_CLASS)).thenReturn(OK);
 
-        String executed = processPythonExecutor.execute(script, STRING_CLASS).body();
+        String executed = processPythonExecutor.execute(pythonScript, STRING_CLASS).body();
         Assertions.assertEquals(OK, executed);
     }
 }

@@ -16,7 +16,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * spring:
  *   python:
  *     resolver:
- *       script-imports-regex: (^import [\\w.]+$)|(^import [\\w.]+ as [\\w.]+$)|(^from [\\w.]+ import [\\w., ]+$)
  *       restricted:
  *         import-line: from RestrictedPython import compile_restricted
  *         code-variable-name: source_code
@@ -26,7 +25,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * }</pre>
  * </p>
  *
- * @param scriptImportsRegex regular expression for matching import statements in scripts, non-null
  * @param importLine the import line required for Restricted Python integration, non-null
  * @param codeVariableName the variable name holding the code string, non-null
  * @param localVariablesName the variable name holding local variables map, non-null
@@ -38,9 +36,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 1.0.0
  */
 @ConfigurationProperties("spring.python.resolver.restricted")
-public record RestrictedPythonResolverProperties(String scriptImportsRegex,
-                                                 String importLine,
+public record RestrictedPythonResolverProperties(String importLine,
                                                  String codeVariableName,
                                                  String localVariablesName,
+                                                 String resultAppearance,
                                                  boolean printEnabled) {
 }

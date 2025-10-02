@@ -2,6 +2,7 @@ package io.w4t3rcs.python.executor;
 
 import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.exception.PythonScriptExecutionException;
+import io.w4t3rcs.python.script.PythonScript;
 
 /**
  * Defines the contract for executing Python scripts and mapping the execution body
@@ -35,6 +36,6 @@ public interface PythonExecutor {
      * @throws PythonScriptExecutionException the exception must be thrown if something goes wrong with the script execution
      * @return the body of the script execution mapped to {@code resultClass}, may be {@code null} if the script produces no output
      */
-    <R> PythonExecutionResponse<R> execute(String script, Class<? extends R> resultClass);
+    <R> PythonExecutionResponse<R> execute(PythonScript script, Class<? extends R> resultClass);
 }
 

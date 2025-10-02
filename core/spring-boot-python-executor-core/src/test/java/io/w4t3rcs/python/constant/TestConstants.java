@@ -4,8 +4,8 @@ import io.w4t3rcs.python.annotation.PythonBefore;
 import io.w4t3rcs.python.annotation.PythonBefores;
 import io.w4t3rcs.python.annotation.PythonParam;
 import io.w4t3rcs.python.dto.PythonExecutionResponse;
-import io.w4t3rcs.python.file.BasicPythonFileHandler;
-import io.w4t3rcs.python.file.PythonFileHandler;
+import io.w4t3rcs.python.file.BasicPythonFileReader;
+import io.w4t3rcs.python.file.PythonFileReader;
 import io.w4t3rcs.python.properties.PythonFileProperties;
 import org.springframework.core.env.Profiles;
 
@@ -16,8 +16,7 @@ public final class TestConstants {
     //Script constants
     public static final String OK = "OK";
     public static final PythonExecutionResponse<String> OK_RESPONSE = new PythonExecutionResponse<>(OK);
-    public static final Class<? extends String> STRING_CLASS = String.class;
-    public static final Class<? extends PythonExecutionResponse<String>> STRING_RESPONSE_CLASS = (Class<? extends PythonExecutionResponse<String>>) OK_RESPONSE.getClass();
+    public static final Class<String> STRING_CLASS = String.class;
     public static final Map<String, Object> EMPTY_ARGUMENTS = Map.of();
     public static final String SIMPLE_SCRIPT_0 = "print(2 + 2)";
     public static final String SIMPLE_SCRIPT_1 = "test_var1 = 2 + 2\ntest_var2 = 6 + 2\nprint(test_var1 + test_var2)";
@@ -31,12 +30,11 @@ public final class TestConstants {
     public static final String SPELYTHON_SCRIPT_1 = "test_var1 = spel{#a}\ntest_var2 = spel{#b}\nprint(test_var1 + test_var2)";
     public static final String COMPOUND_SCRIPT_0 = "test_var = 'hello world'\nprint(test_var + spel{#a})\no4java{test_var}";
     public static final String COMPOUND_SCRIPT_1 = "import json\ntest_var = {'x': 2, 'y': spel{#b}}\nprint(test_var)\no4java{test_var}";
-    public static final String FILE_READ_SCRIPT = "test_read.py";
-    public static final String FILE_WRITE_SCRIPT = "test_write.py";
+    public static final String FILE_SCRIPT = "test.py";
 
     //File constants
     public static final PythonFileProperties FILE_PROPERTIES = new PythonFileProperties("/");
-    public static final PythonFileHandler FILE_HANDLER = new BasicPythonFileHandler(FILE_PROPERTIES);
+    public static final PythonFileReader FILE_HANDLER = new BasicPythonFileReader(FILE_PROPERTIES);
 
     //Aspect constants
     public static final String TEST_PROFILE = "test";
@@ -55,6 +53,7 @@ public final class TestConstants {
         }
     }
 
+    @SuppressWarnings("unused")
     @PythonBefore(script = SIMPLE_SCRIPT_0, activeProfiles = {TEST_PROFILE})
     @PythonBefores(value = {
             @PythonBefore(script = SIMPLE_SCRIPT_0, activeProfiles = {TEST_PROFILE}),

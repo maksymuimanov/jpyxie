@@ -5,6 +5,7 @@ import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.exception.PythonScriptExecutionException;
 import io.w4t3rcs.python.finisher.ProcessFinisher;
 import io.w4t3rcs.python.input.ProcessHandler;
+import io.w4t3rcs.python.script.PythonScript;
 import io.w4t3rcs.python.starter.ProcessStarter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,10 +59,12 @@ public class ProcessPythonExecutor implements PythonExecutor {
      * @throws PythonScriptExecutionException if an error occurs during process execution, I/O handling, or JSON deserialization
      */
     @Override
-    public <R> PythonExecutionResponse<R> execute(String script, Class<? extends R> resultClass) {
+    public <R> PythonExecutionResponse<R> execute(PythonScript script, Class<? extends R> resultClass) {
         try {
             Process process = processStarter.start(script);
             String jsonResult = inputProcessHandler.handle(process);
+            if (resultClass != null && jsonResult == null)
+                log.warn("Result is null! Maybe you should try to set the spring.python.resolver.result.is-printed=true");
             errorProcessHandler.handle(process);
             processFinisher.finish(process);
             R result = resultClass == null || jsonResult == null || jsonResult.isBlank()

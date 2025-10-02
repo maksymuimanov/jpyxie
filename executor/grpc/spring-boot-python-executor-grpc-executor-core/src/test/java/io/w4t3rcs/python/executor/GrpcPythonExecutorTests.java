@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.proto.PythonRequest;
 import io.w4t3rcs.python.proto.PythonResponse;
 import io.w4t3rcs.python.proto.PythonServiceGrpc;
+import io.w4t3rcs.python.script.PythonScript;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,17 +30,18 @@ class GrpcPythonExecutorTests {
     @ParameterizedTest
     @ValueSource(strings = {SIMPLE_SCRIPT_0, SIMPLE_SCRIPT_1, SIMPLE_SCRIPT_2, SIMPLE_SCRIPT_3})
     void testExecute(String script) {
+        PythonScript pythonScript = new PythonScript(script);
         PythonRequest scriptRequest = PythonRequest.newBuilder()
-                .setScript(script)
+                .setScript(pythonScript.toString())
                 .build();
         PythonResponse scriptResponse = PythonResponse.newBuilder()
                 .setResult(OK)
                 .build();
 
         Mockito.when(stub.sendCode(scriptRequest)).thenReturn(scriptResponse);
-        Mockito.when((String) objectMapper.readValue(OK, STRING_CLASS)).thenReturn(OK);
+        Mockito.when(objectMapper.readValue(OK, STRING_CLASS)).thenReturn(OK);
 
-        String executed = grpcPythonExecutor.execute(script, STRING_CLASS).body();
+        String executed = grpcPythonExecutor.execute(pythonScript, STRING_CLASS).body();
         Assertions.assertEquals(OK, executed);
     }
 }

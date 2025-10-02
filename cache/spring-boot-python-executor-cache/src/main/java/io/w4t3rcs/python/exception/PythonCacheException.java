@@ -1,7 +1,7 @@
 package io.w4t3rcs.python.exception;
 
 import io.w4t3rcs.python.executor.CachingPythonExecutor;
-import io.w4t3rcs.python.file.CachingPythonFileHandler;
+import io.w4t3rcs.python.file.CachingPythonFileReader;
 import io.w4t3rcs.python.processor.CachingPythonProcessor;
 import io.w4t3rcs.python.resolver.CachingPythonResolverHolder;
 
@@ -12,7 +12,7 @@ import io.w4t3rcs.python.resolver.CachingPythonResolverHolder;
  * handling in the Python integration context.
  * </p>
  *
- * @see CachingPythonFileHandler
+ * @see CachingPythonFileReader
  * @see CachingPythonResolverHolder
  * @see CachingPythonExecutor
  * @see CachingPythonProcessor

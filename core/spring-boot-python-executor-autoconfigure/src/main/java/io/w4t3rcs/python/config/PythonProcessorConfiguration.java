@@ -1,7 +1,7 @@
 package io.w4t3rcs.python.config;
 
 import io.w4t3rcs.python.executor.PythonExecutor;
-import io.w4t3rcs.python.file.PythonFileHandler;
+import io.w4t3rcs.python.file.PythonFileReader;
 import io.w4t3rcs.python.processor.BasicPythonProcessor;
 import io.w4t3rcs.python.processor.PythonProcessor;
 import io.w4t3rcs.python.resolver.PythonResolver;
@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @see PythonProcessor
  * @see BasicPythonProcessor
- * @see PythonFileHandler
+ * @see PythonFileReader
  * @see PythonExecutor
  * @see PythonResolver
  * @see PythonResolverHolder
@@ -31,14 +31,14 @@ public class PythonProcessorConfiguration {
     /**
      * Creates a default {@link BasicPythonProcessor} bean.
      *
-     * @param pythonFileHandler non-null {@link PythonFileHandler} instance to handle Python file operations.
+     * @param pythonFileReader non-null {@link PythonFileReader} instance to handle Python file operations.
      * @param pythonExecutor non-null {@link PythonExecutor} instance to execute Python code.
      * @param pythonResolverHolder non-null {@link PythonResolverHolder} instance to resolve Python-related parameters.
      * @return a non-null {@link PythonProcessor} implementation.
      */
     @Bean
     @ConditionalOnMissingBean(PythonProcessor.class)
-    public PythonProcessor basicPythonProcessor(PythonFileHandler pythonFileHandler, PythonExecutor pythonExecutor, PythonResolverHolder pythonResolverHolder) {
-        return new BasicPythonProcessor(pythonFileHandler, pythonExecutor, pythonResolverHolder);
+    public PythonProcessor basicPythonProcessor(PythonFileReader pythonFileReader, PythonExecutor pythonExecutor, PythonResolverHolder pythonResolverHolder) {
+        return new BasicPythonProcessor(pythonFileReader, pythonExecutor, pythonResolverHolder);
     }
 }

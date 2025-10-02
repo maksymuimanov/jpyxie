@@ -2,8 +2,9 @@ package io.w4t3rcs.python.starter.impl;
 
 import io.w4t3rcs.python.exception.ProcessStartException;
 import io.w4t3rcs.python.executor.ProcessPythonExecutor;
-import io.w4t3rcs.python.file.PythonFileHandler;
+import io.w4t3rcs.python.file.PythonFileReader;
 import io.w4t3rcs.python.properties.ProcessPythonExecutorProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import io.w4t3rcs.python.starter.ProcessStarter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
  * using the configured Python start command from {@link ProcessPythonExecutorProperties}.
  * Depending on the input, it will either:
  * <ul>
- *     <li>Execute a Python script from a file path (if {@link PythonFileHandler#isPythonFile(String)} returns {@code true}).</li>
+ *     <li>Execute a Python script from a file path (if {@link PythonScript#isFile()} returns {@code true}).</li>
  *     <li>Execute inline Python code using the {@code -c} option.</li>
  * </ul>
  *
@@ -39,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @see ProcessStarter
  * @see ProcessPythonExecutorProperties
- * @see PythonFileHandler
+ * @see PythonFileReader
  * @see ProcessPythonExecutor
  * @author w4t3rcs
  * @since 1.0.0
@@ -49,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BasicPythonProcessStarter implements ProcessStarter {
     private static final String COMMAND_HEADER = "-c";
     private final ProcessPythonExecutorProperties executorProperties;
-    private final PythonFileHandler pythonFileHandler;
+    private final PythonFileReader pythonFileReader;
 
     /**
      * Starts a Python process from either a file or inline code.
@@ -59,14 +60,15 @@ public class BasicPythonProcessStarter implements ProcessStarter {
      * @throws ProcessStartException if the process cannot be started or interrupted
      */
     @Override
-    public Process start(String script) {
+    public Process start(PythonScript script) {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
             String startCommand = executorProperties.startCommand();
-            if (pythonFileHandler.isPythonFile(script)) {
-                processBuilder.command(startCommand, pythonFileHandler.getScriptPath(script).toString());
+            String scriptBody = script.toString();
+            if (script.isFile()) {
+                processBuilder.command(startCommand, pythonFileReader.getScriptPath(scriptBody).toString());
             } else {
-                processBuilder.command(startCommand, COMMAND_HEADER, script.replace("\"", "\"\""));
+                processBuilder.command(startCommand, COMMAND_HEADER, scriptBody.replace("\"", "\"\""));
             }
 
             log.info("Python script is going to be executed");

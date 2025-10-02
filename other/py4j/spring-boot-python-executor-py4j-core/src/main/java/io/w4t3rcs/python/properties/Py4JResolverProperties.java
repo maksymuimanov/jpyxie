@@ -20,7 +20,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * spring:
  *   python:
  *     resolver:
- *       script-imports-regex: (^import [\\w.]+$)|(^import [\\w.]+ as [\\w.]+$)|(^from [\\w.]+ import [\\w., ]+$)
  *       py4j:
  *         import-line: "from py4j.java_gateway import JavaGateway, GatewayParameters"
  *         gateway-object: gateway = JavaGateway(\n\tgateway_parameters=GatewayParameters(\n\t\t%s\n\t)\n)
@@ -41,5 +40,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 1.0.0
  */
 @ConfigurationProperties("spring.python.resolver.py4j")
-public record Py4JResolverProperties(String scriptImportsRegex, String importLine, String gatewayObject, String[] gatewayProperties) {
+public record Py4JResolverProperties(String importLine, String gatewayObject, String[] gatewayProperties) {
 }

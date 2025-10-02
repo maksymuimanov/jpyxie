@@ -1,5 +1,6 @@
 package io.w4t3rcs.python.resolver;
 
+import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -51,13 +52,12 @@ public class BasicPythonResolverHolder implements PythonResolverHolder {
      * @throws IllegalArgumentException if {@code script} is {@code null} or empty
      */
     @Override
-    public String resolveAll(String script, Map<String, Object> arguments) {
-        if (script == null || script.isEmpty()) throw new IllegalArgumentException("Script cannot be null or empty");
-        String resolvedScript = script;
+    public PythonScript resolveAll(PythonScript script, Map<String, Object> arguments) {
+        if (script == null) throw new IllegalArgumentException("Script cannot be null");
         for (PythonResolver resolver : this.getResolvers()) {
-            resolvedScript = resolver.resolve(resolvedScript, arguments);
+            resolver.resolve(script, arguments);
         }
-        return resolvedScript;
+        return script;
     }
 
     /**

@@ -3,6 +3,7 @@ package io.w4t3rcs.python.resolver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.properties.SpelythonResolverProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,12 +39,15 @@ class SpelythonResolverTests {
     @ParameterizedTest
     @ValueSource(strings = {SPELYTHON_SCRIPT_0, SPELYTHON_SCRIPT_1})
     void testResolve(String script) throws JsonProcessingException {
+        PythonScript pythonScript = new PythonScript(script);
         String expressionValue = "Test String";
+
         Mockito.lenient()
                 .when(objectMapper.writeValueAsString(expressionValue))
                 .thenReturn(expressionValue);
-        String resolved = spelythonResolver.resolve(script, Map.of("a", expressionValue, "b", expressionValue));
-        Assertions.assertFalse(resolved.matches(SPELYTHON_PROPERTIES.regex()));
-        Assertions.assertTrue(resolved.contains("json.loads('" + expressionValue + "')"));
+
+        spelythonResolver.resolve(pythonScript, Map.of("a", expressionValue, "b", expressionValue));
+        Assertions.assertFalse(pythonScript.containsDeepCode(SPELYTHON_PROPERTIES.regex()));
+        Assertions.assertTrue(pythonScript.containsDeepCode("json.loads('" + expressionValue + "')"));
     }
 }

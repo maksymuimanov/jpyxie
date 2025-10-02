@@ -1,6 +1,7 @@
 package io.w4t3rcs.python.constant;
 
 import io.w4t3rcs.python.dto.PythonExecutionResponse;
+import io.w4t3rcs.python.script.PythonScript;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -9,9 +10,10 @@ public class TestConstants {
     public static final String EMPTY = "";
     public static final String OK = "OK";
     public static final PythonExecutionResponse<String> OK_RESPONSE = new PythonExecutionResponse<>(OK);
-    public static final Class<? extends String> STRING_CLASS = String.class;
-    public static final Class<? extends PythonExecutionResponse<String>> STRING_RESPONSE_CLASS = (Class<? extends PythonExecutionResponse<String>>) OK_RESPONSE.getClass();
-    public static final Class<? extends Path> PATH_CLASS = Path.class;
+    public static final Class<String> STRING_CLASS = String.class;
+    @SuppressWarnings("unchecked")
+    public static final Class<PythonExecutionResponse<String>> STRING_RESPONSE_CLASS = (Class<PythonExecutionResponse<String>>) OK_RESPONSE.getClass();
+    public static final Class<PythonScript> PYTHON_SCRIPT_CLASS = PythonScript.class;
     public static final Map<String, Object> EMPTY_ARGUMENTS = Map.of();
     public static final String SIMPLE_SCRIPT_0 = "print(2 + 2)";
     public static final String SIMPLE_SCRIPT_1 = "test_var1 = 2 + 2\ntest_var2 = 6 + 2\nprint(test_var1 + test_var2)";

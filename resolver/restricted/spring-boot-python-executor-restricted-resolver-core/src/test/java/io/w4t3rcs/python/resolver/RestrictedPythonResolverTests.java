@@ -1,5 +1,6 @@
 package io.w4t3rcs.python.resolver;
 
+import io.w4t3rcs.python.script.PythonScript;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -15,10 +16,11 @@ class RestrictedPythonResolverTests {
             RESULT_SCRIPT_0, RESULT_SCRIPT_1, RESULT_SCRIPT_2, RESULT_SCRIPT_3
     })
     void testResolve(String script) {
-        String resolved = RESTRICTED_PYTHON_RESOLVER.resolve(script, Map.of());
-        Assertions.assertTrue(resolved.contains(RESTRICTED_PYTHON_PROPERTIES.importLine()));
-        Assertions.assertTrue(resolved.contains(RESTRICTED_PYTHON_PROPERTIES.codeVariableName()));
-        Assertions.assertTrue(resolved.contains(RESTRICTED_PYTHON_PROPERTIES.localVariablesName()));
-        Assertions.assertTrue(resolved.contains("_print_ = PrintCollector"));
+        PythonScript pythonScript = new PythonScript(script);
+        RESTRICTED_PYTHON_RESOLVER.resolve(pythonScript, Map.of());
+        Assertions.assertTrue(pythonScript.containsImport(RESTRICTED_PYTHON_PROPERTIES.importLine()));
+        Assertions.assertTrue(pythonScript.containsDeepCode(RESTRICTED_PYTHON_PROPERTIES.codeVariableName()));
+        Assertions.assertTrue(pythonScript.containsDeepCode(RESTRICTED_PYTHON_PROPERTIES.localVariablesName()));
+        Assertions.assertTrue(pythonScript.containsCode("_print_ = PrintCollector"));
     }
 }

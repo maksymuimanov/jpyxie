@@ -4,6 +4,7 @@ import io.w4t3rcs.python.cache.CacheKeyGenerator;
 import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.exception.PythonCacheException;
 import io.w4t3rcs.python.properties.PythonCacheProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
@@ -71,17 +72,15 @@ public class CachingPythonExecutor implements PythonExecutor {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <R> PythonExecutionResponse<R> execute(String script, Class<? extends R> resultClass) {
+    public <R> PythonExecutionResponse<R> execute(PythonScript script, Class<? extends R> resultClass) {
         try {
-            String key = keyGenerator.generateKey(script, resultClass);
+            String scriptBody = script.toString();
+            String key = keyGenerator.generateKey(scriptBody, resultClass);
             PythonExecutionResponse<R> cachedResult = (PythonExecutionResponse<R>) cache.get(key, PythonExecutionResponse.class);
-            if (cachedResult != null) {
-                return cachedResult;
-            } else {
-                PythonExecutionResponse<R> result = pythonExecutor.execute(script, resultClass);
-                cache.put(key, result);
-                return result;
-            }
+            if (cachedResult != null) return cachedResult;
+            PythonExecutionResponse<R> result = pythonExecutor.execute(script, resultClass);
+            cache.put(key, result);
+            return result;
         } catch (Exception e) {
             throw new PythonCacheException(e);
         }

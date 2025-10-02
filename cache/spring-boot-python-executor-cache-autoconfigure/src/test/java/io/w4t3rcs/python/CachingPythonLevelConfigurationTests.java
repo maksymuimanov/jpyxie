@@ -3,8 +3,8 @@ package io.w4t3rcs.python;
 import io.w4t3rcs.python.config.PythonCacheAutoConfiguration;
 import io.w4t3rcs.python.executor.CachingPythonExecutor;
 import io.w4t3rcs.python.executor.PythonExecutor;
-import io.w4t3rcs.python.file.CachingPythonFileHandler;
-import io.w4t3rcs.python.file.PythonFileHandler;
+import io.w4t3rcs.python.file.CachingPythonFileReader;
+import io.w4t3rcs.python.file.PythonFileReader;
 import io.w4t3rcs.python.processor.CachingPythonProcessor;
 import io.w4t3rcs.python.processor.PythonProcessor;
 import io.w4t3rcs.python.resolver.CachingPythonResolverHolder;
@@ -37,14 +37,14 @@ class CachingPythonLevelConfigurationTests {
     @TestPropertySource(properties = "spring.python.cache.levels=file")
     class OnlyFileTests {
         @Autowired
-        private PythonFileHandler pythonFileHandler;
+        private PythonFileReader pythonFileReader;
         @Autowired
-        private List<PythonFileHandler> pythonFileHandlers;
+        private List<PythonFileReader> pythonFileReaders;
 
         @Test
         void testMandatoryBeansLoad() {
-            Assertions.assertInstanceOf(CachingPythonFileHandler.class, pythonFileHandler);
-            Assertions.assertEquals(2, pythonFileHandlers.size());
+            Assertions.assertInstanceOf(CachingPythonFileReader.class, pythonFileReader);
+            Assertions.assertEquals(2, pythonFileReaders.size());
         }
     }
 
@@ -97,7 +97,7 @@ class CachingPythonLevelConfigurationTests {
     @TestPropertySource(properties = "spring.python.cache.levels=file, resolver, executor, processor")
     class MultipleLevelsTests {
         @Autowired
-        private PythonFileHandler pythonFileHandler;
+        private PythonFileReader pythonFileReader;
         @Autowired
         private PythonResolverHolder pythonResolverHolder;
         @Autowired
@@ -107,7 +107,7 @@ class CachingPythonLevelConfigurationTests {
 
         @Test
         void testMandatoryBeansLoad() {
-            Assertions.assertInstanceOf(CachingPythonFileHandler.class, pythonFileHandler);
+            Assertions.assertInstanceOf(CachingPythonFileReader.class, pythonFileReader);
             Assertions.assertInstanceOf(CachingPythonResolverHolder.class, pythonResolverHolder);
             Assertions.assertInstanceOf(CachingPythonExecutor.class, pythonExecutor);
             Assertions.assertInstanceOf(CachingPythonProcessor.class, pythonProcessor);
@@ -117,8 +117,8 @@ class CachingPythonLevelConfigurationTests {
     @TestConfiguration
     static class TestBeansConfiguration {
         @Bean
-        public PythonFileHandler pythonFileHandler() {
-            return Mockito.mock(PythonFileHandler.class);
+        public PythonFileReader pythonFileHandler() {
+            return Mockito.mock(PythonFileReader.class);
         }
 
         @Bean

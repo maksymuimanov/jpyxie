@@ -9,8 +9,8 @@ import io.w4t3rcs.python.condition.ProcessorCacheLevelCondition;
 import io.w4t3rcs.python.condition.ResolverCacheLevelCondition;
 import io.w4t3rcs.python.executor.CachingPythonExecutor;
 import io.w4t3rcs.python.executor.PythonExecutor;
-import io.w4t3rcs.python.file.CachingPythonFileHandler;
-import io.w4t3rcs.python.file.PythonFileHandler;
+import io.w4t3rcs.python.file.CachingPythonFileReader;
+import io.w4t3rcs.python.file.PythonFileReader;
 import io.w4t3rcs.python.processor.CachingPythonProcessor;
 import io.w4t3rcs.python.processor.PythonProcessor;
 import io.w4t3rcs.python.properties.PythonCacheProperties;
@@ -36,7 +36,7 @@ import org.springframework.context.annotation.*;
  * </p>
  * <p>
  * Provides default {@link CacheKeyGenerator} and caching wrappers for
- * {@link PythonFileHandler}, {@link PythonResolverHolder}, {@link PythonExecutor}, and {@link PythonProcessor}
+ * {@link PythonFileReader}, {@link PythonResolverHolder}, {@link PythonExecutor}, and {@link PythonProcessor}
  * beans if present in the context.
  * </p>
  * <p>
@@ -50,7 +50,7 @@ import org.springframework.context.annotation.*;
  *
  * @see PythonCacheProperties
  * @see CacheKeyGenerator
- * @see CachingPythonFileHandler
+ * @see CachingPythonFileReader
  * @see CachingPythonResolverHolder
  * @see CachingPythonExecutor
  * @see CachingPythonProcessor
@@ -76,22 +76,22 @@ public class PythonCacheAutoConfiguration {
     }
 
     /**
-     * Wraps the existing {@link PythonFileHandler} with caching capabilities
+     * Wraps the existing {@link PythonFileReader} with caching capabilities
      * when file cache level is enabled.
      *
      * @param cacheProperties non-null Python cache configuration properties
-     * @param pythonFileHandler non-null delegate {@link PythonFileHandler} bean
+     * @param pythonFileReader non-null delegate {@link PythonFileReader} bean
      * @param cacheManager non-null Spring cache manager for cache resolution
-     * @return a caching-enabled {@link PythonFileHandler} bean marked as primary
+     * @return a caching-enabled {@link PythonFileReader} bean marked as primary
      */
     @Bean
     @Primary
-    @ConditionalOnBean(PythonFileHandler.class)
+    @ConditionalOnBean(PythonFileReader.class)
     @Conditional(FileCacheLevelCondition.class)
-    public PythonFileHandler cachingPythonFileHandler(PythonCacheProperties cacheProperties,
-                                                      PythonFileHandler pythonFileHandler,
-                                                      CacheManager cacheManager) {
-        return new CachingPythonFileHandler(cacheProperties, pythonFileHandler, cacheManager);
+    public PythonFileReader cachingPythonFileHandler(PythonCacheProperties cacheProperties,
+                                                     PythonFileReader pythonFileReader,
+                                                     CacheManager cacheManager) {
+        return new CachingPythonFileReader(cacheProperties, pythonFileReader, cacheManager);
     }
 
     /**

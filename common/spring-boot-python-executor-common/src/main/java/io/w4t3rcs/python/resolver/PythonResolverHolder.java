@@ -1,5 +1,7 @@
 package io.w4t3rcs.python.resolver;
 
+import io.w4t3rcs.python.script.PythonScript;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +87,7 @@ public interface PythonResolverHolder extends Iterable<PythonResolver> {
      * @param script the Python script containing placeholders or expressions (non-{@code null})
      * @return the fully resolved Python script (never {@code null})
      */
-    default String resolveAll(String script) {
+    default PythonScript resolveAll(PythonScript script) {
         return this.resolveAll(script, Map.of());
     }
 
@@ -101,7 +103,7 @@ public interface PythonResolverHolder extends Iterable<PythonResolver> {
      * @param arguments the input arguments for resolution (non-{@code null}, can be empty)
      * @return the fully resolved Python script (never {@code null})
      */
-    String resolveAll(String script, Map<String, Object> arguments);
+    PythonScript resolveAll(PythonScript script, Map<String, Object> arguments);
 
     /**
      * Returns a list of registered {@link PythonResolver} instances.

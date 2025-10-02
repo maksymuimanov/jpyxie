@@ -1,9 +1,9 @@
 package io.w4t3rcs.python.resolver;
 
 import io.w4t3rcs.python.properties.RestrictedPythonResolverProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,6 @@ import java.util.Map;
  * </ul>
  *
  * @see PythonResolver
- * @see AbstractPythonResolver
  * @see PythonResolverHolder
  * @see RestrictedPythonResolverProperties
  * @see <a href="https://github.com/zopefoundation/RestrictedPython">RestrictedPython</a>
@@ -32,7 +31,7 @@ import java.util.Map;
  * @since 1.0.0
  */
 @RequiredArgsConstructor
-public class RestrictedPythonResolver extends AbstractPythonResolver {
+public class RestrictedPythonResolver implements PythonResolver {
     private final RestrictedPythonResolverProperties resolverProperties;
 
     /**
@@ -44,46 +43,34 @@ public class RestrictedPythonResolver extends AbstractPythonResolver {
      * @return the transformed Python script ready for execution with RestrictedPython
      */
     @Override
-    public String resolve(String script, Map<String, Object> arguments) {
-        StringBuilder resolvedScript = new StringBuilder(script);
-        List<String> importLines = new ArrayList<>();
-        List<String> importNames = new ArrayList<>();
-        this.removeScriptLines(resolvedScript, resolverProperties.scriptImportsRegex(),
-                (matcher, fragment) -> {
-            importLines.add(fragment);
-            List<String> currentImportNames = this.findImportVariables(fragment);
-            importNames.addAll(currentImportNames);
-        });
-        resolvedScript.insert(AbstractPythonResolver.STRING_BUILDER_START_INDEX, resolverProperties.codeVariableName() + " = \"\"\"\n");
-        this.appendNextLine(resolvedScript, "\n\"\"\"");
-        this.appendNextLine(resolvedScript, builder -> builder.append(resolverProperties.localVariablesName())
-                .append(" = {}"));
-        this.appendNextLine(resolvedScript, builder -> builder.append("restricted_byte_code = compile_restricted(")
-                .append(resolverProperties.codeVariableName())
-                .append(", '<inline>', 'exec')"));
-        this.appendNextLine(resolvedScript, builder -> builder.append("exec(restricted_byte_code, safe_globals_with_imports, ")
-                .append(resolverProperties.localVariablesName())
-                .append(")"));
-        for (int i = importNames.size() - 1; i >= 0; i--) {
-            String importName = importNames.get(i);
-            this.insertUniqueLineToStart(resolvedScript, "safe_globals_with_imports['" + importName + "'] = " + importName);
+    public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
+        List<String> importNames = script.getAllImportNames();
+        String codeVariableName = resolverProperties.codeVariableName();
+        String localVariablesName = resolverProperties.localVariablesName();
+        String resultAppearance = resolverProperties.resultAppearance();
+        script.prependCode(codeVariableName, " = \"\"\"");
+        script.appendCode("\"\"\"");
+        script.appendCode(localVariablesName, " = {}");
+        script.appendCode("restricted_byte_code = compile_restricted(", codeVariableName, ", '<inline>', 'exec')");
+        script.appendCode("exec(restricted_byte_code, safe_globals_with_imports, ", localVariablesName, ")");
+        for (String importName : importNames) {
+            script.prependCode("safe_globals_with_imports['", importName, "'] = ", importName);
         }
         boolean printEnabled = resolverProperties.printEnabled();
+        String safeGlobalsVariable = "safe_globals_with_imports = dict(safe_globals)";
+        script.prependCode(safeGlobalsVariable);
+        script.appendImport(resolverProperties.importLine());
+        if (script.containsCode(resultAppearance)) {
+            script.appendCode(resultAppearance, " = execution_result['", resultAppearance, "']");
+        }
         if (printEnabled) {
-            this.insertUniqueLineToStart(resolvedScript, "safe_globals_with_imports['_getattr_'] = _getattr_");
-            this.insertUniqueLineToStart(resolvedScript, "safe_globals_with_imports['_print_'] = _print_");
+            script.prependCode("_getattr_ = getattr");
+            script.prependCode("_print_ = PrintCollector");
+            script.appendImport("from RestrictedPython.PrintCollector import PrintCollector");
+            int index = script.getCodeIndex(safeGlobalsVariable) + 1;
+            script.insertCode("safe_globals_with_imports['_getattr_'] = _getattr_", index);
+            script.insertCode("safe_globals_with_imports['_print_'] = _print_", index);
         }
-        this.insertUniqueLineToStart(resolvedScript, "safe_globals_with_imports = dict(safe_globals)");
-        if (printEnabled) {
-            this.insertUniqueLineToStart(resolvedScript, "_getattr_ = getattr");
-            this.insertUniqueLineToStart(resolvedScript, "_print_ = PrintCollector");
-            this.insertUniqueLineToStart(resolvedScript, "from RestrictedPython.PrintCollector import PrintCollector");
-        }
-        for (int i = importLines.size() - 1; i >= 0; i--) {
-            this.insertUniqueLineToStart(resolvedScript, importLines.get(i));
-        }
-        this.insertUniqueLineToStart(resolvedScript, AbstractPythonResolver.IMPORT_JSON);
-        this.insertUniqueLineToStart(resolvedScript, resolverProperties.importLine());
-        return resolvedScript.toString();
+        return script;
     }
 }

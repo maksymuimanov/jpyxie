@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
 import io.w4t3rcs.python.exception.PythonCacheException;
 import io.w4t3rcs.python.properties.PythonCacheProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
@@ -82,20 +83,17 @@ public class CachingPythonResolverHolder implements PythonResolverHolder {
      * @throws PythonCacheException if any error occurs during caching or resolution
      */
     @Override
-    public String resolveAll(String script, Map<String, Object> arguments) {
+    public PythonScript resolveAll(PythonScript script, Map<String, Object> arguments) {
         try {
             Map<String, Object> sortedMap = new TreeMap<>(arguments);
             String argumentsJson = objectMapper.writeValueAsString(sortedMap);
             String body = script + argumentsJson;
             String key = keyGenerator.generateKey(body);
-            String cachedResolvedScript = cache.get(key, String.class);
-            if (cachedResolvedScript != null) {
-                return cachedResolvedScript;
-            } else {
-                String resolvedScript = pythonResolverHolder.resolveAll(script, arguments);
-                cache.put(key, resolvedScript);
-                return resolvedScript;
-            }
+            PythonScript cachedResolvedScript = cache.get(key, PythonScript.class);
+            if (cachedResolvedScript != null) return cachedResolvedScript;
+            pythonResolverHolder.resolveAll(script, arguments);
+            cache.put(key, script);
+            return script;
         } catch (Exception e) {
             throw new PythonCacheException(e);
         }

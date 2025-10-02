@@ -3,7 +3,7 @@ package io.w4t3rcs.python.cache.impl;
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
 import io.w4t3rcs.python.exception.CacheKeyGenerationException;
 import io.w4t3rcs.python.executor.CachingPythonExecutor;
-import io.w4t3rcs.python.file.CachingPythonFileHandler;
+import io.w4t3rcs.python.file.CachingPythonFileReader;
 import io.w4t3rcs.python.processor.CachingPythonProcessor;
 import io.w4t3rcs.python.properties.PythonCacheProperties;
 import io.w4t3rcs.python.resolver.CachingPythonResolverHolder;
@@ -33,7 +33,7 @@ import java.util.Base64;
  *
  * @see CacheKeyGenerator
  * @see PythonCacheProperties.KeyProperties
- * @see CachingPythonFileHandler
+ * @see CachingPythonFileReader
  * @see CachingPythonResolverHolder
  * @see CachingPythonExecutor
  * @see CachingPythonProcessor

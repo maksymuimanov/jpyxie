@@ -5,6 +5,7 @@ import io.w4t3rcs.python.connection.PythonServerConnectionDetails;
 import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.dto.ScriptRequest;
 import io.w4t3rcs.python.exception.PythonScriptExecutionException;
+import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -64,9 +65,10 @@ public class RestPythonExecutor implements PythonExecutor {
      * @throws PythonScriptExecutionException if an error occurs during HTTP communication, JSON serialization/deserialization, or other execution errors
      */
     @Override
-    public <R> PythonExecutionResponse<R> execute(String script, Class<? extends R> resultClass) {
+    public <R> PythonExecutionResponse<R> execute(PythonScript script, Class<? extends R> resultClass) {
         try {
-            ScriptRequest scriptRequest = new ScriptRequest(script);
+            String scriptBody = script.toString();
+            ScriptRequest scriptRequest = new ScriptRequest(scriptBody);
             String scriptJson = objectMapper.writeValueAsString(scriptRequest);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(connectionDetails.getUri()))

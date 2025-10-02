@@ -34,7 +34,7 @@ public class ResultResolverAutoConfiguration {
     /**
      * Order value for {@link ResultResolver} bean.
      */
-    public static final int RESULT_RESOLVER_ORDER = 150;
+    public static final int RESULT_RESOLVER_ORDER = 100;
 
     /**
      * Creates a {@link ResultResolver} bean.

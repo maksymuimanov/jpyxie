@@ -1,9 +1,9 @@
 package io.w4t3rcs.python.processor;
 
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.executor.PythonExecutor;
-import io.w4t3rcs.python.file.PythonFileHandler;
+import io.w4t3rcs.python.file.PythonFileReader;
 import io.w4t3rcs.python.resolver.PythonResolverHolder;
+import io.w4t3rcs.python.script.PythonScript;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ class BasicPythonProcessorTests {
     @InjectMocks
     private BasicPythonProcessor pythonProcessor;
     @Mock
-    private PythonFileHandler pythonFileHandler;
+    private PythonFileReader pythonFileReader;
     @Mock
     private PythonExecutor pythonExecutor;
     @Mock
@@ -34,9 +34,10 @@ class BasicPythonProcessorTests {
             COMPOUND_SCRIPT_0, COMPOUND_SCRIPT_1
     })
     void testProcess(String script) {
-        Mockito.when(pythonFileHandler.isPythonFile(script)).thenReturn(false);
-        Mockito.when(pythonResolverHolder.resolveAll(script, EMPTY_ARGUMENTS)).thenReturn(script);
-        Mockito.when((PythonExecutionResponse<String>) pythonExecutor.execute(script, STRING_CLASS)).thenReturn(OK_RESPONSE);
+        PythonScript pythonScript = new PythonScript(script);
+
+        Mockito.when(pythonResolverHolder.resolveAll(pythonScript, EMPTY_ARGUMENTS)).thenReturn(pythonScript);
+        Mockito.when(pythonExecutor.execute(pythonScript, STRING_CLASS)).thenReturn(OK_RESPONSE);
 
         String processed = pythonProcessor.process(script, STRING_CLASS, EMPTY_ARGUMENTS).body();
         Assertions.assertEquals(OK, processed);

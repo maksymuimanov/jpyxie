@@ -1,5 +1,7 @@
 package io.w4t3rcs.python.starter;
 
+import io.w4t3rcs.python.script.PythonScript;
+
 /**
  * Defines the contract for creating and starting {@link Process} instances.
  *
@@ -32,5 +34,5 @@ public interface ProcessStarter {
      * @param script non-{@code null} script or command to execute
      * @return the started {@link Process} instance
      */
-    Process start(String script);
+    Process start(PythonScript script);
 }

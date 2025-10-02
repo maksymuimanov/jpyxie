@@ -2,8 +2,8 @@ package io.w4t3rcs.python.processor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.properties.PythonCacheProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,13 +56,14 @@ class CachingPythonProcessorTests {
             COMPOUND_SCRIPT_0, COMPOUND_SCRIPT_1,
     })
     void testExistentKeyProcess(String script) {
+        PythonScript pythonScript = new PythonScript(script);
         TreeMap<String, Object> sortedMap = new TreeMap<>(EMPTY_ARGUMENTS);
 
         Mockito.when(objectMapper.writeValueAsString(sortedMap)).thenReturn(EMPTY);
-        Mockito.when(keyGenerator.generateKey(script, STRING_CLASS)).thenReturn(CACHE_KEY);
-        Mockito.when((PythonExecutionResponse<String>) cache.get(CACHE_KEY, STRING_RESPONSE_CLASS)).thenReturn(OK_RESPONSE);
+        Mockito.when(keyGenerator.generateKey(pythonScript.toString(), STRING_CLASS)).thenReturn(CACHE_KEY);
+        Mockito.when(cache.get(CACHE_KEY, STRING_RESPONSE_CLASS)).thenReturn(OK_RESPONSE);
 
-        String executed = cachingPythonProcessor.process(script, STRING_CLASS, EMPTY_ARGUMENTS).body();
+        String executed = cachingPythonProcessor.process(pythonScript, STRING_CLASS, EMPTY_ARGUMENTS).body();
         Assertions.assertEquals(OK, executed);
     }
 
@@ -75,15 +76,16 @@ class CachingPythonProcessorTests {
             COMPOUND_SCRIPT_0, COMPOUND_SCRIPT_1,
     })
     void testNonexistentKeyProcess(String script) {
+        PythonScript pythonScript = new PythonScript(script);
         TreeMap<String, Object> sortedMap = new TreeMap<>(EMPTY_ARGUMENTS);
 
         Mockito.when(objectMapper.writeValueAsString(sortedMap)).thenReturn(EMPTY);
-        Mockito.when(keyGenerator.generateKey(script, STRING_CLASS)).thenReturn(CACHE_KEY);
-        Mockito.when((PythonExecutionResponse<String>) cache.get(CACHE_KEY, STRING_RESPONSE_CLASS)).thenReturn(null);
-        Mockito.when((PythonExecutionResponse<String>) pythonProcessor.process(script, STRING_CLASS, EMPTY_ARGUMENTS)).thenReturn(OK_RESPONSE);
+        Mockito.when(keyGenerator.generateKey(pythonScript.toString(), STRING_CLASS)).thenReturn(CACHE_KEY);
+        Mockito.when(cache.get(CACHE_KEY, STRING_RESPONSE_CLASS)).thenReturn(null);
+        Mockito.when(pythonProcessor.process(pythonScript, STRING_CLASS, EMPTY_ARGUMENTS)).thenReturn(OK_RESPONSE);
         Mockito.doNothing().when(cache).put(CACHE_KEY, OK_RESPONSE);
 
-        String executed = cachingPythonProcessor.process(script, STRING_CLASS, EMPTY_ARGUMENTS).body();
+        String executed = cachingPythonProcessor.process(pythonScript, STRING_CLASS, EMPTY_ARGUMENTS).body();
         Assertions.assertEquals(OK, executed);
     }
 }

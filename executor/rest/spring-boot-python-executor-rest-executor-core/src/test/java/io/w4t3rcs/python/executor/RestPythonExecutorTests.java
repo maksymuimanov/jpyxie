@@ -3,6 +3,7 @@ package io.w4t3rcs.python.executor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.connection.PythonServerConnectionDetails;
 import io.w4t3rcs.python.dto.ScriptRequest;
+import io.w4t3rcs.python.script.PythonScript;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +37,7 @@ class RestPythonExecutorTests {
     @ParameterizedTest
     @ValueSource(strings = {SIMPLE_SCRIPT_0, SIMPLE_SCRIPT_1, SIMPLE_SCRIPT_2, SIMPLE_SCRIPT_3})
     void testExecute(String script) {
+        PythonScript pythonScript = new PythonScript(script);
         ScriptRequest scriptRequest = new ScriptRequest(script);
 
         Mockito.when(objectMapper.writeValueAsString(scriptRequest)).thenReturn("{\"script\": \"%s\"}".formatted(script));
@@ -44,9 +46,9 @@ class RestPythonExecutorTests {
         Mockito.when(client.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class))).thenReturn(response);
         Mockito.when(response.statusCode()).thenReturn(200);
         Mockito.when(response.body()).thenReturn(OK);
-        Mockito.when((String) objectMapper.readValue(OK, STRING_CLASS)).thenReturn(OK);
+        Mockito.when(objectMapper.readValue(OK, STRING_CLASS)).thenReturn(OK);
 
-        String executed = restPythonExecutor.execute(script, STRING_CLASS).body();
+        String executed = restPythonExecutor.execute(pythonScript, STRING_CLASS).body();
         Assertions.assertEquals(OK, executed);
     }
 }

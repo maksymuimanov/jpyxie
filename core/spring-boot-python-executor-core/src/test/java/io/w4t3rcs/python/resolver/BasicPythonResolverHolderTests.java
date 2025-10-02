@@ -1,5 +1,6 @@
 package io.w4t3rcs.python.resolver;
 
+import io.w4t3rcs.python.script.PythonScript;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,9 +37,11 @@ class BasicPythonResolverHolderTests {
             COMPOUND_SCRIPT_0, COMPOUND_SCRIPT_1,
     })
     void testResolveAll(String script) {
-        Mockito.when(pythonResolver.resolve(script, EMPTY_ARGUMENTS)).thenReturn(OK);
+        PythonScript pythonScript = new PythonScript(script);
 
-        Assertions.assertEquals(OK, basicPythonResolverHolder.resolveAll(script));
+        Mockito.when(pythonResolver.resolve(pythonScript, EMPTY_ARGUMENTS)).thenReturn(pythonScript);
+
+        Assertions.assertEquals(pythonScript, basicPythonResolverHolder.resolveAll(pythonScript));
     }
 
     @Test

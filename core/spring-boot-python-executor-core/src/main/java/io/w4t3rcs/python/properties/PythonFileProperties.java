@@ -1,7 +1,7 @@
 package io.w4t3rcs.python.properties;
 
-import io.w4t3rcs.python.file.BasicPythonFileHandler;
-import io.w4t3rcs.python.file.PythonFileHandler;
+import io.w4t3rcs.python.file.BasicPythonFileReader;
+import io.w4t3rcs.python.file.PythonFileReader;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -22,8 +22,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * </p>
  *
  * @param path the base directory path where Python files are stored, must not be null or blank
- * @see PythonFileHandler
- * @see BasicPythonFileHandler
+ * @see PythonFileReader
+ * @see BasicPythonFileReader
  * @author w4t3rcs
  * @since 1.0.0
  */

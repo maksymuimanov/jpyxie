@@ -59,10 +59,11 @@ public class BasicPythonInputProcessHandler implements ProcessHandler<String> {
         AtomicReference<String> result = new AtomicReference<>();
         try (BufferedReader bufferedReader = process.inputReader()) {
             bufferedReader.lines().forEach(line -> {
-                if (executorProperties.resultAppearance() != null
-                        && executorProperties.resultAppearance().isBlank()
-                        && line.contains(executorProperties.resultAppearance())) {
-                    String resultJson = line.replace(executorProperties.resultAppearance(), "");
+                String resultAppearance = executorProperties.resultAppearance();
+                if (resultAppearance != null
+                        && !resultAppearance.isBlank()
+                        && line.contains(resultAppearance)) {
+                    String resultJson = line.replace(resultAppearance, "");
                     result.set(resultJson);
                 }
                 if (executorProperties.loggable()) {

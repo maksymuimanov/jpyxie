@@ -1,8 +1,8 @@
 package io.w4t3rcs.python;
 
 import io.w4t3rcs.python.config.PythonAutoConfiguration;
-import io.w4t3rcs.python.file.BasicPythonFileHandler;
-import io.w4t3rcs.python.file.PythonFileHandler;
+import io.w4t3rcs.python.file.BasicPythonFileReader;
+import io.w4t3rcs.python.file.PythonFileReader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +13,12 @@ import org.springframework.test.context.ContextConfiguration;
 @SpringBootTest
 @AutoConfigureJson
 @ContextConfiguration(classes = {PythonAutoConfiguration.class})
-class PythonFileHandlerConfigurationTests {
+class PythonFileReaderConfigurationTests {
     @Autowired
-    private PythonFileHandler pythonFileHandler;
+    private PythonFileReader pythonFileReader;
 
     @Test
     void testMandatoryBeansLoad() {
-        Assertions.assertInstanceOf(BasicPythonFileHandler.class, pythonFileHandler);
+        Assertions.assertInstanceOf(BasicPythonFileReader.class, pythonFileReader);
     }
 }

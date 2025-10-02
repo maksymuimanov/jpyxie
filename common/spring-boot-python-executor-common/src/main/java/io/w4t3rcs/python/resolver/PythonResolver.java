@@ -1,5 +1,7 @@
 package io.w4t3rcs.python.resolver;
 
+import io.w4t3rcs.python.script.PythonScript;
+
 import java.util.Map;
 
 /**
@@ -28,11 +30,17 @@ import java.util.Map;
  */
 public interface PythonResolver {
     /**
+     * Constant representing a Python JSON import statement.
+     * <p>This line is automatically added to Python scripts that require JSON processing.</p>
+     */
+    String IMPORT_JSON = "import json";
+
+    /**
      * Resolves the given Python script by applying transformations or expression resolution.
      *
      * @param script the Python script content to resolve (non-{@code null})
      * @param arguments a map of variables for resolution (non-{@code null}, can be empty)
      * @return the transformed Python script with resolved expressions (never {@code null})
      */
-    String resolve(String script, Map<String, Object> arguments);
+    PythonScript resolve(PythonScript script, Map<String, Object> arguments);
 }

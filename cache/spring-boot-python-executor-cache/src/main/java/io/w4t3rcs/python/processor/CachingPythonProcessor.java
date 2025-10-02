@@ -5,6 +5,7 @@ import io.w4t3rcs.python.cache.CacheKeyGenerator;
 import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.exception.PythonCacheException;
 import io.w4t3rcs.python.properties.PythonCacheProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
@@ -82,20 +83,17 @@ public class CachingPythonProcessor implements PythonProcessor {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <R> PythonExecutionResponse<R> process(String script, Class<? extends R> resultClass, Map<String, Object> arguments) {
+    public <R> PythonExecutionResponse<R> process(PythonScript script, Class<? extends R> resultClass, Map<String, Object> arguments) {
         try {
             Map<String, Object> sortedMap = new TreeMap<>(arguments);
             String argumentsJson = objectMapper.writeValueAsString(sortedMap);
             String body = script + argumentsJson;
             String key = keyGenerator.generateKey(body, resultClass);
             PythonExecutionResponse<R> cachedResult = (PythonExecutionResponse<R>) cache.get(key, PythonExecutionResponse.class);
-            if (cachedResult != null) {
-                return cachedResult;
-            } else {
-                PythonExecutionResponse<R> result = pythonProcessor.process(script, resultClass, arguments);
-                cache.put(key, result);
-                return result;
-            }
+            if (cachedResult != null) return cachedResult;
+            PythonExecutionResponse<R> result = pythonProcessor.process(script, resultClass, arguments);
+            cache.put(key, result);
+            return result;
         } catch (Exception e) {
             throw new PythonCacheException(e);
         }

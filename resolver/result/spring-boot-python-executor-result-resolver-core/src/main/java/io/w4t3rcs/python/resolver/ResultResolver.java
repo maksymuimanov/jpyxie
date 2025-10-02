@@ -1,6 +1,7 @@
 package io.w4t3rcs.python.resolver;
 
 import io.w4t3rcs.python.properties.ResultResolverProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
@@ -15,14 +16,13 @@ import java.util.Map;
  * <p>The processed script can then expose evaluated body data in a JSON-compatible form.</p>
  *
  * @see PythonResolver
- * @see AbstractPythonResolver
  * @see PythonResolverHolder
  * @see ResultResolverProperties
  * @author w4t3rcs
  * @since 1.0.0
  */
 @RequiredArgsConstructor
-public class ResultResolver extends AbstractPythonResolver {
+public class ResultResolver implements PythonResolver {
     private final ResultResolverProperties resolverProperties;
 
     /**
@@ -33,26 +33,18 @@ public class ResultResolver extends AbstractPythonResolver {
      * @return the processed script with body expressions replaced by JSON serialization assignments
      */
     @Override
-    public String resolve(String script, Map<String, Object> arguments) {
-        StringBuilder resolvedScript = new StringBuilder(script);
-        this.insertUniqueLineToStart(resolvedScript, AbstractPythonResolver.IMPORT_JSON);
-        this.replaceScriptFragments(resolvedScript, resolverProperties.regex(),
-                resolverProperties.positionFromStart(), resolverProperties.positionFromEnd(),
-                (matcher, fragment, result) -> {
-                    String resultAppearance = resolverProperties.appearance();
-                    this.appendNextLine(result, builder -> builder.append(resultAppearance)
-                            .append(" = json.loads(json.dumps(")
-                            .append(fragment)
-                            .append("))"));
-                    if (resolverProperties.isPrinted()) {
-                        this.appendNextLine(result, builder -> builder.append("\nprint('")
-                                .append(resultAppearance)
-                                .append("' + json.dumps(")
-                                .append(resultAppearance)
-                                .append("))"));
-                    }
-                    return result;
+    public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
+        String resultAppearance = resolverProperties.appearance();
+        script.appendImport(IMPORT_JSON);
+        script.removeAll(resolverProperties.regex(),
+                resolverProperties.positionFromStart(),
+                resolverProperties.positionFromEnd(),
+                group -> {
+            script.appendCode(resultAppearance, " = json.loads(json.dumps(", group, "))");
+            if (resolverProperties.isPrinted()) {
+                script.appendCode("print('", resultAppearance, "' + json.dumps(", resultAppearance, "))");
+            }
         });
-        return resolvedScript.toString();
+        return script;
     }
 }

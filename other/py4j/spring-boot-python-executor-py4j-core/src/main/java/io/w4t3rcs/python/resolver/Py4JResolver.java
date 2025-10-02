@@ -1,10 +1,9 @@
 package io.w4t3rcs.python.resolver;
 
 import io.w4t3rcs.python.properties.Py4JResolverProperties;
+import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,14 +20,13 @@ import java.util.Map;
  * <p>This resolver is enabled conditionally based on the {@code Py4JCondition}.</p>
  *
  * @see PythonResolver
- * @see AbstractPythonResolver
  * @see PythonResolverHolder
  * @see Py4JResolverProperties
  * @author w4t3rcs
  * @since 1.0.0
  */
 @RequiredArgsConstructor
-public class Py4JResolver extends AbstractPythonResolver {
+public class Py4JResolver implements PythonResolver {
     private final Py4JResolverProperties resolverProperties;
 
     /**
@@ -40,18 +38,12 @@ public class Py4JResolver extends AbstractPythonResolver {
      * @return non-null resolved script containing Py4J import statements and gateway setup
      */
     @Override
-    public String resolve(String script, Map<String, Object> arguments) {
-        StringBuilder resolvedScript = new StringBuilder(script);
-        List<String> importLines = new ArrayList<>();
-        this.removeScriptLines(resolvedScript, resolverProperties.scriptImportsRegex(),
-                (matcher, fragment) -> importLines.add(fragment));
+    public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
         String gatewayObject = resolverProperties.gatewayObject();
         String gatewayProperties = String.join(",\n\t\t", resolverProperties.gatewayProperties());
-        this.insertUniqueLineToStart(resolvedScript, gatewayObject.formatted(gatewayProperties));
-        for (int i = importLines.size() - 1; i >= 0; i--) {
-            this.insertUniqueLineToStart(resolvedScript, importLines.get(i));
-        }
-        this.insertUniqueLineToStart(resolvedScript, resolverProperties.importLine());
-        return resolvedScript.toString();
+        String formatted = gatewayObject.formatted(gatewayProperties);
+        script.prependCode(formatted);
+        script.appendImport(resolverProperties.importLine());
+        return script;
     }
 }

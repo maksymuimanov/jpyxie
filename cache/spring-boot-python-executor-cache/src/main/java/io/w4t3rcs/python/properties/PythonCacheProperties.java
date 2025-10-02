@@ -2,7 +2,7 @@ package io.w4t3rcs.python.properties;
 
 import io.w4t3rcs.python.cache.impl.HashCacheKeyGenerator;
 import io.w4t3rcs.python.executor.CachingPythonExecutor;
-import io.w4t3rcs.python.file.CachingPythonFileHandler;
+import io.w4t3rcs.python.file.CachingPythonFileReader;
 import io.w4t3rcs.python.processor.CachingPythonProcessor;
 import io.w4t3rcs.python.resolver.CachingPythonResolverHolder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -35,7 +35,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * }</pre>
  *
  * @see HashCacheKeyGenerator
- * @see CachingPythonFileHandler
+ * @see CachingPythonFileReader
  * @see CachingPythonResolverHolder
  * @see CachingPythonExecutor
  * @see CachingPythonProcessor

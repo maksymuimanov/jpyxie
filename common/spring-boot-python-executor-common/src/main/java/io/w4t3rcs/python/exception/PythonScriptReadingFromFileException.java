@@ -1,6 +1,6 @@
 package io.w4t3rcs.python.exception;
 
-import io.w4t3rcs.python.file.PythonFileHandler;
+import io.w4t3rcs.python.file.PythonFileReader;
 
 /**
  * Exception thrown when there is an error reading a Python script from a file.
@@ -11,7 +11,7 @@ import io.w4t3rcs.python.file.PythonFileHandler;
  * This exception extends {@link RuntimeException} and indicates failure
  * during the reading process of a Python script file.
  *
- * @see PythonFileHandler
+ * @see PythonFileReader
  * @since 1.0.0
  * @author w4t3rcs
  */
