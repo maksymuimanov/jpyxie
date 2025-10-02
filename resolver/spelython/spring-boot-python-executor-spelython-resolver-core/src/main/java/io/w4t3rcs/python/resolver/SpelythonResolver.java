@@ -54,7 +54,6 @@ public class SpelythonResolver implements PythonResolver {
      */
     @Override
     public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
-        script.appendImport(IMPORT_JSON);
         ExpressionParser parser = new SpelExpressionParser();
         StandardEvaluationContext context = new StandardEvaluationContext();
         if (arguments != null && !arguments.isEmpty()) {
@@ -63,30 +62,30 @@ public class SpelythonResolver implements PythonResolver {
                             .setValue(context, value));
         }
         context.setBeanResolver(new BeanFactoryResolver(applicationContext));
-        script.replaceAll(resolverProperties.regex(),
-                resolverProperties.positionFromStart(),
-                resolverProperties.positionFromEnd(),
-                (group, result) -> {
-            try {
-                Expression expression = parser.parseExpression(group);
-                Object expressionValue = expression.getValue(context, Object.class);
-                String jsonResult = objectMapper.writeValueAsString(expressionValue).replace("'", "\\'");
-                if (jsonResult.startsWith("\"\\\"") && jsonResult.endsWith("\\\"\"")) {
-                    int beginIndex = 3;
-                    int endIndex = jsonResult.length() - beginIndex;
-                    jsonResult = jsonResult.substring(beginIndex, endIndex);
-                    result.append("'")
-                            .append(jsonResult)
-                            .append("'");
-                } else {
-                    result.append("json.loads('")
-                            .append(jsonResult)
-                            .append("')");
-                }
-            } catch (JsonProcessingException e) {
-                throw new SpelythonProcessingException(e);
-            }
-        });
-        return script;
+        return script.appendImport(IMPORT_JSON)
+                .replaceAll(resolverProperties.regex(),
+                        resolverProperties.positionFromStart(),
+                        resolverProperties.positionFromEnd(),
+                        (group, result) -> {
+                    try {
+                        Expression expression = parser.parseExpression(group);
+                        Object expressionValue = expression.getValue(context, Object.class);
+                        String jsonResult = objectMapper.writeValueAsString(expressionValue).replace("'", "\\'");
+                        if (jsonResult.startsWith("\"\\\"") && jsonResult.endsWith("\\\"\"")) {
+                            int beginIndex = 3;
+                            int endIndex = jsonResult.length() - beginIndex;
+                            jsonResult = jsonResult.substring(beginIndex, endIndex);
+                            result.append("'")
+                                    .append(jsonResult)
+                                    .append("'");
+                        } else {
+                            result.append("json.loads('")
+                                    .append(jsonResult)
+                                    .append("')");
+                        }
+                    } catch (JsonProcessingException e) {
+                        throw new SpelythonProcessingException(e);
+                    }
+                });
     }
 }

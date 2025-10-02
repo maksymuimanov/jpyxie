@@ -44,33 +44,33 @@ public class RestrictedPythonResolver implements PythonResolver {
      */
     @Override
     public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
-        List<String> importNames = script.getAllImportNames();
         String codeVariableName = resolverProperties.codeVariableName();
         String localVariablesName = resolverProperties.localVariablesName();
-        String resultAppearance = resolverProperties.resultAppearance();
-        script.prependCode(codeVariableName, " = \"\"\"");
-        script.appendCode("\"\"\"");
-        script.appendCode(localVariablesName, " = {}");
-        script.appendCode("restricted_byte_code = compile_restricted(", codeVariableName, ", '<inline>', 'exec')");
-        script.appendCode("exec(restricted_byte_code, safe_globals_with_imports, ", localVariablesName, ")");
-        for (String importName : importNames) {
-            script.prependCode("safe_globals_with_imports['", importName, "'] = ", importName);
-        }
-        boolean printEnabled = resolverProperties.printEnabled();
+        List<String> importNames = script.getAllImportNames();
         String safeGlobalsVariable = "safe_globals_with_imports = dict(safe_globals)";
-        script.prependCode(safeGlobalsVariable);
-        script.appendImport(resolverProperties.importLine());
-        if (script.containsCode(resultAppearance)) {
-            script.appendCode(resultAppearance, " = execution_result['", resultAppearance, "']");
-        }
-        if (printEnabled) {
-            script.prependCode("_getattr_ = getattr");
-            script.prependCode("_print_ = PrintCollector");
-            script.appendImport("from RestrictedPython.PrintCollector import PrintCollector");
-            int index = script.getCodeIndex(safeGlobalsVariable) + 1;
-            script.insertCode("safe_globals_with_imports['_getattr_'] = _getattr_", index);
-            script.insertCode("safe_globals_with_imports['_print_'] = _print_", index);
-        }
-        return script;
+        String resultAppearance = resolverProperties.resultAppearance();
+        String importLine = resolverProperties.importLine();
+        boolean printEnabled = resolverProperties.printEnabled();
+        return script.prependCode(codeVariableName, " = \"\"\"")
+                .appendCode("\"\"\"")
+                .appendCode(localVariablesName, " = {}")
+                .appendCode("restricted_byte_code = compile_restricted(", codeVariableName, ", '<inline>', 'exec')")
+                .appendCode("exec(restricted_byte_code, safe_globals_with_imports, ", localVariablesName, ")")
+                .iterate(importNames, importName -> {
+                    script.prependCode("safe_globals_with_imports['", importName, "'] = ", importName);
+                })
+                .prependCode(safeGlobalsVariable)
+                .appendImport(importLine)
+                .perform(() -> {
+                    script.appendCode(resultAppearance, " = execution_result['", resultAppearance, "']");
+                }, script.containsCode(resultAppearance))
+                .perform(() -> {
+                    script.prependCode("_getattr_ = getattr")
+                            .prependCode("_print_ = PrintCollector")
+                            .appendImport("from RestrictedPython.PrintCollector import PrintCollector");
+                    int index = script.getCodeIndex(safeGlobalsVariable) + 1;
+                    script.insertCode("safe_globals_with_imports['_getattr_'] = _getattr_", index)
+                            .insertCode("safe_globals_with_imports['_print_'] = _print_", index);
+                }, printEnabled);
     }
 }

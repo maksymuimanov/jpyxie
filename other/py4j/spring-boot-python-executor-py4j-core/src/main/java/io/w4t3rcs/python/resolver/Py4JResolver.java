@@ -41,9 +41,8 @@ public class Py4JResolver implements PythonResolver {
     public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
         String gatewayObject = resolverProperties.gatewayObject();
         String gatewayProperties = String.join(",\n\t\t", resolverProperties.gatewayProperties());
-        String formatted = gatewayObject.formatted(gatewayProperties);
-        script.prependCode(formatted);
-        script.appendImport(resolverProperties.importLine());
-        return script;
+        String formattedGatewayObject = gatewayObject.formatted(gatewayProperties);
+        return script.appendImport(resolverProperties.importLine())
+                .prependCode(formattedGatewayObject);
     }
 }

@@ -37,18 +37,18 @@ public class BasicPythonFileReader implements PythonFileReader {
     /**
      * Reads the content of a Python script file resolved from the given path string.
      *
-     * @param pythonScript the script object containing path string for the script file, must be non-null
+     * @param script the script object containing path string for the script file, must be non-null
      * @return the script content as a {@link PythonScript}, never null but possibly empty
      * @throws PythonScriptReadingFromFileException if an I/O error occurs during reading
      */
     @Override
-    public PythonScript readScript(PythonScript pythonScript) {
-        String source = pythonScript.getSource();
+    public PythonScript readScript(PythonScript script) {
+        String source = script.getSource();
         Path scriptPath = this.getScriptPath(source);
         try (BufferedReader bufferedReader = Files.newBufferedReader(scriptPath)) {
             String body = bufferedReader.lines().collect(Collectors.joining("\n"));
-            pythonScript.appendAll(body);
-            return pythonScript;
+            script.appendAll(body);
+            return script;
         } catch (IOException e) {
             throw new PythonScriptReadingFromFileException(e);
         }

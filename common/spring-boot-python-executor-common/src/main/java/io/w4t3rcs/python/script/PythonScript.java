@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PythonScript {
-
     public static final String FILE_FORMAT = ".py";
     public static final int START_INDEX = 0;
     private final List<PythonImportLine> importLines;
@@ -48,7 +47,25 @@ public class PythonScript {
         }
     }
 
-    public void appendAll(String script) {
+    public <T> PythonScript iterate(Iterable<T> iterable, Consumer<T> action) {
+        return this.iterate(iterable, action, true);
+    }
+
+    public <T> PythonScript iterate(Iterable<T> iterable, Consumer<T> action, boolean condition) {
+        if (condition) iterable.forEach(action);
+        return this;
+    }
+
+    public PythonScript perform(Runnable action) {
+        return this.perform(action, true);
+    }
+
+    public PythonScript perform(Runnable action, boolean condition) {
+        if (condition) action.run();
+        return this;
+    }
+
+    public PythonScript appendAll(String script) {
         script.lines().forEach(line -> {
             if (line.matches(PythonImportLine.IMPORT_REGEX)) {
                 this.appendImport(line);
@@ -56,24 +73,27 @@ public class PythonScript {
                 this.appendCode(line);
             }
         });
+        return this;
     }
 
-    public void removeAll(String regex, int start, int end, Consumer<String> actionOnRemove) {
+    public PythonScript removeAll(String regex, int start, int end, Consumer<String> actionOnRemove) {
         this.replaceAll(regex, start, end, group -> {
             actionOnRemove.accept(group);
             return "";
         });
+        return this;
     }
 
-    public void replaceAll(String regex, int start, int end, Function<String, String> groupFunction) {
+    public PythonScript replaceAll(String regex, int start, int end, Function<String, String> groupFunction) {
         this.replaceAll(regex,  matchResult -> {
             String group = matchResult.group();
             String substring = group.substring(start, group.length() - end);
             return groupFunction.apply(substring);
         });
+        return this;
     }
 
-    public void replaceAll(String regex, int start, int end, BiConsumer<String, StringBuilder> resultBuilderFunction) {
+    public PythonScript replaceAll(String regex, int start, int end, BiConsumer<String, StringBuilder> resultBuilderFunction) {
         this.replaceAll(regex,  matchResult -> {
             String group = matchResult.group();
             String substring = group.substring(start, group.length() - end);
@@ -81,9 +101,10 @@ public class PythonScript {
             resultBuilderFunction.accept(substring, result);
             return result.toString();
         });
+        return this;
     }
 
-    public void replaceAll(String regex, Function<MatchResult, String> function) {
+    public PythonScript replaceAll(String regex, Function<MatchResult, String> function) {
         this.body = null;
         Pattern pattern = Pattern.compile(regex);
         List<String> codeLines = this.getCodeLines();
@@ -93,55 +114,51 @@ public class PythonScript {
             codeLine = matcher.replaceAll(function);
             this.setCode(codeLine, i);
         }
+        return this;
     }
 
-    public void appendImport(String importLine) {
+    public PythonScript appendImport(String importLine) {
         this.body = null;
         PythonImportLine line = new PythonImportLine(importLine);
-        if (importLines.contains(line)) return;
+        if (importLines.contains(line)) return this;
         this.getImportLines().add(line);
+        return this;
     }
 
-    public List<String> getAllImportNames() {
-        return this.getImportLines()
-                .stream()
-                .flatMap(pythonImportLine -> pythonImportLine.findNames().stream())
-                .toList();
-    }
-
-    public void wrapCode(String left, String right) {
-        this.prependCode(left);
-        this.appendCode(right);
-    }
-
-    public void setCode(String codeLine, int index) {
+    public PythonScript setCode(String codeLine, int index) {
         this.body = null;
         this.getCodeLines().set(index, codeLine);
+        return this;
     }
 
-    public void insertCode(String codeLine, int index) {
+    public PythonScript insertCode(String codeLine, int index) {
         this.body = null;
         this.getCodeLines().add(index, codeLine);
+        return this;
     }
 
-    public void appendCode(String... codeLines) {
+    public PythonScript appendCode(String... codeLines) {
         String joined = String.join("", codeLines);
         this.appendCode(joined);
+        return this;
     }
 
-    public void appendCode(String codeLine) {
+    public PythonScript appendCode(String codeLine) {
         this.body = null;
         this.getCodeLines().add(codeLine);
+        return this;
     }
 
-    public void prependCode(String... codeLines) {
+    public PythonScript prependCode(String... codeLines) {
         String joined = String.join("", codeLines);
         this.prependCode(joined);
+        return this;
     }
 
-    public void prependCode(String codeLine) {
+    public PythonScript prependCode(String codeLine) {
         this.body = null;
         this.insertCode(codeLine, START_INDEX);
+        return this;
     }
 
     public boolean isEmpty() {
@@ -180,6 +197,13 @@ public class PythonScript {
 
     public int getCodeIndex(String codeLine) {
         return this.getCodeLines().indexOf(codeLine);
+    }
+
+    public List<String> getAllImportNames() {
+        return this.getImportLines()
+                .stream()
+                .flatMap(pythonImportLine -> pythonImportLine.findNames().stream())
+                .toList();
     }
 
     public List<PythonImportLine> getImportLines() {

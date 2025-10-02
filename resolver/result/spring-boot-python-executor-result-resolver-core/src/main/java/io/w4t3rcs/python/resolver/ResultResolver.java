@@ -35,16 +35,15 @@ public class ResultResolver implements PythonResolver {
     @Override
     public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
         String resultAppearance = resolverProperties.appearance();
-        script.appendImport(IMPORT_JSON);
-        script.removeAll(resolverProperties.regex(),
-                resolverProperties.positionFromStart(),
-                resolverProperties.positionFromEnd(),
-                group -> {
-            script.appendCode(resultAppearance, " = json.loads(json.dumps(", group, "))");
-            if (resolverProperties.isPrinted()) {
-                script.appendCode("print('", resultAppearance, "' + json.dumps(", resultAppearance, "))");
-            }
-        });
-        return script;
+        return script.appendImport(IMPORT_JSON)
+                .removeAll(resolverProperties.regex(),
+                        resolverProperties.positionFromStart(),
+                        resolverProperties.positionFromEnd(),
+                        group -> {
+                    script.appendCode(resultAppearance, " = json.loads(json.dumps(", group, "))")
+                            .perform(() -> {
+                                script.appendCode("print('", resultAppearance, "' + json.dumps(", resultAppearance, "))");
+                            }, resolverProperties.isPrinted());
+                });
     }
 }
