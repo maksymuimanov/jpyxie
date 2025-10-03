@@ -10,12 +10,14 @@
         <module name="spring-boot-python-executor-process-executor-starter" />
         <module name="spring-boot-python-executor-rest-executor-starter" />
         <module name="spring-boot-python-executor-restricted-resolver-starter" />
+        <module name="spring-boot-python-executor-pretty-resolver-starter" />
         <module name="spring-boot-python-executor-grpc-executor-autoconfigure" />
         <module name="spring-boot-python-executor-restricted-resolver-core" />
         <module name="spring-boot-python-executor-result-resolver-core" />
         <module name="spring-boot-python-executor-cache-autoconfigure" />
         <module name="spring-boot-python-executor-spelython-resolver-starter" />
         <module name="spring-boot-python-executor-pretty-resolver-core" />
+        <module name="spring-boot-python-executor-pretty-resolver-autoconfigure" />
         <module name="spring-boot-python-executor-py4j-autoconfigure" />
         <module name="spring-boot-python-executor-result-resolver-starter" />
         <module name="spring-boot-python-executor-py4j-core" />
@@ -57,7 +59,9 @@
       <module name="spring-boot-python-executor-grpc-executor-autoconfigure" options="" />
       <module name="spring-boot-python-executor-grpc-executor-core" options="" />
       <module name="spring-boot-python-executor-grpc-executor-starter" options="" />
+      <module name="spring-boot-python-executor-pretty-resolver-autoconfigure" options="" />
       <module name="spring-boot-python-executor-pretty-resolver-core" options="" />
+      <module name="spring-boot-python-executor-pretty-resolver-starter" options="-parameters" />
       <module name="spring-boot-python-executor-process-executor-autoconfigure" options="" />
       <module name="spring-boot-python-executor-process-executor-core" options="" />
       <module name="spring-boot-python-executor-process-executor-starter" options="" />

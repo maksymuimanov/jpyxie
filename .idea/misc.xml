@@ -28,6 +28,8 @@
         <option value="$PROJECT_DIR$/spring-boot-python-executor-spelython-resolver-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/test-app/pom.xml" />
         <option value="$PROJECT_DIR$/resolver/pretty/spring-boot-python-executor-pretty-resolver-core/pom.xml" />
+        <option value="$PROJECT_DIR$/resolver/pretty/spring-boot-python-executor-pretty-resolver-autoconfigure/pom.xml" />
+        <option value="$PROJECT_DIR$/resolver/pretty/spring-boot-python-executor-pretty-resolver-starter/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
