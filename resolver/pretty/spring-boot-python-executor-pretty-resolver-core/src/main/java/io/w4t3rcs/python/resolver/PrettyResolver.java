@@ -13,7 +13,8 @@ public class PrettyResolver implements PythonResolver {
         PythonScriptBuilder builder = pythonScript.getBuilder();
         return builder.doOnCondition(() -> builder.prependCode(emptyLine),
                         !pythonScript.startsWithCode(emptyLine))
-                .doOnCondition(() -> builder.removeCode(PythonScript.START_INDEX),  !pythonScript.isImportEmpty())
+                .doOnCondition(() -> builder.removeCode(PythonScript.START_INDEX),
+                        pythonScript.isImportEmpty())
                 .iterateImportLines((importLine,  index) -> {
                     if (!emptyLine.equals(importLine.getLine()) || index.equals(pythonScript.getImportsSize() - 1)) return;
                     int currentIndex = index;

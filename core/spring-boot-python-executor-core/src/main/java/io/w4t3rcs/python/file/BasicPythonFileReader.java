@@ -47,7 +47,7 @@ public class BasicPythonFileReader implements PythonFileReader {
         Path scriptPath = this.getScriptPath(source);
         try (BufferedReader bufferedReader = Files.newBufferedReader(scriptPath)) {
             String body = bufferedReader.lines().collect(Collectors.joining("\n"));
-            script.appendAll(body);
+            script.getBuilder().appendAll(body);
             return script;
         } catch (IOException e) {
             throw new PythonScriptReadingFromFileException(e);

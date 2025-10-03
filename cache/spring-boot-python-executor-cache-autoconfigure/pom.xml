@@ -43,6 +43,7 @@
             <groupId>io.github.w4t3rcs</groupId>
             <artifactId>spring-boot-python-executor-cache</artifactId>
             <version>${project.version}</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

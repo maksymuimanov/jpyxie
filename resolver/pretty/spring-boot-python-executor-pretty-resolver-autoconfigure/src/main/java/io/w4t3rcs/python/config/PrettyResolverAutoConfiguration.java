@@ -5,7 +5,6 @@ import io.w4t3rcs.python.resolver.PythonResolver;
 import io.w4t3rcs.python.resolver.PythonResolverHolder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 
 /**
@@ -26,12 +25,11 @@ import org.springframework.core.annotation.Order;
  * @since 1.0.0
  */
 @Configuration
-@PropertySource("classpath:python-result-default.properties")
 public class PrettyResolverAutoConfiguration {
     /**
      * Order value for {@link PrettyResolver} bean.
      */
-    public static final int RESULT_RESOLVER_ORDER = 200;
+    public static final int PRETTY_RESOLVER_ORDER = 200;
 
     /**
      * Creates a {@link PrettyResolver} bean.
@@ -39,8 +37,8 @@ public class PrettyResolverAutoConfiguration {
      * @return configured {@link PrettyResolver} instance, never null
      */
     @Bean
-    @Order(RESULT_RESOLVER_ORDER)
-    public PythonResolver resultResolver() {
+    @Order(PRETTY_RESOLVER_ORDER)
+    public PythonResolver prettyResolver() {
         return new PrettyResolver();
     }
 }

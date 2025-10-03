@@ -92,7 +92,7 @@ public class PythonScript {
     }
 
     public boolean isImportEmpty() {
-        return this.getCodeLines().isEmpty();
+        return this.getImportLines().isEmpty();
     }
 
     public boolean isCodeEmpty() {

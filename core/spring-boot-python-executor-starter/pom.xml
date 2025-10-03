@@ -64,6 +64,11 @@
             <artifactId>spring-boot-python-executor-result-resolver-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.w4t3rcs</groupId>
+            <artifactId>spring-boot-python-executor-pretty-resolver-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
