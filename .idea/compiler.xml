@@ -61,7 +61,7 @@
       <module name="spring-boot-python-executor-grpc-executor-starter" options="" />
       <module name="spring-boot-python-executor-pretty-resolver-autoconfigure" options="" />
       <module name="spring-boot-python-executor-pretty-resolver-core" options="" />
-      <module name="spring-boot-python-executor-pretty-resolver-starter" options="-parameters" />
+      <module name="spring-boot-python-executor-pretty-resolver-starter" options="" />
       <module name="spring-boot-python-executor-process-executor-autoconfigure" options="" />
       <module name="spring-boot-python-executor-process-executor-core" options="" />
       <module name="spring-boot-python-executor-process-executor-starter" options="" />
