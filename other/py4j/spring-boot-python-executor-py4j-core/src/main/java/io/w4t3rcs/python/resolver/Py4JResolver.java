@@ -33,16 +33,18 @@ public class Py4JResolver implements PythonResolver {
      * Resolves a Python script by inserting necessary Py4J import statements and gateway initialization lines.
      * Removes duplicate or existing import lines matching the configured regex before reinserting them.
      *
-     * @param script non-null Python script content
-     * @param arguments ignored in this implementation, may be null
+     * @param pythonScript non-null Python script content
+     * @param arguments    ignored in this implementation, may be null
      * @return non-null resolved script containing Py4J import statements and gateway setup
      */
     @Override
-    public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
+    public PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments) {
         String gatewayObject = resolverProperties.gatewayObject();
         String gatewayProperties = String.join(",\n\t\t", resolverProperties.gatewayProperties());
         String formattedGatewayObject = gatewayObject.formatted(gatewayProperties);
-        return script.appendImport(resolverProperties.importLine())
-                .prependCode(formattedGatewayObject);
+        return pythonScript.getBuilder()
+                .appendImport(resolverProperties.importLine())
+                .prependCode(formattedGatewayObject)
+                .build();
     }
 }

@@ -38,9 +38,9 @@ public interface PythonResolver {
     /**
      * Resolves the given Python script by applying transformations or expression resolution.
      *
-     * @param script the Python script content to resolve (non-{@code null})
-     * @param arguments a map of variables for resolution (non-{@code null}, can be empty)
+     * @param pythonScript the Python script content to resolve (non-{@code null})
+     * @param arguments    a map of variables for resolution (non-{@code null}, can be empty)
      * @return the transformed Python script with resolved expressions (never {@code null})
      */
-    PythonScript resolve(PythonScript script, Map<String, Object> arguments);
+    PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments);
 }

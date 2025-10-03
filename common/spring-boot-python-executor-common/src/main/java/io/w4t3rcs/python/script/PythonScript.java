@@ -5,18 +5,13 @@ import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PythonScript {
     public static final String FILE_FORMAT = ".py";
     public static final int START_INDEX = 0;
+    private final PythonScriptBuilder builder;
     private final List<PythonImportLine> importLines;
     private final List<String> codeLines;
     private final boolean isFile;
@@ -25,6 +20,7 @@ public class PythonScript {
     private String body;
 
     public PythonScript() {
+        this.builder = new PythonScriptBuilder(this);
         this.importLines = new ArrayList<>();
         this.codeLines = new ArrayList<>();
         this.isFile = false;
@@ -36,142 +32,42 @@ public class PythonScript {
     }
 
     public PythonScript(List<PythonImportLine> importLines, List<String> codeLines, String script) {
+        this.builder = new PythonScriptBuilder(this);
         this.importLines = importLines;
         this.codeLines = codeLines;
         this.source = script;
+        this.body = null;
         if (script.endsWith(FILE_FORMAT)) {
             this.isFile = true;
         } else {
             this.isFile = false;
-            this.appendAll(script);
+            this.builder.appendAll(script);
         }
     }
 
-    public <T> PythonScript iterate(Iterable<T> iterable, Consumer<T> action) {
-        return this.iterate(iterable, action, true);
-    }
-
-    public <T> PythonScript iterate(Iterable<T> iterable, Consumer<T> action, boolean condition) {
-        if (condition) iterable.forEach(action);
-        return this;
-    }
-
-    public PythonScript perform(Runnable action) {
-        return this.perform(action, true);
-    }
-
-    public PythonScript perform(Runnable action, boolean condition) {
-        if (condition) action.run();
-        return this;
-    }
-
-    public PythonScript appendAll(String script) {
-        script.lines().forEach(line -> {
-            if (line.matches(PythonImportLine.IMPORT_REGEX)) {
-                this.appendImport(line);
-            } else {
-                this.appendCode(line);
-            }
-        });
-        return this;
-    }
-
-    public PythonScript removeAll(String regex, int start, int end, Consumer<String> actionOnRemove) {
-        this.replaceAll(regex, start, end, group -> {
-            actionOnRemove.accept(group);
-            return "";
-        });
-        return this;
-    }
-
-    public PythonScript replaceAll(String regex, int start, int end, Function<String, String> groupFunction) {
-        this.replaceAll(regex,  matchResult -> {
-            String group = matchResult.group();
-            String substring = group.substring(start, group.length() - end);
-            return groupFunction.apply(substring);
-        });
-        return this;
-    }
-
-    public PythonScript replaceAll(String regex, int start, int end, BiConsumer<String, StringBuilder> resultBuilderFunction) {
-        this.replaceAll(regex,  matchResult -> {
-            String group = matchResult.group();
-            String substring = group.substring(start, group.length() - end);
-            StringBuilder result = new StringBuilder();
-            resultBuilderFunction.accept(substring, result);
-            return result.toString();
-        });
-        return this;
-    }
-
-    public PythonScript replaceAll(String regex, Function<MatchResult, String> function) {
+    protected void clearBody() {
         this.body = null;
-        Pattern pattern = Pattern.compile(regex);
-        List<String> codeLines = this.getCodeLines();
-        for (int i = 0; i < codeLines.size(); i++) {
-            String codeLine = codeLines.get(i);
-            Matcher matcher = pattern.matcher(codeLine);
-            codeLine = matcher.replaceAll(function);
-            this.setCode(codeLine, i);
-        }
-        return this;
     }
 
-    public PythonScript appendImport(String importLine) {
-        this.body = null;
-        PythonImportLine line = new PythonImportLine(importLine);
-        if (importLines.contains(line)) return this;
-        this.getImportLines().add(line);
-        return this;
+    public int getImportsSize() {
+        return this.getImportLines().size();
     }
 
-    public PythonScript setCode(String codeLine, int index) {
-        this.body = null;
-        this.getCodeLines().set(index, codeLine);
-        return this;
-    }
-
-    public PythonScript insertCode(String codeLine, int index) {
-        this.body = null;
-        this.getCodeLines().add(index, codeLine);
-        return this;
-    }
-
-    public PythonScript appendCode(String... codeLines) {
-        String joined = String.join("", codeLines);
-        this.appendCode(joined);
-        return this;
-    }
-
-    public PythonScript appendCode(String codeLine) {
-        this.body = null;
-        this.getCodeLines().add(codeLine);
-        return this;
-    }
-
-    public PythonScript prependCode(String... codeLines) {
-        String joined = String.join("", codeLines);
-        this.prependCode(joined);
-        return this;
-    }
-
-    public PythonScript prependCode(String codeLine) {
-        this.body = null;
-        this.insertCode(codeLine, START_INDEX);
-        return this;
-    }
-
-    public boolean isEmpty() {
-        return this.getCodeLines().isEmpty();
+    public int getCodeSize() {
+        return this.getCodeLines().size();
     }
 
     public boolean containsImport(String importLine) {
         PythonImportLine line = new PythonImportLine(importLine);
-        return this.getImportLines().contains(line);
+        return this.containsImport(line);
+    }
+
+    public boolean containsImport(PythonImportLine importLine) {
+        return this.getImportLines().contains(importLine);
     }
 
     public boolean containsCode(String codeLine) {
-        return this.getCodeLines().contains(codeLine);
+        return !this.isCodeEmpty() && this.getCodeLines().contains(codeLine);
     }
 
     public boolean containsDeepImport(String importLine) {
@@ -187,7 +83,28 @@ public class PythonScript {
     }
 
     public boolean startsWithCode(String codeLine) {
-        return this.getCodeLines().get(START_INDEX).equals(codeLine);
+        return !this.isCodeEmpty() && this.getCodeLines().get(START_INDEX).equals(codeLine);
+    }
+
+    public boolean endsWithCode(String codeLine) {
+        int lastElement = this.getCodeSize() - 1;
+        return !this.isCodeEmpty() && this.getCodeLines().get(lastElement).equals(codeLine);
+    }
+
+    public boolean isImportEmpty() {
+        return this.getCodeLines().isEmpty();
+    }
+
+    public boolean isCodeEmpty() {
+        return this.getCodeLines().isEmpty();
+    }
+
+    public PythonImportLine getImport(int index) {
+        return this.getImportLines().get(index);
+    }
+
+    public String getCodeLine(int index) {
+        return this.getCodeLines().get(index);
     }
 
     public int getImportIndex(String importLine) {
@@ -222,23 +139,25 @@ public class PythonScript {
         return source;
     }
 
+    public PythonScriptBuilder getBuilder() {
+        return builder;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof PythonScript that)) return false;
         return Objects.equals(this.getImportLines(), that.getImportLines())
-                && Objects.equals(this.getCodeLines(), that.getCodeLines())
-                && Objects.equals(this.body, that.body);
+                && Objects.equals(this.getCodeLines(), that.getCodeLines());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getImportLines(), this.getCodeLines(), this.body);
+        return Objects.hash(this.getImportLines(), this.getCodeLines());
     }
 
     @Override
     public String toString() {
         if (this.body == null || this.body.isBlank()) {
-            if (!this.startsWithCode("")) this.prependCode("");
             this.body = Stream.concat(this.getImportLines().stream().map(PythonImportLine::getLine), this.getCodeLines().stream())
                     .collect(Collectors.joining("\n"));
         }

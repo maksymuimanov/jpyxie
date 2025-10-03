@@ -48,12 +48,12 @@ public class SpelythonResolver implements PythonResolver {
      * identify expressions, then evaluates them against the SpEL context enriched
      * with the provided {@code arguments} as variables.</p>
      *
-     * @param script non-null Python script content possibly containing SpEL expressions
-     * @param arguments nullable map of variables for SpEL evaluation context, keys are variable names, values are their corresponding objects. If null or empty, no variables are set.
+     * @param pythonScript non-null Python script content possibly containing SpEL expressions
+     * @param arguments    nullable map of variables for SpEL evaluation context, keys are variable names, values are their corresponding objects. If null or empty, no variables are set.
      * @return non-null-resolved script with SpEL expressions replaced by JSON-wrapped results
      */
     @Override
-    public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
+    public PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments) {
         ExpressionParser parser = new SpelExpressionParser();
         StandardEvaluationContext context = new StandardEvaluationContext();
         if (arguments != null && !arguments.isEmpty()) {
@@ -62,8 +62,9 @@ public class SpelythonResolver implements PythonResolver {
                             .setValue(context, value));
         }
         context.setBeanResolver(new BeanFactoryResolver(applicationContext));
-        return script.appendImport(IMPORT_JSON)
-                .replaceAll(resolverProperties.regex(),
+        return pythonScript.getBuilder()
+                .appendImport(IMPORT_JSON)
+                .replaceAllCode(resolverProperties.regex(),
                         resolverProperties.positionFromStart(),
                         resolverProperties.positionFromEnd(),
                         (group, result) -> {
@@ -86,6 +87,7 @@ public class SpelythonResolver implements PythonResolver {
                     } catch (JsonProcessingException e) {
                         throw new SpelythonProcessingException(e);
                     }
-                });
+                })
+                .build();
     }
 }

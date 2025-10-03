@@ -2,6 +2,7 @@ package io.w4t3rcs.python.resolver;
 
 import io.w4t3rcs.python.properties.ResultResolverProperties;
 import io.w4t3rcs.python.script.PythonScript;
+import io.w4t3rcs.python.script.PythonScriptBuilder;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
@@ -28,22 +29,24 @@ public class ResultResolver implements PythonResolver {
     /**
      * Resolves the script by finding and wrapping body expressions.
      *
-     * @param script the original Python script content (non-null)
-     * @param arguments unused map of variables, may be null
+     * @param pythonScript the original Python script content (non-null)
+     * @param arguments    unused map of variables, may be null
      * @return the processed script with body expressions replaced by JSON serialization assignments
      */
     @Override
-    public PythonScript resolve(PythonScript script, Map<String, Object> arguments) {
+    public PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments) {
         String resultAppearance = resolverProperties.appearance();
-        return script.appendImport(IMPORT_JSON)
-                .removeAll(resolverProperties.regex(),
+        PythonScriptBuilder builder = pythonScript.getBuilder();
+        return builder.appendImport(IMPORT_JSON)
+                .removeAllDeepCode(resolverProperties.regex(),
                         resolverProperties.positionFromStart(),
                         resolverProperties.positionFromEnd(),
                         group -> {
-                    script.appendCode(resultAppearance, " = json.loads(json.dumps(", group, "))")
-                            .perform(() -> {
-                                script.appendCode("print('", resultAppearance, "' + json.dumps(", resultAppearance, "))");
+                    builder.appendCode(resultAppearance, " = json.loads(json.dumps(", group, "))")
+                            .doOnCondition(() -> {
+                                builder.appendCode("print('", resultAppearance, "' + json.dumps(", resultAppearance, "))");
                             }, resolverProperties.isPrinted());
-                });
+                })
+                .build();
     }
 }

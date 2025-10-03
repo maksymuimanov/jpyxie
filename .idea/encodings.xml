@@ -23,6 +23,7 @@
     <file url="file://$PROJECT_DIR$/other/py4j/spring-boot-python-executor-py4j-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/other/py4j/spring-boot-python-executor-py4j-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/other/py4j/spring-boot-python-executor-py4j-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resolver/pretty/spring-boot-python-executor-pretty-resolver-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resolver/restricted/spring-boot-python-executor-restricted-resolver-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resolver/restricted/spring-boot-python-executor-restricted-resolver-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resolver/restricted/spring-boot-python-executor-restricted-resolver-starter/src/main/java" charset="UTF-8" />
