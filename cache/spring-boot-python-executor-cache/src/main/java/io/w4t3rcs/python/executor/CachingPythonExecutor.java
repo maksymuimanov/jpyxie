@@ -1,12 +1,15 @@
 package io.w4t3rcs.python.executor;
 
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.exception.PythonCacheException;
 import io.w4t3rcs.python.properties.PythonCacheProperties;
+import io.w4t3rcs.python.response.PythonExecutionResponse;
 import io.w4t3rcs.python.script.PythonScript;
+import org.jspecify.annotations.Nullable;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+
+import java.util.Objects;
 
 /**
  * {@link PythonExecutor} implementation that adds caching capabilities.
@@ -49,7 +52,7 @@ public class CachingPythonExecutor implements PythonExecutor {
      */
     public CachingPythonExecutor(PythonCacheProperties cacheProperties, PythonExecutor pythonExecutor, CacheManager cacheManager, CacheKeyGenerator keyGenerator) {
         this.pythonExecutor = pythonExecutor;
-        this.cache = cacheManager.getCache(cacheProperties.name().executor());
+        this.cache = Objects.requireNonNull(cacheManager.getCache(cacheProperties.name().executor()));
         this.keyGenerator = keyGenerator;
     }
 
@@ -66,13 +69,13 @@ public class CachingPythonExecutor implements PythonExecutor {
      *
      * @param <R> the expected body type
      * @param script non-null Python script to execute
-     * @param resultClass non-null {@link Class} representing the expected body type
+     * @param resultClass nullable {@link Class} representing the expected body type
      * @return the execution body, guaranteed non-null if the delegate returns non-null
      * @throws PythonCacheException if any caching or execution error occurs
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <R> PythonExecutionResponse<R> execute(PythonScript script, Class<? extends R> resultClass) {
+    public <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass) {
         try {
             String scriptBody = script.toString();
             String key = keyGenerator.generateKey(scriptBody, resultClass);

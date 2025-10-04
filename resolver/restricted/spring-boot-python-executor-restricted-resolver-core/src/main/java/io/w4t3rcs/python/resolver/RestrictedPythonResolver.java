@@ -15,7 +15,7 @@ import java.util.Map;
  * <p>This resolver acts as a proxy, injecting necessary setup code to enable safe execution of Python code with RestrictedPython.
  * It performs the following operations:
  * <ul>
- *   <li>Removes existing import lines matching a configured regex and collects import names.</li>
+ *   <li>Removes existing import lines matching a configured regular expression and collects import names.</li>
  *   <li>Wraps the original script code in a string variable for compilation.</li>
  *   <li>Initializes local variables container for execution results.</li>
  *   <li>Compiles the wrapped script with RestrictedPython's compile_restricted method.</li>
@@ -40,7 +40,7 @@ public class RestrictedPythonResolver implements PythonResolver {
      * enable secure execution.
      *
      * @param pythonScript the original Python script content (non-null)
-     * @param arguments    unused map of variables for script execution context, may be null
+     * @param arguments unused map of variables for script execution context, may be null
      * @return the transformed Python script ready for execution with RestrictedPython
      */
     @Override

@@ -53,7 +53,6 @@ public class BasicPythonResolverHolder implements PythonResolverHolder {
      */
     @Override
     public PythonScript resolveAll(PythonScript script, Map<String, Object> arguments) {
-        if (script == null) throw new IllegalArgumentException("Script cannot be null");
         for (PythonResolver resolver : this.getResolvers()) {
             resolver.resolve(script, arguments);
         }

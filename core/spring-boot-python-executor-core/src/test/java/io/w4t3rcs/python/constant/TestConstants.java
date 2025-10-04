@@ -3,10 +3,10 @@ package io.w4t3rcs.python.constant;
 import io.w4t3rcs.python.annotation.PythonBefore;
 import io.w4t3rcs.python.annotation.PythonBefores;
 import io.w4t3rcs.python.annotation.PythonParam;
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.file.BasicPythonFileReader;
 import io.w4t3rcs.python.file.PythonFileReader;
 import io.w4t3rcs.python.properties.PythonFileProperties;
+import io.w4t3rcs.python.response.PythonExecutionResponse;
 import org.springframework.core.env.Profiles;
 
 import java.lang.reflect.Method;

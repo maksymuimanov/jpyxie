@@ -1,10 +1,11 @@
 package io.w4t3rcs.python.processor;
 
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.resolver.PythonResolver;
 import io.w4t3rcs.python.resolver.PythonResolverHolder;
+import io.w4t3rcs.python.response.PythonExecutionResponse;
 import io.w4t3rcs.python.script.PythonScript;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 
@@ -77,7 +78,7 @@ public interface PythonProcessor {
      * @param resultClass the class representing the expected body type (nullable)
      * @return the body of execution cast to {@code R}, or {@code null} if the script returns nothing
      */
-    default <R> PythonExecutionResponse<R> process(String script, Class<? extends R> resultClass) {
+    default <R> PythonExecutionResponse<R> process(String script, @Nullable Class<? extends R> resultClass) {
         return this.process(script, resultClass, Map.of());
     }
 
@@ -89,7 +90,7 @@ public interface PythonProcessor {
      * @param resultClass the class representing the expected body type (nullable)
      * @return the body of execution cast to {@code R}, or {@code null} if the script returns nothing
      */
-    default <R> PythonExecutionResponse<R> process(PythonScript script, Class<? extends R> resultClass) {
+    default <R> PythonExecutionResponse<R> process(PythonScript script, @Nullable Class<? extends R> resultClass) {
         return this.process(script, resultClass, Map.of());
     }
 
@@ -102,7 +103,7 @@ public interface PythonProcessor {
      * @param arguments a map of arguments accessible to resolvers during preprocessing
      * @return the body of execution cast to {@code R}, or {@code null} if the script returns nothing
      */
-    default <R> PythonExecutionResponse<R> process(String script, Class<? extends R> resultClass, Map<String, Object> arguments) {
+    default <R> PythonExecutionResponse<R> process(String script, @Nullable Class<? extends R> resultClass, Map<String, Object> arguments) {
         PythonScript pythonScript = new PythonScript(script);
         return this.process(pythonScript, resultClass, arguments);
     }
@@ -116,5 +117,5 @@ public interface PythonProcessor {
      * @param arguments a map of arguments accessible to resolvers during preprocessing
      * @return the body of execution cast to {@code R}, or {@code null} if the script returns nothing
      */
-    <R> PythonExecutionResponse<R> process(PythonScript script, Class<? extends R> resultClass, Map<String, Object> arguments);
+    <R> PythonExecutionResponse<R> process(PythonScript script, @Nullable Class<? extends R> resultClass, Map<String, Object> arguments);
 }

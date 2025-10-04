@@ -41,7 +41,7 @@ public class BasicProfileChecker implements ProfileChecker {
      */
     @Override
     public void doOnProfiles(String[] profiles, Runnable action) {
-        if (profiles == null || profiles.length == 0) {
+        if (profiles.length == 0) {
             action.run();
         } else {
             Profiles profilesObject = Profiles.of(profiles);

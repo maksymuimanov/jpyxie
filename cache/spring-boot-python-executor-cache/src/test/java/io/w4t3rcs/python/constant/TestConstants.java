@@ -1,9 +1,8 @@
 package io.w4t3rcs.python.constant;
 
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
+import io.w4t3rcs.python.response.PythonExecutionResponse;
 import io.w4t3rcs.python.script.PythonScript;
 
-import java.nio.file.Path;
 import java.util.Map;
 
 public class TestConstants {
@@ -28,7 +27,6 @@ public class TestConstants {
     public static final String COMPOUND_SCRIPT_0 = "test_var = 'hello world'\nprint(test_var + spel{#a})\no4java{test_var}";
     public static final String COMPOUND_SCRIPT_1 = "import json\ntest_var = {'x': 2, 'y': spel{#b}}\nprint(test_var)\no4java{test_var}";
     public static final String FILE_SCRIPT = "test.py";
-    public static final Path FILE_PATH = Path.of(FILE_SCRIPT);
     public static final String CACHE_MANAGER_KEY = "manager_key";
     public static final String CACHE_KEY = "key";
 }

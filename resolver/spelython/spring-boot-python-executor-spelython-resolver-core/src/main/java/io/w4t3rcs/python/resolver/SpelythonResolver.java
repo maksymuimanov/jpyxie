@@ -56,7 +56,7 @@ public class SpelythonResolver implements PythonResolver {
     public PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments) {
         ExpressionParser parser = new SpelExpressionParser();
         StandardEvaluationContext context = new StandardEvaluationContext();
-        if (arguments != null && !arguments.isEmpty()) {
+        if (!arguments.isEmpty()) {
             arguments.forEach((key, value) ->
                     parser.parseExpression(resolverProperties.localVariableIndex() + key)
                             .setValue(context, value));

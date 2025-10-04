@@ -1,5 +1,7 @@
 package io.w4t3rcs.python.input;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Defines the contract for processing and handling {@link Process} instances.
  *
@@ -37,5 +39,6 @@ public interface ProcessHandler<R> {
      * @param process non-{@code null} {@link Process} instance to handle
      * @return the body of handling the process, of type {@code R}
      */
+    @Nullable
     R handle(Process process);
 }

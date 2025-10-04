@@ -2,14 +2,16 @@ package io.w4t3rcs.python.processor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.exception.PythonCacheException;
 import io.w4t3rcs.python.properties.PythonCacheProperties;
+import io.w4t3rcs.python.response.PythonExecutionResponse;
 import io.w4t3rcs.python.script.PythonScript;
+import org.jspecify.annotations.Nullable;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -61,7 +63,7 @@ public class CachingPythonProcessor implements PythonProcessor {
      */
     public CachingPythonProcessor(PythonCacheProperties cacheProperties, PythonProcessor pythonProcessor, CacheManager cacheManager, CacheKeyGenerator keyGenerator, ObjectMapper objectMapper) {
         this.pythonProcessor = pythonProcessor;
-        this.cache = cacheManager.getCache(cacheProperties.name().processor());
+        this.cache = Objects.requireNonNull(cacheManager.getCache(cacheProperties.name().processor()));
         this.keyGenerator = keyGenerator;
         this.objectMapper = objectMapper;
     }
@@ -76,14 +78,14 @@ public class CachingPythonProcessor implements PythonProcessor {
      *
      * @param <R> the type of the body
      * @param script non-null Python script to process
-     * @param resultClass non-null expected body type
+     * @param resultClass nullable expected body type
      * @param arguments non-null map of arguments to the script
      * @return body of processing, possibly from cache
      * @throws PythonCacheException if any underlying error occurs during caching or processing
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <R> PythonExecutionResponse<R> process(PythonScript script, Class<? extends R> resultClass, Map<String, Object> arguments) {
+    public <R> PythonExecutionResponse<R> process(PythonScript script, @Nullable Class<? extends R> resultClass, Map<String, Object> arguments) {
         try {
             Map<String, Object> sortedMap = new TreeMap<>(arguments);
             String argumentsJson = objectMapper.writeValueAsString(sortedMap);

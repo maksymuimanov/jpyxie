@@ -21,7 +21,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * }</pre>
  * </p>
  *
- * @param path the base directory path where Python files are stored, must not be null or blank
+ * @param path the base directory path where Python files are stored, must not be null or blank.
  * @see PythonFileReader
  * @see BasicPythonFileReader
  * @author w4t3rcs

@@ -1,11 +1,12 @@
 package io.w4t3rcs.python.processor;
 
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.file.PythonFileReader;
 import io.w4t3rcs.python.resolver.PythonResolverHolder;
+import io.w4t3rcs.python.response.PythonExecutionResponse;
 import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 
@@ -60,7 +61,7 @@ public class BasicPythonProcessor implements PythonProcessor {
      * @return the execution body converted to {@code resultClass}
      */
     @Override
-    public <R> PythonExecutionResponse<R> process(PythonScript script, Class<? extends R> resultClass, Map<String, Object> arguments) {
+    public <R> PythonExecutionResponse<R> process(PythonScript script, @Nullable Class<? extends R> resultClass, Map<String, Object> arguments) {
         if (script.isFile()) pythonFileReader.readScript(script);
         pythonResolverHolder.resolveAll(script, arguments);
         return pythonExecutor.execute(script, resultClass);

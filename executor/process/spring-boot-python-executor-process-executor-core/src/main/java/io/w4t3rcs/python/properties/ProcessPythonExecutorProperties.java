@@ -30,5 +30,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 1.0.0
  */
 @ConfigurationProperties("spring.python.executor.process")
-public record ProcessPythonExecutorProperties(String startCommand, boolean loggable, String resultAppearance) {
+public record ProcessPythonExecutorProperties(String startCommand,
+                                              boolean loggable,
+                                              String resultAppearance) {
 }

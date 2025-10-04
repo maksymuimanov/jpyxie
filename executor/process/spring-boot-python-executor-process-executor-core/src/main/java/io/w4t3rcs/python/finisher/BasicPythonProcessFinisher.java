@@ -1,7 +1,6 @@
-package io.w4t3rcs.python.finisher.impl;
+package io.w4t3rcs.python.finisher;
 
 import io.w4t3rcs.python.executor.ProcessPythonExecutor;
-import io.w4t3rcs.python.finisher.ProcessFinisher;
 import lombok.extern.slf4j.Slf4j;
 
 /**

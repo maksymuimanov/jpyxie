@@ -47,8 +47,8 @@
         <module>resolver/result/spring-boot-python-executor-result-resolver-starter</module>
 
         <module>resolver/pretty/spring-boot-python-executor-pretty-resolver-core</module>
-        <module>resolver/result/spring-boot-python-executor-result-resolver-autoconfigure</module>
-        <module>resolver/result/spring-boot-python-executor-result-resolver-starter</module>
+        <module>resolver/pretty/spring-boot-python-executor-pretty-resolver-autoconfigure</module>
+        <module>resolver/pretty/spring-boot-python-executor-pretty-resolver-starter</module>
 
         <module>executor/rest/spring-boot-python-executor-rest-executor-core</module>
         <module>executor/rest/spring-boot-python-executor-rest-executor-autoconfigure</module>
@@ -77,7 +77,15 @@
     </modules>
     <properties>
         <java.version>17</java.version>
+        <jspecify.version>1.0.0</jspecify.version>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>${jspecify.version}</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>

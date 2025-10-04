@@ -1,6 +1,6 @@
 package io.w4t3rcs.python.properties;
 
-import io.w4t3rcs.python.cache.impl.HashCacheKeyGenerator;
+import io.w4t3rcs.python.cache.HashCacheKeyGenerator;
 import io.w4t3rcs.python.executor.CachingPythonExecutor;
 import io.w4t3rcs.python.file.CachingPythonFileReader;
 import io.w4t3rcs.python.processor.CachingPythonProcessor;

@@ -1,4 +1,4 @@
-package io.w4t3rcs.python.dto;
+package io.w4t3rcs.python.response;
 
 /**
  * Response wrapper for Python script execution result.

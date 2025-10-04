@@ -2,7 +2,7 @@ package io.w4t3rcs.python.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
-import io.w4t3rcs.python.cache.impl.HashCacheKeyGenerator;
+import io.w4t3rcs.python.cache.HashCacheKeyGenerator;
 import io.w4t3rcs.python.condition.ExecutorCacheLevelCondition;
 import io.w4t3rcs.python.condition.FileCacheLevelCondition;
 import io.w4t3rcs.python.condition.ProcessorCacheLevelCondition;

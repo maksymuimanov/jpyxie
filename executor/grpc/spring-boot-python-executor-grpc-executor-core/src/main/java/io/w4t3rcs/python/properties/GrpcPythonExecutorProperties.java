@@ -29,5 +29,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 1.0.0
  */
 @ConfigurationProperties("spring.python.executor.grpc")
-public record GrpcPythonExecutorProperties(String host, int port, String token, String uri) {
+public record GrpcPythonExecutorProperties(String host,
+                                           int port,
+                                           String token,
+                                           String uri) {
 }

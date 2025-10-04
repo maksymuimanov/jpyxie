@@ -1,9 +1,9 @@
-package io.w4t3rcs.python.input.impl;
+package io.w4t3rcs.python.input;
 
 import io.w4t3rcs.python.exception.ProcessReadingException;
 import io.w4t3rcs.python.executor.ProcessPythonExecutor;
-import io.w4t3rcs.python.input.ProcessHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -54,6 +54,7 @@ public class BasicPythonErrorProcessHandler implements ProcessHandler<Void> {
      * @throws ProcessReadingException if reading the error stream fails or if the stream contains errors
      */
     @Override
+    @Nullable
     public Void handle(Process process) {
         try (BufferedReader bufferedReader = process.errorReader()) {
             String errorMessage = bufferedReader.lines().collect(Collectors.joining());

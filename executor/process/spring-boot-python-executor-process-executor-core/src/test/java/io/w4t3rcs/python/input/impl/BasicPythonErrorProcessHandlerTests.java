@@ -1,6 +1,7 @@
 package io.w4t3rcs.python.input.impl;
 
 import io.w4t3rcs.python.exception.ProcessReadingException;
+import io.w4t3rcs.python.input.BasicPythonErrorProcessHandler;
 import io.w4t3rcs.python.input.ProcessHandler;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;

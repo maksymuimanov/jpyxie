@@ -1,7 +1,7 @@
 package io.w4t3rcs.python.exception;
 
-import io.w4t3rcs.python.input.impl.BasicPythonErrorProcessHandler;
-import io.w4t3rcs.python.input.impl.BasicPythonInputProcessHandler;
+import io.w4t3rcs.python.input.BasicPythonErrorProcessHandler;
+import io.w4t3rcs.python.input.BasicPythonInputProcessHandler;
 
 /**
  * Exception thrown when an error occurs while reading output from a Python process.

@@ -1,11 +1,10 @@
-package io.w4t3rcs.python.starter.impl;
+package io.w4t3rcs.python.starter;
 
 import io.w4t3rcs.python.exception.ProcessStartException;
 import io.w4t3rcs.python.executor.ProcessPythonExecutor;
 import io.w4t3rcs.python.file.PythonFileReader;
 import io.w4t3rcs.python.properties.ProcessPythonExecutorProperties;
 import io.w4t3rcs.python.script.PythonScript;
-import io.w4t3rcs.python.starter.ProcessStarter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

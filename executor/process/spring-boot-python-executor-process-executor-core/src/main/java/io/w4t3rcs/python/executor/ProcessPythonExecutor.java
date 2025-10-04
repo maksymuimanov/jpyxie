@@ -1,14 +1,15 @@
 package io.w4t3rcs.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.exception.PythonScriptExecutionException;
 import io.w4t3rcs.python.finisher.ProcessFinisher;
 import io.w4t3rcs.python.input.ProcessHandler;
+import io.w4t3rcs.python.response.PythonExecutionResponse;
 import io.w4t3rcs.python.script.PythonScript;
 import io.w4t3rcs.python.starter.ProcessStarter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of the {@link PythonExecutor} interface that executes Python scripts locally via Process API.
@@ -59,7 +60,7 @@ public class ProcessPythonExecutor implements PythonExecutor {
      * @throws PythonScriptExecutionException if an error occurs during process execution, I/O handling, or JSON deserialization
      */
     @Override
-    public <R> PythonExecutionResponse<R> execute(PythonScript script, Class<? extends R> resultClass) {
+    public <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass) {
         try {
             Process process = processStarter.start(script);
             String jsonResult = inputProcessHandler.handle(process);

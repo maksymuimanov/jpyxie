@@ -55,19 +55,16 @@ public interface PythonServerConnectionDetails extends ConnectionDetails {
      * @param token non-{@code null} token
      * @param uri non-{@code null} URI of the Python server, including protocol and port if applicable
      * @return non-{@code null} {@link PythonServerConnectionDetails} instance
-     * @throws NullPointerException if any parameter is {@code null}
      */
     static PythonServerConnectionDetails of(String token, String uri) {
         return new PythonServerConnectionDetails() {
             @Override
             public String getToken() {
-                if (token == null) throw new NullPointerException("Token is null");
                 return token;
             }
 
             @Override
             public String getUri() {
-                if (uri == null) throw new NullPointerException("Uri is null");
                 return uri;
             }
         };

@@ -1,7 +1,7 @@
 package io.w4t3rcs.python.exception;
 
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
-import io.w4t3rcs.python.cache.impl.HashCacheKeyGenerator;
+import io.w4t3rcs.python.cache.HashCacheKeyGenerator;
 
 /**
  * Runtime exception thrown when cache key generation fails.

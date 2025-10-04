@@ -48,7 +48,7 @@ import java.util.concurrent.RejectedExecutionHandler;
 @ConfigurationProperties("spring.python.aspect")
 public record PythonAspectProperties(AsyncProperties async) {
     /**
-     * Properties for asynchronous execution configuration within Python aspect.
+     * Properties for asynchronous execution configuration within a Python aspect.
      *
      * <p>Includes the scopes when async execution applies and thread pool settings
      * for the async executor.</p>

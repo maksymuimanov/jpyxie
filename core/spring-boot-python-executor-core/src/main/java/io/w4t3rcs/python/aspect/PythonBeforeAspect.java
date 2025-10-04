@@ -15,8 +15,8 @@ import org.aspectj.lang.annotation.Before;
  * <p>
  * The aspect listens to two pointcuts:
  * <ul>
- *   <li>Methods annotated with {@code @PythonBefore} — triggers a single script evaluation.</li>
- *   <li>Methods annotated with {@code @PythonBefores} — triggers multiple script evaluations.</li>
+ *   <li>Methods annotated with {@code @PythonBefore} triggers a single script evaluation.</li>
+ *   <li>Methods annotated with {@code @PythonBefores} triggers multiple script evaluations.</li>
  * </ul>
  * <p>
  *

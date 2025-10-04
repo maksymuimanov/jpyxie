@@ -2,14 +2,15 @@ package io.w4t3rcs.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.connection.PythonServerConnectionDetails;
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.exception.PythonScriptExecutionException;
 import io.w4t3rcs.python.proto.PythonRequest;
 import io.w4t3rcs.python.proto.PythonResponse;
 import io.w4t3rcs.python.proto.PythonServiceGrpc;
+import io.w4t3rcs.python.response.PythonExecutionResponse;
 import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of the {@link PythonExecutor} interface that executes Python scripts via a gRPC endpoint.
@@ -52,7 +53,7 @@ public class GrpcPythonExecutor implements PythonExecutor {
      * @throws PythonScriptExecutionException if any error occurs during script execution or body parsing
      */
     @Override
-    public <R> PythonExecutionResponse<R> execute(PythonScript script, Class<? extends R> resultClass) {
+    public <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass) {
         try {
             String scriptBody = script.toString();
             PythonResponse response = stub.sendCode(PythonRequest.newBuilder()

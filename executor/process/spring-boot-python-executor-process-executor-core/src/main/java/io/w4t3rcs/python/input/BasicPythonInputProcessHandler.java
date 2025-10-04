@@ -1,11 +1,11 @@
-package io.w4t3rcs.python.input.impl;
+package io.w4t3rcs.python.input;
 
 import io.w4t3rcs.python.exception.ProcessReadingException;
 import io.w4t3rcs.python.executor.ProcessPythonExecutor;
-import io.w4t3rcs.python.input.ProcessHandler;
 import io.w4t3rcs.python.properties.ProcessPythonExecutorProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,14 +55,13 @@ public class BasicPythonInputProcessHandler implements ProcessHandler<String> {
      * @throws ProcessReadingException if reading the standard output fails
      */
     @Override
+    @Nullable
     public String handle(Process process) {
         AtomicReference<String> result = new AtomicReference<>();
         try (BufferedReader bufferedReader = process.inputReader()) {
             bufferedReader.lines().forEach(line -> {
                 String resultAppearance = executorProperties.resultAppearance();
-                if (resultAppearance != null
-                        && !resultAppearance.isBlank()
-                        && line.contains(resultAppearance)) {
+                if (!resultAppearance.isBlank() && line.contains(resultAppearance)) {
                     String resultJson = line.replace(resultAppearance, "");
                     result.set(resultJson);
                 }

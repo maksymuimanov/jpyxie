@@ -1,6 +1,6 @@
 package io.w4t3rcs.python.script;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,13 @@ import java.util.stream.Stream;
 public class PythonScript {
     public static final String FILE_FORMAT = ".py";
     public static final int START_INDEX = 0;
+    @NonNull
     private final PythonScriptBuilder builder;
+    @NonNull
     private final List<PythonImportLine> importLines;
+    @NonNull
     private final List<String> codeLines;
     private final boolean isFile;
-    @Nullable
     private final String source;
     private String body;
 
@@ -31,7 +33,7 @@ public class PythonScript {
         this(new ArrayList<>(), new ArrayList<>(), script);
     }
 
-    public PythonScript(List<PythonImportLine> importLines, List<String> codeLines, String script) {
+    public PythonScript(@NonNull List<PythonImportLine> importLines, @NonNull List<String> codeLines, String script) {
         this.builder = new PythonScriptBuilder(this);
         this.importLines = importLines;
         this.codeLines = codeLines;
@@ -45,7 +47,7 @@ public class PythonScript {
         }
     }
 
-    protected void clearBody() {
+    public void clearBody() {
         this.body = null;
     }
 
@@ -123,10 +125,12 @@ public class PythonScript {
                 .toList();
     }
 
+    @NonNull
     public List<PythonImportLine> getImportLines() {
         return importLines;
     }
 
+    @NonNull
     public List<String> getCodeLines() {
         return codeLines;
     }
@@ -139,6 +143,7 @@ public class PythonScript {
         return source;
     }
 
+    @NonNull
     public PythonScriptBuilder getBuilder() {
         return builder;
     }

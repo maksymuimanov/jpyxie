@@ -48,8 +48,8 @@ public class CachingPythonFileReader implements PythonFileReader {
     public CachingPythonFileReader(PythonCacheProperties cacheProperties, PythonFileReader pythonFileReader, CacheManager cacheManager) {
         this.pythonFileReader = pythonFileReader;
         var nameProperties = cacheProperties.name();
-        this.pathCache = cacheManager.getCache(nameProperties.filePaths());
-        this.scriptBodyCache = cacheManager.getCache(nameProperties.fileBodies());
+        this.pathCache = Objects.requireNonNull(cacheManager.getCache(nameProperties.filePaths()));
+        this.scriptBodyCache = Objects.requireNonNull(cacheManager.getCache(nameProperties.fileBodies()));
     }
 
     /**

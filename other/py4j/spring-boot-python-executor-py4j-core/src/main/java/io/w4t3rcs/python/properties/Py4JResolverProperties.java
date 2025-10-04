@@ -40,5 +40,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 1.0.0
  */
 @ConfigurationProperties("spring.python.resolver.py4j")
-public record Py4JResolverProperties(String importLine, String gatewayObject, String[] gatewayProperties) {
+public record Py4JResolverProperties(String importLine,
+                                     String gatewayObject,
+                                     String[] gatewayProperties) {
 }

@@ -1,5 +1,7 @@
 package io.w4t3rcs.python.script;
 
+import org.jspecify.annotations.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,9 +14,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class PythonScriptBuilder {
+    @NonNull
     private final PythonScript script;
 
-    public PythonScriptBuilder(PythonScript script) {
+    public PythonScriptBuilder(@NonNull PythonScript script) {
         this.script = script;
     }
 
@@ -32,57 +35,57 @@ public final class PythonScriptBuilder {
         return this;
     }
 
-    public PythonScriptBuilder iterateImportLines(Consumer<PythonImportLine> action) {
+    public PythonScriptBuilder iterateImportLines(@NonNull Consumer<PythonImportLine> action) {
         return this.iterateImportLines(action, true);
     }
 
-    public PythonScriptBuilder iterateImportLines(Consumer<PythonImportLine> action, boolean condition) {
+    public PythonScriptBuilder iterateImportLines(@NonNull Consumer<PythonImportLine> action, boolean condition) {
         List<PythonImportLine> importLinesCopy = new ArrayList<>(this.script.getImportLines());
         return this.iterate(importLinesCopy, action, condition);
     }
 
-    public PythonScriptBuilder iterateImportLines(BiConsumer<PythonImportLine, Integer> action) {
+    public PythonScriptBuilder iterateImportLines(@NonNull BiConsumer<PythonImportLine, Integer> action) {
         return this.iterateImportLines(action, true);
     }
 
-    public PythonScriptBuilder iterateImportLines(BiConsumer<PythonImportLine, Integer> action, boolean condition) {
+    public PythonScriptBuilder iterateImportLines(@NonNull BiConsumer<PythonImportLine, Integer> action, boolean condition) {
         List<PythonImportLine> importLinesCopy = new ArrayList<>(this.script.getImportLines());
         return this.iterate(importLinesCopy, action, condition);
     }
 
-    public PythonScriptBuilder iterateCodeLines(Consumer<String> action) {
+    public PythonScriptBuilder iterateCodeLines(@NonNull Consumer<String> action) {
         return this.iterateCodeLines(action, true);
     }
 
-    public PythonScriptBuilder iterateCodeLines(Consumer<String> action, boolean condition) {
+    public PythonScriptBuilder iterateCodeLines(@NonNull Consumer<String> action, boolean condition) {
         List<String> codeLinesCopy = new ArrayList<>(this.script.getCodeLines());
         return this.iterate(codeLinesCopy, action, condition);
     }
 
-    public PythonScriptBuilder iterateCodeLines(BiConsumer<String, Integer> action) {
+    public PythonScriptBuilder iterateCodeLines(@NonNull BiConsumer<String, Integer> action) {
         return this.iterateCodeLines(action, true);
     }
 
-    public PythonScriptBuilder iterateCodeLines(BiConsumer<String, Integer> action, boolean condition) {
+    public PythonScriptBuilder iterateCodeLines(@NonNull BiConsumer<String, Integer> action, boolean condition) {
         List<String> codeLinesCopy = new ArrayList<>(this.script.getCodeLines());
         return this.iterate(codeLinesCopy, action, condition);
     }
 
-    public <T> PythonScriptBuilder iterate(Iterable<T> iterable, Consumer<T> action) {
+    public <T> PythonScriptBuilder iterate(@NonNull Iterable<T> iterable, Consumer<T> action) {
         return this.iterate(iterable, action, true);
     }
 
-    public <T> PythonScriptBuilder iterate(Iterable<T> iterable, Consumer<T> action, boolean condition) {
+    public <T> PythonScriptBuilder iterate(@NonNull Iterable<T> iterable, Consumer<T> action, boolean condition) {
         this.script.clearBody();
         if (condition) iterable.forEach(action);
         return this;
     }
 
-    public <T> PythonScriptBuilder iterate(List<T> iterable, BiConsumer<T, Integer> action) {
+    public <T> PythonScriptBuilder iterate(@NonNull List<T> iterable, BiConsumer<T, Integer> action) {
         return this.iterate(iterable, action, true);
     }
 
-    public <T> PythonScriptBuilder iterate(List<T> iterable, BiConsumer<T, Integer> action, boolean condition) {
+    public <T> PythonScriptBuilder iterate(@NonNull List<T> iterable, BiConsumer<T, Integer> action, boolean condition) {
         this.script.clearBody();
         if (condition) {
             for (int i = 0; i < iterable.size(); i++) {
@@ -94,13 +97,13 @@ public final class PythonScriptBuilder {
         return this;
     }
 
-    public PythonScriptBuilder doOnCondition(Runnable action, boolean condition) {
+    public PythonScriptBuilder doOnCondition(@NonNull Runnable action, boolean condition) {
         this.script.clearBody();
         if (condition) action.run();
         return this;
     }
 
-    public PythonScriptBuilder appendAll(String script) {
+    public PythonScriptBuilder appendAll(@NonNull String script) {
         this.script.clearBody();
         script.lines().forEach(line -> {
             if (line.matches(PythonImportLine.IMPORT_REGEX)) {
@@ -112,24 +115,24 @@ public final class PythonScriptBuilder {
         return this;
     }
 
-    public PythonScriptBuilder appendImport(String importLine) {
+    public PythonScriptBuilder appendImport(@NonNull String importLine) {
         PythonImportLine line = new PythonImportLine(importLine);
         return this.appendImport(line);
     }
 
-    public PythonScriptBuilder appendImport(PythonImportLine importLine) {
+    public PythonScriptBuilder appendImport(@NonNull PythonImportLine importLine) {
         this.script.clearBody();
         if (this.script.containsImport(importLine)) return this;
         this.script.getImportLines().add(importLine);
         return this;
     }
 
-    public PythonScriptBuilder prependImport(String importLine) {
+    public PythonScriptBuilder prependImport(@NonNull String importLine) {
         PythonImportLine line = new PythonImportLine(importLine);
         return this.prependImport(line);
     }
 
-    public PythonScriptBuilder prependImport(PythonImportLine importLine) {
+    public PythonScriptBuilder prependImport(@NonNull PythonImportLine importLine) {
         this.script.clearBody();
         if (this.script.containsImport(importLine)) return this;
         this.script.getImportLines().add(PythonScript.START_INDEX, importLine);
@@ -164,28 +167,28 @@ public final class PythonScriptBuilder {
         return this;
     }
 
-    public PythonScriptBuilder appendCode(String... codeLineElements) {
+    public PythonScriptBuilder appendCode(@NonNull String... codeLineElements) {
         String joined = String.join("", codeLineElements);
         return this.appendCode(joined);
     }
 
-    public PythonScriptBuilder appendCode(String codeLine) {
+    public PythonScriptBuilder appendCode(@NonNull String codeLine) {
         this.script.clearBody();
         this.script.getCodeLines().add(codeLine);
         return this;
     }
 
-    public PythonScriptBuilder prependCode(String... codeLineElements) {
+    public PythonScriptBuilder prependCode(@NonNull String... codeLineElements) {
         String joined = String.join("", codeLineElements);
         return this.prependCode(joined);
     }
 
-    public PythonScriptBuilder prependCode(String codeLine) {
+    public PythonScriptBuilder prependCode(@NonNull String codeLine) {
         this.script.clearBody();
         return this.insertCode(codeLine, PythonScript.START_INDEX);
     }
 
-    public PythonScriptBuilder insertCode(String codeLine, int index) {
+    public PythonScriptBuilder insertCode(@NonNull String codeLine, int index) {
         this.script.clearBody();
         this.script.getCodeLines().add(index, codeLine);
         return this;
@@ -197,7 +200,7 @@ public final class PythonScriptBuilder {
         return this;
     }
 
-    public PythonScriptBuilder removeAllDeepCode(String regex, int start, int end, Consumer<String> actionOnRemove) {
+    public PythonScriptBuilder removeAllDeepCode(@NonNull String regex, int start, int end, @NonNull Consumer<String> actionOnRemove) {
         return this.replaceAllCode(regex, start, end, group -> {
             actionOnRemove.accept(group);
             return "";
@@ -217,7 +220,7 @@ public final class PythonScriptBuilder {
     }
 
 
-    public PythonScriptBuilder replaceAllCode(String regex, int start, int end, Function<String, String> groupFunction) {
+    public PythonScriptBuilder replaceAllCode(@NonNull String regex, int start, int end, @NonNull Function<String, String> groupFunction) {
         return this.replaceAllCode(regex, matchResult -> {
             String group = matchResult.group();
             String substring = group.substring(start, group.length() - end);
@@ -225,7 +228,7 @@ public final class PythonScriptBuilder {
         });
     }
 
-    public PythonScriptBuilder replaceAllCode(String regex, int start, int end, BiConsumer<String, StringBuilder> resultBuilderFunction) {
+    public PythonScriptBuilder replaceAllCode(@NonNull String regex, int start, int end, @NonNull BiConsumer<String, StringBuilder> resultBuilderFunction) {
         return this.replaceAllCode(regex, matchResult -> {
             String group = matchResult.group();
             String substring = group.substring(start, group.length() - end);
@@ -235,7 +238,7 @@ public final class PythonScriptBuilder {
         });
     }
 
-    public PythonScriptBuilder replaceAllCode(String regex, Function<MatchResult, String> function) {
+    public PythonScriptBuilder replaceAllCode(@NonNull String regex, @NonNull Function<MatchResult, String> function) {
         this.script.clearBody();
         Pattern pattern = Pattern.compile(regex);
         List<String> codeLines = this.script.getCodeLines();
@@ -248,6 +251,7 @@ public final class PythonScriptBuilder {
         return this;
     }
 
+    @NonNull
     public PythonScript build() {
         return this.script;
     }

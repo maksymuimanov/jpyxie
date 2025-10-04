@@ -1,6 +1,6 @@
 package io.w4t3rcs.python.cache;
 
-import io.w4t3rcs.python.cache.impl.HashCacheKeyGenerator;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Interface for generating cache keys with optional prefix and suffix.
@@ -46,7 +46,7 @@ public interface CacheKeyGenerator {
      * @param suffix an optional suffix object to append to the key; may be null.
      * @return a non-null generated cache key string.
      */
-    default String generateKey(String body, Object suffix) {
+    default String generateKey(String body, @Nullable Object suffix) {
         return this.generateKey(null, body, suffix);
     }
 
@@ -57,7 +57,7 @@ public interface CacheKeyGenerator {
      * @param body non-null string representing the main part of the key.
      * @return a non-null generated cache key string.
      */
-    default String generateKey(Object prefix, String body) {
+    default String generateKey(@Nullable Object prefix, String body) {
         return this.generateKey(prefix, body, null);
     }
 
@@ -73,5 +73,5 @@ public interface CacheKeyGenerator {
      * @param suffix an optional suffix object to append to the key; may be null.
      * @return a non-null generated cache key string.
      */
-    String generateKey(Object prefix, String body, Object suffix);
+    String generateKey(@Nullable Object prefix, String body, @Nullable Object suffix);
 }

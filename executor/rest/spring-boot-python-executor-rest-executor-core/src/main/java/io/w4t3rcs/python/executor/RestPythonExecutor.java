@@ -2,12 +2,13 @@ package io.w4t3rcs.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.connection.PythonServerConnectionDetails;
-import io.w4t3rcs.python.dto.PythonExecutionResponse;
 import io.w4t3rcs.python.dto.ScriptRequest;
 import io.w4t3rcs.python.exception.PythonScriptExecutionException;
+import io.w4t3rcs.python.response.PythonExecutionResponse;
 import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpStatus;
 
 import java.net.URI;
@@ -65,7 +66,7 @@ public class RestPythonExecutor implements PythonExecutor {
      * @throws PythonScriptExecutionException if an error occurs during HTTP communication, JSON serialization/deserialization, or other execution errors
      */
     @Override
-    public <R> PythonExecutionResponse<R> execute(PythonScript script, Class<? extends R> resultClass) {
+    public <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass) {
         try {
             String scriptBody = script.toString();
             ScriptRequest scriptRequest = new ScriptRequest(scriptBody);

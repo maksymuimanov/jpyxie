@@ -10,6 +10,7 @@ import org.springframework.cache.CacheManager;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -63,7 +64,7 @@ public class CachingPythonResolverHolder implements PythonResolverHolder {
      */
     public CachingPythonResolverHolder(PythonCacheProperties cacheProperties, PythonResolverHolder pythonResolverHolder, CacheManager cacheManager, CacheKeyGenerator keyGenerator, ObjectMapper objectMapper) {
         this.pythonResolverHolder = pythonResolverHolder;
-        this.cache = cacheManager.getCache(cacheProperties.name().resolver());
+        this.cache = Objects.requireNonNull(cacheManager.getCache(cacheProperties.name().resolver()));
         this.keyGenerator = keyGenerator;
         this.objectMapper = objectMapper;
     }

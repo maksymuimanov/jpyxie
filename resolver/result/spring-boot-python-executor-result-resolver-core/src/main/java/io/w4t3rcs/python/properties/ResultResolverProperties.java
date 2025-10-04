@@ -36,5 +36,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 1.0.0
  */
 @ConfigurationProperties("spring.python.resolver.result")
-public record ResultResolverProperties(String regex, String appearance, int positionFromStart, int positionFromEnd, boolean isPrinted) {
+public record ResultResolverProperties(String regex,
+                                       String appearance,
+                                       int positionFromStart,
+                                       int positionFromEnd,
+                                       boolean isPrinted) {
 }

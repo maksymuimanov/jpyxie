@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.executor.ProcessPythonExecutor;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.file.PythonFileReader;
+import io.w4t3rcs.python.finisher.BasicPythonProcessFinisher;
 import io.w4t3rcs.python.finisher.ProcessFinisher;
-import io.w4t3rcs.python.finisher.impl.BasicPythonProcessFinisher;
+import io.w4t3rcs.python.input.BasicPythonErrorProcessHandler;
+import io.w4t3rcs.python.input.BasicPythonInputProcessHandler;
 import io.w4t3rcs.python.input.ProcessHandler;
-import io.w4t3rcs.python.input.impl.BasicPythonErrorProcessHandler;
-import io.w4t3rcs.python.input.impl.BasicPythonInputProcessHandler;
 import io.w4t3rcs.python.properties.ProcessPythonExecutorProperties;
+import io.w4t3rcs.python.starter.BasicPythonProcessStarter;
 import io.w4t3rcs.python.starter.ProcessStarter;
-import io.w4t3rcs.python.starter.impl.BasicPythonProcessStarter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -69,7 +69,8 @@ public class ProcessPythonExecutorAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(ProcessStarter.class)
-    public ProcessStarter processStarter(ProcessPythonExecutorProperties executorProperties, PythonFileReader pythonFileReader) {
+    public ProcessStarter processStarter(ProcessPythonExecutorProperties executorProperties,
+                                         PythonFileReader pythonFileReader) {
         return new BasicPythonProcessStarter(executorProperties, pythonFileReader);
     }
 

@@ -34,5 +34,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 1.0.0
  */
 @ConfigurationProperties("spring.python.resolver.spelython")
-public record SpelythonResolverProperties(String regex, String localVariableIndex, int positionFromStart, int positionFromEnd) {
+public record SpelythonResolverProperties(String regex,
+                                          String localVariableIndex,
+                                          int positionFromStart,
+                                          int positionFromEnd) {
 }
