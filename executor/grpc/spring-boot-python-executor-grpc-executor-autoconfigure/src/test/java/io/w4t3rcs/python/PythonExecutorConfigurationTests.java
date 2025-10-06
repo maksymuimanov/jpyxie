@@ -1,6 +1,6 @@
 package io.w4t3rcs.python;
 
-import io.w4t3rcs.python.config.GrpcPythonExecutorAutoConfiguration;
+import io.w4t3rcs.python.autoconfigure.GrpcPythonExecutorAutoConfiguration;
 import io.w4t3rcs.python.executor.GrpcPythonExecutor;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.proto.PythonServiceGrpc;

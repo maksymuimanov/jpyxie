@@ -3,7 +3,6 @@ package io.w4t3rcs.python.resolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
 import io.w4t3rcs.python.exception.PythonCacheException;
-import io.w4t3rcs.python.properties.PythonCacheProperties;
 import io.w4t3rcs.python.script.PythonScript;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -41,7 +40,6 @@ import java.util.TreeMap;
  * }</pre>
  *
  * @see PythonResolverHolder
- * @see PythonCacheProperties.NameProperties
  * @see CacheKeyGenerator
  * @see PythonResolver
  * @author w4t3rcs
@@ -56,15 +54,15 @@ public class CachingPythonResolverHolder implements PythonResolverHolder {
     /**
      * Constructs a new {@code CachingPythonResolverHolder}.
      *
-     * @param cacheProperties non-null properties containing cache names
+     * @param cacheName non-null cache name
      * @param pythonResolverHolder non-null delegate {@link PythonResolverHolder}
      * @param cacheManager non-null {@link CacheManager} to obtain cache instance
      * @param keyGenerator non-null key generator for cache keys
      * @param objectMapper non-null {@link ObjectMapper} for JSON serialization
      */
-    public CachingPythonResolverHolder(PythonCacheProperties cacheProperties, PythonResolverHolder pythonResolverHolder, CacheManager cacheManager, CacheKeyGenerator keyGenerator, ObjectMapper objectMapper) {
+    public CachingPythonResolverHolder(String cacheName, PythonResolverHolder pythonResolverHolder, CacheManager cacheManager, CacheKeyGenerator keyGenerator, ObjectMapper objectMapper) {
         this.pythonResolverHolder = pythonResolverHolder;
-        this.cache = Objects.requireNonNull(cacheManager.getCache(cacheProperties.name().resolver()));
+        this.cache = Objects.requireNonNull(cacheManager.getCache(cacheName));
         this.keyGenerator = keyGenerator;
         this.objectMapper = objectMapper;
     }

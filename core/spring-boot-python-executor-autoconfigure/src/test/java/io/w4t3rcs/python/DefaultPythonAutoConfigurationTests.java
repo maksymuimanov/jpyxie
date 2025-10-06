@@ -1,6 +1,5 @@
 package io.w4t3rcs.python;
 
-import io.w4t3rcs.python.config.PythonAutoConfiguration;
 import io.w4t3rcs.python.file.BasicPythonFileReader;
 import io.w4t3rcs.python.file.PythonFileReader;
 import io.w4t3rcs.python.processor.BasicPythonProcessor;

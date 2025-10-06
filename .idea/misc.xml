@@ -30,6 +30,8 @@
         <option value="$PROJECT_DIR$/resolver/pretty/spring-boot-python-executor-pretty-resolver-core/pom.xml" />
         <option value="$PROJECT_DIR$/resolver/pretty/spring-boot-python-executor-pretty-resolver-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/resolver/pretty/spring-boot-python-executor-pretty-resolver-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/test/python-rest-server-testcontainers/pom.xml" />
+        <option value="$PROJECT_DIR$/test/python-grpc-server-testcontainers/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -40,6 +42,8 @@
         <option value="$PROJECT_DIR$/spring-boot-python-executor-py4j-starter/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot-python-executor-spelython-resolver-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/spring-python-executor/pom.xml" />
+        <option value="$PROJECT_DIR$/test/python-server-testcontainers/pom.xml" />
+        <option value="$PROJECT_DIR$/test/spring-boot-python-executor-testcontainers/pom.xml" />
       </set>
     </option>
   </component>

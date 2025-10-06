@@ -1,7 +1,6 @@
 package io.w4t3rcs.python.executor;
 
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
-import io.w4t3rcs.python.properties.PythonCacheProperties;
 import io.w4t3rcs.python.script.PythonScript;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
 import static io.w4t3rcs.python.constant.TestConstants.*;
-import static io.w4t3rcs.python.properties.PythonCacheProperties.NameProperties;
 
 @ExtendWith(MockitoExtension.class)
 class CachingPythonExecutorTests {
@@ -27,18 +25,12 @@ class CachingPythonExecutorTests {
     @Mock
     private CacheKeyGenerator keyGenerator;
     @Mock
-    private PythonCacheProperties cacheProperties;
-    @Mock
     private CacheManager cacheManager;
-    @Mock
-    private NameProperties nameProperties;
 
     @BeforeEach
     void init() {
-        Mockito.when(cacheProperties.name()).thenReturn(nameProperties);
-        Mockito.when(nameProperties.executor()).thenReturn(CACHE_MANAGER_KEY);
         Mockito.when(cacheManager.getCache(CACHE_MANAGER_KEY)).thenReturn(cache);
-        cachingPythonExecutor = new CachingPythonExecutor(cacheProperties, pythonExecutor, cacheManager, keyGenerator);
+        cachingPythonExecutor = new CachingPythonExecutor(CACHE_MANAGER_KEY, pythonExecutor, cacheManager, keyGenerator);
     }
 
     @ParameterizedTest

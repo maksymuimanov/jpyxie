@@ -7,10 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="python-grpc-server-testcontainers" />
         <module name="spring-boot-python-executor-process-executor-starter" />
         <module name="spring-boot-python-executor-rest-executor-starter" />
         <module name="spring-boot-python-executor-restricted-resolver-starter" />
         <module name="spring-boot-python-executor-pretty-resolver-starter" />
+        <module name="python-rest-server-testcontainers" />
         <module name="spring-boot-python-executor-grpc-executor-autoconfigure" />
         <module name="spring-boot-python-executor-restricted-resolver-core" />
         <module name="spring-boot-python-executor-result-resolver-core" />
@@ -29,8 +31,6 @@
         <module name="spring-boot-python-executor-cache" />
         <module name="spring-boot-python-executor-autoconfigure" />
         <module name="spring-boot-python-executor-rest-executor-autoconfigure" />
-        <module name="spring-boot-python-executor-testcontainers" />
-        <module name="python-server-testcontainers" />
         <module name="spring-boot-python-executor-result-resolver-autoconfigure" />
         <module name="spring-boot-python-executor-process-executor-autoconfigure" />
         <module name="spring-boot-python-executor-restricted-resolver-autoconfigure" />
@@ -45,11 +45,15 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo-app" target="17" />
+      <module name="python-server-testcontainers" target="17" />
       <module name="python-server-tset" target="17" />
+      <module name="spring-boot-python-executor-testcontainers" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="python-grpc-server-testcontainers" options="" />
+      <module name="python-rest-server-testcontainers" options="" />
       <module name="spring-boot-python-executor-autoconfigure" options="" />
       <module name="spring-boot-python-executor-cache" options="" />
       <module name="spring-boot-python-executor-cache-autoconfigure" options="" />

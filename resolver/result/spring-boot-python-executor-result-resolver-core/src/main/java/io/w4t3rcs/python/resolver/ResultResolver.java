@@ -1,6 +1,5 @@
 package io.w4t3rcs.python.resolver;
 
-import io.w4t3rcs.python.properties.ResultResolverProperties;
 import io.w4t3rcs.python.script.PythonScript;
 import io.w4t3rcs.python.script.PythonScriptBuilder;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +17,16 @@ import java.util.Map;
  *
  * @see PythonResolver
  * @see PythonResolverHolder
- * @see ResultResolverProperties
  * @author w4t3rcs
  * @since 1.0.0
  */
 @RequiredArgsConstructor
 public class ResultResolver implements PythonResolver {
-    private final ResultResolverProperties resolverProperties;
+    private final String regex;
+    private final String appearance;
+    private final int positionFromStart;
+    private final int positionFromEnd;
+    private final boolean isPrinted;
 
     /**
      * Resolves the script by finding and wrapping body expressions.
@@ -35,17 +37,16 @@ public class ResultResolver implements PythonResolver {
      */
     @Override
     public PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments) {
-        String resultAppearance = resolverProperties.appearance();
         PythonScriptBuilder builder = pythonScript.getBuilder();
         return builder.appendImport(IMPORT_JSON)
-                .removeAllDeepCode(resolverProperties.regex(),
-                        resolverProperties.positionFromStart(),
-                        resolverProperties.positionFromEnd(),
+                .removeAllDeepCode(this.regex,
+                        this.positionFromStart,
+                        this.positionFromEnd,
                         group -> {
-                    builder.appendCode(resultAppearance, " = json.loads(json.dumps(", group, "))")
+                    builder.appendCode(this.appearance, " = json.loads(json.dumps(", group, "))")
                             .doOnCondition(() -> {
-                                builder.appendCode("print('", resultAppearance, "' + json.dumps(", resultAppearance, "))");
-                            }, resolverProperties.isPrinted());
+                                builder.appendCode("print('", this.appearance, "' + json.dumps(", this.appearance, "))");
+                            }, this.isPrinted);
                 })
                 .build();
     }

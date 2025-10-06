@@ -1,7 +1,6 @@
 package io.w4t3rcs.python.file;
 
 import io.w4t3rcs.python.exception.PythonCacheException;
-import io.w4t3rcs.python.properties.PythonCacheProperties;
 import io.w4t3rcs.python.script.PythonScript;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -29,7 +28,6 @@ import java.util.Objects;
  * }</pre>
  *
  * @see PythonFileReader
- * @see PythonCacheProperties.NameProperties
  * @author w4t3rcs
  * @since 1.0.0
  */
@@ -41,15 +39,15 @@ public class CachingPythonFileReader implements PythonFileReader {
     /**
      * Constructs a new {@code CachingPythonFileHandler}.
      *
-     * @param cacheProperties non-null cache properties providing cache names
+     * @param bodyCacheName non-null body cache names
+     * @param pathCacheName non-null path cache names
      * @param pythonFileReader non-null delegate {@link PythonFileReader} instance
      * @param cacheManager non-null {@link CacheManager} to obtain cache instances
      */
-    public CachingPythonFileReader(PythonCacheProperties cacheProperties, PythonFileReader pythonFileReader, CacheManager cacheManager) {
+    public CachingPythonFileReader(String bodyCacheName, String pathCacheName, PythonFileReader pythonFileReader, CacheManager cacheManager) {
         this.pythonFileReader = pythonFileReader;
-        var nameProperties = cacheProperties.name();
-        this.pathCache = Objects.requireNonNull(cacheManager.getCache(nameProperties.filePaths()));
-        this.scriptBodyCache = Objects.requireNonNull(cacheManager.getCache(nameProperties.fileBodies()));
+        this.scriptBodyCache = Objects.requireNonNull(cacheManager.getCache(bodyCacheName));
+        this.pathCache = Objects.requireNonNull(cacheManager.getCache(pathCacheName));
     }
 
     /**

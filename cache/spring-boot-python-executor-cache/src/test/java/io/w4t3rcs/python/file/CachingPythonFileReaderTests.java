@@ -1,6 +1,5 @@
 package io.w4t3rcs.python.file;
 
-import io.w4t3rcs.python.properties.PythonCacheProperties;
 import io.w4t3rcs.python.script.PythonScript;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +12,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
 import static io.w4t3rcs.python.constant.TestConstants.*;
-import static io.w4t3rcs.python.properties.PythonCacheProperties.NameProperties;
 
 @ExtendWith(MockitoExtension.class)
 class CachingPythonFileReaderTests {
@@ -25,20 +23,13 @@ class CachingPythonFileReaderTests {
     @Mock
     private Cache pathCache;
     @Mock
-    private PythonCacheProperties cacheProperties;
-    @Mock
     private CacheManager cacheManager;
-    @Mock
-    private NameProperties nameProperties;
 
     @BeforeEach
     void init() {
-        Mockito.when(cacheProperties.name()).thenReturn(nameProperties);
-        Mockito.when(nameProperties.fileBodies()).thenReturn(CACHE_MANAGER_KEY + "0");
-        Mockito.when(nameProperties.filePaths()).thenReturn(CACHE_MANAGER_KEY + "1");
         Mockito.when(cacheManager.getCache(CACHE_MANAGER_KEY + "0")).thenReturn(scriptBodyCache);
         Mockito.when(cacheManager.getCache(CACHE_MANAGER_KEY + "1")).thenReturn(pathCache);
-        cachingPythonFileHandler = new CachingPythonFileReader(cacheProperties, pythonFileReader, cacheManager);
+        cachingPythonFileHandler = new CachingPythonFileReader(CACHE_MANAGER_KEY + "0", CACHE_MANAGER_KEY + "1", pythonFileReader, cacheManager);
     }
 
     @Test

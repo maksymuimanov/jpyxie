@@ -2,7 +2,6 @@ package io.w4t3rcs.python.executor;
 
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
 import io.w4t3rcs.python.exception.PythonCacheException;
-import io.w4t3rcs.python.properties.PythonCacheProperties;
 import io.w4t3rcs.python.response.PythonExecutionResponse;
 import io.w4t3rcs.python.script.PythonScript;
 import org.jspecify.annotations.Nullable;
@@ -32,7 +31,6 @@ import java.util.Objects;
  * }</pre>
  *
  * @see PythonExecutor
- * @see PythonCacheProperties.NameProperties
  * @see CacheKeyGenerator
  * @author w4t3rcs
  * @since 1.0.0
@@ -45,14 +43,14 @@ public class CachingPythonExecutor implements PythonExecutor {
     /**
      * Constructs a new {@code CachingPythonExecutor}.
      *
-     * @param cacheProperties non-null properties to configure caching, must provide a valid cache name
+     * @param cacheName non-null cache name
      * @param pythonExecutor non-null delegate {@link PythonExecutor} for actual script execution
      * @param cacheManager non-null {@link CacheManager} used to obtain the {@link Cache} instance
      * @param keyGenerator non-null {@link CacheKeyGenerator} for generating cache keys
      */
-    public CachingPythonExecutor(PythonCacheProperties cacheProperties, PythonExecutor pythonExecutor, CacheManager cacheManager, CacheKeyGenerator keyGenerator) {
+    public CachingPythonExecutor(String cacheName, PythonExecutor pythonExecutor, CacheManager cacheManager, CacheKeyGenerator keyGenerator) {
         this.pythonExecutor = pythonExecutor;
-        this.cache = Objects.requireNonNull(cacheManager.getCache(cacheProperties.name().executor()));
+        this.cache = Objects.requireNonNull(cacheManager.getCache(cacheName));
         this.keyGenerator = keyGenerator;
     }
 

@@ -1,6 +1,6 @@
 package io.w4t3rcs.python;
 
-import io.w4t3rcs.python.config.PythonCacheAutoConfiguration;
+import io.w4t3rcs.python.autoconfigure.PythonCacheAutoConfiguration;
 import io.w4t3rcs.python.executor.CachingPythonExecutor;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.file.CachingPythonFileReader;

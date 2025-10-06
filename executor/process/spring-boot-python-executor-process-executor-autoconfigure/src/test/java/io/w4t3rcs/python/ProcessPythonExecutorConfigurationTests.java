@@ -1,6 +1,6 @@
 package io.w4t3rcs.python;
 
-import io.w4t3rcs.python.config.ProcessPythonExecutorAutoConfiguration;
+import io.w4t3rcs.python.autoconfigure.ProcessPythonExecutorAutoConfiguration;
 import io.w4t3rcs.python.executor.ProcessPythonExecutor;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.finisher.BasicPythonProcessFinisher;

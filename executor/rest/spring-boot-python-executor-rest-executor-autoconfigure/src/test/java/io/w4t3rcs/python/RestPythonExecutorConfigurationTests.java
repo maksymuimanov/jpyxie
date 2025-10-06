@@ -1,6 +1,6 @@
 package io.w4t3rcs.python;
 
-import io.w4t3rcs.python.config.RestPythonExecutorAutoConfiguration;
+import io.w4t3rcs.python.autoconfigure.RestPythonExecutorAutoConfiguration;
 import io.w4t3rcs.python.executor.PythonExecutor;
 import io.w4t3rcs.python.executor.RestPythonExecutor;
 import org.junit.jupiter.api.Assertions;

@@ -2,7 +2,6 @@ package io.w4t3rcs.python.resolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
-import io.w4t3rcs.python.properties.PythonCacheProperties;
 import io.w4t3rcs.python.script.PythonScript;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.TreeMap;
 
 import static io.w4t3rcs.python.constant.TestConstants.*;
-import static io.w4t3rcs.python.properties.PythonCacheProperties.NameProperties;
 
 @ExtendWith(MockitoExtension.class)
 class CachingPythonResolverHolderTests {
@@ -35,20 +33,14 @@ class CachingPythonResolverHolderTests {
     @Mock
     private ObjectMapper objectMapper;
     @Mock
-    private PythonCacheProperties cacheProperties;
-    @Mock
     private CacheManager cacheManager;
     @Mock
     private PythonResolver pythonResolver;
-    @Mock
-    private NameProperties nameProperties;
 
     @BeforeEach
     void init() {
-        Mockito.when(cacheProperties.name()).thenReturn(nameProperties);
-        Mockito.when(nameProperties.resolver()).thenReturn(CACHE_MANAGER_KEY);
         Mockito.when(cacheManager.getCache(CACHE_MANAGER_KEY)).thenReturn(cache);
-        cachingPythonResolverHolder = new CachingPythonResolverHolder(cacheProperties, pythonResolverHolder, cacheManager, keyGenerator, objectMapper);
+        cachingPythonResolverHolder = new CachingPythonResolverHolder(CACHE_MANAGER_KEY, pythonResolverHolder, cacheManager, keyGenerator, objectMapper);
     }
 
     @SneakyThrows

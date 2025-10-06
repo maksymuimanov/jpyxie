@@ -3,7 +3,6 @@ package io.w4t3rcs.python.processor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.cache.CacheKeyGenerator;
 import io.w4t3rcs.python.exception.PythonCacheException;
-import io.w4t3rcs.python.properties.PythonCacheProperties;
 import io.w4t3rcs.python.response.PythonExecutionResponse;
 import io.w4t3rcs.python.script.PythonScript;
 import org.jspecify.annotations.Nullable;
@@ -41,7 +40,6 @@ import java.util.TreeMap;
  * }</pre>
  *
  * @see PythonProcessor
- * @see PythonCacheProperties.NameProperties
  * @see CacheKeyGenerator
  * @author w4t3rcs
  * @since 1.0.0
@@ -55,15 +53,15 @@ public class CachingPythonProcessor implements PythonProcessor {
     /**
      * Constructs a new {@code CachingPythonProcessor}.
      *
-     * @param cacheProperties non-null cache properties with processor cache name
+     * @param cacheName non-null cache name
      * @param pythonProcessor non-null delegate {@link PythonProcessor} instance
      * @param cacheManager non-null {@link CacheManager} to obtain cache instance
      * @param keyGenerator non-null key generator to generate cache keys
      * @param objectMapper non-null {@link ObjectMapper} for JSON serialization
      */
-    public CachingPythonProcessor(PythonCacheProperties cacheProperties, PythonProcessor pythonProcessor, CacheManager cacheManager, CacheKeyGenerator keyGenerator, ObjectMapper objectMapper) {
+    public CachingPythonProcessor(String cacheName, PythonProcessor pythonProcessor, CacheManager cacheManager, CacheKeyGenerator keyGenerator, ObjectMapper objectMapper) {
         this.pythonProcessor = pythonProcessor;
-        this.cache = Objects.requireNonNull(cacheManager.getCache(cacheProperties.name().processor()));
+        this.cache = Objects.requireNonNull(cacheManager.getCache(cacheName));
         this.keyGenerator = keyGenerator;
         this.objectMapper = objectMapper;
     }

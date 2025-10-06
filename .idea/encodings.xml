@@ -41,6 +41,8 @@
     <file url="file://$PROJECT_DIR$/spring-boot-python-executor-py4j-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-boot-python-executor-spelython-resolver-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test/python-grpc-server-testcontainers/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test/python-rest-server-testcontainers/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test/python-server-testcontainers/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test/python-server-testcontainers/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test/spring-boot-python-executor-testcontainers/src/main/java" charset="UTF-8" />

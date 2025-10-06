@@ -3,7 +3,6 @@ package io.w4t3rcs.python.resolver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.w4t3rcs.python.exception.SpelythonProcessingException;
-import io.w4t3rcs.python.properties.SpelythonResolverProperties;
 import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -30,13 +29,15 @@ import java.util.Map;
  *
  * @see PythonResolver
  * @see PythonResolverHolder
- * @see SpelythonResolverProperties
  * @author w4t3rcs
  * @since 1.0.0
  */
 @RequiredArgsConstructor
 public class SpelythonResolver implements PythonResolver {
-    private final SpelythonResolverProperties resolverProperties;
+    private final String regex;
+    private final String localVariableIndex;
+    private final int positionFromStart;
+    private final int positionFromEnd;
     private final ApplicationContext applicationContext;
     private final ObjectMapper objectMapper;
 
@@ -58,15 +59,15 @@ public class SpelythonResolver implements PythonResolver {
         StandardEvaluationContext context = new StandardEvaluationContext();
         if (!arguments.isEmpty()) {
             arguments.forEach((key, value) ->
-                    parser.parseExpression(resolverProperties.localVariableIndex() + key)
+                    parser.parseExpression(this.localVariableIndex + key)
                             .setValue(context, value));
         }
         context.setBeanResolver(new BeanFactoryResolver(applicationContext));
         return pythonScript.getBuilder()
                 .appendImport(IMPORT_JSON)
-                .replaceAllCode(resolverProperties.regex(),
-                        resolverProperties.positionFromStart(),
-                        resolverProperties.positionFromEnd(),
+                .replaceAllCode(this.regex,
+                        this.positionFromStart,
+                        this.positionFromEnd,
                         (group, result) -> {
                     try {
                         Expression expression = parser.parseExpression(group);

@@ -2,7 +2,6 @@ package io.w4t3rcs.python.file;
 
 import io.w4t3rcs.python.exception.PythonScriptPathGettingException;
 import io.w4t3rcs.python.exception.PythonScriptReadingFromFileException;
-import io.w4t3rcs.python.properties.PythonFileProperties;
 import io.w4t3rcs.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
  * reading file operations for Python scripts.
  * <p>
  * This class supports reading from Python script files and resolving script paths
- * based on configured {@link PythonFileProperties}.
+ * based on configured {@link BasicPythonFileReader#rootPath}.
  * </p>
  * <p>
  * The class assumes script files are encoded in the platform default charset.
@@ -26,13 +25,12 @@ import java.util.stream.Collectors;
  * </p>
  *
  * @see PythonFileReader
- * @see PythonFileProperties
  * @author w4t3rcs
  * @since 1.0.0
  */
 @RequiredArgsConstructor
 public class BasicPythonFileReader implements PythonFileReader {
-    private final PythonFileProperties fileProperties;
+    private final String rootPath;
 
     /**
      * Reads the content of a Python script file resolved from the given path string.
@@ -56,7 +54,7 @@ public class BasicPythonFileReader implements PythonFileReader {
 
     /**
      * Resolves the {@link Path} for the script file by appending the given relative path
-     * to the base path configured in {@link PythonFileProperties}.
+     * to the base path configured in {@link BasicPythonFileReader#rootPath}.
      *
      * @param path the relative path string of the script file, must be non-null
      * @return the resolved absolute {@link Path} to the script file
@@ -65,7 +63,7 @@ public class BasicPythonFileReader implements PythonFileReader {
     @Override
     public Path getScriptPath(String path) {
         try {
-            ClassPathResource classPathResource = new ClassPathResource(fileProperties.path() + path);
+            ClassPathResource classPathResource = new ClassPathResource(rootPath + path);
             return classPathResource.getFile().toPath();
         } catch (IOException e) {
             throw new PythonScriptPathGettingException(e);

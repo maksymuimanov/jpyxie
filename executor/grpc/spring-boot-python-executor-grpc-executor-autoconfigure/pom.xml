@@ -35,9 +35,6 @@
 		<artifactId>spring-boot-python-executor-parent</artifactId>
 		<version>1.1.0</version>
 	</parent>
-	<properties>
-		<spring-boot.version>3.5.3</spring-boot.version>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>io.github.w4t3rcs</groupId>
@@ -50,6 +47,16 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>${spring-boot.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-testcontainers</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.w4t3rcs</groupId>
+			<artifactId>python-grpc-server-testcontainers</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

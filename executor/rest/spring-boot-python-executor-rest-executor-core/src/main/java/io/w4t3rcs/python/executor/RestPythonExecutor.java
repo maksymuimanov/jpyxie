@@ -1,7 +1,6 @@
 package io.w4t3rcs.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.w4t3rcs.python.connection.PythonServerConnectionDetails;
 import io.w4t3rcs.python.dto.ScriptRequest;
 import io.w4t3rcs.python.exception.PythonScriptExecutionException;
 import io.w4t3rcs.python.response.PythonExecutionResponse;
@@ -38,7 +37,6 @@ import java.net.http.HttpResponse;
  *
  * @see PythonExecutor
  * @see ScriptRequest
- * @see PythonServerConnectionDetails
  * @author w4t3rcs
  * @since 1.0.0
  */
@@ -49,7 +47,8 @@ public class RestPythonExecutor implements PythonExecutor {
     private static final String JSON_CONTENT_TYPE = "application/json";
     private static final String TOKEN_HEADER = "X-Token";
     public static final String EMPTY_BODY = "\"\"";
-    private final PythonServerConnectionDetails connectionDetails;
+    private final String token;
+    private final String uri;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
 
@@ -72,9 +71,9 @@ public class RestPythonExecutor implements PythonExecutor {
             ScriptRequest scriptRequest = new ScriptRequest(scriptBody);
             String scriptJson = objectMapper.writeValueAsString(scriptRequest);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(connectionDetails.getUri()))
+                    .uri(URI.create(this.uri))
                     .header(CONTENT_TYPE_HEADER, JSON_CONTENT_TYPE)
-                    .header(TOKEN_HEADER, connectionDetails.getToken())
+                    .header(TOKEN_HEADER, this.token)
                     .POST(HttpRequest.BodyPublishers.ofString(scriptJson))
                     .build();
             HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();

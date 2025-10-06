@@ -1,8 +1,6 @@
 package io.w4t3rcs.python.resolver;
 
-import io.w4t3rcs.python.properties.Py4JResolverProperties;
 import io.w4t3rcs.python.script.PythonScript;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 
@@ -21,13 +19,18 @@ import java.util.Map;
  *
  * @see PythonResolver
  * @see PythonResolverHolder
- * @see Py4JResolverProperties
  * @author w4t3rcs
  * @since 1.0.0
  */
-@RequiredArgsConstructor
 public class Py4JResolver implements PythonResolver {
-    private final Py4JResolverProperties resolverProperties;
+    private final String gatewayObject;
+    private final String importLine;
+
+    public Py4JResolver(String gatewayObject, String[] gatewayProperties, String importLine) {
+        String properties = String.join(",\n\t\t", gatewayProperties);
+        this.gatewayObject = gatewayObject.formatted(properties);
+        this.importLine = importLine;
+    }
 
     /**
      * Resolves a Python script by inserting necessary Py4J import statements and gateway initialization lines.
@@ -39,12 +42,9 @@ public class Py4JResolver implements PythonResolver {
      */
     @Override
     public PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments) {
-        String gatewayObject = resolverProperties.gatewayObject();
-        String gatewayProperties = String.join(",\n\t\t", resolverProperties.gatewayProperties());
-        String formattedGatewayObject = gatewayObject.formatted(gatewayProperties);
         return pythonScript.getBuilder()
-                .appendImport(resolverProperties.importLine())
-                .prependCode(formattedGatewayObject)
+                .appendImport(importLine)
+                .prependCode(gatewayObject)
                 .build();
     }
 }

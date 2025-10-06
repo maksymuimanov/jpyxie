@@ -1,6 +1,5 @@
 package io.w4t3rcs.python.resolver;
 
-import io.w4t3rcs.python.properties.RestrictedPythonResolverProperties;
 import io.w4t3rcs.python.script.PythonScript;
 import io.w4t3rcs.python.script.PythonScriptBuilder;
 import lombok.RequiredArgsConstructor;
@@ -26,14 +25,18 @@ import java.util.Map;
  *
  * @see PythonResolver
  * @see PythonResolverHolder
- * @see RestrictedPythonResolverProperties
  * @see <a href="https://github.com/zopefoundation/RestrictedPython">RestrictedPython</a>
  * @author w4t3rcs
  * @since 1.0.0
  */
 @RequiredArgsConstructor
 public class RestrictedPythonResolver implements PythonResolver {
-    private final RestrictedPythonResolverProperties resolverProperties;
+    private final String importLine;
+    private final String codeVariableName;
+    private final String localVariablesName;
+    private final String resultAppearance;
+    private final boolean printEnabled;
+
 
     /**
      * Resolves the given Python script by injecting RestrictedPython setup code to
@@ -45,27 +48,22 @@ public class RestrictedPythonResolver implements PythonResolver {
      */
     @Override
     public PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments) {
-        String codeVariableName = resolverProperties.codeVariableName();
-        String localVariablesName = resolverProperties.localVariablesName();
         List<String> importNames = pythonScript.getAllImportNames();
         String safeGlobalsVariable = "safe_globals_with_imports = dict(safe_globals)";
-        String resultAppearance = resolverProperties.resultAppearance();
-        String importLine = resolverProperties.importLine();
-        boolean printEnabled = resolverProperties.printEnabled();
         PythonScriptBuilder builder = pythonScript.getBuilder();
-        return builder.prependCode(codeVariableName, " = \"\"\"")
+        return builder.prependCode(this.codeVariableName, " = \"\"\"")
                 .appendCode("\"\"\"")
-                .appendCode(localVariablesName, " = {}")
-                .appendCode("restricted_byte_code = compile_restricted(", codeVariableName, ", '<inline>', 'exec')")
-                .appendCode("exec(restricted_byte_code, safe_globals_with_imports, ", localVariablesName, ")")
+                .appendCode(this.localVariablesName, " = {}")
+                .appendCode("restricted_byte_code = compile_restricted(", this.codeVariableName, ", '<inline>', 'exec')")
+                .appendCode("exec(restricted_byte_code, safe_globals_with_imports, ", this.localVariablesName, ")")
                 .iterate(importNames, importName -> {
                     builder.prependCode("safe_globals_with_imports['", importName, "'] = ", importName);
                 })
                 .prependCode(safeGlobalsVariable)
-                .appendImport(importLine)
+                .appendImport(this.importLine)
                 .doOnCondition(() -> {
-                    builder.appendCode(resultAppearance, " = execution_result['", resultAppearance, "']");
-                }, pythonScript.containsCode(resultAppearance))
+                    builder.appendCode(this.resultAppearance, " = execution_result['", this.resultAppearance, "']");
+                }, pythonScript.containsCode(this.resultAppearance))
                 .doOnCondition(() -> {
                     builder.prependCode("_getattr_ = getattr")
                             .prependCode("_print_ = PrintCollector")
@@ -73,7 +71,7 @@ public class RestrictedPythonResolver implements PythonResolver {
                     int index = pythonScript.getCodeIndex(safeGlobalsVariable) + 1;
                     builder.insertCode("safe_globals_with_imports['_getattr_'] = _getattr_", index)
                             .insertCode("safe_globals_with_imports['_print_'] = _print_", index);
-                }, printEnabled)
+                }, this.printEnabled)
                 .build();
     }
 }

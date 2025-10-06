@@ -4,7 +4,6 @@ import io.w4t3rcs.python.exception.CacheKeyGenerationException;
 import io.w4t3rcs.python.executor.CachingPythonExecutor;
 import io.w4t3rcs.python.file.CachingPythonFileReader;
 import io.w4t3rcs.python.processor.CachingPythonProcessor;
-import io.w4t3rcs.python.properties.PythonCacheProperties;
 import io.w4t3rcs.python.resolver.CachingPythonResolverHolder;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
@@ -19,10 +18,6 @@ import java.util.Base64;
  * The generated key format is: {@code [prefix][delimiter][hashedBody][delimiter][suffix]},
  * where {@code prefix} and {@code suffix} are optional and {@code delimiter} is configurable.
  * </p>
- * <p>
- * The hashing algorithm, charset, and delimiter are configured via
- * {@link PythonCacheProperties.KeyProperties}.
- * </p>
  *
  * <p>Example usage:</p>
  * <pre>{@code
@@ -32,7 +27,6 @@ import java.util.Base64;
  * }</pre>
  *
  * @see CacheKeyGenerator
- * @see PythonCacheProperties.KeyProperties
  * @see CachingPythonFileReader
  * @see CachingPythonResolverHolder
  * @see CachingPythonExecutor
@@ -42,11 +36,9 @@ import java.util.Base64;
  */
 @RequiredArgsConstructor
 public class HashCacheKeyGenerator implements CacheKeyGenerator {
-    /**
-     * Cache properties providing key generation configuration.
-     * Must be non-null.
-     */
-    private final PythonCacheProperties cacheProperties;
+    private final String hashAlgorithm;
+    private final String charset;
+    private final String delimiter;
 
     /**
      * Generates a cache key by hashing the {@code body} string with the configured
@@ -73,11 +65,10 @@ public class HashCacheKeyGenerator implements CacheKeyGenerator {
     @Override
     public String generateKey(@Nullable Object prefix, String body, @Nullable Object suffix) {
         try {
-            var keyProperties = cacheProperties.key();
-            MessageDigest digest = MessageDigest.getInstance(keyProperties.hashAlgorithm());
-            byte[] hash = digest.digest(body.getBytes(keyProperties.charset()));
+            MessageDigest digest = MessageDigest.getInstance(this.hashAlgorithm);
+            byte[] hash = digest.digest(body.getBytes(this.charset));
             String encodedHash = Base64.getEncoder().encodeToString(hash);
-            String delimiter = keyProperties.delimiter();
+            String delimiter = this.delimiter;
             return (prefix == null ? "" : prefix + delimiter) + encodedHash + (suffix == null ? "" : delimiter + suffix);
         } catch (Exception e) {
             throw new CacheKeyGenerationException(e);

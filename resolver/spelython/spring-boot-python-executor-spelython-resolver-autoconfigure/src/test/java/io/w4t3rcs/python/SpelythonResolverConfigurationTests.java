@@ -1,6 +1,6 @@
 package io.w4t3rcs.python;
 
-import io.w4t3rcs.python.config.SpelythonResolverAutoConfiguration;
+import io.w4t3rcs.python.autoconfigure.SpelythonResolverAutoConfiguration;
 import io.w4t3rcs.python.resolver.PythonResolver;
 import io.w4t3rcs.python.resolver.SpelythonResolver;
 import org.junit.jupiter.api.Assertions;
