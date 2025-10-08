@@ -1,16 +1,10 @@
 package io.w4t3rcs.python.constant;
 
-import io.w4t3rcs.python.annotation.PythonBefore;
-import io.w4t3rcs.python.annotation.PythonBefores;
-import io.w4t3rcs.python.annotation.PythonParam;
 import io.w4t3rcs.python.response.PythonExecutionResponse;
-import org.springframework.core.env.Profiles;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 public final class TestConstants {
-    //Script constants
     public static final String OK = "OK";
     public static final PythonExecutionResponse<String> OK_RESPONSE = new PythonExecutionResponse<>(OK);
     public static final Class<String> STRING_CLASS = String.class;
@@ -28,32 +22,4 @@ public final class TestConstants {
     public static final String COMPOUND_SCRIPT_0 = "test_var = 'hello world'\nprint(test_var + spel{#a})\no4java{test_var}";
     public static final String COMPOUND_SCRIPT_1 = "import json\ntest_var = {'x': 2, 'y': spel{#b}}\nprint(test_var)\no4java{test_var}";
     public static final String FILE_SCRIPT = "test.py";
-
-    //Aspect constants
-    public static final String TEST_PROFILE = "test";
-    public static final String[] TEST_PROFILES = new String[]{TEST_PROFILE};
-    public static final Profiles PROFILES_OBJECT = Profiles.of(TEST_PROFILES);
-    public static final String[] EMPTY_PROFILES = {};
-    public static final String A_PYTHON_PARAM = "a";
-    public static final String CUSTOM_PYTHON_PARAM = "custom";
-    public static Method DUMMY_METHOD;
-
-    static {
-        try {
-            DUMMY_METHOD = TestConstants.class.getDeclaredMethod("doDummy", String.class, String.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @SuppressWarnings("unused")
-    @PythonBefore(script = SIMPLE_SCRIPT_0, activeProfiles = {TEST_PROFILE})
-    @PythonBefores(value = {
-            @PythonBefore(script = SIMPLE_SCRIPT_0, activeProfiles = {TEST_PROFILE}),
-            @PythonBefore(script = SIMPLE_SCRIPT_1),
-            @PythonBefore(script = SIMPLE_SCRIPT_2)
-    })
-    private static void doDummy(String a, @PythonParam(CUSTOM_PYTHON_PARAM) String custom) {
-        //Just a stub method for mocking in JoinPoint object during tests
-    }
 }

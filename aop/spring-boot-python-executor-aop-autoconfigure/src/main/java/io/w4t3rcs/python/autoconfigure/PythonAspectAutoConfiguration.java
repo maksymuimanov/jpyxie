@@ -53,7 +53,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author w4t3rcs
  * @since 1.0.0
  */
-@AutoConfiguration(after = PythonProcessorAutoConfiguration.class)
+@AutoConfiguration
 @EnableAspectJAutoProxy
 @EnableConfigurationProperties(PythonAspectProperties.class)
 public class PythonAspectAutoConfiguration {

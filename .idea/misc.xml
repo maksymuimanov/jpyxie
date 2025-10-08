@@ -3,6 +3,11 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.9 (python-rest-server)" />
   </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="org.mockito.Mock" />
+    </list>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -32,6 +37,9 @@
         <option value="$PROJECT_DIR$/resolver/pretty/spring-boot-python-executor-pretty-resolver-starter/pom.xml" />
         <option value="$PROJECT_DIR$/test/python-rest-server-testcontainers/pom.xml" />
         <option value="$PROJECT_DIR$/test/python-grpc-server-testcontainers/pom.xml" />
+        <option value="$PROJECT_DIR$/aop/spring-boot-python-executor-aop-core/pom.xml" />
+        <option value="$PROJECT_DIR$/aop/spring-boot-python-executor-aop-autoconfigure/pom.xml" />
+        <option value="$PROJECT_DIR$/aop/spring-boot-python-executor-aop-starter/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

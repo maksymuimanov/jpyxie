@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>spring-boot-python-executor-starter</artifactId>
+    <artifactId>spring-boot-python-executor-aop-starter</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
-    <name>Spring Boot Python Executor Starter</name>
+    <name>Spring Boot Python Executor AOP Starter</name>
     <description>
-        Spring Boot starter for Python Executor integration.
-        Provides all necessary dependencies and autoconfiguration to enable safe Python script execution
-        within a Spring Boot application, including SpEL integration, result processing, and multiple execution strategies.
+        Spring Boot starter that bundles AOP Core and Autoconfigure modules.
+        Provides an easy dependency entry point to enable Python script execution
+        through Spring AOP interceptors with minimal configuration.
     </description>
     <url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
     <licenses>
@@ -38,37 +38,12 @@
     <dependencies>
         <dependency>
             <groupId>io.github.w4t3rcs</groupId>
-            <artifactId>spring-boot-python-executor-autoconfigure</artifactId>
+            <artifactId>spring-boot-python-executor-aop-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.w4t3rcs</groupId>
-            <artifactId>spring-boot-python-executor-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.w4t3rcs</groupId>
-            <artifactId>spring-boot-python-executor-aop-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.w4t3rcs</groupId>
-            <artifactId>spring-boot-python-executor-process-executor-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.w4t3rcs</groupId>
-            <artifactId>spring-boot-python-executor-spelython-resolver-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.w4t3rcs</groupId>
-            <artifactId>spring-boot-python-executor-result-resolver-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.w4t3rcs</groupId>
-            <artifactId>spring-boot-python-executor-pretty-resolver-starter</artifactId>
+            <artifactId>spring-boot-python-executor-aop-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

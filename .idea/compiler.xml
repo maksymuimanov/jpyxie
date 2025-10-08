@@ -21,6 +21,7 @@
         <module name="spring-boot-python-executor-pretty-resolver-core" />
         <module name="spring-boot-python-executor-pretty-resolver-autoconfigure" />
         <module name="spring-boot-python-executor-py4j-autoconfigure" />
+        <module name="spring-boot-python-executor-aop-starter" />
         <module name="spring-boot-python-executor-result-resolver-starter" />
         <module name="spring-boot-python-executor-py4j-core" />
         <module name="spring-boot-python-executor-py4j-starter" />
@@ -33,6 +34,7 @@
         <module name="spring-boot-python-executor-rest-executor-autoconfigure" />
         <module name="spring-boot-python-executor-result-resolver-autoconfigure" />
         <module name="spring-boot-python-executor-process-executor-autoconfigure" />
+        <module name="spring-boot-python-executor-aop-core" />
         <module name="spring-boot-python-executor-restricted-resolver-autoconfigure" />
         <module name="spring-boot-python-executor-process-executor-core" />
         <module name="test-app" />
@@ -40,6 +42,7 @@
         <module name="spring-boot-python-executor-grpc-executor-starter" />
         <module name="spring-boot-python-executor-core" />
         <module name="spring-boot-python-executor-grpc-executor-core" />
+        <module name="spring-boot-python-executor-aop-autoconfigure" />
         <module name="spring-boot-python-executor-spelython-resolver-core" />
       </profile>
     </annotationProcessing>
@@ -54,6 +57,9 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="python-grpc-server-testcontainers" options="" />
       <module name="python-rest-server-testcontainers" options="" />
+      <module name="spring-boot-python-executor-aop-autoconfigure" options="" />
+      <module name="spring-boot-python-executor-aop-core" options="" />
+      <module name="spring-boot-python-executor-aop-starter" options="" />
       <module name="spring-boot-python-executor-autoconfigure" options="" />
       <module name="spring-boot-python-executor-cache" options="" />
       <module name="spring-boot-python-executor-cache-autoconfigure" options="" />

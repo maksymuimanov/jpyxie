@@ -34,6 +34,10 @@
         <module>core/spring-boot-python-executor-autoconfigure</module>
         <module>core/spring-boot-python-executor-starter</module>
 
+        <module>aop/spring-boot-python-executor-aop-core</module>
+        <module>aop/spring-boot-python-executor-aop-autoconfigure</module>
+        <module>aop/spring-boot-python-executor-aop-starter</module>
+
         <module>resolver/spelython/spring-boot-python-executor-spelython-resolver-core</module>
         <module>resolver/spelython/spring-boot-python-executor-spelython-resolver-autoconfigure</module>
         <module>resolver/spelython/spring-boot-python-executor-spelython-resolver-starter</module>

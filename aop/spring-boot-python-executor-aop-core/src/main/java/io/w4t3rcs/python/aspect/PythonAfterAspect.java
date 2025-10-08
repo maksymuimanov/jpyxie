@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
@@ -19,8 +20,8 @@ import java.util.HashMap;
  * <p>
  * The aspect listens to two pointcuts:
  * <ul>
- *   <li>Methods annotated with {@code @PythonAfter} — triggers a single script evaluation.</li>
- *   <li>Methods annotated with {@code @PythonAfters} — triggers multiple script evaluations.</li>
+ *   <li>Methods annotated with {@code @PythonAfter} - triggers a single script evaluation.</li>
+ *   <li>Methods annotated with {@code @PythonAfters} - triggers multiple script evaluations.</li>
  * </ul>
  * <p>
  *
@@ -44,7 +45,7 @@ public class PythonAfterAspect {
      * @param result the returned object from the intercepted method, may be null
      */
     @AfterReturning(pointcut = "@annotation(io.w4t3rcs.python.annotation.PythonAfters)", returning = "result")
-    public void executeMultipleAfterMethod(JoinPoint joinPoint, Object result) {
+    public void executeMultipleAfterMethod(JoinPoint joinPoint, @Nullable Object result) {
         this.evaluateWithResult(joinPoint, result, PythonAfters.class);
     }
 
@@ -56,7 +57,7 @@ public class PythonAfterAspect {
      * @param result the returned object from the intercepted method; may be null
      */
     @AfterReturning(pointcut = "@annotation(io.w4t3rcs.python.annotation.PythonAfter)", returning = "result")
-    public void executeSingleAfterMethod(JoinPoint joinPoint, Object result) {
+    public void executeSingleAfterMethod(JoinPoint joinPoint, @Nullable Object result) {
         this.evaluateWithResult(joinPoint, result, PythonAfter.class);
     }
 
@@ -68,7 +69,7 @@ public class PythonAfterAspect {
      * @param result the returned object from the intercepted method, may be null
      * @param annotation non-null class of the annotation to evaluate
      */
-    private void evaluateWithResult(JoinPoint joinPoint, Object result, Class<? extends Annotation> annotation) {
+    private void evaluateWithResult(JoinPoint joinPoint, @Nullable Object result, Class<? extends Annotation> annotation) {
         HashMap<String, Object> additionalArguments = new HashMap<>();
         if (result != null) additionalArguments.put("result", result);
         annotationEvaluator.evaluate(joinPoint, annotation, additionalArguments);

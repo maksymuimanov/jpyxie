@@ -19,8 +19,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *
  * <p><b>AsyncScopes values:</b></p>
  * <ul>
- *   <li>{@link PythonAspectProperties.AsyncProperties.Scope#BEFORE} — execute Python scripts asynchronously before the target method is invoked.</li>
- *   <li>{@link PythonAspectProperties.AsyncProperties.Scope#AFTER} — execute Python scripts asynchronously after the target method has completed.</li>
+ *   <li>{@link AsyncProperties.Scope#BEFORE} — execute Python scripts asynchronously before the target method is invoked.</li>
+ *   <li>{@link AsyncProperties.Scope#AFTER} — execute Python scripts asynchronously after the target method has completed.</li>
  * </ul>
  *
  * <p><b>Example (application.yml):</b></p>
