@@ -19,7 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = {ProcessPythonExecutorAutoConfiguration.class})
+@ContextConfiguration(classes = ProcessPythonExecutorAutoConfiguration.class)
 class ProcessPythonExecutorConfigurationTests {
     @Autowired
     private PythonExecutor pythonExecutor;

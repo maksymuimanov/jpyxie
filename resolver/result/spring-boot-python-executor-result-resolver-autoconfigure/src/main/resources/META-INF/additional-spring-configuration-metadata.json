@@ -1,0 +1,58 @@
+{
+  "groups": [
+    {
+      "name": "spring.python.resolver.result",
+      "description": "Configuration properties for the ResultResolver, responsible for detecting and serializing result expressions within Python scripts.",
+      "type": "io.w4t3rcs.python.autoconfigure.ResultResolverProperties",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.ResultResolverProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.python.resolver.result.regex",
+      "description": "Regular expression pattern used to locate result expressions in Python scripts that should be captured and serialized.",
+      "defaultValue": "o4java\\{.+?}",
+      "type": "java.lang.String",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.ResultResolverProperties"
+    },
+    {
+      "name": "spring.python.resolver.result.appearance",
+      "description": "The name of the variable that will hold the JSON-serialized result within the Python script.",
+      "defaultValue": "r4java",
+      "type": "java.lang.String",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.ResultResolverProperties"
+    },
+    {
+      "name": "spring.python.resolver.result.position-from-start",
+      "description": "Number of characters to skip from the start of a matched expression before extracting the actual content.",
+      "defaultValue": 7,
+      "type": "java.lang.Integer",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.ResultResolverProperties"
+    },
+    {
+      "name": "spring.python.resolver.result.position-from-end",
+      "description": "Number of characters to skip from the end of a matched expression when extracting its body content.",
+      "defaultValue": 1,
+      "type": "java.lang.Integer",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.ResultResolverProperties"
+    },
+    {
+      "name": "spring.python.resolver.result.printed",
+      "description": "Determines whether the resolver should automatically print the serialized result back to the output stream.",
+      "defaultValue": true,
+      "type": "java.lang.Boolean",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.ResultResolverProperties"
+    }
+  ],
+  "hints": [
+    {
+      "name": "spring.python.resolver.result.appearance",
+      "values": [
+        {
+          "value": "r4java",
+          "description": "Recommended result format by default."
+        }
+      ]
+    }
+  ]
+}

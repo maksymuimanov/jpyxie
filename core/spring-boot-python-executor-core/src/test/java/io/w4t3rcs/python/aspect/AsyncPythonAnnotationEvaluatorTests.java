@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.task.TaskExecutor;
 
+import java.lang.annotation.Annotation;
+
 @ExtendWith(MockitoExtension.class)
 class AsyncPythonAnnotationEvaluatorTests {
     @InjectMocks
@@ -22,6 +24,6 @@ class AsyncPythonAnnotationEvaluatorTests {
 
     @Test
     void testEvaluate() {
-        Assertions.assertDoesNotThrow(() -> asyncPythonAnnotationEvaluator.evaluate(joinPoint, null));
+        Assertions.assertDoesNotThrow(() -> asyncPythonAnnotationEvaluator.evaluate(joinPoint, Annotation.class));
     }
 }

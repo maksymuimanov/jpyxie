@@ -29,8 +29,20 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties("spring.python.executor.rest")
 public class RestPythonExecutorProperties {
+    /**
+     * Base host URL of the REST Python executor service.
+     */
     private String host = "http://localhost";
+    /**
+     * Port number used to connect to the REST Python executor service.
+     */
     private int port = 8000;
+    /**
+     * Authentication token for securing REST requests to the Python executor.
+     */
     private String token;
-    private String uri = host + ":" + port + "/script";
+    /**
+     * Full URI composed of host and port, pointing to the '/script' REST endpoint.
+     */
+    private String uri = this.host + ":" + this.port + "/script";
 }

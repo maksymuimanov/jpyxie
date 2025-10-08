@@ -2,6 +2,7 @@ package io.w4t3rcs.python.aspect;
 
 import io.w4t3rcs.python.annotation.PythonBefore;
 import io.w4t3rcs.python.exception.AnnotationValueExtractingException;
+import io.w4t3rcs.python.util.TestUtils;
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ class BasicPythonAnnotationValueCompounderTests {
 
     @BeforeEach
     void init() {
-        ReflectionTestUtils.setField(basicPythonAnnotationValueExtractorChain, "annotationValueExtractors", List.of(annotationValueExtractor));
+        TestUtils.setField(basicPythonAnnotationValueExtractorChain, "annotationValueExtractors", List.of(annotationValueExtractor));
     }
 
     @Test

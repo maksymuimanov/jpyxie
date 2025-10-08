@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import static io.w4t3rcs.python.constant.TestConstants.SIMPLE_SCRIPT_0;
@@ -34,8 +35,8 @@ class BasicPythonAnnotationEvaluatorTests {
     void testEvaluate() {
         Map<String, String[]> annotationValue = Map.of(SIMPLE_SCRIPT_0, TEST_PROFILES);
 
-        Mockito.when(annotationValueExtractorChain.compound(joinPoint, null)).thenReturn(annotationValue);
+        Mockito.when(annotationValueExtractorChain.compound(joinPoint, Annotation.class)).thenReturn(annotationValue);
 
-        Assertions.assertDoesNotThrow(() -> basicPythonAnnotationEvaluator.evaluate(joinPoint, null));
+        Assertions.assertDoesNotThrow(() -> basicPythonAnnotationEvaluator.evaluate(joinPoint, Annotation.class));
     }
 }

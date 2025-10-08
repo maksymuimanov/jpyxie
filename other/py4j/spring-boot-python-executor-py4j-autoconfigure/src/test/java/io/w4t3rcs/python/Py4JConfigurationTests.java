@@ -14,7 +14,7 @@ import py4j.GatewayServer;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = {Py4JAutoConfiguration.class})
+@ContextConfiguration(classes = Py4JAutoConfiguration.class)
 @TestPropertySource(properties = "spring.python.py4j.enabled=true")
 class Py4JConfigurationTests {
     @Autowired

@@ -31,5 +31,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties("spring.python.file")
 public class PythonFileProperties {
+    /**
+     * Base directory path where Python scripts are stored or loaded from.
+     */
     private String path = "/python/";
 }

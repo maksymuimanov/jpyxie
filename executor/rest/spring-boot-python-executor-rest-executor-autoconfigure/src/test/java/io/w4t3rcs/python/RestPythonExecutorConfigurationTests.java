@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = {RestPythonExecutorAutoConfiguration.class})
+@ContextConfiguration(classes = RestPythonExecutorAutoConfiguration.class)
 class RestPythonExecutorConfigurationTests {
     @Autowired
     private PythonExecutor pythonExecutor;

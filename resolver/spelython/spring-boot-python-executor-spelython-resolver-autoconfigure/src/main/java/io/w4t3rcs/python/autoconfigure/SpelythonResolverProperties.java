@@ -35,8 +35,20 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties("spring.python.resolver.spelython")
 public class SpelythonResolverProperties {
+    /**
+     * Regular expression pattern used to locate SpEL expressions within Python scripts.
+     */
     private String regex = "spel\\{.+?}";
+    /**
+     * Prefix symbol used to reference additional arguments variables in SpEL expressions.
+     */
     private String localVariableIndex = "#";
+    /**
+     * Number of characters to skip from the start of a matched SpEL expression before evaluating it.
+     */
     private int positionFromStart = 5;
+    /**
+     * Number of characters to skip from the end of a matched SpEL expression before evaluation.
+     */
     private int positionFromEnd = 1;
 }

@@ -33,7 +33,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties("spring.python.executor.process")
 public class ProcessPythonExecutorProperties {
+    /**
+     * The base command used to start the Python interpreter process.
+     */
     private String startCommand = "python3";
+    /**
+     * Whether process execution details (input, output, errors) should be logged.
+     */
     private boolean loggable = true;
+    /**
+     * Defines the variable name of the result to be returned to the Java side.
+     */
     private String resultAppearance = "r4java";
 }

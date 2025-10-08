@@ -42,6 +42,6 @@ public class RestrictedPythonResolverAutoConfiguration {
     @Bean
     @Order(RESTRICTED_PYTHON_RESOLVER_ORDER)
     public PythonResolver restrictedPythonResolver(RestrictedPythonResolverProperties resolverProperties) {
-        return new RestrictedPythonResolver(resolverProperties.getImportLine(), resolverProperties.getCodeVariableName(), resolverProperties.getLocalVariablesName(), resolverProperties.getResultAppearance(), resolverProperties.isPrintEnabled());
+        return new RestrictedPythonResolver(resolverProperties.getImportLine(), resolverProperties.getCodeVariableName(), resolverProperties.getLocalVariablesName(), resolverProperties.getResultAppearance(), resolverProperties.isPrinted());
     }
 }

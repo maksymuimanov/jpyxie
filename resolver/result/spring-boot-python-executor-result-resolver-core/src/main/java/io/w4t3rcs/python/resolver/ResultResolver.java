@@ -26,7 +26,7 @@ public class ResultResolver implements PythonResolver {
     private final String appearance;
     private final int positionFromStart;
     private final int positionFromEnd;
-    private final boolean isPrinted;
+    private final boolean printed;
 
     /**
      * Resolves the script by finding and wrapping body expressions.
@@ -46,7 +46,7 @@ public class ResultResolver implements PythonResolver {
                     builder.appendCode(this.appearance, " = json.loads(json.dumps(", group, "))")
                             .doOnCondition(() -> {
                                 builder.appendCode("print('", this.appearance, "' + json.dumps(", this.appearance, "))");
-                            }, this.isPrinted);
+                            }, this.printed);
                 })
                 .build();
     }

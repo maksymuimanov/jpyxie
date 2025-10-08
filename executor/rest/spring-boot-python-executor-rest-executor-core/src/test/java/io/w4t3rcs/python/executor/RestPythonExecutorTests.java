@@ -1,11 +1,12 @@
 package io.w4t3rcs.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.w4t3rcs.python.connection.PythonServerConnectionDetails;
 import io.w4t3rcs.python.dto.ScriptRequest;
 import io.w4t3rcs.python.script.PythonScript;
+import io.w4t3rcs.python.util.TestUtils;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -25,13 +26,17 @@ class RestPythonExecutorTests {
     @InjectMocks
     private RestPythonExecutor restPythonExecutor;
     @Mock
-    private PythonServerConnectionDetails connectionDetails;
-    @Mock
     private ObjectMapper objectMapper;
     @Mock
     private HttpClient client;
     @Mock
     private HttpResponse<String> response;
+
+    @BeforeEach
+    void init() {
+        TestUtils.setField(restPythonExecutor, "token", "token");
+        TestUtils.setField(restPythonExecutor, "uri", "http://localhost:8000/script");
+    }
 
     @SneakyThrows
     @ParameterizedTest
@@ -41,8 +46,6 @@ class RestPythonExecutorTests {
         ScriptRequest scriptRequest = new ScriptRequest(script);
 
         Mockito.when(objectMapper.writeValueAsString(scriptRequest)).thenReturn("{\"script\": \"%s\"}".formatted(script));
-        Mockito.when(connectionDetails.getUri()).thenReturn("http://localhost:8000/script");
-        Mockito.when(connectionDetails.getToken()).thenReturn("token");
         Mockito.when(client.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class))).thenReturn(response);
         Mockito.when(response.statusCode()).thenReturn(200);
         Mockito.when(response.body()).thenReturn(OK);

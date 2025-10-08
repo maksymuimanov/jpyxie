@@ -35,7 +35,7 @@ public class RestrictedPythonResolver implements PythonResolver {
     private final String codeVariableName;
     private final String localVariablesName;
     private final String resultAppearance;
-    private final boolean printEnabled;
+    private final boolean printed;
 
 
     /**
@@ -71,7 +71,7 @@ public class RestrictedPythonResolver implements PythonResolver {
                     int index = pythonScript.getCodeIndex(safeGlobalsVariable) + 1;
                     builder.insertCode("safe_globals_with_imports['_getattr_'] = _getattr_", index)
                             .insertCode("safe_globals_with_imports['_print_'] = _print_", index);
-                }, this.printEnabled)
+                }, this.printed)
                 .build();
     }
 }

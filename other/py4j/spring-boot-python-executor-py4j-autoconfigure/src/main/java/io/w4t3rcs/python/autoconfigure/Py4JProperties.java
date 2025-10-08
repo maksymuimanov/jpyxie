@@ -36,13 +36,40 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties("spring.python.py4j")
 public class Py4JProperties {
+    /**
+     * Whether the Py4J autoconfiguration is enabled.
+     */
     private boolean enabled = true;
+    /**
+     * Host address of the Java-side Py4J GatewayServer.
+     */
     private String host = "localhost";
+    /**
+     * Port number on which the Java-side Py4J GatewayServer listens.
+     */
     private int port = 25333;
+    /**
+     * Host address of the Python-side Py4J client or callback server.
+     */
     private String pythonHost = "localhost";
+    /**
+     * Port number for the Python-side Py4J callback server.
+     */
     private int pythonPort = 25334;
+    /**
+     * Connection timeout (in milliseconds) when establishing the Py4J gateway connection. A value of 0 means no timeout.
+     */
     private int connectTimeout = 0;
+    /**
+     * Read timeout (in milliseconds) for communication through the Py4J gateway. A value of 0 means no timeout.
+     */
     private int readTimeout = 0;
-    private String authToken = "secret-token";
+    /**
+     * Authentication token used to secure the Py4J connection between Java and Python processes.
+     */
+    private String authToken;
+    /**
+     * Whether communication details and errors between Java and Python via Py4J should be logged.
+     */
     private boolean loggable = true;
 }

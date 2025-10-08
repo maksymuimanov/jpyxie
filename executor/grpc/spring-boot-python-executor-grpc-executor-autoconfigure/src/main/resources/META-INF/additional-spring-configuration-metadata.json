@@ -1,0 +1,39 @@
+{
+  "groups": [
+    {
+      "name": "spring.python.executor.grpc",
+      "description": "Configuration properties for the gRPC-based Python executor.",
+      "type": "io.w4t3rcs.python.autoconfigure.GrpcPythonExecutorProperties",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.GrpcPythonExecutorProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.python.executor.grpc.host",
+      "description": "Host address of the gRPC Python executor service.",
+      "defaultValue": "localhost",
+      "type": "java.lang.String",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.GrpcPythonExecutorProperties"
+    },
+    {
+      "name": "spring.python.executor.grpc.port",
+      "description": "Port number used to connect to the gRPC Python executor service.",
+      "defaultValue": 50051,
+      "type": "java.lang.Integer",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.GrpcPythonExecutorProperties"
+    },
+    {
+      "name": "spring.python.executor.grpc.token",
+      "description": "Authentication token required for secure gRPC communication.",
+      "type": "java.lang.String",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.GrpcPythonExecutorProperties"
+    },
+    {
+      "name": "spring.python.executor.grpc.uri",
+      "description": "Full URI composed from host and port.",
+      "defaultValue": "${spring.python.executor.grpc.host}:${spring.python.executor.grpc.port}",
+      "type": "java.lang.String",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.GrpcPythonExecutorProperties"
+    }
+  ]
+}

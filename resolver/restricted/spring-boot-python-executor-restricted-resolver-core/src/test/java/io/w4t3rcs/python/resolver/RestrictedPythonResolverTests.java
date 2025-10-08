@@ -10,6 +10,8 @@ import java.util.Map;
 import static io.w4t3rcs.python.constant.TestConstants.*;
 
 class RestrictedPythonResolverTests {
+    private static final PythonResolver RESTRICTED_PYTHON_RESOLVER = new RestrictedPythonResolver(IMPORT_LINE, CODE_VARIABLE_NAME, LOCAL_VARIABLES_NAME, RESULT_APPEARANCE, PRINTED);
+
     @ParameterizedTest
     @ValueSource(strings = {
             SIMPLE_SCRIPT_0, SIMPLE_SCRIPT_1, SIMPLE_SCRIPT_2, SIMPLE_SCRIPT_3,
@@ -18,9 +20,9 @@ class RestrictedPythonResolverTests {
     void testResolve(String script) {
         PythonScript pythonScript = new PythonScript(script);
         RESTRICTED_PYTHON_RESOLVER.resolve(pythonScript, Map.of());
-        Assertions.assertTrue(pythonScript.containsImport(RESTRICTED_PYTHON_PROPERTIES.importLine()));
-        Assertions.assertTrue(pythonScript.containsDeepCode(RESTRICTED_PYTHON_PROPERTIES.codeVariableName()));
-        Assertions.assertTrue(pythonScript.containsDeepCode(RESTRICTED_PYTHON_PROPERTIES.localVariablesName()));
+        Assertions.assertTrue(pythonScript.containsImport(IMPORT_LINE));
+        Assertions.assertTrue(pythonScript.containsDeepCode(CODE_VARIABLE_NAME));
+        Assertions.assertTrue(pythonScript.containsDeepCode(LOCAL_VARIABLES_NAME));
         Assertions.assertTrue(pythonScript.containsCode("_print_ = PrintCollector"));
     }
 }

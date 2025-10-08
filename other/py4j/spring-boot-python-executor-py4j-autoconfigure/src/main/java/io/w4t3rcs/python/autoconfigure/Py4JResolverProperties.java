@@ -41,8 +41,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties("spring.python.resolver.py4j")
 public class Py4JResolverProperties {
+    /**
+     * Python import statement required to initialize the Py4J JavaGateway module.
+     */
     private String importLine = "from py4j.java_gateway import JavaGateway, GatewayParameters";
+    /**
+     * Python code template used to create and configure the Py4J JavaGateway instance.
+     */
     private String gatewayObject = "gateway = JavaGateway(\n\tgateway_parameters=GatewayParameters(\n\t\t%s\n\t)\n)";
+    /**
+     * List of Py4J gateway parameters injected into the gateway object template. Supports Spring property placeholders.
+     */
     private String[] gatewayProperties = new String[]{
             "address=\"${spring.python.py4j.host}\"",
             "port=${spring.python.py4j.port}",

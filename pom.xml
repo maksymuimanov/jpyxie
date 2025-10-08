@@ -80,6 +80,8 @@
         <jspecify.version>1.0.0</jspecify.version>
         <spring-boot.version>3.5.3</spring-boot.version>
         <lombok.version>1.18.38</lombok.version>
+        <junit.version>5.12.2</junit.version>
+        <mockito.version>5.17.0</mockito.version>
     </properties>
     <dependencies>
         <dependency>

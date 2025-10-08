@@ -23,7 +23,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *         appearance: r4java
  *         position-from-start: 7
  *         position-from-end: 1
- *         is-printed: true
+ *         printed: true
  * }</pre>
  * </p>
  *
@@ -36,9 +36,24 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties("spring.python.resolver.result")
 public class ResultResolverProperties {
+    /**
+     * Regular expression pattern used to locate result expressions in Python scripts that should be captured and serialized.
+     */
     private String regex = "o4java\\{.+?}";
+    /**
+     * The name of the variable that will hold the JSON-serialized result within the Python script.
+     */
     private String appearance = "r4java";
+    /**
+     * Number of characters to skip from the start of a matched expression before extracting the actual content.
+     */
     private int positionFromStart = 7;
+    /**
+     * Number of characters to skip from the end of a matched expression when extracting its body content.
+     */
     private int positionFromEnd = 1;
-    private boolean isPrinted = true;
+    /**
+     * Determines whether the resolver should automatically print the serialized result back to the output stream.
+     */
+    private boolean printed = true;
 }

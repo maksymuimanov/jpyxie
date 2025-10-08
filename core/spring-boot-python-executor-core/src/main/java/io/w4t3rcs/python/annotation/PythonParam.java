@@ -1,9 +1,6 @@
 package io.w4t3rcs.python.annotation;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Annotation to assign a custom name to a method parameter for use in Python scripts.
@@ -36,6 +33,7 @@ import java.lang.annotation.Target;
  * @author w4t3rcs
  * @since 1.0.0
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 public @interface PythonParam {

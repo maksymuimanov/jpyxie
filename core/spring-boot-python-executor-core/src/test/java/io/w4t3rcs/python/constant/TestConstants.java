@@ -3,9 +3,6 @@ package io.w4t3rcs.python.constant;
 import io.w4t3rcs.python.annotation.PythonBefore;
 import io.w4t3rcs.python.annotation.PythonBefores;
 import io.w4t3rcs.python.annotation.PythonParam;
-import io.w4t3rcs.python.file.BasicPythonFileReader;
-import io.w4t3rcs.python.file.PythonFileReader;
-import io.w4t3rcs.python.properties.PythonFileProperties;
 import io.w4t3rcs.python.response.PythonExecutionResponse;
 import org.springframework.core.env.Profiles;
 
@@ -31,10 +28,6 @@ public final class TestConstants {
     public static final String COMPOUND_SCRIPT_0 = "test_var = 'hello world'\nprint(test_var + spel{#a})\no4java{test_var}";
     public static final String COMPOUND_SCRIPT_1 = "import json\ntest_var = {'x': 2, 'y': spel{#b}}\nprint(test_var)\no4java{test_var}";
     public static final String FILE_SCRIPT = "test.py";
-
-    //File constants
-    public static final PythonFileProperties FILE_PROPERTIES = new PythonFileProperties("/");
-    public static final PythonFileReader FILE_HANDLER = new BasicPythonFileReader(FILE_PROPERTIES);
 
     //Aspect constants
     public static final String TEST_PROFILE = "test";

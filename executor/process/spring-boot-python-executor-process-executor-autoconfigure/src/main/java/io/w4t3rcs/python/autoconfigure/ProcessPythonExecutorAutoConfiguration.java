@@ -61,14 +61,12 @@ public class ProcessPythonExecutorAutoConfiguration {
      * </p>
      *
      * @param executorProperties non-null execution settings for Python processes
-     * @param pythonFileReader non-null handler for managing Python files and scripts
      * @return a non-null {@link ProcessStarter} implementation
      */
     @Bean
     @ConditionalOnMissingBean(ProcessStarter.class)
-    public ProcessStarter processStarter(ProcessPythonExecutorProperties executorProperties,
-                                         PythonFileReader pythonFileReader) {
-        return new BasicPythonProcessStarter(executorProperties.getStartCommand(), pythonFileReader);
+    public ProcessStarter processStarter(ProcessPythonExecutorProperties executorProperties) {
+        return new BasicPythonProcessStarter(executorProperties.getStartCommand());
     }
 
     /**

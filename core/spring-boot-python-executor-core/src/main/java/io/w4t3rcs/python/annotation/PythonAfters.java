@@ -1,9 +1,6 @@
 package io.w4t3rcs.python.annotation;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Container annotation to specify multiple {@link PythonAfter} annotations on a method.
@@ -31,6 +28,7 @@ import java.lang.annotation.Target;
  * @author w4t3rcs
  * @since 1.0.0
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface PythonAfters {

@@ -14,7 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = {GrpcPythonExecutorAutoConfiguration.class})
+@ContextConfiguration(classes = GrpcPythonExecutorAutoConfiguration.class)
 class PythonExecutorConfigurationTests {
     @MockitoBean
     private PythonServiceGrpc.PythonServiceBlockingStub stub;

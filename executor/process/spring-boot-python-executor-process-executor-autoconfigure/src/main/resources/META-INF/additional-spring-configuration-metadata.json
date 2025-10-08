@@ -1,0 +1,44 @@
+{
+  "groups": [
+    {
+      "name": "spring.python.executor.process",
+      "description": "Configuration properties for the process-based Python executor.",
+      "type": "io.w4t3rcs.python.autoconfigure.ProcessPythonExecutorProperties",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.ProcessPythonExecutorProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.python.executor.process.start-command",
+      "description": "The base command used to start the Python interpreter process.",
+      "defaultValue": "python3",
+      "type": "java.lang.String",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.ProcessPythonExecutorProperties"
+    },
+    {
+      "name": "spring.python.executor.process.loggable",
+      "description": "Whether process execution details (input, output, errors) should be logged.",
+      "defaultValue": true,
+      "type": "java.lang.Boolean",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.ProcessPythonExecutorProperties"
+    },
+    {
+      "name": "spring.python.executor.process.result-appearance",
+      "description": "Defines the variable name of the result to be returned to the Java side.",
+      "defaultValue": "r4java",
+      "type": "java.lang.String",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.ProcessPythonExecutorProperties"
+    }
+  ],
+  "hints": [
+    {
+      "name": "spring.python.executor.process.result-appearance",
+      "values": [
+        {
+          "value": "r4java",
+          "description": "Recommended result format by default."
+        }
+      ]
+    }
+  ]
+}

@@ -27,7 +27,10 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = {CachingPythonLevelConfigurationTests.TestBeansConfiguration.class, PythonCacheAutoConfiguration.class})
+@ContextConfiguration(classes = {
+        CachingPythonLevelConfigurationTests.TestBeansConfiguration.class,
+        PythonCacheAutoConfiguration.class
+})
 @TestPropertySource(properties = "spring.python.cache.enabled=true")
 class CachingPythonLevelConfigurationTests {
     @MockitoBean

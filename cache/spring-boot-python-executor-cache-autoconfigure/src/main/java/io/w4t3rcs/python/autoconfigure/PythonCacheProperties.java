@@ -47,9 +47,21 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties(prefix = "spring.python.cache")
 public class PythonCacheProperties {
+    /**
+     * Whether the Python cache autoconfiguration is enabled.
+     */
     private boolean enabled = true;
+    /**
+     * Defines which parts of the Python processing flow are cached.
+     */
     private PythonCacheLevel[] levels = new PythonCacheLevel[]{PythonCacheLevel.FILE, PythonCacheLevel.PROCESSOR};
+    /**
+     * Configuration properties defining cache names for each cache segment.
+     */
     private NameProperties name = new NameProperties();
+    /**
+     * Configuration properties defining cache key generation behavior.
+     */
     private KeyProperties key = new KeyProperties();
 
     /**
@@ -70,10 +82,25 @@ public class PythonCacheProperties {
      */
     @Getter @Setter
     public static class NameProperties {
+        /**
+         * Cache name for storing resolved Python file paths.
+         */
         private String filePaths = "pythonFilePathsCache";
+        /**
+         * Cache name for storing Python file contents.
+         */
         private String fileBodies = "pythonFileBodiesCache";
+        /**
+         * Cache name for storing resolved Python scripts.
+         */
         private String resolver = "pythonResolverCache";
+        /**
+         * Cache name for storing Python executor cached responses.
+         */
         private String executor = "pythonExecutorCache";
+        /**
+         * Cache name for storing Python processor cached responses.
+         */
         private String processor = "pythonProcessorCache";
     }
 
@@ -85,8 +112,17 @@ public class PythonCacheProperties {
      */
     @Getter @Setter
     public static class KeyProperties {
+        /**
+         * Hash algorithm used to generate cache keys (e.g., SHA-256, MD5).
+         */
         private String hashAlgorithm = "SHA-256";
+        /**
+         * Charset used to encode cache key components before hashing.
+         */
         private String charset = "UTF-8";
+        /**
+         * Delimiter used between cache key parts during concatenation.
+         */
         private String delimiter = "_";
     }
 }

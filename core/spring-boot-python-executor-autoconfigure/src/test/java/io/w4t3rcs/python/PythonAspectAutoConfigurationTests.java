@@ -1,6 +1,7 @@
 package io.w4t3rcs.python;
 
 import io.w4t3rcs.python.aspect.*;
+import io.w4t3rcs.python.autoconfigure.PythonAspectAutoConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = {PythonAutoConfiguration.class})
+@ContextConfiguration(classes = PythonAspectAutoConfiguration.class)
 class PythonAspectAutoConfigurationTests {
     @Autowired
     private ProfileChecker profileChecker;

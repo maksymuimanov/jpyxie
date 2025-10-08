@@ -1,6 +1,7 @@
 package io.w4t3rcs.python.resolver;
 
 import io.w4t3rcs.python.script.PythonScript;
+import io.w4t3rcs.python.util.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ class BasicPythonResolverHolderTests {
 
     @BeforeEach
     void init() {
-        ReflectionTestUtils.setField(basicPythonResolverHolder, "pythonResolvers", List.of(pythonResolver));
+        TestUtils.setField(basicPythonResolverHolder, "pythonResolvers", List.of(pythonResolver));
     }
 
     @ParameterizedTest

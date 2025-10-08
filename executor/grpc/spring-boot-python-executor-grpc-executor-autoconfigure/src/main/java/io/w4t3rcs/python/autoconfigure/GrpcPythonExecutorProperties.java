@@ -29,8 +29,20 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties("spring.python.executor.grpc")
 public class GrpcPythonExecutorProperties {
+    /**
+     * Host address of the gRPC Python executor service.
+     */
     private String host = "localhost";
+    /**
+     * Port number used to connect to the gRPC Python executor service.
+     */
     private int port = 50051;
+    /**
+     * Authentication token required for secure gRPC communication.
+     */
     private String token;
+    /**
+     * Full URI composed from host and port.
+     */
     private String uri = this.host + ":" + this.port;
 }

@@ -23,7 +23,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *         code-variable-name: source_code
  *         local-variables-name: execution_result
  *         safe-result-appearance: r4java_restricted
- *         print-enabled: true
+ *         printed: true
  * }</pre>
  * </p>
  *
@@ -36,9 +36,24 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties("spring.python.resolver.restricted")
 public class RestrictedPythonResolverProperties {
+    /**
+     * Python import statements required to initialize the RestrictedPython environment and access safe globals.
+     */
     private String importLine = "from RestrictedPython import compile_restricted\nfrom RestrictedPython import safe_globals";
+    /**
+     * The variable name used in generated Python code to hold the source script string for restricted compilation.
+     */
     private String codeVariableName = "source_code";
+    /**
+     * The name of the dictionary variable used to store execution context and results in the restricted environment.
+     */
     private String localVariablesName = "execution_result";
+    /**
+     * Name of the variable in the Python script that holds the result value to be returned to the Java side (e.g. 'r4java').
+     */
     private String resultAppearance = "r4java";
-    private boolean printEnabled = true;
+    /**
+     * Whether printing via RestrictedPython’s PrintCollector should be enabled inside the sandboxed execution context.
+     */
+    private boolean printed = true;
 }

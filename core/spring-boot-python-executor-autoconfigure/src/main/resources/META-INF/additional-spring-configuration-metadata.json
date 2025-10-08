@@ -1,0 +1,113 @@
+{
+  "groups": [
+    {
+      "name": "spring.python.aspect.async",
+      "description": "Configuration properties for asynchronous execution of Python aspects.",
+      "type": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties$AsyncProperties",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties"
+    },
+    {
+      "name": "spring.python.file",
+      "description": "Configuration properties for managing Python files.",
+      "type": "io.w4t3rcs.python.autoconfigure.PythonFileProperties",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.PythonFileProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.python.aspect.async.enabled",
+      "description": "Whether asynchronous aspect execution is enabled.",
+      "defaultValue": true,
+      "type": "java.lang.Boolean",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties"
+    },
+    {
+      "name": "spring.python.aspect.async.scopes",
+      "description": "Defines when asynchronous execution should be applied (before or after method execution).",
+      "defaultValue": [
+        "before",
+        "after"
+      ],
+      "type": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties$AsyncProperties$Scope[]",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties"
+    },
+    {
+      "name": "spring.python.aspect.async.core-pool-size",
+      "description": "Core number of threads to keep in the async thread pool.",
+      "defaultValue": 10,
+      "type": "java.lang.Integer",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties"
+    },
+    {
+      "name": "spring.python.aspect.async.max-pool-size",
+      "description": "Maximum number of threads allowed in the async thread pool.",
+      "defaultValue": 50,
+      "type": "java.lang.Integer",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties"
+    },
+    {
+      "name": "spring.python.aspect.async.queue-capacity",
+      "description": "Capacity of the task queue used by the async executor.",
+      "defaultValue": 100,
+      "type": "java.lang.Integer",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties"
+    },
+    {
+      "name": "spring.python.aspect.async.thread-name-prefix",
+      "description": "Prefix to use for async executor thread names.",
+      "defaultValue": "AsyncPythonAspect-",
+      "type": "java.lang.String",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties"
+    },
+    {
+      "name": "spring.python.aspect.async.rejection-policy",
+      "description": "Policy used when the async executor queue is full and a new task cannot be accepted.",
+      "defaultValue": "caller_runs",
+      "type": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties$AsyncProperties$RejectionPolicy",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.PythonAspectProperties"
+    },
+    {
+      "name": "spring.python.file.path",
+      "description": "Base directory path where Python scripts are stored or loaded from.",
+      "defaultValue": "/python/",
+      "type": "java.lang.String",
+      "sourceType": "io.w4t3rcs.python.autoconfigure.PythonFileProperties"
+    }
+  ],
+  "hints": [
+    {
+      "name": "spring.python.aspect.async.scopes",
+      "values": [
+        {
+          "value": "before",
+          "description": "Run asynchronously before the method execution."
+        },
+        {
+          "value": "after",
+          "description": "Run asynchronously after the method execution."
+        }
+      ]
+    },
+    {
+      "name": "spring.python.aspect.async.rejection-policy",
+      "values": [
+        {
+          "value": "caller_runs",
+          "description": "The calling thread runs the task when the queue is full."
+        },
+        {
+          "value": "abort",
+          "description": "Rejects the task and throws a RejectedExecutionException."
+        },
+        {
+          "value": "discard",
+          "description": "Silently discards the task when the queue is full."
+        },
+        {
+          "value": "discard_oldest",
+          "description": "Discards the oldest task in the queue and retries submission."
+        }
+      ]
+    }
+  ]
+}

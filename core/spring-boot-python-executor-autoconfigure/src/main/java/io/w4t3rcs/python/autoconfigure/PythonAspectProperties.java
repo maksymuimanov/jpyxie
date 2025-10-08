@@ -29,10 +29,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *   python:
  *     aspect:
  *       async:
+ *         enabled: true
  *         scopes: before, after
  *         core-pool-size: 10
- *         max-pool-size: 20
- *         queue-capacity: 50
+ *         max-pool-size: 50
+ *         queue-capacity: 100
  *         thread-name-prefix: AsyncPythonAspect-
  *         rejection-policy: caller_runs
  * }</pre>
@@ -57,12 +58,33 @@ public class PythonAspectProperties {
      */
     @Getter @Setter
     public static class AsyncProperties {
+        /**
+         * Whether asynchronous aspect execution is enabled.
+         */
         private boolean enabled = false;
+        /**
+         * Defines when asynchronous execution should be applied (before or after method execution).
+         */
         private Scope[] scopes = new Scope[]{Scope.BEFORE, Scope.AFTER};
+        /**
+         * Core number of threads to keep in the async thread pool.
+         */
         private int corePoolSize = 10;
+        /**
+         * Maximum number of threads allowed in the async thread pool.
+         */
         private int maxPoolSize = 50;
+        /**
+         * Capacity of the task queue used by the async executor.
+         */
         private int queueCapacity = 100;
+        /**
+         * Prefix to use for async executor thread names.
+         */
         private String threadNamePrefix = "AsyncPythonAspect-";
+        /**
+         * Policy used when the async executor queue is full and a new task cannot be accepted.
+         */
         private RejectionPolicy rejectionPolicy = RejectionPolicy.CALLER_RUNS;
 
         /**

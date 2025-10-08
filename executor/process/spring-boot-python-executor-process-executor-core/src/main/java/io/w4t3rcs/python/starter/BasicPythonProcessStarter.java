@@ -47,7 +47,6 @@ import lombok.extern.slf4j.Slf4j;
 public class BasicPythonProcessStarter implements ProcessStarter {
     private static final String COMMAND_HEADER = "-c";
     private final String startCommand;
-    private final PythonFileReader pythonFileReader;
 
     /**
      * Starts a Python process from either a file or inline code.
@@ -61,12 +60,7 @@ public class BasicPythonProcessStarter implements ProcessStarter {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
             String scriptBody = script.toString();
-            if (script.isFile()) {
-                processBuilder.command(this.startCommand, pythonFileReader.getScriptPath(scriptBody).toString());
-            } else {
-                processBuilder.command(this.startCommand, COMMAND_HEADER, scriptBody.replace("\"", "\"\""));
-            }
-
+            processBuilder.command(this.startCommand, COMMAND_HEADER, scriptBody.replace("\"", "\"\""));
             log.info("Python script is going to be executed");
             Process process = processBuilder.start();
             process.waitFor();

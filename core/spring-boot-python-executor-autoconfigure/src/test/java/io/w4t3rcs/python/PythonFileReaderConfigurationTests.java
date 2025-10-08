@@ -1,5 +1,6 @@
 package io.w4t3rcs.python;
 
+import io.w4t3rcs.python.autoconfigure.PythonFileReaderAutoConfiguration;
 import io.w4t3rcs.python.file.BasicPythonFileReader;
 import io.w4t3rcs.python.file.PythonFileReader;
 import org.junit.jupiter.api.Assertions;
@@ -11,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = {PythonAutoConfiguration.class})
+@ContextConfiguration(classes = PythonFileReaderAutoConfiguration.class)
 class PythonFileReaderConfigurationTests {
     @Autowired
     private PythonFileReader pythonFileReader;

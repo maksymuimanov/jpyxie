@@ -1,0 +1,23 @@
+package io.w4t3rcs.python.input;
+
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
+
+import static io.w4t3rcs.python.constant.TestConstants.SIMPLE_SCRIPT_3;
+
+class BasicPythonInputProcessHandlerTests {
+    private static final ProcessHandler<String> INPUT_PROCESS_HANDLER = new BasicPythonInputProcessHandler("r4java", true);
+
+    @SneakyThrows
+    @Test
+    void testHandle() {
+        Process process = new ProcessBuilder("python3", "-c", SIMPLE_SCRIPT_3).start();
+        process.waitFor();
+        Assumptions.assumeTrue(process.exitValue() == 0);
+
+        String result = INPUT_PROCESS_HANDLER.handle(process);
+        Assertions.assertEquals("4", result);
+    }
+}
