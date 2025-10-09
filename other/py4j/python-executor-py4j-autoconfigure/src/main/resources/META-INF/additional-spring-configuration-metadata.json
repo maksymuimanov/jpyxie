@@ -1,0 +1,106 @@
+{
+  "groups": [
+    {
+      "name": "spring.python.py4j",
+      "description": "Configuration properties for the Py4J integration between Java and Python processes.",
+      "type": "io.maksymuimanov.python.autoconfigure.Py4JProperties",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JProperties"
+    },
+    {
+      "name": "spring.python.resolver.py4j",
+      "description": "Configuration properties for the Py4J-based Python resolver used to bridge Java and Python environments.",
+      "type": "io.maksymuimanov.python.autoconfigure.Py4JResolverProperties",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JResolverProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.python.py4j.enabled",
+      "description": "Whether the Py4J autoconfiguration is enabled.",
+      "defaultValue": true,
+      "type": "java.lang.Boolean",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JProperties"
+    },
+    {
+      "name": "spring.python.py4j.host",
+      "description": "Host address of the Java-side Py4J GatewayServer.",
+      "defaultValue": "localhost",
+      "type": "java.lang.String",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JProperties"
+    },
+    {
+      "name": "spring.python.py4j.port",
+      "description": "Port number on which the Java-side Py4J GatewayServer listens.",
+      "defaultValue": 25333,
+      "type": "java.lang.Integer",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JProperties"
+    },
+    {
+      "name": "spring.python.py4j.python-host",
+      "description": "Host address of the Python-side Py4J client or callback server.",
+      "defaultValue": "localhost",
+      "type": "java.lang.String",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JProperties"
+    },
+    {
+      "name": "spring.python.py4j.python-port",
+      "description": "Port number for the Python-side Py4J callback server.",
+      "defaultValue": 25334,
+      "type": "java.lang.Integer",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JProperties"
+    },
+    {
+      "name": "spring.python.py4j.connect-timeout",
+      "description": "Connection timeout (in milliseconds) when establishing the Py4J gateway connection. A value of 0 means no timeout.",
+      "defaultValue": 0,
+      "type": "java.lang.Integer",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JProperties"
+    },
+    {
+      "name": "spring.python.py4j.read-timeout",
+      "description": "Read timeout (in milliseconds) for communication through the Py4J gateway. A value of 0 means no timeout.",
+      "defaultValue": 0,
+      "type": "java.lang.Integer",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JProperties"
+    },
+    {
+      "name": "spring.python.py4j.auth-token",
+      "description": "Authentication token used to secure the Py4J connection between Java and Python processes.",
+      "type": "java.lang.String",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JProperties"
+    },
+    {
+      "name": "spring.python.py4j.loggable",
+      "description": "Whether communication details and errors between Java and Python via Py4J should be logged.",
+      "defaultValue": true,
+      "type": "java.lang.Boolean",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JProperties"
+    },
+    {
+      "name": "spring.python.resolver.py4j.import-line",
+      "description": "Python import statement required to initialize the Py4J JavaGateway module.",
+      "defaultValue": "from py4j.java_gateway import JavaGateway, GatewayParameters",
+      "type": "java.lang.String",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JResolverProperties"
+    },
+    {
+      "name": "spring.python.resolver.py4j.gateway-object",
+      "description": "Python code template used to create and configure the Py4J JavaGateway instance.",
+      "defaultValue": "gateway = JavaGateway(\n\tgateway_parameters=GatewayParameters(\n\t\t%s\n\t)\n)",
+      "type": "java.lang.String",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JResolverProperties"
+    },
+    {
+      "name": "spring.python.resolver.py4j.gateway-properties",
+      "description": "List of Py4J gateway parameters injected into the gateway object template. Supports Spring property placeholders.",
+      "defaultValue": [
+        "address=\"${spring.python.py4j.host}\"",
+        "port=${spring.python.py4j.port}",
+        "auth_token=\"${spring.python.py4j.auth-token}\"",
+        "auto_convert=True"
+      ],
+      "type": "java.lang.String[]",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.Py4JResolverProperties"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "groups": [
+    {
+      "name": "spring.python.resolver.spelython",
+      "description": "Configuration properties for the SpelythonResolver, which processes Spring Expression Language (SpEL) expressions embedded within Python scripts.",
+      "type": "io.maksymuimanov.python.autoconfigure.SpelythonResolverProperties",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.SpelythonResolverProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.python.resolver.spelython.regex",
+      "description": "Regular expression pattern used to locate SpEL expressions (e.g. spel{...}) within Python scripts.",
+      "defaultValue": "spel\\{.+?}",
+      "type": "java.lang.String",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.SpelythonResolverProperties"
+    },
+    {
+      "name": "spring.python.resolver.spelython.local-variable-index",
+      "description": "Prefix symbol used to reference variables in SpEL expressions (commonly '#').",
+      "defaultValue": "#",
+      "type": "java.lang.String",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.SpelythonResolverProperties"
+    },
+    {
+      "name": "spring.python.resolver.spelython.position-from-start",
+      "description": "Number of characters to skip from the start of a matched SpEL expression before evaluating it.",
+      "defaultValue": 5,
+      "type": "java.lang.Integer",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.SpelythonResolverProperties"
+    },
+    {
+      "name": "spring.python.resolver.spelython.position-from-end",
+      "description": "Number of characters to skip from the end of a matched SpEL expression before evaluation.",
+      "defaultValue": 1,
+      "type": "java.lang.Integer",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.SpelythonResolverProperties"
+    }
+  ]
+}

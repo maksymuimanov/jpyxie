@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.service.connection.ConnectionDetailsFactory=\
-io.w4t3rcs.python.testcontainers.PythonRestServerConnectionDetailsFactory

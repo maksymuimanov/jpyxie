@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>python-executor-spelython-resolver-core</artifactId>
+	<version>1.1.0</version>
+	<packaging>jar</packaging>
+	<name>Spring Boot Python Executor Spelython Resolver Core</name>
+	<description>
+		Core module that provides Spelython integration within the Spring Boot Python Executor ecosystem.
+		Handles text processing, spell-checking, and correction logic by resolving Python-based
+		language analysis tasks into Java-friendly results.
+	</description>
+	<url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
+	<licenses>
+		<license>
+			<name>The MIT License</name>
+			<url>https://opensource.org/licenses/MIT</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Maksym Uimanov</name>
+			<email>uimanovmaks@gmail.com</email>
+		</developer>
+	</developers>
+	<scm>
+		<url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
+		<connection>scm:git:git://github.com/maksymuimanov/spring-boot-python-executor.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:maksymuimanov/spring-boot-python-executor.git</developerConnection>
+	</scm>
+	<parent>
+		<groupId>io.github.maksymuimanov</groupId>
+		<artifactId>python-executor-parent</artifactId>
+		<version>1.1.0</version>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>io.github.maksymuimanov</groupId>
+			<artifactId>python-executor-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>annotationProcessor</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-json</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${spring-boot.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring-boot.version}</version>
+			</plugin>
+		</plugins>
+	</build>
+</project>

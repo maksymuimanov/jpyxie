@@ -1,0 +1,3 @@
+io.maksymuimanov.python.autoconfigure.PythonFileReaderAutoConfiguration
+io.maksymuimanov.python.autoconfigure.PythonProcessorAutoConfiguration
+io.maksymuimanov.python.autoconfigure.PythonResolverAutoConfiguration

@@ -1,0 +1,71 @@
+package io.maksymuimanov.python.executor;
+
+import io.maksymuimanov.python.cache.CacheKeyGenerator;
+import io.maksymuimanov.python.script.PythonScript;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+
+import static io.maksymuimanov.python.constant.TestConstants.*;
+
+@ExtendWith(MockitoExtension.class)
+class CachingPythonExecutorTests {
+    private CachingPythonExecutor cachingPythonExecutor;
+    @Mock
+    private PythonExecutor pythonExecutor;
+    @Mock
+    private Cache cache;
+    @Mock
+    private CacheKeyGenerator keyGenerator;
+    @Mock
+    private CacheManager cacheManager;
+
+    @BeforeEach
+    void init() {
+        Mockito.when(cacheManager.getCache(CACHE_MANAGER_KEY)).thenReturn(cache);
+        cachingPythonExecutor = new CachingPythonExecutor(CACHE_MANAGER_KEY, pythonExecutor, cacheManager, keyGenerator);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            SIMPLE_SCRIPT_0, SIMPLE_SCRIPT_1, SIMPLE_SCRIPT_2, SIMPLE_SCRIPT_3,
+            RESULT_SCRIPT_0, RESULT_SCRIPT_1, RESULT_SCRIPT_2, RESULT_SCRIPT_3,
+            SPELYTHON_SCRIPT_0, SPELYTHON_SCRIPT_1,
+            COMPOUND_SCRIPT_0, COMPOUND_SCRIPT_1,
+    })
+    void testExistentKeyExecute(String script) {
+        PythonScript pythonScript = new PythonScript(script);
+
+        Mockito.when(keyGenerator.generateKey(pythonScript.toString(), STRING_CLASS)).thenReturn(CACHE_KEY);
+        Mockito.when(cache.get(CACHE_KEY, STRING_RESPONSE_CLASS)).thenReturn(OK_RESPONSE);
+
+        String executed = cachingPythonExecutor.execute(pythonScript, STRING_CLASS).body();
+        Assertions.assertEquals(OK, executed);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            SIMPLE_SCRIPT_0, SIMPLE_SCRIPT_1, SIMPLE_SCRIPT_2, SIMPLE_SCRIPT_3,
+            RESULT_SCRIPT_0, RESULT_SCRIPT_1, RESULT_SCRIPT_2, RESULT_SCRIPT_3,
+            SPELYTHON_SCRIPT_0, SPELYTHON_SCRIPT_1,
+            COMPOUND_SCRIPT_0, COMPOUND_SCRIPT_1,
+    })
+    void testNonexistentKeyExecute(String script) {
+        PythonScript pythonScript = new PythonScript(script);
+
+        Mockito.when(keyGenerator.generateKey(pythonScript.toString(), STRING_CLASS)).thenReturn(CACHE_KEY);
+        Mockito.when(cache.get(CACHE_KEY, STRING_RESPONSE_CLASS)).thenReturn(null);
+        Mockito.when(pythonExecutor.execute(pythonScript, STRING_CLASS)).thenReturn(OK_RESPONSE);
+        Mockito.doNothing().when(cache).put(CACHE_KEY, OK_RESPONSE);
+
+        String executed = cachingPythonExecutor.execute(pythonScript, STRING_CLASS).body();
+        Assertions.assertEquals(OK, executed);
+    }
+}
