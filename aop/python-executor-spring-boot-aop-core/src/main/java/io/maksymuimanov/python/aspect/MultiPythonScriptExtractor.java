@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.aspect;
 
-import io.maksymuimanov.python.exception.AnnotationValueExtractingException;
+import io.maksymuimanov.python.exception.AnnotationExtractionException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 
@@ -44,7 +44,7 @@ public class MultiPythonScriptExtractor implements PythonAnnotationValueExtracto
      * @param annotationClass the container annotation class to extract nested annotations from, must not be {@code null}
      * @param <A> the container annotation type
      * @return a map where keys are script strings and values are arrays of active profiles, never {@code null}, but may be empty if no nested annotations are present
-     * @throws AnnotationValueExtractingException if annotation methods cannot be accessed or invoked, or the container annotation is missing on the method
+     * @throws AnnotationExtractionException if annotation methods cannot be accessed or invoked, or the container annotation is missing on the method
      */
     @Override
     public <A extends Annotation> Map<String, String[]> getValue(JoinPoint joinPoint, Class<? extends A> annotationClass) {
@@ -66,7 +66,7 @@ public class MultiPythonScriptExtractor implements PythonAnnotationValueExtracto
             }
             return result;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new AnnotationValueExtractingException(e);
+            throw new AnnotationExtractionException(e);
         }
     }
 }

@@ -2,7 +2,7 @@ package io.maksymuimanov.python.processor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.cache.CacheKeyGenerator;
-import io.maksymuimanov.python.exception.PythonCacheException;
+import io.maksymuimanov.python.exception.PythonProcessionException;
 import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import org.jspecify.annotations.Nullable;
@@ -79,7 +79,7 @@ public class CachingPythonProcessor implements PythonProcessor {
      * @param resultClass nullable expected body type
      * @param arguments non-null map of arguments to the script
      * @return body of processing, possibly from cache
-     * @throws PythonCacheException if any underlying error occurs during caching or processing
+     * @throws PythonProcessionException if any underlying error occurs during caching or processing
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -95,7 +95,7 @@ public class CachingPythonProcessor implements PythonProcessor {
             cache.put(key, result);
             return result;
         } catch (Exception e) {
-            throw new PythonCacheException(e);
+            throw new PythonProcessionException(e);
         }
     }
 }

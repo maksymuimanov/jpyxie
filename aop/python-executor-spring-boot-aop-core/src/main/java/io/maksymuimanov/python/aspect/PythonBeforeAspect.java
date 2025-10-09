@@ -2,6 +2,7 @@ package io.maksymuimanov.python.aspect;
 
 import io.maksymuimanov.python.annotation.PythonBefore;
 import io.maksymuimanov.python.annotation.PythonBefores;
+import io.maksymuimanov.python.exception.PythonAspectException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -40,7 +41,11 @@ public class PythonBeforeAspect {
      */
     @Before("@annotation(io.maksymuimanov.python.annotation.PythonBefores)")
     public void executeMultipleBeforeMethod(JoinPoint joinPoint) {
-        annotationEvaluator.evaluate(joinPoint, PythonBefores.class);
+        try {
+            annotationEvaluator.evaluate(joinPoint, PythonBefores.class);
+        } catch (Exception e) {
+            throw new PythonAspectException(e);
+        }
     }
 
     /**
@@ -51,6 +56,10 @@ public class PythonBeforeAspect {
      */
     @Before("@annotation(io.maksymuimanov.python.annotation.PythonBefore)")
     public void executeSingleBeforeMethod(JoinPoint joinPoint) {
-        annotationEvaluator.evaluate(joinPoint, PythonBefore.class);
+        try {
+            annotationEvaluator.evaluate(joinPoint, PythonBefore.class);
+        } catch (Exception e) {
+            throw new PythonAspectException(e);
+        }
     }
 }

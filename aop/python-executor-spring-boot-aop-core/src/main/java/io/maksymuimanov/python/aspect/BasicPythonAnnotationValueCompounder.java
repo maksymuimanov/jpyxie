@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.aspect;
 
-import io.maksymuimanov.python.exception.AnnotationValueExtractingException;
+import io.maksymuimanov.python.exception.AnnotationExtractionException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 
@@ -35,7 +35,7 @@ public class BasicPythonAnnotationValueCompounder implements PythonAnnotationVal
      * In the case of duplicate keys, the last value overwrites.
      * <p>
      * Exceptions thrown by individual extractors are ignored.
-     * If the resulting map is empty after processing all extractors, throws {@link AnnotationValueExtractingException}.
+     * If the resulting map is empty after processing all extractors, throws {@link AnnotationExtractionException}.
      * <p>
      * The returned map is mutable and not thread-safe.
      *
@@ -43,7 +43,7 @@ public class BasicPythonAnnotationValueCompounder implements PythonAnnotationVal
      * @param annotationClass non-null annotation class to extract values for
      * @param <A> annotation type
      * @return a non-null, non-empty {@link Map} with keys of type {@link String} (Python scripts or script paths) and values of type {@code String[]} (active profiles)
-     * @throws AnnotationValueExtractingException if no values could be extracted from any extractor
+     * @throws AnnotationExtractionException if no values could be extracted from any extractor
      */
     @Override
     public <A extends Annotation> Map<String, String[]> compound(JoinPoint joinPoint, Class<? extends A> annotationClass) {
@@ -55,7 +55,7 @@ public class BasicPythonAnnotationValueCompounder implements PythonAnnotationVal
             } catch (Exception ignored) {
             }
         }
-        if (mergedValue.isEmpty()) throw new AnnotationValueExtractingException();
+        if (mergedValue.isEmpty()) throw new AnnotationExtractionException();
         return mergedValue;
     }
 }

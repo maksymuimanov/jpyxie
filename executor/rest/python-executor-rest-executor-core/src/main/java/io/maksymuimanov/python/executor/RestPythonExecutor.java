@@ -2,7 +2,7 @@ package io.maksymuimanov.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.dto.ScriptRequest;
-import io.maksymuimanov.python.exception.PythonScriptExecutionException;
+import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +62,7 @@ public class RestPythonExecutor implements PythonExecutor {
      * @param script the Python script to execute (non-null, non-empty recommended)
      * @param resultClass the {@link Class} representing the expected return type, may be null if no body expected
      * @return an instance of {@code R} parsed from the REST response body, or {@code null} if {@code resultClass} is null, or the response body is empty or blank
-     * @throws PythonScriptExecutionException if an error occurs during HTTP communication, JSON serialization/deserialization, or other execution errors
+     * @throws PythonExecutionException if an error occurs during HTTP communication, JSON serialization/deserialization, or other execution errors
      */
     @Override
     public <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass) {
@@ -78,14 +78,14 @@ public class RestPythonExecutor implements PythonExecutor {
                     .build();
             HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
             HttpResponse<String> response = httpClient.send(request, handler);
-            if (response.statusCode() != HttpStatus.OK.value()) throw new PythonScriptExecutionException("Request failed with status code: " + response.statusCode());
+            if (response.statusCode() != HttpStatus.OK.value()) throw new PythonExecutionException("Request failed with status code: " + response.statusCode());
             String body = response.body();
             R result = resultClass == null || body == null || body.isBlank() || EMPTY_BODY.equals(body)
                     ? null
                     : objectMapper.readValue(body, resultClass);
             return new PythonExecutionResponse<>(result);
         } catch (Exception e) {
-            throw new PythonScriptExecutionException(e);
+            throw new PythonExecutionException(e);
         }
     }
 }

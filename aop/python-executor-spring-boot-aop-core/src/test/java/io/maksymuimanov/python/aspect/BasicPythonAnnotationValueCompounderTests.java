@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.aspect;
 
 import io.maksymuimanov.python.annotation.PythonBefore;
-import io.maksymuimanov.python.exception.AnnotationValueExtractingException;
+import io.maksymuimanov.python.exception.AnnotationExtractionException;
 import io.maksymuimanov.python.util.TestUtils;
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.Assertions;
@@ -44,6 +44,6 @@ class BasicPythonAnnotationValueCompounderTests {
 
     @Test
     void testCompoundWithException() {
-        Assertions.assertThrows(AnnotationValueExtractingException.class, () -> basicPythonAnnotationValueExtractorChain.compound(joinPoint, PythonBefore.class));
+        Assertions.assertThrows(AnnotationExtractionException.class, () -> basicPythonAnnotationValueExtractorChain.compound(joinPoint, PythonBefore.class));
     }
 }

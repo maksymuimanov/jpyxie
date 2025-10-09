@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.executor;
 
 import io.maksymuimanov.python.cache.CacheKeyGenerator;
-import io.maksymuimanov.python.exception.PythonCacheException;
+import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import org.jspecify.annotations.Nullable;
@@ -21,10 +21,10 @@ import java.util.Objects;
  * <p>Usage example:</p>
  * <pre>{@code
  * PythonExecutor baseExecutor = ...;
- * CacheKeyGenerator keyGen = ...;
+ * CacheKeyGenerator keyGenerator = ...;
  * CacheManager cacheManager = ...;
- * PythonCacheProperties cacheProps = ...;
- * PythonExecutor cachingExecutor = new CachingPythonExecutor(cacheProps, baseExecutor, cacheManager, keyGen);
+ * String cacheName = ...;
+ * PythonExecutor cachingExecutor = new CachingPythonExecutor(cacheName, baseExecutor, cacheManager, keyGenerator);
  *
  * String script = "print('hello')";
  * cachingExecutor.execute(script, null);
@@ -69,7 +69,7 @@ public class CachingPythonExecutor implements PythonExecutor {
      * @param script non-null Python script to execute
      * @param resultClass nullable {@link Class} representing the expected body type
      * @return the execution body, guaranteed non-null if the delegate returns non-null
-     * @throws PythonCacheException if any caching or execution error occurs
+     * @throws PythonExecutionException if any caching or execution error occurs
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -83,7 +83,7 @@ public class CachingPythonExecutor implements PythonExecutor {
             cache.put(key, result);
             return result;
         } catch (Exception e) {
-            throw new PythonCacheException(e);
+            throw new PythonExecutionException(e);
         }
     }
 }

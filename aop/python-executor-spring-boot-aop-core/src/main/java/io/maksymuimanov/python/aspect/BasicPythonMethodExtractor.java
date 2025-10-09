@@ -1,6 +1,8 @@
 package io.maksymuimanov.python.aspect;
 
 import io.maksymuimanov.python.annotation.PythonParam;
+import io.maksymuimanov.python.exception.MethodExtractionException;
+import io.maksymuimanov.python.exception.MethodParameterExtractionException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
@@ -35,8 +37,12 @@ public class BasicPythonMethodExtractor implements PythonMethodExtractor {
      */
     @Override
     public Method getMethod(JoinPoint joinPoint) {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        return signature.getMethod();
+        try {
+            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+            return signature.getMethod();
+        } catch (Exception e) {
+            throw new MethodExtractionException(e);
+        }
     }
 
     /**
@@ -48,23 +54,27 @@ public class BasicPythonMethodExtractor implements PythonMethodExtractor {
      */
     @Override
     public Map<String, Object> getMethodParameters(JoinPoint joinPoint) {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
-        Object[] objects = joinPoint.getArgs();
-        Parameter[] parameters = method.getParameters();
-        String[] parameterNames = signature.getParameterNames();
-        Map<String, Object> methodParameters = new HashMap<>();
-        for (int i = 0; i < parameters.length; i++) {
-            Parameter parameter = parameters[i];
-            if (parameter.isAnnotationPresent(PythonParam.class)) {
-                PythonParam annotation = parameter.getAnnotation(PythonParam.class);
-                String parameterName = annotation.value();
-                methodParameters.put(parameterName, objects[i]);
-            } else {
-                String parameterName = parameterNames[i];
-                methodParameters.put(parameterName, objects[i]);
+        try {
+            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+            Method method = this.getMethod(joinPoint);
+            Object[] objects = joinPoint.getArgs();
+            Parameter[] parameters = method.getParameters();
+            String[] parameterNames = signature.getParameterNames();
+            Map<String, Object> methodParameters = new HashMap<>();
+            for (int i = 0; i < parameters.length; i++) {
+                Parameter parameter = parameters[i];
+                if (parameter.isAnnotationPresent(PythonParam.class)) {
+                    PythonParam annotation = parameter.getAnnotation(PythonParam.class);
+                    String parameterName = annotation.value();
+                    methodParameters.put(parameterName, objects[i]);
+                } else {
+                    String parameterName = parameterNames[i];
+                    methodParameters.put(parameterName, objects[i]);
+                }
             }
+            return methodParameters;
+        } catch (Exception e) {
+            throw new MethodParameterExtractionException(e);
         }
-        return methodParameters;
     }
 }

@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.maksymuimanov.python.exception.PythonScriptExecutionException;
+import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.finisher.ProcessFinisher;
 import io.maksymuimanov.python.input.ProcessHandler;
 import io.maksymuimanov.python.response.PythonExecutionResponse;
@@ -57,7 +57,7 @@ public class ProcessPythonExecutor implements PythonExecutor {
      * @param script the Python script to execute (non-null, non-empty recommended)
      * @param resultClass the {@link Class} representing the expected return type, may be null if no body expected
      * @return an instance of {@code R} parsed from the Python script output, or {@code null} if {@code resultClass} is null or output is blank
-     * @throws PythonScriptExecutionException if an error occurs during process execution, I/O handling, or JSON deserialization
+     * @throws PythonExecutionException if an error occurs during process execution, I/O handling, or JSON deserialization
      */
     @Override
     public <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass) {
@@ -73,7 +73,7 @@ public class ProcessPythonExecutor implements PythonExecutor {
                     : objectMapper.readValue(jsonResult, resultClass);
             return new PythonExecutionResponse<>(result);
         } catch (Exception e) {
-            throw new PythonScriptExecutionException(e);
+            throw new PythonExecutionException(e);
         }
     }
 }

@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.starter;
 
-import io.maksymuimanov.python.exception.ProcessStartException;
+import io.maksymuimanov.python.exception.PythonProcessStartException;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
 import io.maksymuimanov.python.file.PythonFileReader;
 import io.maksymuimanov.python.script.PythonScript;
@@ -53,7 +53,7 @@ public class BasicPythonProcessStarter implements ProcessStarter {
      *
      * @param script non-{@code null} Python script, can be a file path or inline code
      * @return non-{@code null} terminated {@link Process} representing the executed script
-     * @throws ProcessStartException if the process cannot be started or interrupted
+     * @throws PythonProcessStartException if the process cannot be started or interrupted
      */
     @Override
     public Process start(PythonScript script) {
@@ -66,7 +66,7 @@ public class BasicPythonProcessStarter implements ProcessStarter {
             process.waitFor();
             return process;
         } catch (Exception e) {
-            throw new ProcessStartException(e);
+            throw new PythonProcessStartException(e);
         }
     }
 }

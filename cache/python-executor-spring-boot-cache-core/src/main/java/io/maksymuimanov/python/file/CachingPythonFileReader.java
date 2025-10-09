@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.file;
 
-import io.maksymuimanov.python.exception.PythonCacheException;
+import io.maksymuimanov.python.exception.PythonFileException;
 import io.maksymuimanov.python.script.PythonScript;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -59,7 +59,7 @@ public class CachingPythonFileReader implements PythonFileReader {
      *
      * @param pythonScript non-null {@link PythonScript} container of the script file path
      * @return non-null script {@link PythonScript}
-     * @throws PythonCacheException if any underlying error occurs during caching or reading
+     * @throws PythonFileException if any underlying error occurs during caching or reading
      */
     @Override
     public PythonScript readScript(PythonScript pythonScript) {
@@ -71,7 +71,7 @@ public class CachingPythonFileReader implements PythonFileReader {
             scriptBodyCache.put(source, pythonScript);
             return pythonScript;
         } catch (Exception e) {
-            throw new PythonCacheException(e);
+            throw new PythonFileException(e);
         }
     }
 
@@ -84,7 +84,7 @@ public class CachingPythonFileReader implements PythonFileReader {
      *
      * @param path non-null string path to resolve
      * @return non-null resolved {@link Path}
-     * @throws PythonCacheException if any underlying error occurs during caching or resolution
+     * @throws PythonFileException if any underlying error occurs during caching or resolution
      */
     @Override
     public Path getScriptPath(String path) {
@@ -95,7 +95,7 @@ public class CachingPythonFileReader implements PythonFileReader {
             pathCache.put(path, fullPath);
             return fullPath;
         } catch (Exception e) {
-            throw new PythonCacheException(e);
+            throw new PythonFileException(e);
         }
     }
 }

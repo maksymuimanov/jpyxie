@@ -1,7 +1,6 @@
 package io.maksymuimanov.python.file;
 
-import io.maksymuimanov.python.exception.PythonScriptPathGettingException;
-import io.maksymuimanov.python.exception.PythonScriptReadingFromFileException;
+import io.maksymuimanov.python.exception.PythonFileException;
 import io.maksymuimanov.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
@@ -37,7 +36,7 @@ public class BasicPythonFileReader implements PythonFileReader {
      *
      * @param script the script object containing path string for the script file, must be non-null
      * @return the script content as a {@link PythonScript}, never null but possibly empty
-     * @throws PythonScriptReadingFromFileException if an I/O error occurs during reading
+     * @throws PythonFileException if an I/O error occurs during reading
      */
     @Override
     public PythonScript readScript(PythonScript script) {
@@ -48,7 +47,7 @@ public class BasicPythonFileReader implements PythonFileReader {
             script.getBuilder().appendAll(body);
             return script;
         } catch (IOException e) {
-            throw new PythonScriptReadingFromFileException(e);
+            throw new PythonFileException(e);
         }
     }
 
@@ -58,7 +57,7 @@ public class BasicPythonFileReader implements PythonFileReader {
      *
      * @param path the relative path string of the script file, must be non-null
      * @return the resolved absolute {@link Path} to the script file
-     * @throws PythonScriptPathGettingException if the resource cannot be resolved as a file path
+     * @throws PythonFileException if the resource cannot be resolved as a file path
      */
     @Override
     public Path getScriptPath(String path) {
@@ -66,7 +65,7 @@ public class BasicPythonFileReader implements PythonFileReader {
             ClassPathResource classPathResource = new ClassPathResource(rootPath + path);
             return classPathResource.getFile().toPath();
         } catch (IOException e) {
-            throw new PythonScriptPathGettingException(e);
+            throw new PythonFileException(e);
         }
     }
 }

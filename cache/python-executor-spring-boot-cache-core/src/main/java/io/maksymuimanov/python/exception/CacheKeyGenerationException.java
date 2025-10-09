@@ -18,13 +18,24 @@ import io.maksymuimanov.python.cache.HashCacheKeyGenerator;
  * @author w4t3rcs
  * @since 1.0.0
  */
-public class CacheKeyGenerationException extends RuntimeException {
-    /**
-     * Constructs a new {@code CacheKeyGenerationException} with the specified cause.
-     *
-     * @param cause the underlying cause of the exception; must not be null.
-     */
+public class CacheKeyGenerationException extends PythonCacheException {
+    public CacheKeyGenerationException() {
+        super();
+    }
+
+    public CacheKeyGenerationException(String message) {
+        super(message);
+    }
+
+    public CacheKeyGenerationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public CacheKeyGenerationException(Throwable cause) {
         super(cause);
+    }
+
+    public CacheKeyGenerationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.resolver;
 
+import io.maksymuimanov.python.exception.PythonScriptException;
 import io.maksymuimanov.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 
@@ -11,7 +12,7 @@ import java.util.Map;
  * and applies them sequentially to a Python script.
  * <p>
  * This class enables step-by-step transformation of the script through a chain of resolvers.
- * It is immutable — the list of resolvers is provided via constructor and does not change.
+ * It is immutable - the list of resolvers is provided via constructor and does not change.
  * </p>
  * <p>
  * Usage example:
@@ -53,10 +54,14 @@ public class BasicPythonResolverHolder implements PythonResolverHolder {
      */
     @Override
     public PythonScript resolveAll(PythonScript script, Map<String, Object> arguments) {
-        for (PythonResolver resolver : this.getResolvers()) {
-            resolver.resolve(script, arguments);
+        try {
+            for (PythonResolver resolver : this.getResolvers()) {
+                resolver.resolve(script, arguments);
+            }
+            return script;
+        } catch (Exception e) {
+            throw new PythonScriptException(e);
         }
-        return script;
     }
 
     /**

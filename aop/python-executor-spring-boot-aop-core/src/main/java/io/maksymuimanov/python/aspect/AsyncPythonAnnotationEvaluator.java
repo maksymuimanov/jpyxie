@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.aspect;
 
+import io.maksymuimanov.python.exception.AnnotationEvaluationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -54,7 +55,7 @@ public class AsyncPythonAnnotationEvaluator implements PythonAnnotationEvaluator
                 annotationEvaluator.evaluate(joinPoint, annotationClass, additionalArguments);
             } catch (Exception e) {
                 log.error("Exception occurred during async execution", e);
-                throw new RuntimeException(e);
+                throw new AnnotationEvaluationException(e);
             }
         });
     }

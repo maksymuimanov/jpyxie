@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.input;
 
-import io.maksymuimanov.python.exception.ProcessReadingException;
+import io.maksymuimanov.python.exception.PythonProcessReadingException;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +51,7 @@ public class BasicPythonInputProcessHandler implements ProcessHandler<String> {
      *
      * @param process the non-{@code null} {@link Process} whose standard output should be handled
      * @return the extracted JSON body string, or {@code null} if no marker was found
-     * @throws ProcessReadingException if reading the standard output fails
+     * @throws PythonProcessReadingException if reading the standard output fails
      */
     @Override
     @Nullable
@@ -69,7 +69,7 @@ public class BasicPythonInputProcessHandler implements ProcessHandler<String> {
                 }
             });
         } catch (IOException e) {
-            throw new ProcessReadingException(e);
+            throw new PythonProcessReadingException(e);
         }
         return result.get();
     }

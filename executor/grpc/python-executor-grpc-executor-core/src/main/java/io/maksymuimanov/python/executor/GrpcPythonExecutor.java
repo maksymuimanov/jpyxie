@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.maksymuimanov.python.exception.PythonScriptExecutionException;
+import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.proto.PythonRequest;
 import io.maksymuimanov.python.proto.PythonResponse;
 import io.maksymuimanov.python.proto.PythonServiceGrpc;
@@ -48,7 +48,7 @@ public class GrpcPythonExecutor implements PythonExecutor {
      * @param script the Python script to execute (non-null, non-empty recommended)
      * @param resultClass the {@link Class} representing the expected type of the body, may be null if no body expected
      * @return an instance of {@code R} parsed from the Python script output, or {@code null} if {@code resultClass} is null or output is blank
-     * @throws PythonScriptExecutionException if any error occurs during script execution or body parsing
+     * @throws PythonExecutionException if any error occurs during script execution or body parsing
      */
     @Override
     public <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass) {
@@ -63,7 +63,7 @@ public class GrpcPythonExecutor implements PythonExecutor {
                     : objectMapper.readValue(responseResult, resultClass);
             return new PythonExecutionResponse<>(result);
         } catch (Exception e) {
-            throw new PythonScriptExecutionException(e);
+            throw new PythonExecutionException(e);
         }
     }
 }

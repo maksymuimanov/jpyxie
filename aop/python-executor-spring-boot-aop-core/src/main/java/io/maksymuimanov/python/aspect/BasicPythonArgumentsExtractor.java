@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.aspect;
 
+import io.maksymuimanov.python.exception.MethodParameterExtractionException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 
@@ -38,10 +39,14 @@ public class BasicPythonArgumentsExtractor implements PythonArgumentsExtractor {
      */
     @Override
     public Map<String, Object> getArguments(JoinPoint joinPoint, Map<String, Object> additionalArguments) {
-        Map<String, Object> arguments = new HashMap<>();
-        Map<String, Object> methodArguments = methodExtractor.getMethodParameters(joinPoint);
-        arguments.putAll(methodArguments);
-        arguments.putAll(additionalArguments);
-        return arguments;
+        try {
+            Map<String, Object> arguments = new HashMap<>();
+            Map<String, Object> methodArguments = methodExtractor.getMethodParameters(joinPoint);
+            arguments.putAll(methodArguments);
+            arguments.putAll(additionalArguments);
+            return arguments;
+        } catch (Exception e) {
+            throw new MethodParameterExtractionException(e);
+        }
     }
 }

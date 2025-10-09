@@ -2,6 +2,7 @@ package io.maksymuimanov.python.aspect;
 
 import io.maksymuimanov.python.annotation.PythonAfter;
 import io.maksymuimanov.python.annotation.PythonAfters;
+import io.maksymuimanov.python.exception.PythonAspectException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -70,8 +71,12 @@ public class PythonAfterAspect {
      * @param annotation non-null class of the annotation to evaluate
      */
     private void evaluateWithResult(JoinPoint joinPoint, @Nullable Object result, Class<? extends Annotation> annotation) {
-        HashMap<String, Object> additionalArguments = new HashMap<>();
-        if (result != null) additionalArguments.put("result", result);
-        annotationEvaluator.evaluate(joinPoint, annotation, additionalArguments);
+        try {
+            HashMap<String, Object> additionalArguments = new HashMap<>();
+            if (result != null) additionalArguments.put("result", result);
+            annotationEvaluator.evaluate(joinPoint, annotation, additionalArguments);
+        } catch (Exception e) {
+            throw new PythonAspectException(e);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.executor;
 
-import io.maksymuimanov.python.exception.PythonScriptExecutionException;
+import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import org.jspecify.annotations.Nullable;
@@ -34,7 +34,7 @@ public interface PythonExecutor {
      * @param <R> the expected body type
      * @param script non-{@code null} Python script to execute
      * @param resultClass the Java class representing the expected body type, may be {@code null} if the script produces no output
-     * @throws PythonScriptExecutionException the exception must be thrown if something goes wrong with the script execution
+     * @throws PythonExecutionException the exception must be thrown if something goes wrong with the script execution
      * @return the body of the script execution mapped to {@code resultClass}, may be {@code null} if the script produces no output
      */
     <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass);

@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.aspect;
 
-import io.maksymuimanov.python.exception.AnnotationValueExtractingException;
+import io.maksymuimanov.python.exception.AnnotationExtractionException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -38,7 +38,7 @@ public class SinglePythonScriptExtractor implements PythonAnnotationValueExtract
      * @param annotationClass the annotation class to extract values from, must not be {@code null}
      * @param <A> the annotation type
      * @return a map containing exactly one entry: script as key and active profiles as value, never {@code null}
-     * @throws AnnotationValueExtractingException if annotation methods cannot be accessed or invoked, or the annotation is missing on the method
+     * @throws AnnotationExtractionException if annotation methods cannot be accessed or invoked, or the annotation is missing on the method
      */
     @Override
     public <A extends Annotation> Map<String, String[]> getValue(JoinPoint joinPoint, Class<? extends A> annotationClass) {
@@ -49,7 +49,7 @@ public class SinglePythonScriptExtractor implements PythonAnnotationValueExtract
             A annotation = Objects.requireNonNull(AnnotatedElementUtils.findMergedAnnotation(method, annotationClass));
             return Map.of((String) valueMethod.invoke(annotation), (String[]) activeProfilesMethod.invoke(annotation));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new AnnotationValueExtractingException(e);
+            throw new AnnotationExtractionException(e);
         }
     }
 }

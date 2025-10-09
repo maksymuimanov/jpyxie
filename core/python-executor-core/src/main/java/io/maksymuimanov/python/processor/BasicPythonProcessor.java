@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.processor;
 
+import io.maksymuimanov.python.exception.PythonProcessionException;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.file.PythonFileReader;
 import io.maksymuimanov.python.resolver.PythonResolverHolder;
@@ -62,8 +63,12 @@ public class BasicPythonProcessor implements PythonProcessor {
      */
     @Override
     public <R> PythonExecutionResponse<R> process(PythonScript script, @Nullable Class<? extends R> resultClass, Map<String, Object> arguments) {
-        if (script.isFile()) pythonFileReader.readScript(script);
-        pythonResolverHolder.resolveAll(script, arguments);
-        return pythonExecutor.execute(script, resultClass);
+        try {
+            if (script.isFile()) pythonFileReader.readScript(script);
+            pythonResolverHolder.resolveAll(script, arguments);
+            return pythonExecutor.execute(script, resultClass);
+        } catch (Exception e) {
+            throw new PythonProcessionException(e);
+        }
     }
 }

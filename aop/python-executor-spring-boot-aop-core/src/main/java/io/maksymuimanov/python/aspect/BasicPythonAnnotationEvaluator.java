@@ -1,7 +1,9 @@
 package io.maksymuimanov.python.aspect;
 
+import io.maksymuimanov.python.exception.AnnotationEvaluationException;
 import io.maksymuimanov.python.processor.PythonProcessor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 
 import java.lang.annotation.Annotation;
@@ -35,6 +37,7 @@ import java.util.Map;
  * @author w4t3rcs
  * @since 1.0.0
  */
+@Slf4j
 @RequiredArgsConstructor
 public class BasicPythonAnnotationEvaluator implements PythonAnnotationEvaluator {
     private final ProfileChecker profileChecker;
@@ -64,12 +67,17 @@ public class BasicPythonAnnotationEvaluator implements PythonAnnotationEvaluator
      */
     @Override
     public <A extends Annotation> void evaluate(JoinPoint joinPoint, Class<? extends A> annotationClass, Map<String, Object> additionalArguments) {
-        Map<String, String[]> annotationValue = annotationValueCompounder.compound(joinPoint, annotationClass);
-        annotationValue.forEach((script, activeProfiles) -> {
-            profileChecker.doOnProfiles(activeProfiles, () -> {
-                Map<String, Object> arguments = argumentsExtractor.getArguments(joinPoint, additionalArguments);
-                pythonProcessor.process(script, arguments);
+        try {
+            Map<String, String[]> annotationValue = annotationValueCompounder.compound(joinPoint, annotationClass);
+            annotationValue.forEach((script, activeProfiles) -> {
+                profileChecker.doOnProfiles(activeProfiles, () -> {
+                    Map<String, Object> arguments = argumentsExtractor.getArguments(joinPoint, additionalArguments);
+                    pythonProcessor.process(script, arguments);
+                });
             });
-        });
+        } catch (Exception e) {
+            log.error("Exception occurred during basic execution", e);
+            throw new AnnotationEvaluationException(e);
+        }
     }
 }

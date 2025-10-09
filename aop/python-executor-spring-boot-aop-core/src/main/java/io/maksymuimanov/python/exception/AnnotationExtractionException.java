@@ -21,21 +21,24 @@ import io.maksymuimanov.python.aspect.SinglePythonScriptExtractor;
  * @since 1.0.0
  * @author w4t3rcs
  */
-public class AnnotationValueExtractingException extends RuntimeException {
-    /**
-     * Constructs a new {@code AnnotationValueExtractingException} with no detail message.
-     */
-    public AnnotationValueExtractingException() {
-        super();
+public class AnnotationExtractionException extends AopPythonExceptionException {
+    public AnnotationExtractionException() {
     }
 
-    /**
-     * Constructs a new {@code AnnotationValueExtractingException} with the specified cause.
-     *
-     * @param cause the cause of this exception (may be {@code null})
-     */
-    public AnnotationValueExtractingException(Throwable cause) {
+    public AnnotationExtractionException(String message) {
+        super(message);
+    }
+
+    public AnnotationExtractionException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public AnnotationExtractionException(Throwable cause) {
         super(cause);
+    }
+
+    public AnnotationExtractionException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 }
 

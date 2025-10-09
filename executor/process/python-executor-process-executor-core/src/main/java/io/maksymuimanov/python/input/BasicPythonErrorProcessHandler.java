@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.input;
 
-import io.maksymuimanov.python.exception.ProcessReadingException;
+import io.maksymuimanov.python.exception.PythonProcessReadingException;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
@@ -16,16 +16,16 @@ import java.util.stream.Collectors;
  * If the error stream contains any non-blank content, the message is:
  * <ul>
  *     <li>Logged using SLF4J at <code>ERROR</code> level.</li>
- *     <li>Followed by throwing a {@link ProcessReadingException} containing the error details.</li>
+ *     <li>Followed by throwing a {@link PythonProcessReadingException} containing the error details.</li>
  * </ul>
  * If the error stream is empty, the method completes successfully and returns {@code null}.
  *
  * <p><b>Error handling:</b>
  * <ul>
  *     <li>If an {@link IOException} occurs while reading the error stream,
- *         it is wrapped and rethrown as a {@link ProcessReadingException}.</li>
+ *         it is wrapped and rethrown as a {@link PythonProcessReadingException}.</li>
  *     <li>If the error stream contains data, execution is aborted by throwing
- *         a {@link ProcessReadingException}.</li>
+ *         a {@link PythonProcessReadingException}.</li>
  * </ul>
  *
  * <p>Example usage:
@@ -46,12 +46,12 @@ public class BasicPythonErrorProcessHandler implements ProcessHandler<Void> {
      * Reads and processes the standard error stream of the specified {@link Process}.
      *
      * <p>If the error stream contains non-blank content, logs the content at
-     * <code>ERROR</code> level and throws a {@link ProcessReadingException}.
+     * <code>ERROR</code> level and throws a {@link PythonProcessReadingException}.
      * If no error content is present, returns {@code null}.
      *
      * @param process the non-{@code null} {@link Process} whose error output should be handled
      * @return {@code null} if no error output is present
-     * @throws ProcessReadingException if reading the error stream fails or if the stream contains errors
+     * @throws PythonProcessReadingException if reading the error stream fails or if the stream contains errors
      */
     @Override
     @Nullable
@@ -60,10 +60,10 @@ public class BasicPythonErrorProcessHandler implements ProcessHandler<Void> {
             String errorMessage = bufferedReader.lines().collect(Collectors.joining());
             if (!errorMessage.isBlank()) {
                 log.error(errorMessage);
-                throw new ProcessReadingException(errorMessage);
+                throw new PythonProcessReadingException(errorMessage);
             }
         } catch (IOException e) {
-            throw new ProcessReadingException(e);
+            throw new PythonProcessReadingException(e);
         }
         return null;
     }

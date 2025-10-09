@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.input;
 
-import io.maksymuimanov.python.exception.ProcessReadingException;
+import io.maksymuimanov.python.exception.PythonProcessReadingException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,7 +17,7 @@ class BasicPythonErrorProcessHandlerTests {
     void testHandle(String script) {
         Process process = new ProcessBuilder("python3", "-c", script).start();
         process.waitFor();
-        Assertions.assertThrows(ProcessReadingException.class, () -> ERROR_PROCESS_HANDLER.handle(process));
+        Assertions.assertThrows(PythonProcessReadingException.class, () -> ERROR_PROCESS_HANDLER.handle(process));
         Assertions.assertNotEquals(0, process.exitValue());
     }
 }

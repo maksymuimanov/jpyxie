@@ -1,31 +1,23 @@
 package io.maksymuimanov.python.exception;
 
-import io.maksymuimanov.python.executor.CachingPythonExecutor;
-import io.maksymuimanov.python.file.CachingPythonFileReader;
-import io.maksymuimanov.python.processor.CachingPythonProcessor;
-import io.maksymuimanov.python.resolver.CachingPythonResolverHolder;
+public class PythonCacheException extends PythonException {
+    public PythonCacheException() {
+        super();
+    }
 
-/**
- * Runtime exception indicating errors related to Python cache operations.
- * <p>
- * This exception wraps any underlying exceptions encountered during cache
- * handling in the Python integration context.
- * </p>
- *
- * @see CachingPythonFileReader
- * @see CachingPythonResolverHolder
- * @see CachingPythonExecutor
- * @see CachingPythonProcessor
- * @author w4t3rcs
- * @since 1.0.0
- */
-public class PythonCacheException extends RuntimeException {
-    /**
-     * Constructs a new {@code PythonCacheException} with the specified cause.
-     *
-     * @param cause the underlying cause of this exception; must not be null.
-     */
+    public PythonCacheException(String message) {
+        super(message);
+    }
+
+    public PythonCacheException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public PythonCacheException(Throwable cause) {
         super(cause);
+    }
+
+    public PythonCacheException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

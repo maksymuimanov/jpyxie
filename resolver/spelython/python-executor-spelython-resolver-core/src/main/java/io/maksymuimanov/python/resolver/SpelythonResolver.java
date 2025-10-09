@@ -2,7 +2,7 @@ package io.maksymuimanov.python.resolver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.maksymuimanov.python.exception.SpelythonProcessingException;
+import io.maksymuimanov.python.exception.PythonScriptException;
 import io.maksymuimanov.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -25,7 +25,7 @@ import java.util.Map;
  *
  * <p>The resolver automatically inserts the necessary Python JSON import statement if missing.
  * It supports passing external variables to the SpEL context via the {@code arguments} map.
- * Errors during JSON serialization are wrapped and rethrown as {@link SpelythonProcessingException}.</p>
+ * Errors during JSON serialization are wrapped and rethrown as {@link PythonScriptException}.</p>
  *
  * @see PythonResolver
  * @see PythonResolverHolder
@@ -52,6 +52,7 @@ public class SpelythonResolver implements PythonResolver {
      * @param pythonScript non-null Python script content possibly containing SpEL expressions
      * @param arguments    nullable map of variables for SpEL evaluation context, keys are variable names, values are their corresponding objects. If null or empty, no variables are set.
      * @return non-null-resolved script with SpEL expressions replaced by JSON-wrapped results
+     * @throws PythonScriptException if there are any exceptions during JSON serialization {@link PythonScriptException} is thrown
      */
     @Override
     public PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments) {
@@ -86,7 +87,7 @@ public class SpelythonResolver implements PythonResolver {
                                     .append("')");
                         }
                     } catch (JsonProcessingException e) {
-                        throw new SpelythonProcessingException(e);
+                        throw new PythonScriptException(e);
                     }
                 })
                 .build();

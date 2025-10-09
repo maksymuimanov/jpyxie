@@ -2,7 +2,7 @@ package io.maksymuimanov.python.resolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.cache.CacheKeyGenerator;
-import io.maksymuimanov.python.exception.PythonCacheException;
+import io.maksymuimanov.python.exception.PythonScriptException;
 import io.maksymuimanov.python.script.PythonScript;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -79,7 +79,7 @@ public class CachingPythonResolverHolder implements PythonResolverHolder {
      * @param script non-null script to resolve variables in
      * @param arguments non-null map of arguments for resolution
      * @return resolved script string, never null
-     * @throws PythonCacheException if any error occurs during caching or resolution
+     * @throws PythonScriptException if any error occurs during caching or resolution
      */
     @Override
     public PythonScript resolveAll(PythonScript script, Map<String, Object> arguments) {
@@ -94,7 +94,7 @@ public class CachingPythonResolverHolder implements PythonResolverHolder {
             cache.put(key, script);
             return script;
         } catch (Exception e) {
-            throw new PythonCacheException(e);
+            throw new PythonScriptException(e);
         }
     }
 
