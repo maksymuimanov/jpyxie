@@ -33,6 +33,7 @@
         <module name="python-executor-process-executor-core" />
         <module name="python-executor-pretty-resolver-core" />
         <module name="python-executor-spelython-resolver-core" />
+        <module name="python-executor-jep-executor-core" />
         <module name="python-executor-restricted-resolver-core" />
         <module name="python-executor-common" />
         <module name="python-executor-py4j-spring-boot-starter" />
