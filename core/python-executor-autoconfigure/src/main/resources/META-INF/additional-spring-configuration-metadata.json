@@ -5,6 +5,12 @@
       "description": "Configuration properties for managing Python files.",
       "type": "io.maksymuimanov.python.autoconfigure.PythonFileProperties",
       "sourceType": "io.maksymuimanov.python.autoconfigure.PythonFileProperties"
+    },
+    {
+      "name": "spring.python.pip",
+      "description": "Configuration group for Python package management using pip.",
+      "type": "io.maksymuimanov.python.autoconfigure.PythonPipProperties",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonPipProperties"
     }
   ],
   "properties": [
@@ -14,6 +20,57 @@
       "defaultValue": "/python/",
       "type": "java.lang.String",
       "sourceType": "io.maksymuimanov.python.autoconfigure.PythonFileProperties"
+    },
+    {
+      "name": "spring.python.pip.command",
+      "description": "Command used to invoke pip for managing Python packages. Typically 'python -m pip', but can point to an interpreter inside a virtual environment or a Windows launcher.",
+      "defaultValue": "python -m pip",
+      "type": "java.lang.String",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonPipProperties"
+    },
+    {
+      "name": "spring.python.pip.library.enabled",
+      "description": "Enables or disables automatic Python library management on Spring application lifecycle. When true, the system can preinstall or uninstall required packages.",
+      "defaultValue": false,
+      "type": "java.lang.Boolean",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonPipProperties$LibraryProperties"
+    },
+    {
+      "name": "spring.python.pip.library.installed",
+      "description": "List of Python libraries to install before executing any Python scripts. Each entry defines a PythonLibraryManagement object.",
+      "defaultValue": [],
+      "type": "io.maksymuimanov.python.library.PythonLibraryManagement[]",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonPipProperties$LibraryProperties"
+    },
+    {
+      "name": "spring.python.pip.library.uninstalled",
+      "description": "List of Python libraries to uninstall before whole application shutdown. Each entry defines a PythonLibraryManagement object.",
+      "defaultValue": [],
+      "type": "io.maksymuimanov.python.library.PythonLibraryManagement[]",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonPipProperties$LibraryProperties"
+    }
+  ],
+  "hints": [
+    {
+      "name": "spring.python.pip.command",
+      "values": [
+        {
+          "value": "python -m pip",
+          "description": "Use the system-wide Python interpreter to run pip."
+        },
+        {
+          "value": "py -m pip",
+          "description": "Use the Windows 'py' launcher to run pip."
+        },
+        {
+          "value": "venv/bin/python -m pip",
+          "description": "Use pip from a virtual environment on Linux or macOS."
+        },
+        {
+          "value": "venv/Scripts/python.exe -m pip",
+          "description": "Use pip from a virtual environment on Windows."
+        }
+      ]
     }
   ]
 }

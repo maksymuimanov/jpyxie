@@ -36,7 +36,7 @@ public class ProcessPythonExecutorProperties {
     /**
      * The base command used to start the Python interpreter process.
      */
-    private String startCommand = "python3";
+    private String startCommand = "python";
     /**
      * Whether process execution details (input, output, errors) should be logged.
      */

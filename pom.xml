@@ -91,6 +91,7 @@
         <lombok.version>1.18.38</lombok.version>
         <junit.version>5.12.2</junit.version>
         <mockito.version>5.17.0</mockito.version>
+        <slf4j.version>2.0.17</slf4j.version>
     </properties>
     <dependencies>
         <dependency>

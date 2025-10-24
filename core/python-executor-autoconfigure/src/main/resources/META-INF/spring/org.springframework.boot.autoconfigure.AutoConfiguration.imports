@@ -1,3 +1,5 @@
 io.maksymuimanov.python.autoconfigure.PythonFileReaderAutoConfiguration
 io.maksymuimanov.python.autoconfigure.PythonProcessorAutoConfiguration
 io.maksymuimanov.python.autoconfigure.PythonResolverAutoConfiguration
+io.maksymuimanov.python.autoconfigure.PipAutoConfiguration
+io.maksymuimanov.python.autoconfigure.PythonLifecycleAutoConfiguration

@@ -1,4 +1,4 @@
 @NullMarked
-package io.maksymuimanov.python.jep;
+package io.maksymuimanov.python.lifecycle;
 
 import org.jspecify.annotations.NullMarked;
