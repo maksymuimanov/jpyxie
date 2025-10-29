@@ -17,6 +17,8 @@
     <file url="file://$PROJECT_DIR$/executor/grpc/python-executor-grpc-executor-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/executor/grpc/python-executor-grpc-executor-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/executor/grpc/python-executor-grpc-executor-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/executor/jep/python-executor-jep-executor-autoconfigure/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/executor/jep/python-executor-jep-executor-spring-boot-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/executor/process/python-executor-process-executor-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/executor/process/python-executor-process-executor-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/executor/process/python-executor-process-executor-spring-boot-starter/src/main/java" charset="UTF-8" />

@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.lifecycle;
 
+import io.maksymuimanov.python.exception.PythonLifecycleException;
 import io.maksymuimanov.python.library.PipManager;
 import io.maksymuimanov.python.library.PythonLibraryManagement;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +14,16 @@ public class ExternalPythonLibraryFinalizer implements PythonFinalizer {
 
     @Override
     public void finish() {
-        log.info("Starting Python libraries uninstallation");
-        for (PythonLibraryManagement library : libraries) {
-            if (!pipManager.exists(library)) continue;
-            log.info("Uninstalling [{}] with options {}", library.getName(), library.getOptions());
-            pipManager.uninstall(library);
-            log.info("Uninstalled [{}] successfully", library.getName());
+        try {
+            log.info("Starting Python libraries uninstallation");
+            for (PythonLibraryManagement library : libraries) {
+                if (!pipManager.exists(library)) continue;
+                log.info("Uninstalling [{}] with options {}", library.getName(), library.getOptions());
+                pipManager.uninstall(library);
+                log.info("Uninstalled [{}] successfully", library.getName());
+            }
+        } catch (Exception e) {
+            throw new PythonLifecycleException(e);
         }
     }
 }

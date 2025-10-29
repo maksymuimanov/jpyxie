@@ -40,6 +40,8 @@
         <option value="$PROJECT_DIR$/aop/spring-boot-python-executor-aop-core/pom.xml" />
         <option value="$PROJECT_DIR$/aop/spring-boot-python-executor-aop-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/aop/spring-boot-python-executor-aop-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/executor/jep/python-executor-jep-executor-autoconfigure/pom.xml" />
+        <option value="$PROJECT_DIR$/executor/jep/python-executor-jep-executor-spring-boot-starter/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

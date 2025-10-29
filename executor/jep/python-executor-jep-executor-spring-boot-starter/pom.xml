@@ -2,14 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>python-executor-spring-boot-starter</artifactId>
+    <artifactId>python-executor-jep-executor-spring-boot-starter</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
-    <name>Spring Boot Python Executor Starter</name>
+    <name>Spring Boot Python Executor JEP Executor Starter</name>
     <description>
-        Spring Boot starter for Python Executor integration.
-        Provides all necessary dependencies and autoconfiguration to enable safe Python script execution
-        within a Spring Boot application, including SpEL integration, result processing, and multiple execution strategies.
+        Spring Boot starter module providing automatic configuration and integration
+        of the JEP (Java Embedded Python) executor. It enables seamless execution of
+        Python code within Java applications using the JEP-based backend, without requiring
+        manual setup or dependency management.
     </description>
     <url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
     <licenses>
@@ -38,37 +39,12 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>python-executor-autoconfigure</artifactId>
+            <artifactId>python-executor-jep-executor-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>python-executor-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>python-executor-spring-boot-aop-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>python-executor-jep-executor-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>python-executor-spelython-resolver-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>python-executor-result-resolver-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>python-executor-pretty-resolver-spring-boot-starter</artifactId>
+            <artifactId>python-executor-jep-executor-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

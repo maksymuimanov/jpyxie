@@ -11,6 +11,7 @@
         <module name="python-executor-rest-executor-spring-boot-starter" />
         <module name="python-executor-py4j-core" />
         <module name="python-executor-spelython-resolver-spring-boot-starter" />
+        <module name="python-executor-jep-executor-autoconfigure" />
         <module name="python-grpc-server-testcontainers" />
         <module name="python-executor-core" />
         <module name="python-executor-spring-boot-cache-starter" />
@@ -20,6 +21,7 @@
         <module name="python-executor-autoconfigure" />
         <module name="python-executor-spring-boot-cache-autoconfigure" />
         <module name="python-executor-pretty-resolver-autoconfigure" />
+        <module name="python-executor-jep-executor-spring-boot-starter" />
         <module name="python-executor-process-executor-spring-boot-starter" />
         <module name="python-executor-result-resolver-core" />
         <module name="python-executor-grpc-executor-autoconfigure" />
@@ -62,6 +64,8 @@
       <module name="python-executor-grpc-executor-autoconfigure" options="" />
       <module name="python-executor-grpc-executor-core" options="" />
       <module name="python-executor-grpc-executor-spring-boot-starter" options="" />
+      <module name="python-executor-jep-executor-autoconfigure" options="" />
+      <module name="python-executor-jep-executor-spring-boot-starter" options="" />
       <module name="python-executor-pretty-resolver-autoconfigure" options="" />
       <module name="python-executor-pretty-resolver-core" options="" />
       <module name="python-executor-pretty-resolver-spring-boot-starter" options="" />

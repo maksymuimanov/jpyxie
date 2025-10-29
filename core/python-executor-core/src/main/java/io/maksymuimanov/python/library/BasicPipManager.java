@@ -2,12 +2,13 @@ package io.maksymuimanov.python.library;
 
 import io.maksymuimanov.python.exception.PythonLibraryManagementException;
 import lombok.extern.slf4j.Slf4j;
+import org.zeroturnaround.exec.ProcessExecutor;
+import org.zeroturnaround.exec.stream.slf4j.Slf4jStream;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -24,7 +25,7 @@ public class BasicPipManager implements PipManager {
     @Override
     public boolean exists(PythonLibraryManagement management) {
         AtomicBoolean exists = new AtomicBoolean(false);
-        this.processCommand(SHOW, management, (exitValue) -> {
+        this.processCommand(SHOW, management.getName(), (exitValue) -> {
             if (exitValue == 0) {
                 exists.set(true);
             }
@@ -43,7 +44,15 @@ public class BasicPipManager implements PipManager {
         this.processCommand(UNINSTALL, management);
     }
 
-    private void processCommand(String command, PythonLibraryManagement management) {
+    protected void processCommand(String command, String name) {
+        this.processCommand(command, name, (exitValue, commandList) -> {
+            if (exitValue != 0) {
+                throw new PythonLibraryManagementException(String.format("%s failed with exit code: %d", String.join(" ", commandList), exitValue));
+            }
+        });
+    }
+
+    protected void processCommand(String command, PythonLibraryManagement management) {
         this.processCommand(command, management, (exitValue, commandList) -> {
             if (exitValue != 0) {
                 throw new PythonLibraryManagementException(String.format("%s failed with exit code: %d", String.join(" ", commandList), exitValue));
@@ -51,13 +60,19 @@ public class BasicPipManager implements PipManager {
         });
     }
 
-    private void processCommand(String command, PythonLibraryManagement management, Consumer<Integer> exitValueConsumer) {
+    protected void processCommand(String command, PythonLibraryManagement management, Consumer<Integer> exitValueConsumer) {
         this.processCommand(command, management, (exitValue, commandList) -> {
             exitValueConsumer.accept(exitValue);
         });
     }
 
-    private void processCommand(String command, PythonLibraryManagement management, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
+    protected void processCommand(String command, String name, Consumer<Integer> exitValueConsumer) {
+        this.processCommand(command, name, (exitValue, commandList) -> {
+            exitValueConsumer.accept(exitValue);
+        });
+    }
+
+    protected void processCommand(String command, PythonLibraryManagement management, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
         List<String> commands = new ArrayList<>();
         Collections.addAll(commands, this.pipPath);
         commands.add(command);
@@ -66,7 +81,15 @@ public class BasicPipManager implements PipManager {
         this.processCommand(commands, exitValueCommandsBiConsumer);
     }
 
-    private void processCommand(List<String> commands) {
+    protected void processCommand(String command, String name, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
+        List<String> commands = new ArrayList<>();
+        Collections.addAll(commands, this.pipPath);
+        commands.add(command);
+        commands.add(name);
+        this.processCommand(commands, exitValueCommandsBiConsumer);
+    }
+
+    protected void processCommand(List<String> commands) {
         this.processCommand(commands, (exitValue) -> {
             if (exitValue != 0) {
                 throw new PythonLibraryManagementException(String.format("%s failed with exit code: %d", String.join(" ", commands), exitValue));
@@ -74,33 +97,27 @@ public class BasicPipManager implements PipManager {
         });
     }
 
-    private void processCommand(List<String> commands, Consumer<Integer> exitValueConsumer) {
+    protected void processCommand(List<String> commands, Consumer<Integer> exitValueConsumer) {
         this.processCommand(commands, (exitValue, commandList) -> {
             exitValueConsumer.accept(exitValue);
         });
     }
 
-    private void processCommand(List<String> commands, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
+    protected void processCommand(List<String> commands, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            Process process = processBuilder.command(commands)
+            int exitValue = new ProcessExecutor()
+                    .command(commands)
                     .redirectErrorStream(true)
-                    .start();
-            Thread infoThread = new Thread(() -> {
-                try (BufferedReader inputReader = process.inputReader()) {
-                    inputReader.lines().forEach(log::debug);
-                } catch (IOException e) {
-                    throw new PythonLibraryManagementException(e);
-                }
-            });
-            infoThread.start();
-            int exitValue = process.waitFor();
-            infoThread.join();
+                    .readOutput(true)
+                    .timeout(5, TimeUnit.MINUTES)
+                    .redirectOutput(Slf4jStream.of(log).asDebug())
+                    .execute()
+                    .getExitValue();
             exitValueCommandsBiConsumer.accept(exitValue, commands);
-        } catch (IOException e) {
-            throw new PythonLibraryManagementException(e);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            throw new PythonLibraryManagementException(e);
+        } catch (Exception e) {
             throw new PythonLibraryManagementException(e);
         }
     }
