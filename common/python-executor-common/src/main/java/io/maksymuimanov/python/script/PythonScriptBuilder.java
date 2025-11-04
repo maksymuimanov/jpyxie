@@ -21,6 +21,24 @@ public final class PythonScriptBuilder {
         this.script = script;
     }
 
+
+    public PythonScriptBuilder mergeToStart(@NonNull PythonScript pythonScript) {
+        pythonScript.getImportLines().forEach(this::appendImport);
+        this.prependCode();
+        for (int i = pythonScript.getCodeLines().size() - 1; i >= 0; i--) {
+            String codeLine = pythonScript.getCodeLine(i);
+            this.prependCode(codeLine);
+        }
+        return this;
+    }
+
+    public PythonScriptBuilder merge(@NonNull PythonScript pythonScript) {
+        pythonScript.getImportLines().forEach(this::appendImport);
+        this.appendCode();
+        pythonScript.getCodeLines().forEach(this::appendCode);
+        return this;
+    }
+
     public PythonScriptBuilder removeAllNullImports() {
         while (this.script.containsImport((PythonImportLine) null)) {
             this.removeImport((PythonImportLine) null);

@@ -32,6 +32,7 @@
         <module name="python-executor-spelython-resolver-autoconfigure" />
         <module name="python-executor-py4j-autoconfigure" />
         <module name="python-executor-pretty-resolver-spring-boot-starter" />
+        <module name="python-executor-bind-core" />
         <module name="python-executor-process-executor-core" />
         <module name="python-executor-pretty-resolver-core" />
         <module name="python-executor-spelython-resolver-core" />
@@ -59,6 +60,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="python-executor-autoconfigure" options="" />
+      <module name="python-executor-bind-core" options="" />
       <module name="python-executor-common" options="" />
       <module name="python-executor-core" options="" />
       <module name="python-executor-grpc-executor-autoconfigure" options="" />
