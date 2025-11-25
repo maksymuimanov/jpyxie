@@ -20,9 +20,9 @@ import java.util.Map;
  * <p><strong>Example usage:</strong></p>
  * <pre>{@code
  * PythonResolver resolver = ...;
- * String script = "print('Hello, spel{#name}!')";
+ * PythonScript script = new PythonScript("print('Hello, spel{#name}!')");
  * Map<String, Object> args = Map.of("name", "World");
- * String resolvedScript = resolver.resolve(script, args);
+ * PythonScript resolvedScript = resolver.resolve(script, args);
  * }</pre>
  *
  * @author w4t3rcs

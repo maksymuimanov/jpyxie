@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PythonScript {
+public class PythonScript implements PythonRepresentation {
     public static final String FILE_FORMAT = ".py";
     public static final int START_INDEX = 0;
     @NonNull
@@ -162,6 +162,11 @@ public class PythonScript {
 
     @Override
     public String toString() {
+        return this.toPythonString();
+    }
+
+    @Override
+    public String toPythonString() {
         if (this.body == null || this.body.isBlank()) {
             this.body = Stream.concat(this.getImportLines().stream().map(PythonImportLine::getLine), this.getCodeLines().stream())
                     .collect(Collectors.joining("\n"));

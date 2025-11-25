@@ -21,6 +21,10 @@ public final class PythonScriptBuilder {
         this.script = script;
     }
 
+    public PythonScriptBuilder mergeToStart(@NonNull PythonRepresentation pythonRepresentation) {
+        PythonScript pythonScript = new PythonScript(pythonRepresentation.toPythonString());
+        return this.mergeToStart(pythonScript);
+    }
 
     public PythonScriptBuilder mergeToStart(@NonNull PythonScript pythonScript) {
         pythonScript.getImportLines().forEach(this::appendImport);
@@ -30,6 +34,11 @@ public final class PythonScriptBuilder {
             this.prependCode(codeLine);
         }
         return this;
+    }
+
+    public PythonScriptBuilder merge(@NonNull PythonRepresentation pythonRepresentation) {
+        PythonScript pythonScript = new PythonScript(pythonRepresentation.toPythonString());
+        return this.merge(pythonScript);
     }
 
     public PythonScriptBuilder merge(@NonNull PythonScript pythonScript) {

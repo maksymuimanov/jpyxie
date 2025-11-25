@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class PythonImportLine {
+public final class PythonImportLine implements PythonRepresentation {
     public static final String IMPORT_REGEX = "(^import [\\w.]+$)|(^import [\\w.]+ as [\\w.]+$)|(^from [\\w.]+ import [\\w., ]+$)";
     /**
      * Regular expression for matching Python import statements with optional {@code from ... import ...} syntax.
@@ -65,6 +65,11 @@ public final class PythonImportLine {
 
     @Override
     public String toString() {
+        return this.toPythonString();
+    }
+
+    @Override
+    public String toPythonString() {
         return this.getLine();
     }
 }

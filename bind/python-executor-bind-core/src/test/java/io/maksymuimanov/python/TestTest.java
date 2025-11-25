@@ -1,69 +1,128 @@
 package io.maksymuimanov.python;
 
-import io.maksymuimanov.python.bind.PythonMethodParameter;
-import io.maksymuimanov.python.schema.*;
-import io.maksymuimanov.python.script.PythonScript;
-import io.maksymuimanov.python.script.PythonScriptBuilder;
+import io.maksymuimanov.python.annotation.PythonConvert;
+import io.maksymuimanov.python.annotation.PythonIgnore;
+import io.maksymuimanov.python.annotation.PythonInclude;
+import io.maksymuimanov.python.bind.JavaTypeUtils;
+import io.maksymuimanov.python.bind.PythonString;
+import io.maksymuimanov.python.converter.*;
+import io.maksymuimanov.python.script.PythonRepresentation;
+import io.maksymuimanov.python.serializer.BasicPythonSerializer;
+import io.maksymuimanov.python.serializer.PythonSerializer;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TestTest {
     @Test
     void test() {
-        List<PythonSchemaTypeConverter<PythonMethodParameter>> converters = List.of(
-                new PythonSchemaIntFieldTypeConverter(),
-                new PythonSchemaFloatFieldTypeConverter(),
-                new PythonSchemaStringFieldTypeConverter(),
-                new PythonSchemaBooleanFieldTypeConverter(),
-                new PythonSchemaSerializableFieldTypeConverter()
+        List<PythonTypeConverter> typeConverters = List.of(
+                new PythonBigDecimalConverter(),
+                new PythonBigIntegerConverter(),
+                new PythonBooleanConverter(),
+                new PythonDictionaryConverter(),
+                new PythonFloatConverter(),
+                new PythonIntConverter(),
+                new PythonListConverter(),
+                new PythonObjectDictionaryConverter(),
+                new PythonQueueConverter(),
+                new PythonSetConverter(),
+                new PythonStringConverter(),
+                new PythonOptionalConverter(),
+                new PythonArrayConverter(),
+                new GoofyConverter()
         );
-        Map<Class<?>, PythonSchemaTypeConverter<PythonMethodParameter>> converterMap = new HashMap<>();
-        for (PythonSchemaTypeConverter<PythonMethodParameter> converter : converters) {
-            for (Class<?> supportedClass : converter.getSupportedClasses()) {
-                converterMap.put(supportedClass, converter);
-            }
+
+        BasicPythonSerializer serializer = new BasicPythonSerializer(typeConverters);
+
+//        System.out.println(serializer.serialize(1).toPythonString());
+//        System.out.println(serializer.serialize("a2145a").toPythonString());
+//        System.out.println(serializer.serialize(new int[]{1, 2, 3}).toPythonString());
+
+
+        A a = new A();
+        PythonRepresentation representation = serializer.serialize(a);
+        System.out.println(representation.toPythonString());
+    }
+
+    public static class GoofyConverter implements PythonTypeConverter {
+
+        @Override
+        public PythonRepresentation convert(Object value, PythonSerializer pythonSerializer) {
+            return new PythonString("I am Goofy! :DDDDDDDDDDD");
         }
 
-        PythonSchemaMapper classSerializer = new BasicPythonSchemaMapper(converterMap);
-        PythonSchema parsed = classSerializer.map(A.class, new PythonSchema(), new HashSet<>());
-
-
-        PythonScript pythonScript = new PythonScript("print(2 + 2)\na = 3\nprint(a)\n");
-        PythonScriptBuilder builder = pythonScript.getBuilder();
-        builder.mergeToStart(new PythonScript(parsed.toPythonString()));
-        System.out.println(pythonScript);
+        @Override
+        public boolean supports(Class<?> type) {
+            return JavaTypeUtils.isString(type);
+        }
     }
 
+//    @PythonInclude(visibleFields = PythonInclude.AccessModifier.PROTECTED)
     public static class A implements Serializable {
-        String a;
-        B b;
-        C c;
-        A ameba;
+        @PythonIgnore
+        private final String a = "aefafa";
+        private final String text = "3q5q3tqt";
+        @PythonConvert(GoofyConverter.class)
+        private final String goofy = "ge";
+        private final B b = new B();
+        protected A ameba;
+        public int x = 125;
+        public Optional<Integer> optNum = Optional.of(125134);
+        public Optional<?> empty = Optional.empty();
+        @PythonIgnore
+        public byte y = -1-5;
+        private final double u = -15.e3;
+        protected boolean z = false;
+        public char t = 't';
+        public char[] textArray = new char[]{'a', 'b', 'c'};
+        public int[] intArray = new int[]{1, 35, 315135};
+        public B[] bArray = new B[]{new B("Abafa"), new B(), new B("Tbart")};
+        public Iterable<Integer> iterable = Set.of(4, 22, 6);
+        public List<Integer> list = List.of(1, 2, 3);
+        public Set<Integer> set = Set.of(1, 2, 3);
+        public Queue<Integer> queue = new PriorityQueue<>(list);
+        public Map<Integer, Integer> map = Map.of(1, 2, 3, 4);
+        public Ccc cccA = Ccc.A;
+        public Ccc cccC = Ccc.C;
     }
 
-    public static class B implements Serializable {
-        int x = 125;
-        byte y = -1-5;
-        double u = -15.e3;
-        transient boolean z = true;
-        char t = 't';
+    public static class B {
+        private String b;
+
+        public B() {
+        }
+
+        public B(String b) {
+            this.b = b;
+        }
     }
 
-    public static class C implements Serializable {
-        D d;
-        E e;
+    @PythonInclude(visibleFields = PythonInclude.AccessModifier.PROTECTED)
+    public enum Ccc {
+        A(1, "TRT214", Ddd.A),
+        B(2, "#T2#", Ddd.B),
+        C(3, "3#%'35", Ddd.C);
+
+        private final int x;
+        private final String y;
+        private final Ddd ddd;
+
+        Ccc(int x, String y, Ddd ddd) {
+            this.x = x;
+            this.y = y;
+            this.ddd = ddd;
+        }
     }
 
-    public static class D implements Serializable {
-        boolean z = true;
-    }
+    public enum Ddd {
+        A, B, C;
 
-    public static class E implements Serializable {
-        char t = 't';
+        int numb;
+
+        Ddd() {
+            this.numb = ordinal();
+        }
     }
 }
