@@ -12,6 +12,7 @@ import io.maksymuimanov.python.serializer.PythonSerializer;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 
 public class TestTest {
@@ -31,7 +32,9 @@ public class TestTest {
                 new PythonStringConverter(),
                 new PythonOptionalConverter(),
                 new PythonArrayConverter(),
-                new GoofyConverter()
+                new GoofyConverter(),
+                new PythonLocalDateConverter(),
+                new PythonEnumDictionaryConverter()
         );
 
         BasicPythonSerializer serializer = new BasicPythonSerializer(typeConverters);
@@ -86,6 +89,7 @@ public class TestTest {
         public Map<Integer, Integer> map = Map.of(1, 2, 3, 4);
         public Ccc cccA = Ccc.A;
         public Ccc cccC = Ccc.C;
+        public LocalDate date = LocalDate.now();
     }
 
     public static class B {
@@ -101,7 +105,7 @@ public class TestTest {
 
     @PythonInclude(visibleFields = PythonInclude.AccessModifier.PROTECTED)
     public enum Ccc {
-        A(1, "TRT214", Ddd.A),
+        A(1, "TRT\"214", Ddd.A),
         B(2, "#T2#", Ddd.B),
         C(3, "3#%'35", Ddd.C);
 

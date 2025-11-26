@@ -18,44 +18,63 @@ public class PythonObjectDictionaryConverter implements PythonTypeConverter {
     @Override
     public PythonRepresentation convert(Object value, PythonSerializer pythonSerializer) {
         Class<?> clazz = value.getClass();
-        PythonInclude pythonInclude = clazz.getDeclaredAnnotation(PythonInclude.class);
         Field[] fields = clazz.getDeclaredFields();
         PythonDictionary pythonDictionary = new PythonDictionary();
         for (Field field : fields) {
-            if (field.isAnnotationPresent(PythonIgnore.class)) continue;
-            if (pythonInclude!= null) {
-                PythonInclude.AccessModifier visibleFields = pythonInclude.visibleFields();
-                int modifiers = field.getModifiers();
-                if (visibleFields == PythonInclude.AccessModifier.PROTECTED
-                        && !Modifier.isPublic(modifiers)
-                        && !Modifier.isProtected(modifiers)) continue;
-                else if (visibleFields == PythonInclude.AccessModifier.PUBLIC
-                        && !Modifier.isPublic(modifiers)) continue;
-                boolean staticFields = pythonInclude.staticFields();
-                if (!staticFields && Modifier.isStatic(modifiers)) continue;
-            }
-            if (field.isEnumConstant() || field.isSynthetic()) continue;
+            if (this.isSpecialField(field) || this.isIgnored(field) || this.isNotIncluded(clazz, field)) continue;
             field.setAccessible(true);
-            String dictionaryKey;
-            if (field.isAnnotationPresent(PythonDictionaryKey.class)) {
-                PythonDictionaryKey dictionaryKeyAnnotation = field.getDeclaredAnnotation(PythonDictionaryKey.class);
-                dictionaryKey = dictionaryKeyAnnotation.value();
-            } else {
-                dictionaryKey = field.getName();
-            }
-            PythonString pythonObjectKey = new PythonString(dictionaryKey);
-            Object fieldValue = field.get(value);
-            PythonRepresentation pythonObjectValue;
-            if (field.isAnnotationPresent(PythonConvert.class)) {
-                PythonConvert pythonConvertAnnotation = field.getDeclaredAnnotation(PythonConvert.class);
-                pythonObjectValue = pythonSerializer.serialize(fieldValue, pythonConvertAnnotation.value());
-            } else {
-                pythonObjectValue = pythonSerializer.serialize(fieldValue);
-            }
+            PythonString pythonObjectKey = this.getDictionaryKey(field);
+            PythonRepresentation pythonObjectValue = this.getDictionaryValue(pythonSerializer, field, value);
             pythonDictionary.put(pythonObjectKey, pythonObjectValue);
         }
 
         return pythonDictionary;
+    }
+
+    protected boolean isSpecialField(Field field) {
+        return field.isEnumConstant() || field.isSynthetic();
+    }
+
+    protected boolean isIgnored(Field field) {
+        return field.isAnnotationPresent(PythonIgnore.class);
+    }
+
+    @SneakyThrows
+    protected boolean isNotIncluded(Class<?> clazz, Field field) {
+        if (!clazz.isAnnotationPresent(PythonInclude.class)) return false;
+        PythonInclude pythonInclude = clazz.getDeclaredAnnotation(PythonInclude.class);
+        PythonInclude.AccessModifier visibleFields = pythonInclude.visibleFields();
+        int modifiers = field.getModifiers();
+        if (visibleFields == PythonInclude.AccessModifier.PROTECTED
+                && !Modifier.isPublic(modifiers)
+                && !Modifier.isProtected(modifiers)) return true;
+        else if (visibleFields == PythonInclude.AccessModifier.PUBLIC
+                && !Modifier.isPublic(modifiers)) return true;
+        return !pythonInclude.staticFields() && Modifier.isStatic(modifiers);
+    }
+
+    protected PythonString getDictionaryKey(Field field) {
+        String dictionaryKey;
+        if (field.isAnnotationPresent(PythonDictionaryKey.class)) {
+            PythonDictionaryKey dictionaryKeyAnnotation = field.getDeclaredAnnotation(PythonDictionaryKey.class);
+            dictionaryKey = dictionaryKeyAnnotation.value();
+        } else {
+            dictionaryKey = field.getName();
+        }
+        return new PythonString(dictionaryKey);
+    }
+
+    @SneakyThrows
+    protected PythonRepresentation getDictionaryValue(PythonSerializer pythonSerializer, Field field, Object value) {
+        Object fieldValue = field.get(value);
+        PythonRepresentation pythonObjectValue;
+        if (field.isAnnotationPresent(PythonConvert.class)) {
+            PythonConvert pythonConvertAnnotation = field.getDeclaredAnnotation(PythonConvert.class);
+            pythonObjectValue = pythonSerializer.serialize(fieldValue, pythonConvertAnnotation.value());
+        } else {
+            pythonObjectValue = pythonSerializer.serialize(fieldValue);
+        }
+        return pythonObjectValue;
     }
 
     @Override
@@ -65,6 +84,6 @@ public class PythonObjectDictionaryConverter implements PythonTypeConverter {
 
     @Override
     public int getPriority() {
-        return MAX_PRIORITY;
+        return MIN_PRIORITY;
     }
 }
