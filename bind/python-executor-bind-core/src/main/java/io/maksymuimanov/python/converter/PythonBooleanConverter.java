@@ -1,9 +1,9 @@
 package io.maksymuimanov.python.converter;
 
-import io.maksymuimanov.python.bind.JavaTypeUtils;
 import io.maksymuimanov.python.bind.PythonBoolean;
 import io.maksymuimanov.python.script.PythonRepresentation;
 import io.maksymuimanov.python.serializer.PythonSerializer;
+import io.maksymuimanov.python.util.JavaTypeUtils;
 
 public class PythonBooleanConverter implements PythonTypeConverter {
     @Override

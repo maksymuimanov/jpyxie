@@ -3,12 +3,12 @@ package io.maksymuimanov.python;
 import io.maksymuimanov.python.annotation.PythonConvert;
 import io.maksymuimanov.python.annotation.PythonIgnore;
 import io.maksymuimanov.python.annotation.PythonInclude;
-import io.maksymuimanov.python.bind.JavaTypeUtils;
 import io.maksymuimanov.python.bind.PythonString;
 import io.maksymuimanov.python.converter.*;
 import io.maksymuimanov.python.script.PythonRepresentation;
 import io.maksymuimanov.python.serializer.BasicPythonSerializer;
 import io.maksymuimanov.python.serializer.PythonSerializer;
+import io.maksymuimanov.python.util.JavaTypeUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
@@ -50,7 +50,6 @@ public class TestTest {
     }
 
     public static class GoofyConverter implements PythonTypeConverter {
-
         @Override
         public PythonRepresentation convert(Object value, PythonSerializer pythonSerializer) {
             return new PythonString("I am Goofy! :DDDDDDDDDDD");

@@ -1,4 +1,4 @@
-package io.maksymuimanov.python.bind;
+package io.maksymuimanov.python.util;
 
 import lombok.experimental.UtilityClass;
 

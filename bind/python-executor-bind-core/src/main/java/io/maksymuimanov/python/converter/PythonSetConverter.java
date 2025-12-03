@@ -1,9 +1,9 @@
 package io.maksymuimanov.python.converter;
 
-import io.maksymuimanov.python.bind.JavaTypeUtils;
 import io.maksymuimanov.python.bind.PythonSet;
 import io.maksymuimanov.python.script.PythonRepresentation;
 import io.maksymuimanov.python.serializer.PythonSerializer;
+import io.maksymuimanov.python.util.JavaTypeUtils;
 
 import java.util.HashSet;
 import java.util.Set;

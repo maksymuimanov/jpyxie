@@ -7,5 +7,5 @@ import org.jspecify.annotations.Nullable;
 public interface PythonSerializer {
     PythonRepresentation serialize(@Nullable Object o);
 
-    PythonRepresentation serialize(@Nullable Object o, @Nullable Class<? extends PythonTypeConverter> converter);
+    PythonRepresentation serialize(@Nullable Object o, Class<? extends PythonTypeConverter> converter);
 }

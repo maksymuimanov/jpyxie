@@ -6,15 +6,14 @@ import io.maksymuimanov.python.annotation.PythonIgnore;
 import io.maksymuimanov.python.annotation.PythonInclude;
 import io.maksymuimanov.python.bind.PythonDictionary;
 import io.maksymuimanov.python.bind.PythonString;
+import io.maksymuimanov.python.exception.PythonTypeConversionException;
 import io.maksymuimanov.python.script.PythonRepresentation;
 import io.maksymuimanov.python.serializer.PythonSerializer;
-import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 public class PythonObjectDictionaryConverter implements PythonTypeConverter {
-    @SneakyThrows
     @Override
     public PythonRepresentation convert(Object value, PythonSerializer pythonSerializer) {
         Class<?> clazz = value.getClass();
@@ -39,7 +38,6 @@ public class PythonObjectDictionaryConverter implements PythonTypeConverter {
         return field.isAnnotationPresent(PythonIgnore.class);
     }
 
-    @SneakyThrows
     protected boolean isNotIncluded(Class<?> clazz, Field field) {
         if (!clazz.isAnnotationPresent(PythonInclude.class)) return false;
         PythonInclude pythonInclude = clazz.getDeclaredAnnotation(PythonInclude.class);
@@ -64,17 +62,20 @@ public class PythonObjectDictionaryConverter implements PythonTypeConverter {
         return new PythonString(dictionaryKey);
     }
 
-    @SneakyThrows
     protected PythonRepresentation getDictionaryValue(PythonSerializer pythonSerializer, Field field, Object value) {
-        Object fieldValue = field.get(value);
-        PythonRepresentation pythonObjectValue;
-        if (field.isAnnotationPresent(PythonConvert.class)) {
-            PythonConvert pythonConvertAnnotation = field.getDeclaredAnnotation(PythonConvert.class);
-            pythonObjectValue = pythonSerializer.serialize(fieldValue, pythonConvertAnnotation.value());
-        } else {
-            pythonObjectValue = pythonSerializer.serialize(fieldValue);
+        try {
+            Object fieldValue = field.get(value);
+            PythonRepresentation pythonObjectValue;
+            if (field.isAnnotationPresent(PythonConvert.class)) {
+                PythonConvert pythonConvertAnnotation = field.getDeclaredAnnotation(PythonConvert.class);
+                pythonObjectValue = pythonSerializer.serialize(fieldValue, pythonConvertAnnotation.value());
+            } else {
+                pythonObjectValue = pythonSerializer.serialize(fieldValue);
+            }
+            return pythonObjectValue;
+        } catch (IllegalAccessException e) {
+            throw new PythonTypeConversionException(e);
         }
-        return pythonObjectValue;
     }
 
     @Override
