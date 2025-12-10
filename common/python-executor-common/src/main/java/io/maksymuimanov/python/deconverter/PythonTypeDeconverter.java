@@ -7,6 +7,9 @@ import org.jspecify.annotations.Nullable;
 
 public interface PythonTypeDeconverter<R extends PythonRepresentation> extends Prioritized {
     @Nullable
+    Object deconvert(R pythonRepresentation, PythonDeserializer pythonDeserializer);
+
+    @Nullable
     <T> T deconvert(R pythonRepresentation, Class<T> clazz, PythonDeserializer pythonDeserializer);
 
     R resolve(CharSequence value, PythonDeserializer pythonDeserializer);

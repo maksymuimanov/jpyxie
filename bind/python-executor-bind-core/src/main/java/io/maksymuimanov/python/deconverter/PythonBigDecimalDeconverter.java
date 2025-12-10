@@ -10,6 +10,11 @@ import java.math.BigDecimal;
 
 public class PythonBigDecimalDeconverter extends AbstractPythonTypeDeconverter<PythonBigDecimal, BigDecimal> {
     @Override
+    public @Nullable Object deconvert(PythonBigDecimal pythonRepresentation, PythonDeserializer pythonDeserializer) {
+        return this.deconvert(pythonRepresentation, BigDecimal.class, pythonDeserializer);
+    }
+
+    @Override
     @Nullable
     @SuppressWarnings("unchecked")
     public <T> T deconvert(PythonBigDecimal pythonRepresentation, Class<T> clazz, PythonDeserializer pythonDeserializer) {
@@ -23,7 +28,7 @@ public class PythonBigDecimalDeconverter extends AbstractPythonTypeDeconverter<P
 
     @Override
     public PythonBigDecimal resolve(CharSequence value, PythonDeserializer pythonDeserializer) {
-        BigDecimal result = this.getValue(value, (key) -> new BigDecimal(key.toString()));
+        BigDecimal result = this.getValue(value, key -> new BigDecimal(key.toString()));
         return new PythonBigDecimal(result);
     }
 

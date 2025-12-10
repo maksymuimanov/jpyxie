@@ -10,6 +10,11 @@ import java.util.List;
 
 public class PythonStringDeconverter extends AbstractPythonTypeDeconverter<PythonString, String> {
     @Override
+    public @Nullable Object deconvert(PythonString pythonRepresentation, PythonDeserializer pythonDeserializer) {
+        return this.deconvert(pythonRepresentation, String.class, pythonDeserializer);
+    }
+
+    @Override
     @Nullable
     @SuppressWarnings("unchecked")
     public <T> T deconvert(PythonString pythonRepresentation, Class<T> clazz, PythonDeserializer pythonDeserializer) {

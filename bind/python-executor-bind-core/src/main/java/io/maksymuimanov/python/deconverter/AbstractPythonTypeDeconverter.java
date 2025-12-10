@@ -14,7 +14,7 @@ import java.util.function.Function;
 public abstract class AbstractPythonTypeDeconverter<R extends PythonRepresentation, P> implements PythonTypeDeconverter<R> {
     private final Map<CharSequence, P> cache;
 
-    public AbstractPythonTypeDeconverter() {
+    protected AbstractPythonTypeDeconverter() {
         this(new ConcurrentHashMap<>());
     }
 

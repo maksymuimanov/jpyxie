@@ -10,6 +10,11 @@ import java.math.BigInteger;
 
 public class PythonBigIntegerDeconverter extends AbstractPythonTypeDeconverter<PythonBigInteger, BigInteger> {
     @Override
+    public @Nullable Object deconvert(PythonBigInteger pythonRepresentation, PythonDeserializer pythonDeserializer) {
+        return this.deconvert(pythonRepresentation, BigInteger.class, pythonDeserializer);
+    }
+
+    @Override
     @Nullable
     @SuppressWarnings("unchecked")
     public <T> T deconvert(PythonBigInteger pythonRepresentation, Class<T> clazz, PythonDeserializer pythonDeserializer) {
@@ -23,7 +28,7 @@ public class PythonBigIntegerDeconverter extends AbstractPythonTypeDeconverter<P
 
     @Override
     public PythonBigInteger resolve(CharSequence value, PythonDeserializer pythonDeserializer) {
-        BigInteger result = this.getValue(value, (key) -> new BigInteger(key.toString()));
+        BigInteger result = this.getValue(value, key -> new BigInteger(key.toString()));
         return new PythonBigInteger(result);
     }
 

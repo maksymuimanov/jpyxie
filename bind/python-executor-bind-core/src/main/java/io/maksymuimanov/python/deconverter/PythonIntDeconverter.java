@@ -8,6 +8,11 @@ import org.jspecify.annotations.Nullable;
 
 public class PythonIntDeconverter extends AbstractPythonTypeDeconverter<PythonInt, Number> {
     @Override
+    public @Nullable Object deconvert(PythonInt pythonRepresentation, PythonDeserializer pythonDeserializer) {
+        return this.deconvert(pythonRepresentation, Number.class, pythonDeserializer);
+    }
+
+    @Override
     @Nullable
     @SuppressWarnings("unchecked")
     public <T> T deconvert(PythonInt pythonRepresentation, Class<T> clazz, PythonDeserializer pythonDeserializer) {
@@ -27,13 +32,13 @@ public class PythonIntDeconverter extends AbstractPythonTypeDeconverter<PythonIn
 
     @Override
     public PythonInt resolve(CharSequence value, PythonDeserializer pythonDeserializer) {
-        Number result = this.getValue(value, (key) -> Long.parseLong(key.toString()));
+        Number result = this.getValue(value, key -> Long.parseLong(key.toString()));
         return new PythonInt(result);
     }
 
     @Override
     public boolean matches(CharSequence value) {
-        return this.matches(value, StringUtils::isInteger, (cs) -> {
+        return this.matches(value, StringUtils::isInteger, cs -> {
             try {
                 Number longValue = Long.parseLong(value.toString());
                 this.saveValue(value, longValue);

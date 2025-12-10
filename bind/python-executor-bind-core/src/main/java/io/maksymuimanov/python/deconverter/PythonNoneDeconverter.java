@@ -6,6 +6,11 @@ import org.jspecify.annotations.Nullable;
 
 public class PythonNoneDeconverter implements PythonTypeDeconverter<PythonNone> {
     @Override
+    public @Nullable Object deconvert(PythonNone pythonRepresentation, PythonDeserializer pythonDeserializer) {
+        return this.deconvert(pythonRepresentation, Object.class, pythonDeserializer);
+    }
+
+    @Override
     @Nullable
     public <T> T deconvert(PythonNone pythonRepresentation, Class<T> clazz, PythonDeserializer pythonDeserializer) {
         return null;
