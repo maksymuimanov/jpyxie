@@ -9,3 +9,5 @@ gen
 *.asc
 
 /test-app/
+
+.jython_cache/

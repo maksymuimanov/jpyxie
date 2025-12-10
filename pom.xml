@@ -70,6 +70,10 @@
         <module>executor/jep/python-executor-jep-executor-autoconfigure</module>
         <module>executor/jep/python-executor-jep-executor-spring-boot-starter</module>
 
+        <module>executor/jython/python-executor-jython-executor-core</module>
+        <module>executor/jython/python-executor-jython-executor-autoconfigure</module>
+        <module>executor/jython/python-executor-jython-executor-spring-boot-starter</module>
+
         <module>other/py4j/python-executor-py4j-core</module>
         <module>other/py4j/python-executor-py4j-autoconfigure</module>
         <module>other/py4j/python-executor-py4j-spring-boot-starter</module>

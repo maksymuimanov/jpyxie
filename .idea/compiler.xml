@@ -21,6 +21,7 @@
         <module name="python-executor-autoconfigure" />
         <module name="python-executor-spring-boot-cache-autoconfigure" />
         <module name="python-executor-pretty-resolver-autoconfigure" />
+        <module name="python-executor-jython-executor-autoconfigure" />
         <module name="python-executor-jep-executor-spring-boot-starter" />
         <module name="python-executor-process-executor-spring-boot-starter" />
         <module name="python-executor-result-resolver-core" />
@@ -38,6 +39,7 @@
         <module name="python-executor-spelython-resolver-core" />
         <module name="python-executor-jep-executor-core" />
         <module name="python-executor-restricted-resolver-core" />
+        <module name="python-executor-jython-executor-spring-boot-starter" />
         <module name="python-executor-common" />
         <module name="python-executor-py4j-spring-boot-starter" />
         <module name="python-executor-spring-boot-aop-starter" />
@@ -48,6 +50,7 @@
         <module name="python-executor-result-resolver-spring-boot-starter" />
         <module name="python-executor-rest-executor-autoconfigure" />
         <module name="python-executor-spring-boot-aop-autoconfigure" />
+        <module name="python-executor-jython-executor-core" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -68,6 +71,9 @@
       <module name="python-executor-grpc-executor-spring-boot-starter" options="" />
       <module name="python-executor-jep-executor-autoconfigure" options="" />
       <module name="python-executor-jep-executor-spring-boot-starter" options="" />
+      <module name="python-executor-jython-executor-autoconfigure" options="" />
+      <module name="python-executor-jython-executor-core" options="" />
+      <module name="python-executor-jython-executor-spring-boot-starter" options="" />
       <module name="python-executor-pretty-resolver-autoconfigure" options="" />
       <module name="python-executor-pretty-resolver-core" options="" />
       <module name="python-executor-pretty-resolver-spring-boot-starter" options="" />

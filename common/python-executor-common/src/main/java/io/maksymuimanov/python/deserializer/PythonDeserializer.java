@@ -2,7 +2,9 @@ package io.maksymuimanov.python.deserializer;
 
 import io.maksymuimanov.python.deconverter.PythonTypeDeconverter;
 import io.maksymuimanov.python.script.PythonRepresentation;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Experimental
 public interface PythonDeserializer {
     Object deserialize(PythonRepresentation data);
 

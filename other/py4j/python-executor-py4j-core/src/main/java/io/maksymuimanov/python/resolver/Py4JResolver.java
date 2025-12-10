@@ -23,6 +23,7 @@ import java.util.Map;
  * @since 1.0.0
  */
 public class Py4JResolver implements PythonResolver {
+    public static final int PRIORITY = -50;
     private final String gatewayObject;
     private final String importLine;
 
@@ -46,5 +47,10 @@ public class Py4JResolver implements PythonResolver {
                 .appendImport(importLine)
                 .prependCode(gatewayObject)
                 .build();
+    }
+
+    @Override
+    public int getPriority() {
+        return PRIORITY;
     }
 }

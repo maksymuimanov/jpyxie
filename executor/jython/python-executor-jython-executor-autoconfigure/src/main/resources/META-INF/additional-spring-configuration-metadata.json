@@ -1,0 +1,47 @@
+{
+  "groups": [
+    {
+      "name": "spring.python.executor.jython",
+      "type": "io.maksymuimanov.python.autoconfigure.JythonProperties",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.JythonProperties",
+      "description": "Configuration properties for the Jython-based Python executor integration."
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.python.executor.jython.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Whether the Jython executor autoconfiguration is enabled."
+    },
+    {
+      "name": "spring.python.executor.jython.result-appearance",
+      "type": "java.lang.String",
+      "defaultValue": "r4java",
+      "description": "Defines the variable name of the result returned from Python to Java."
+    },
+    {
+      "name": "spring.python.executor.jython.python-home",
+      "type": "java.lang.String",
+      "defaultValue": "",
+      "description": "Specifies the path to the Python Home directory."
+    },
+    {
+      "name": "spring.python.executor.jython.import-site",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Determines whether the default Python library site modules should be imported when initializing the Python interpreter."
+    }
+  ],
+  "hints": [
+    {
+      "name": "spring.python.executor.jython.result-appearance",
+      "values": [
+        {
+          "value": "r4java",
+          "description": "Recommended variable name for Python-to-Java result passing (default)."
+        }
+      ]
+    }
+  ]
+}

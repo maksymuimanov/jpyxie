@@ -6,7 +6,6 @@ import io.maksymuimanov.python.resolver.RestrictedPythonResolver;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 
 /**
  * Main configuration class for {@link RestrictedPythonResolver}.
@@ -29,18 +28,12 @@ import org.springframework.core.annotation.Order;
 @EnableConfigurationProperties(RestrictedPythonResolverProperties.class)
 public class RestrictedPythonResolverAutoConfiguration {
     /**
-     * Order value for {@link RestrictedPythonResolver} bean.
-     */
-    public static final int RESTRICTED_PYTHON_RESOLVER_ORDER = 150;
-
-    /**
      * Creates a {@link RestrictedPythonResolver} bean.
      *
      * @param resolverProperties {@link RestrictedPythonResolverProperties} bean, must not be null
      * @return configured {@link RestrictedPythonResolver} instance, never null
      */
     @Bean
-    @Order(RESTRICTED_PYTHON_RESOLVER_ORDER)
     public PythonResolver restrictedPythonResolver(RestrictedPythonResolverProperties resolverProperties) {
         return new RestrictedPythonResolver(resolverProperties.getImportLine(), resolverProperties.getCodeVariableName(), resolverProperties.getLocalVariablesName(), resolverProperties.getResultAppearance(), resolverProperties.isPrinted());
     }

@@ -63,10 +63,15 @@
         <option value="$PROJECT_DIR$/executor/jep/python-executor-jep-executor-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/executor/jep/python-executor-jep-executor-spring-boot-starter/pom.xml" />
         <option value="$PROJECT_DIR$/bind/python-executor-bind-core/pom.xml" />
+        <option value="$PROJECT_DIR$/executor/jython/python-executor-jython-executor-core/pom.xml" />
+        <option value="$PROJECT_DIR$/executor/jython/python-executor-jython-executor-autoconfigure/pom.xml" />
+        <option value="$PROJECT_DIR$/python-executor-jython-executor-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/executor/jython/python-executor-jython-executor-spring-boot-starter/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/python-executor-jython-executor-spring-boot-starter/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot-python-executor-grpc-executor-core/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot-python-executor-process-executor-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot-python-executor-process-executor-core/pom.xml" />

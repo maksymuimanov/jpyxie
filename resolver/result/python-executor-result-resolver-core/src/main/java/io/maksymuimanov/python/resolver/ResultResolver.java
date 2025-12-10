@@ -22,6 +22,7 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 public class ResultResolver implements PythonResolver {
+    public static final int PRIORITY = -150;
     private final String regex;
     private final String appearance;
     private final int positionFromStart;
@@ -32,7 +33,7 @@ public class ResultResolver implements PythonResolver {
      * Resolves the script by finding and wrapping body expressions.
      *
      * @param pythonScript the original Python script content (non-null)
-     * @param arguments    unused map of variables, may be null
+     * @param arguments unused map of variables, may be null
      * @return the processed script with body expressions replaced by JSON serialization assignments
      */
     @Override
@@ -49,5 +50,10 @@ public class ResultResolver implements PythonResolver {
                             }, this.printed);
                 })
                 .build();
+    }
+
+    @Override
+    public int getPriority() {
+        return PRIORITY;
     }
 }

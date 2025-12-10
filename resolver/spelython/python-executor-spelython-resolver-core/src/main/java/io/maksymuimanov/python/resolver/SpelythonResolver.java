@@ -34,6 +34,7 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 public class SpelythonResolver implements PythonResolver {
+    public static final int PRIORITY = -100;
     private final String regex;
     private final String localVariableIndex;
     private final int positionFromStart;
@@ -91,5 +92,10 @@ public class SpelythonResolver implements PythonResolver {
                     }
                 })
                 .build();
+    }
+
+    @Override
+    public int getPriority() {
+        return PRIORITY;
     }
 }

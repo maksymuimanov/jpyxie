@@ -2,8 +2,8 @@ package io.maksymuimanov.python.resolver;
 
 import io.maksymuimanov.python.exception.PythonScriptException;
 import io.maksymuimanov.python.script.PythonScript;
-import lombok.RequiredArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -30,13 +30,17 @@ import java.util.Map;
  * @author w4t3rcs
  * @since 1.0.0
  */
-@RequiredArgsConstructor
 public class BasicPythonResolverHolder implements PythonResolverHolder {
     /**
      * The list of resolvers used to process the script sequentially.
      * Cannot be {@code null}. It is recommended to use an unmodifiable list.
      */
     private final List<PythonResolver> pythonResolvers;
+
+    public BasicPythonResolverHolder(List<PythonResolver> pythonResolvers) {
+        this.pythonResolvers = pythonResolvers;
+        Collections.sort(this.pythonResolvers);
+    }
 
     /**
      * Sequentially applies all {@link PythonResolver} instances from {@link #getResolvers()} to the input script.

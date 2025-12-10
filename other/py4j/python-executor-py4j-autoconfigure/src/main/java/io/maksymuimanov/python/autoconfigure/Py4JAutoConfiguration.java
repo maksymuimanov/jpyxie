@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import py4j.CallbackClient;
 import py4j.GatewayServer;
 
@@ -41,11 +40,6 @@ import java.net.UnknownHostException;
         Py4JResolverProperties.class
 })
 public class Py4JAutoConfiguration {
-    /**
-     * Order value for {@link Py4JResolver} bean.
-     */
-    public static final int PY4J_RESOLVER_ORDER = 50;
-
     /**
      * Creates and starts a {@link GatewayServer} bean for Py4J-based Java–Python integration.
      *
@@ -88,7 +82,6 @@ public class Py4JAutoConfiguration {
      * @return configured {@link Py4JResolver} instance, never null
      */
     @Bean
-    @Order(PY4J_RESOLVER_ORDER)
     @ConditionalOnProperty(name = "spring.python.py4j.enabled", havingValue = "true")
     public PythonResolver py4JResolver(Py4JResolverProperties resolverProperties) {
         return new Py4JResolver(resolverProperties.getGatewayObject(), resolverProperties.getGatewayProperties(), resolverProperties.getImportLine());

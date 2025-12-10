@@ -6,7 +6,6 @@ import io.maksymuimanov.python.resolver.ResultResolver;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 
 /**
  * Main configuration class for {@link ResultResolver}.
@@ -29,18 +28,12 @@ import org.springframework.core.annotation.Order;
 @EnableConfigurationProperties(ResultResolverProperties.class)
 public class ResultResolverAutoConfiguration {
     /**
-     * Order value for {@link ResultResolver} bean.
-     */
-    public static final int RESULT_RESOLVER_ORDER = 100;
-
-    /**
      * Creates a {@link ResultResolver} bean.
      *
      * @param resolverProperties {@link ResultResolverProperties} bean, must not be null
      * @return configured {@link ResultResolver} instance, never null
      */
     @Bean
-    @Order(RESULT_RESOLVER_ORDER)
     public PythonResolver resultResolver(ResultResolverProperties resolverProperties) {
         return new ResultResolver(resolverProperties.getRegex(), resolverProperties.getAppearance(), resolverProperties.getPositionFromStart(), resolverProperties.getPositionFromEnd(), resolverProperties.isPrinted());
     }

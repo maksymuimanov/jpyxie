@@ -7,6 +7,8 @@ import io.maksymuimanov.python.script.PythonScriptBuilder;
 import java.util.Map;
 
 public class PrettyResolver implements PythonResolver {
+    public static final int PRIORITY = -250;
+
     @Override
     public PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments) {
         String emptyLine = "";
@@ -42,5 +44,10 @@ public class PrettyResolver implements PythonResolver {
                     builder.removeCode(lastElement);
                 }, pythonScript.endsWithCode(emptyLine))
                 .build();
+    }
+
+    @Override
+    public int getPriority() {
+        return PRIORITY;
     }
 }

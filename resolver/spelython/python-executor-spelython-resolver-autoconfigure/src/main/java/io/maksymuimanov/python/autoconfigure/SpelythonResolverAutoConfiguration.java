@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 
 /**
  * Main configuration class for {@link SpelythonResolver}.
@@ -31,11 +30,6 @@ import org.springframework.core.annotation.Order;
 @EnableConfigurationProperties(SpelythonResolverProperties.class)
 public class SpelythonResolverAutoConfiguration {
     /**
-     * Order value for {@link SpelythonResolver} bean.
-     */
-    public static final int SPELYTHON_RESOLVER_ORDER = 0;
-
-    /**
      * Creates a {@link SpelythonResolver} bean.
      *
      * @param resolverProperties {@link SpelythonResolverProperties} bean, must not be null
@@ -44,7 +38,6 @@ public class SpelythonResolverAutoConfiguration {
      * @return configured {@link SpelythonResolver} instance, never null
      */
     @Bean
-    @Order(SPELYTHON_RESOLVER_ORDER)
     public PythonResolver spelythonResolver(SpelythonResolverProperties resolverProperties, ApplicationContext applicationContext, ObjectMapper objectMapper) {
         return new SpelythonResolver(resolverProperties.getRegex(), resolverProperties.getLocalVariableIndex(), resolverProperties.getPositionFromStart(), resolverProperties.getPositionFromEnd(), applicationContext, objectMapper);
     }

@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.resolver;
 
+import io.maksymuimanov.python.common.Prioritized;
 import io.maksymuimanov.python.script.PythonScript;
 
 import java.util.Map;
@@ -28,7 +29,7 @@ import java.util.Map;
  * @author w4t3rcs
  * @since 1.0.0
  */
-public interface PythonResolver {
+public interface PythonResolver extends Prioritized {
     /**
      * Constant representing a Python JSON import statement.
      * <p>This line is automatically added to Python scripts that require JSON processing.</p>

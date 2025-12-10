@@ -31,6 +31,7 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 public class RestrictedPythonResolver implements PythonResolver {
+    public static final int PRIORITY = -200;
     private final String importLine;
     private final String codeVariableName;
     private final String localVariablesName;
@@ -73,5 +74,10 @@ public class RestrictedPythonResolver implements PythonResolver {
                             .insertCode("safe_globals_with_imports['_print_'] = _print_", index);
                 }, this.printed)
                 .build();
+    }
+
+    @Override
+    public int getPriority() {
+        return PRIORITY;
     }
 }
