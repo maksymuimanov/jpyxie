@@ -17,13 +17,6 @@ public class GraalPythonExecutorAutoConfiguration {
     @ConditionalOnMissingBean(GraalInterpreterFactory.class)
     public GraalInterpreterFactory graalInterpreterFactory(GraalPyProperties properties) {
         return new GraalInterpreterFactory(
-                properties.getCoreHome(),
-                properties.getPythonHome(),
-                properties.getCheckHashPycsMode(),
-                properties.isWarningExperimentalFeatures(),
-                properties.getPosixModuleBackend(),
-                properties.getExecutable(),
-                properties.getSysBasePrefix(),
                 properties.getHostAccess().getValue(),
                 properties.isAllowValueSharing(),
                 properties.isAllowExperimentalOptions(),

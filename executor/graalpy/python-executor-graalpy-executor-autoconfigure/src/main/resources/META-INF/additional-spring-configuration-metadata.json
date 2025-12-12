@@ -21,48 +21,6 @@
       "description": "Defines the variable name of the result returned from Python to Java."
     },
     {
-      "name": "spring.python.executor.graalpy.core-home",
-      "type": "java.lang.String",
-      "defaultValue": "",
-      "description": "Path to the GraalPy core library directory."
-    },
-    {
-      "name": "spring.python.executor.graalpy.python-home",
-      "type": "java.lang.String",
-      "defaultValue": "",
-      "description": "Path to the Python home or virtual environment used by GraalPy."
-    },
-    {
-      "name": "spring.python.executor.graalpy.check-hash-pycs-mode",
-      "type": "java.lang.String",
-      "defaultValue": "default",
-      "description": "Sets the method used to validate .pyc file hashes (e.g., \"default\", \"never\")."
-    },
-    {
-      "name": "spring.python.executor.graalpy.warning-experimental-features",
-      "type": "java.lang.Boolean",
-      "defaultValue": false,
-      "description": "Enables or disables warnings for experimental GraalPy features."
-    },
-    {
-      "name": "spring.python.executor.graalpy.posix-module-backend",
-      "type": "java.lang.String",
-      "defaultValue": "native",
-      "description": "Defines the POSIX module backend implementation (\"native\" or \"java\")."
-    },
-    {
-      "name": "spring.python.executor.graalpy.executable",
-      "type": "java.lang.String",
-      "defaultValue": "",
-      "description": "The Python executable identifier exposed inside the GraalPy context."
-    },
-    {
-      "name": "spring.python.executor.graalpy.sys-base-prefix",
-      "type": "java.lang.String",
-      "defaultValue": "",
-      "description": "Overrides the sys.base_prefix value in the GraalPy runtime."
-    },
-    {
       "name": "spring.python.executor.graalpy.host-access",
       "type": "io.maksymuimanov.python.autoconfigure.GraalPyProperties$HostAccessHolder",
       "defaultValue": "NONE",
@@ -93,32 +51,6 @@
         {
           "value": "r4java",
           "description": "Recommended variable name for Python-to-Java result passing (default)."
-        }
-      ]
-    },
-    {
-      "name": "spring.python.executor.graalpy.check-hash-pycs-mode",
-      "values": [
-        {
-          "value": "default",
-          "description": "Use GraalPy’s default .pyc hash checking mode."
-        },
-        {
-          "value": "never",
-          "description": "Disable .pyc hash checking completely."
-        }
-      ]
-    },
-    {
-      "name": "spring.python.executor.graalpy.posix-module-backend",
-      "values": [
-        {
-          "value": "native",
-          "description": "Use the default native POSIX backend (recommended)."
-        },
-        {
-          "value": "java",
-          "description": "Use the Java-based POSIX backend instead of the native one."
         }
       ]
     },

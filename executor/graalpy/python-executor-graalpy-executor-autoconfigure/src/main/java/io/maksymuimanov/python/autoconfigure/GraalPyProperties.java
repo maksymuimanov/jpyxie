@@ -20,34 +20,6 @@ public class GraalPyProperties {
      */
     private String resultAppearance = "r4java";
     /**
-     * Path to GraalPy core library.
-     */
-    private String coreHome = "";
-    /**
-     * Path to Python home or virtual environment.
-     */
-    private String pythonHome = "";
-    /**
-     * How to check .pyc hash files ("default", "never").
-     */
-    private String checkHashPycsMode = "default";
-    /**
-     * Whether to show experimental feature warnings.
-     */
-    private boolean warningExperimentalFeatures = false;
-    /**
-     * POSIX module backend ("native" or "java").
-     */
-    private String posixModuleBackend = "native";
-    /**
-     * Python executable path identifier.
-     */
-    private String executable = "";
-    /**
-     * The sys.base_prefix override.
-     */
-    private String sysBasePrefix = "";
-    /**
      * Defines host access level for GraalPy scripts.
      */
     private HostAccessHolder hostAccess = HostAccessHolder.NONE;
