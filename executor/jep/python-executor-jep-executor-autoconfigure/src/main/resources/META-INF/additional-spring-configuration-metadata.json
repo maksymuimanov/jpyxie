@@ -21,6 +21,12 @@
       "description": "Whether the JEP (Java Embedded Python) executor autoconfiguration is enabled."
     },
     {
+      "name": "spring.python.executor.jep.interpreter-type",
+      "type": "io.maksymuimanov.python.interpreter.JepInterpreterType",
+      "defaultValue": "SHARED",
+      "description": "The type of JEP interpreter to use."
+    },
+    {
       "name": "spring.python.executor.jep.result-appearance",
       "type": "java.lang.String",
       "defaultValue": "r4java",
@@ -84,6 +90,19 @@
         {
           "value": "r4java",
           "description": "Recommended variable name for Python-to-Java result passing (default)."
+        }
+      ]
+    },
+    {
+      "name": "spring.python.executor.jep.interpreter-type",
+      "values": [
+        {
+          "value": "SHARED",
+          "description": "Uses a jep.SharedInterpreter instance."
+        },
+        {
+          "value": "SUB",
+          "description": "Uses a jep.SubInterpreter instance."
         }
       ]
     }

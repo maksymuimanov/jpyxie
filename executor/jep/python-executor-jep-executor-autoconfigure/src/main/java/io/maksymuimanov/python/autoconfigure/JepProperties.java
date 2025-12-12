@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import io.maksymuimanov.python.interpreter.JepInterpreterType;
 import io.maksymuimanov.python.library.JepLibraryManagement;
 import io.maksymuimanov.python.library.PythonLibraryManagement;
 import lombok.Getter;
@@ -17,6 +18,10 @@ public class JepProperties {
      * Configuration properties for the JEP library management.
      */
     private LibraryProperties library = new LibraryProperties();
+    /**
+     * The type of the JEP interpreter to use.
+     */
+    private JepInterpreterType interpreterType = JepInterpreterType.SHARED;
     /**
      * Defines the variable name of the result returned from Python to Java.
      */

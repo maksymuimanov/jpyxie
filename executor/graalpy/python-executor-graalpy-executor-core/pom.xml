@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>python-executor-graalpy-executor-core</artifactId>
+    <version>1.1.0</version>
+    <packaging>jar</packaging>
+    <name>Spring Boot Python Executor GraalPy Executor Core</name>
+    <description>
+        Core module for executing Python scripts within a Java application using GraalVM Python (GraalPy).
+        Provides seamless integration of Python 3 code, enabling asynchronous execution, script evaluation.
+        Ideal for projects that require running Python logic alongside Java services without other executors limitations.
+    </description>
+    <url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Maksym Uimanov</name>
+            <email>uimanovmaks@gmail.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
+        <connection>scm:git:git://github.com/maksymuimanov/spring-boot-python-executor.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:maksymuimanov/spring-boot-python-executor.git</developerConnection>
+    </scm>
+    <parent>
+        <groupId>io.github.maksymuimanov</groupId>
+        <artifactId>python-executor-parent</artifactId>
+        <version>1.1.0</version>
+    </parent>
+    <properties>
+        <graalvm.version>25.0.1</graalvm.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>io.github.maksymuimanov</groupId>
+            <artifactId>python-executor-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>polyglot</artifactId>
+            <version>${graalvm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>python</artifactId>
+            <version>${graalvm.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>annotationProcessor</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

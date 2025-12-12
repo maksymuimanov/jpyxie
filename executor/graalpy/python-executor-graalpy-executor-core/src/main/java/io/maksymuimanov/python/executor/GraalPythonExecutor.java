@@ -3,23 +3,25 @@ package io.maksymuimanov.python.executor;
 import io.maksymuimanov.python.interpreter.PythonInterpreterFactory;
 import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Value;
 import org.jspecify.annotations.Nullable;
-import org.python.util.PythonInterpreter;
 
-public class JythonPythonExecutor extends InterpretablePythonExecutor<PythonInterpreter> {
+public class GraalPythonExecutor extends InterpretablePythonExecutor<Context> {
+    public static final String PYTHON = "python";
     private final String resultAppearance;
 
-    public JythonPythonExecutor(PythonInterpreterFactory<PythonInterpreter> interpreterFactory, String resultAppearance) {
+    public GraalPythonExecutor(PythonInterpreterFactory<Context> interpreterFactory, String resultAppearance) {
         super(interpreterFactory);
         this.resultAppearance = resultAppearance;
     }
 
     @Override
-    protected <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass, PythonInterpreter interpreter) {
-        interpreter.exec(script.toPythonString());
+    protected <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass, Context interpreter) {
+        Value value = interpreter.eval(PYTHON, script.toString());
         R result = resultClass == null || !script.containsDeepCode(resultAppearance)
                 ? null
-                : interpreter.get(resultAppearance, resultClass);
+                : value.getMember(resultAppearance).as(resultClass);
         return new PythonExecutionResponse<>(result);
     }
 }

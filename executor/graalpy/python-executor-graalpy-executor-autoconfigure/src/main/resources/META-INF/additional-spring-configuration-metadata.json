@@ -1,0 +1,159 @@
+{
+  "groups": [
+    {
+      "name": "spring.python.executor.graalpy",
+      "type": "io.maksymuimanov.python.autoconfigure.GraalPyProperties",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.GraalPyProperties",
+      "description": "Configuration properties for the GraalPy-based Python executor integration."
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.python.executor.graalpy.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Whether the GraalPy executor autoconfiguration is enabled."
+    },
+    {
+      "name": "spring.python.executor.graalpy.result-appearance",
+      "type": "java.lang.String",
+      "defaultValue": "r4java",
+      "description": "Defines the variable name of the result returned from Python to Java."
+    },
+    {
+      "name": "spring.python.executor.graalpy.core-home",
+      "type": "java.lang.String",
+      "defaultValue": "",
+      "description": "Path to the GraalPy core library directory."
+    },
+    {
+      "name": "spring.python.executor.graalpy.python-home",
+      "type": "java.lang.String",
+      "defaultValue": "",
+      "description": "Path to the Python home or virtual environment used by GraalPy."
+    },
+    {
+      "name": "spring.python.executor.graalpy.check-hash-pycs-mode",
+      "type": "java.lang.String",
+      "defaultValue": "default",
+      "description": "Sets the method used to validate .pyc file hashes (e.g., \"default\", \"never\")."
+    },
+    {
+      "name": "spring.python.executor.graalpy.warning-experimental-features",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Enables or disables warnings for experimental GraalPy features."
+    },
+    {
+      "name": "spring.python.executor.graalpy.posix-module-backend",
+      "type": "java.lang.String",
+      "defaultValue": "native",
+      "description": "Defines the POSIX module backend implementation (\"native\" or \"java\")."
+    },
+    {
+      "name": "spring.python.executor.graalpy.executable",
+      "type": "java.lang.String",
+      "defaultValue": "",
+      "description": "The Python executable identifier exposed inside the GraalPy context."
+    },
+    {
+      "name": "spring.python.executor.graalpy.sys-base-prefix",
+      "type": "java.lang.String",
+      "defaultValue": "",
+      "description": "Overrides the sys.base_prefix value in the GraalPy runtime."
+    },
+    {
+      "name": "spring.python.executor.graalpy.host-access",
+      "type": "io.maksymuimanov.python.autoconfigure.GraalPyProperties$HostAccessHolder",
+      "defaultValue": "NONE",
+      "description": "Specifies the level of Java host access available to GraalPy scripts."
+    },
+    {
+      "name": "spring.python.executor.graalpy.allow-value-sharing",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Whether values may be shared across GraalPy contexts."
+    },
+    {
+      "name": "spring.python.executor.graalpy.allow-experimental-options",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Allows usage of experimental GraalPy configuration options."
+    },
+    {
+      "name": "spring.python.executor.graalpy.additional-options",
+      "type": "java.util.Properties",
+      "description": "Additional custom GraalPy context options provided as key-value pairs."
+    }
+  ],
+  "hints": [
+    {
+      "name": "spring.python.executor.graalpy.result-appearance",
+      "values": [
+        {
+          "value": "r4java",
+          "description": "Recommended variable name for Python-to-Java result passing (default)."
+        }
+      ]
+    },
+    {
+      "name": "spring.python.executor.graalpy.check-hash-pycs-mode",
+      "values": [
+        {
+          "value": "default",
+          "description": "Use GraalPy’s default .pyc hash checking mode."
+        },
+        {
+          "value": "never",
+          "description": "Disable .pyc hash checking completely."
+        }
+      ]
+    },
+    {
+      "name": "spring.python.executor.graalpy.posix-module-backend",
+      "values": [
+        {
+          "value": "native",
+          "description": "Use the default native POSIX backend (recommended)."
+        },
+        {
+          "value": "java",
+          "description": "Use the Java-based POSIX backend instead of the native one."
+        }
+      ]
+    },
+    {
+      "name": "spring.python.executor.graalpy.host-access",
+      "values": [
+        {
+          "value": "ALL",
+          "description": "Provides unrestricted access to Java host classes and members."
+        },
+        {
+          "value": "EXPLICIT",
+          "description": "Allows host access only where explicitly annotated."
+        },
+        {
+          "value": "SCOPED",
+          "description": "Allows scoped access to selected Java members."
+        },
+        {
+          "value": "CONSTRAINED",
+          "description": "Restricts host access to a safe, limited subset."
+        },
+        {
+          "value": "ISOLATED",
+          "description": "Provides isolated access with strict boundaries."
+        },
+        {
+          "value": "UNTRUSTED",
+          "description": "Safe mode designed for untrusted Python code."
+        },
+        {
+          "value": "NONE",
+          "description": "Disables all access to Java host classes (default)."
+        }
+      ]
+    }
+  ]
+}

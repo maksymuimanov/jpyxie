@@ -67,6 +67,9 @@
         <option value="$PROJECT_DIR$/executor/jython/python-executor-jython-executor-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/python-executor-jython-executor-spring-boot-starter/pom.xml" />
         <option value="$PROJECT_DIR$/executor/jython/python-executor-jython-executor-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/executor/graalpy/python-executor-graalpy-executor-core/pom.xml" />
+        <option value="$PROJECT_DIR$/python-executor-graalpy-executor-autoconfigure/pom.xml" />
+        <option value="$PROJECT_DIR$/executor/graalpy/python-executor-graalpy-executor-spring-boot-starter/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
