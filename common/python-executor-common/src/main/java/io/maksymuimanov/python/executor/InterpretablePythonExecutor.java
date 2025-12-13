@@ -16,7 +16,7 @@ public abstract class InterpretablePythonExecutor<I extends AutoCloseable> imple
 
     public <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass) {
         try (I interpreter = interpreterFactory.create()) {
-            return execute(script, resultClass, interpreter);
+            return this.execute(script, resultClass, interpreter);
         } catch (Exception e) {
             throw new PythonExecutionException(e);
         }

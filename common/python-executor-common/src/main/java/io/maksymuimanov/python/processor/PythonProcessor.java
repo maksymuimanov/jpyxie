@@ -8,6 +8,9 @@ import io.maksymuimanov.python.script.PythonScript;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * Defines the contract for processing and executing Python scripts, acting as a bridge between
@@ -32,12 +35,77 @@ import java.util.Map;
  * @since 1.0.0
  */
 public interface PythonProcessor {
+    default CompletableFuture<Void> processAsync(String script) {
+        return this.processAsync(script, Map.of());
+    }
+
+    default CompletableFuture<Void> processAsync(PythonScript script) {
+        return this.processAsync(script, Map.of());
+    }
+
+    default CompletableFuture<Void> processAsync(String script, Map<String, Object> arguments) {
+        return this.processAsync(script, arguments, ForkJoinPool.commonPool());
+    }
+
+    default CompletableFuture<Void> processAsync(PythonScript script, Map<String, Object> arguments) {
+        return this.processAsync(script, arguments, ForkJoinPool.commonPool());
+    }
+
+    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, @Nullable Class<? extends R> resultClass) {
+        return this.processAsync(script, resultClass, Map.of());
+    }
+
+    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, @Nullable Class<? extends R> resultClass) {
+        return this.processAsync(script, resultClass, Map.of());
+    }
+
+    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, @Nullable Class<? extends R> resultClass, Map<String, Object> arguments) {
+        return this.processAsync(script, resultClass, arguments, ForkJoinPool.commonPool());
+    }
+
+    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, @Nullable Class<? extends R> resultClass, Map<String, Object> arguments) {
+        return this.processAsync(script, resultClass, arguments, ForkJoinPool.commonPool());
+    }
+
+    default CompletableFuture<Void> processAsync(String script, Executor executor) {
+        return this.processAsync(script, Map.of(), executor);
+    }
+
+    default CompletableFuture<Void> processAsync(PythonScript script, Executor executor) {
+        return this.processAsync(script, Map.of(), executor);
+    }
+
+    default CompletableFuture<Void> processAsync(String script, Map<String, Object> arguments, Executor executor) {
+        return CompletableFuture.runAsync(() -> this.process(script, arguments), executor);
+    }
+
+    default CompletableFuture<Void> processAsync(PythonScript script, Map<String, Object> arguments, Executor executor) {
+        return CompletableFuture.runAsync(() -> this.process(script, arguments), executor);
+    }
+
+    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, @Nullable Class<? extends R> resultClass, Executor executor) {
+        return this.processAsync(script, resultClass, Map.of(), executor);
+    }
+
+    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, @Nullable Class<? extends R> resultClass, Executor executor) {
+        return this.processAsync(script, resultClass, Map.of(), executor);
+    }
+
+    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, @Nullable Class<? extends R> resultClass, Map<String, Object> arguments, Executor executor) {
+        PythonScript pythonScript = new PythonScript(script);
+        return this.processAsync(pythonScript, resultClass, arguments, executor);
+    }
+
+    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, @Nullable Class<? extends R> resultClass, Map<String, Object> arguments, Executor executor) {
+        return CompletableFuture.supplyAsync(() -> this.process(script, resultClass, arguments), executor);
+    }
+
     /**
      * Processes and executes a Python script without additional arguments or body mapping.
      *
      * @param script non-{@code null} Python script to execute
      */
-    default PythonExecutionResponse<?> process(String script) {
+    default PythonExecutionResponse<Void> process(String script) {
         return this.process(script, null, Map.of());
     }
 
@@ -46,7 +114,7 @@ public interface PythonProcessor {
      *
      * @param script non-{@code null} Python script to execute
      */
-    default PythonExecutionResponse<?> process(PythonScript script) {
+    default PythonExecutionResponse<Void> process(PythonScript script) {
         return this.process(script, null, Map.of());
     }
 
@@ -56,7 +124,7 @@ public interface PythonProcessor {
      * @param script non-{@code null} Python script to execute
      * @param arguments a map of arguments accessible to resolvers during preprocessing
      */
-    default PythonExecutionResponse<?> process(String script, Map<String, Object> arguments) {
+    default PythonExecutionResponse<Void> process(String script, Map<String, Object> arguments) {
         return this.process(script, null, arguments);
     }
 
@@ -66,7 +134,7 @@ public interface PythonProcessor {
      * @param script non-{@code null} Python script to execute
      * @param arguments a map of arguments accessible to resolvers during preprocessing
      */
-    default PythonExecutionResponse<?> process(PythonScript script, Map<String, Object> arguments) {
+    default PythonExecutionResponse<Void> process(PythonScript script, Map<String, Object> arguments) {
         return this.process(script, null, arguments);
     }
 
