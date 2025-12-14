@@ -5,7 +5,6 @@ import io.maksymuimanov.python.cache.CacheKeyGenerator;
 import io.maksymuimanov.python.cache.HashCacheKeyGenerator;
 import io.maksymuimanov.python.executor.CachingPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
-import io.maksymuimanov.python.file.CachingPythonFileReader;
 import io.maksymuimanov.python.file.PythonFileReader;
 import io.maksymuimanov.python.processor.CachingPythonProcessor;
 import io.maksymuimanov.python.processor.PythonProcessor;
@@ -48,7 +47,6 @@ import org.springframework.context.annotation.Primary;
  *
  * @see PythonCacheProperties
  * @see CacheKeyGenerator
- * @see CachingPythonFileReader
  * @see CachingPythonResolverHolder
  * @see CachingPythonExecutor
  * @see CachingPythonProcessor
@@ -71,26 +69,6 @@ public class PythonCacheAutoConfiguration {
     public CacheKeyGenerator cacheKeyGenerator(PythonCacheProperties cacheProperties) {
         var keyProperties = cacheProperties.getKey();
         return new HashCacheKeyGenerator(keyProperties.getHashAlgorithm(), keyProperties.getCharset(), keyProperties.getDelimiter());
-    }
-
-    /**
-     * Wraps the existing {@link PythonFileReader} with caching capabilities
-     * when file cache level is enabled.
-     *
-     * @param cacheProperties non-null Python cache configuration properties
-     * @param pythonFileReader non-null delegate {@link PythonFileReader} bean
-     * @param cacheManager non-null Spring cache manager for cache resolution
-     * @return a caching-enabled {@link PythonFileReader} bean marked as primary
-     */
-    @Bean
-    @Primary
-    @ConditionalOnBean(PythonFileReader.class)
-    @Conditional(FileCacheLevelCondition.class)
-    public PythonFileReader cachingPythonFileHandler(PythonCacheProperties cacheProperties,
-                                                     PythonFileReader pythonFileReader,
-                                                     CacheManager cacheManager) {
-        var nameProperties = cacheProperties.getName();
-        return new CachingPythonFileReader(nameProperties.getFileBodies(), nameProperties.getFilePaths(), pythonFileReader, cacheManager);
     }
 
     /**

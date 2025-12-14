@@ -2,7 +2,7 @@ package io.maksymuimanov.python.file;
 
 import io.maksymuimanov.python.script.PythonScript;
 
-import java.nio.file.Path;
+import java.io.InputStream;
 
 /**
  * Defines reading operations for working with Python script files, including validation, I/O,
@@ -32,10 +32,10 @@ public interface PythonFileReader {
     PythonScript readScript(PythonScript pythonScript);
 
     /**
-     * Returns a {@link Path} object representing the location of the given script.
+     * Returns an {@link InputStream} object representing the input stream of the given script.
      *
      * @param path non-{@code null} file system path
-     * @return non-{@code null} {@link Path} instance pointing to the script
+     * @return non-{@code null} {@link InputStream} instance pointing to the script
      */
-    Path getScriptPath(String path);
+    InputStream getInputStream(String path);
 }

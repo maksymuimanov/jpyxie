@@ -31,25 +31,10 @@
       "name": "spring.python.cache.levels",
       "description": "Defines which parts of the Python processing flow are cached.",
       "defaultValue": [
-        "file",
         "processor"
       ],
       "type": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties$PythonCacheLevel[]",
       "sourceType": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties"
-    },
-    {
-      "name": "spring.python.cache.name.file-paths",
-      "description": "Cache name for storing resolved Python file paths.",
-      "defaultValue": "pythonFilePathsCache",
-      "type": "java.lang.String",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties$NameProperties"
-    },
-    {
-      "name": "spring.python.cache.name.file-bodies",
-      "description": "Cache name for storing Python file contents (script bodies).",
-      "defaultValue": "pythonFileBodiesCache",
-      "type": "java.lang.String",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties$NameProperties"
     },
     {
       "name": "spring.python.cache.name.resolver",
@@ -98,10 +83,6 @@
     {
       "name": "spring.python.cache.levels",
       "values": [
-        {
-          "value": "file",
-          "description": "Caches Python inside the PythonFileReader."
-        },
         {
           "value": "resolver",
           "description": "Caches Python inside the PythonResolverHolder."

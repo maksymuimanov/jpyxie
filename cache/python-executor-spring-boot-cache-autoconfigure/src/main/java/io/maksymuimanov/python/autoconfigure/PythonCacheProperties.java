@@ -2,7 +2,6 @@ package io.maksymuimanov.python.autoconfigure;
 
 import io.maksymuimanov.python.cache.HashCacheKeyGenerator;
 import io.maksymuimanov.python.executor.CachingPythonExecutor;
-import io.maksymuimanov.python.file.CachingPythonFileReader;
 import io.maksymuimanov.python.processor.CachingPythonProcessor;
 import io.maksymuimanov.python.resolver.CachingPythonResolverHolder;
 import lombok.Getter;
@@ -37,7 +36,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * }</pre>
  *
  * @see HashCacheKeyGenerator
- * @see CachingPythonFileReader
  * @see CachingPythonResolverHolder
  * @see CachingPythonExecutor
  * @see CachingPythonProcessor
@@ -54,7 +52,7 @@ public class PythonCacheProperties {
     /**
      * Defines which parts of the Python processing flow are cached.
      */
-    private PythonCacheLevel[] levels = new PythonCacheLevel[]{PythonCacheLevel.FILE, PythonCacheLevel.PROCESSOR};
+    private PythonCacheLevel[] levels = new PythonCacheLevel[]{PythonCacheLevel.PROCESSOR};
     /**
      * Configuration properties defining cache names for each cache segment.
      */
@@ -71,7 +69,7 @@ public class PythonCacheProperties {
      * </p>
      */
     public enum PythonCacheLevel {
-        FILE, RESOLVER, EXECUTOR, PROCESSOR
+        RESOLVER, EXECUTOR, PROCESSOR
     }
 
     /**
@@ -82,14 +80,6 @@ public class PythonCacheProperties {
      */
     @Getter @Setter
     public static class NameProperties {
-        /**
-         * Cache name for storing resolved Python file paths.
-         */
-        private String filePaths = "pythonFilePathsCache";
-        /**
-         * Cache name for storing Python file contents.
-         */
-        private String fileBodies = "pythonFileBodiesCache";
         /**
          * Cache name for storing resolved Python scripts.
          */

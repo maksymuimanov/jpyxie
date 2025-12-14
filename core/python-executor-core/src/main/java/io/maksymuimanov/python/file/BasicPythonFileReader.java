@@ -7,8 +7,10 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -29,7 +31,12 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 public class BasicPythonFileReader implements PythonFileReader {
+    private final Map<String, String> fileCache;
     private final String rootPath;
+
+    public BasicPythonFileReader(String rootPath) {
+        this(new ConcurrentHashMap<>(), rootPath);
+    }
 
     /**
      * Reads the content of a Python script file resolved from the given path string.
@@ -40,30 +47,35 @@ public class BasicPythonFileReader implements PythonFileReader {
      */
     @Override
     public PythonScript readScript(PythonScript script) {
-        String source = script.getSource();
-        Path scriptPath = this.getScriptPath(source);
-        try (BufferedReader bufferedReader = Files.newBufferedReader(scriptPath)) {
-            String body = bufferedReader.lines().collect(Collectors.joining("\n"));
+        try {
+            String source = script.getSource();
+            String body = this.fileCache.computeIfAbsent(source, path -> {
+                try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(this.getInputStream(path)))) {
+                    return bufferedReader.lines().collect(Collectors.joining("\n"));
+                } catch (Exception e) {
+                    throw new PythonFileException(e);
+                }
+            });
             script.getBuilder().appendAll(body);
             return script;
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new PythonFileException(e);
         }
     }
 
     /**
-     * Resolves the {@link Path} for the script file by appending the given relative path
+     * Resolves the {@link InputStream} for the script file by appending the given relative path
      * to the base path configured in {@link BasicPythonFileReader#rootPath}.
      *
      * @param path the relative path string of the script file, must be non-null
-     * @return the resolved absolute {@link Path} to the script file
-     * @throws PythonFileException if the resource cannot be resolved as a file path
+     * @return the resolved {@link InputStream} to the script file
+     * @throws PythonFileException if the resource cannot be resolved
      */
     @Override
-    public Path getScriptPath(String path) {
+    public InputStream getInputStream(String path) {
         try {
-            ClassPathResource classPathResource = new ClassPathResource(rootPath + path);
-            return classPathResource.getFile().toPath();
+            ClassPathResource classPathResource = new ClassPathResource(this.rootPath + path);
+            return classPathResource.getInputStream();
         } catch (IOException e) {
             throw new PythonFileException(e);
         }
