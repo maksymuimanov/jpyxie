@@ -7,12 +7,6 @@
       "sourceType": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties"
     },
     {
-      "name": "spring.python.cache.name",
-      "description": "Configuration properties defining cache names for each cache segment.",
-      "type": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties$NameProperties",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties"
-    },
-    {
       "name": "spring.python.cache.key",
       "description": "Configuration properties defining cache key generation behavior.",
       "type": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties$KeyProperties",
@@ -37,25 +31,11 @@
       "sourceType": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties"
     },
     {
-      "name": "spring.python.cache.name.resolver",
-      "description": "Cache name for storing resolved Python scripts",
-      "defaultValue": "pythonResolverCache",
+      "name": "spring.python.cache.name",
+      "description": "Defines which parts of the Python processing flow are cached.",
+      "defaultValue": "pythonCache",
       "type": "java.lang.String",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties$NameProperties"
-    },
-    {
-      "name": "spring.python.cache.name.executor",
-      "description": "Cache name for storing Python executor cached responses.",
-      "defaultValue": "pythonExecutorCache",
-      "type": "java.lang.String",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties$NameProperties"
-    },
-    {
-      "name": "spring.python.cache.name.processor",
-      "description": "Cache name for storing Python processor cached responses.",
-      "defaultValue": "pythonProcessorCache",
-      "type": "java.lang.String",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties$NameProperties"
+      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonCacheProperties"
     },
     {
       "name": "spring.python.cache.key.hash-algorithm",

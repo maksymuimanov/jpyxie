@@ -54,9 +54,9 @@ public class PythonCacheProperties {
      */
     private PythonCacheLevel[] levels = new PythonCacheLevel[]{PythonCacheLevel.PROCESSOR};
     /**
-     * Configuration properties defining cache names for each cache segment.
+     * Defines a cache name for each cache segment.
      */
-    private NameProperties name = new NameProperties();
+    private String name = "pythonCache";
     /**
      * Configuration properties defining cache key generation behavior.
      */
@@ -70,28 +70,6 @@ public class PythonCacheProperties {
      */
     public enum PythonCacheLevel {
         RESOLVER, EXECUTOR, PROCESSOR
-    }
-
-    /**
-     * Cache names for different cache segments.
-     * <p>
-     * Used to resolve cache instances by name in cache manager.
-     * </p>
-     */
-    @Getter @Setter
-    public static class NameProperties {
-        /**
-         * Cache name for storing resolved Python scripts.
-         */
-        private String resolver = "pythonResolverCache";
-        /**
-         * Cache name for storing Python executor cached responses.
-         */
-        private String executor = "pythonExecutorCache";
-        /**
-         * Cache name for storing Python processor cached responses.
-         */
-        private String processor = "pythonProcessorCache";
     }
 
     /**

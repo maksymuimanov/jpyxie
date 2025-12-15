@@ -21,6 +21,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Primary;
 
+import java.nio.charset.Charset;
+
 /**
  * Autoconfiguration class for Python caching support.
  * <p>
@@ -68,7 +70,7 @@ public class PythonCacheAutoConfiguration {
     @ConditionalOnMissingBean(CacheKeyGenerator.class)
     public CacheKeyGenerator cacheKeyGenerator(PythonCacheProperties cacheProperties) {
         var keyProperties = cacheProperties.getKey();
-        return new HashCacheKeyGenerator(keyProperties.getHashAlgorithm(), keyProperties.getCharset(), keyProperties.getDelimiter());
+        return new HashCacheKeyGenerator(keyProperties.getHashAlgorithm(), Charset.forName(keyProperties.getCharset()), keyProperties.getDelimiter());
     }
 
     /**
@@ -91,8 +93,7 @@ public class PythonCacheAutoConfiguration {
                                                             CacheManager cacheManager,
                                                             CacheKeyGenerator keyGenerator,
                                                             ObjectMapper objectMapper) {
-        var nameProperties = cacheProperties.getName();
-        return new CachingPythonResolverHolder(nameProperties.getResolver(), pythonResolverHolder, cacheManager, keyGenerator, objectMapper);
+        return new CachingPythonResolverHolder(cacheProperties.getName(), pythonResolverHolder, cacheManager, keyGenerator, objectMapper);
     }
 
     /**
@@ -113,8 +114,7 @@ public class PythonCacheAutoConfiguration {
                                                 PythonExecutor pythonExecutor,
                                                 CacheManager cacheManager,
                                                 CacheKeyGenerator keyGenerator) {
-        var nameProperties = cacheProperties.getName();
-        return new CachingPythonExecutor(nameProperties.getExecutor(), pythonExecutor, cacheManager, keyGenerator);
+        return new CachingPythonExecutor(cacheProperties.getName(), pythonExecutor, cacheManager, keyGenerator);
     }
 
     /**
@@ -137,7 +137,6 @@ public class PythonCacheAutoConfiguration {
                                                   CacheManager cacheManager,
                                                   CacheKeyGenerator keyGenerator,
                                                   ObjectMapper objectMapper) {
-        var nameProperties = cacheProperties.getName();
-        return new CachingPythonProcessor(nameProperties.getProcessor(), pythonProcessor, cacheManager, keyGenerator, objectMapper);
+        return new CachingPythonProcessor(cacheProperties.getName(), pythonProcessor, cacheManager, keyGenerator, objectMapper);
     }
 }

@@ -2,12 +2,12 @@ package io.maksymuimanov.python.cache;
 
 import io.maksymuimanov.python.exception.CacheKeyGenerationException;
 import io.maksymuimanov.python.executor.CachingPythonExecutor;
-import io.maksymuimanov.python.file.CachingPythonFileReader;
 import io.maksymuimanov.python.processor.CachingPythonProcessor;
 import io.maksymuimanov.python.resolver.CachingPythonResolverHolder;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.Base64;
 
@@ -27,7 +27,6 @@ import java.util.Base64;
  * }</pre>
  *
  * @see CacheKeyGenerator
- * @see CachingPythonFileReader
  * @see CachingPythonResolverHolder
  * @see CachingPythonExecutor
  * @see CachingPythonProcessor
@@ -37,7 +36,7 @@ import java.util.Base64;
 @RequiredArgsConstructor
 public class HashCacheKeyGenerator implements CacheKeyGenerator {
     private final String hashAlgorithm;
-    private final String charset;
+    private final Charset charset;
     private final String delimiter;
 
     /**
