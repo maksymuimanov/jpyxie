@@ -35,4 +35,8 @@ public class PythonFileProperties {
      * Base directory path where Python scripts are stored or loaded from.
      */
     private String path = "/python/";
+    /**
+     * Charset used to read Python script files.
+     */
+    private String charset = "UTF-8";
 }

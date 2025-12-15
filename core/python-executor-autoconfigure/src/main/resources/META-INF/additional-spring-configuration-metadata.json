@@ -22,6 +22,13 @@
       "sourceType": "io.maksymuimanov.python.autoconfigure.PythonFileProperties"
     },
     {
+      "name": "spring.python.file.charset",
+      "description": "Charset used to read Python script files.",
+      "defaultValue": "UTF-8",
+      "type": "java.lang.String",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonFileProperties"
+    },
+    {
       "name": "spring.python.pip.command",
       "description": "Command used to invoke pip for managing Python packages. Typically 'python -m pip', but can point to an interpreter inside a virtual environment or a Windows launcher.",
       "defaultValue": "python -m pip",

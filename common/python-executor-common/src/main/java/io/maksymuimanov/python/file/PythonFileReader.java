@@ -32,7 +32,7 @@ public interface PythonFileReader {
     PythonScript readScript(PythonScript pythonScript);
 
     /**
-     * Returns an {@link InputStream} object representing the input stream of the given script.
+     * Returns an {@link InputStream} object representing the input reader of the given script.
      *
      * @param path non-{@code null} file system path
      * @return non-{@code null} {@link InputStream} instance pointing to the script

@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
+import java.nio.charset.Charset;
+
 /**
  * Spring Boot autoconfiguration for {@link PythonFileReader} beans.
  *
@@ -34,6 +36,6 @@ public class PythonFileReaderAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(PythonFileReader.class)
     public PythonFileReader basicPythonFileHandler(PythonFileProperties fileProperties) {
-        return new BasicPythonFileReader(fileProperties.getPath());
+        return new BasicPythonFileReader(fileProperties.getPath(), Charset.forName(fileProperties.getCharset()));
     }
 }
