@@ -1,12 +1,16 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import io.maksymuimanov.python.exception.PythonFileException;
 import io.maksymuimanov.python.file.BasicPythonFileReader;
+import io.maksymuimanov.python.file.InputStreamProvider;
 import io.maksymuimanov.python.file.PythonFileReader;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 /**
@@ -27,6 +31,19 @@ import java.nio.charset.Charset;
 @AutoConfiguration
 @EnableConfigurationProperties(PythonFileProperties.class)
 public class PythonFileReaderAutoConfiguration {
+    @Bean
+    @ConditionalOnMissingBean(InputStreamProvider.class)
+    public InputStreamProvider classPathResourceInputStreamProvider(PythonFileProperties fileProperties) {
+        return path -> {
+            try {
+                ClassPathResource resource = new ClassPathResource(fileProperties.getPath());
+                return resource.getInputStream();
+            } catch (IOException e) {
+                throw new PythonFileException(e);
+            }
+        };
+    }
+
     /**
      * Creates a {@link BasicPythonFileReader} with configuration from {@link PythonFileProperties}.
      *
@@ -35,7 +52,7 @@ public class PythonFileReaderAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(PythonFileReader.class)
-    public PythonFileReader basicPythonFileHandler(PythonFileProperties fileProperties) {
-        return new BasicPythonFileReader(fileProperties.getPath(), Charset.forName(fileProperties.getCharset()));
+    public PythonFileReader basicPythonFileHandler(PythonFileProperties fileProperties, InputStreamProvider inputStreamProvider) {
+        return new BasicPythonFileReader(inputStreamProvider, Charset.forName(fileProperties.getCharset()));
     }
 }
