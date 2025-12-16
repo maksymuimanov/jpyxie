@@ -11,6 +11,12 @@
       "description": "Configuration group for Python package management using pip.",
       "type": "io.maksymuimanov.python.autoconfigure.PythonPipProperties",
       "sourceType": "io.maksymuimanov.python.autoconfigure.PythonPipProperties"
+    },
+    {
+      "name": "spring.python.pip.library",
+      "description": "Configuration group for Python library installation and uninstallation using pip.",
+      "type": "io.maksymuimanov.python.autoconfigure.PythonPipProperties$LibraryProperties",
+      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonPipProperties"
     }
   ],
   "properties": [

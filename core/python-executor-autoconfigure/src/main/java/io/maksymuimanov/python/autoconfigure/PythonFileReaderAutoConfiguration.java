@@ -36,7 +36,7 @@ public class PythonFileReaderAutoConfiguration {
     public InputStreamProvider classPathResourceInputStreamProvider(PythonFileProperties fileProperties) {
         return path -> {
             try {
-                ClassPathResource resource = new ClassPathResource(fileProperties.getPath());
+                ClassPathResource resource = new ClassPathResource(fileProperties.getPath() + path);
                 return resource.getInputStream();
             } catch (IOException e) {
                 throw new PythonFileException(e);
