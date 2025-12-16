@@ -15,7 +15,7 @@ public class JepPythonExecutor extends InterpretablePythonExecutor<Interpreter> 
     }
 
     @Override
-    protected <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass, Interpreter interpreter) {
+    protected <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass, Interpreter interpreter) throws Exception {
         interpreter.exec(script.toString());
         R result = resultClass == null || !script.containsDeepCode(resultAppearance)
                 ? null

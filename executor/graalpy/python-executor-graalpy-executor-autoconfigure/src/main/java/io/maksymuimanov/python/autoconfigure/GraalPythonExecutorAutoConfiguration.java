@@ -27,6 +27,6 @@ public class GraalPythonExecutorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
     public PythonExecutor graalPythonExecutor(GraalInterpreterFactory graalInterpreterFactory, GraalPyProperties properties) {
-        return new GraalPythonExecutor(graalInterpreterFactory, properties.getResultAppearance());
+        return new GraalPythonExecutor(graalInterpreterFactory, properties.getResultAppearance(), properties.isCached());
     }
 }

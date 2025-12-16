@@ -21,6 +21,12 @@
       "description": "Defines the variable name of the result returned from Python to Java."
     },
     {
+      "name": "spring.python.executor.graalpy.cached",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Whether GraalPy sources should be cached."
+    },
+    {
       "name": "spring.python.executor.graalpy.host-access",
       "type": "io.maksymuimanov.python.autoconfigure.GraalPyProperties$HostAccessHolder",
       "defaultValue": "NONE",
@@ -161,6 +167,18 @@
         {
           "value": "engine.MaxHeapSize",
           "description": "Set the maximum heap size for the polyglot engine. Accepts JVM-style memory values, e.g., '512m'."
+        },
+        {
+          "value": "engine.Mode",
+          "description": "Graal engine mode. Possible values: 'latency' or 'throughput'."
+        },
+        {
+          "value": "engine.Compilation",
+          "description": "Enable Graal runtime compilation ('true' or 'false')."
+        },
+        {
+          "value": "engine.MultiTier",
+          "description": "Enable Graal multi-tier compilation ('true' or 'false')."
         }
       ]
     }

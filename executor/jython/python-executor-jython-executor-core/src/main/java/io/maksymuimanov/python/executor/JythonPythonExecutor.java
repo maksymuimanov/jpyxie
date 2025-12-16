@@ -15,7 +15,7 @@ public class JythonPythonExecutor extends InterpretablePythonExecutor<PythonInte
     }
 
     @Override
-    protected <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass, PythonInterpreter interpreter) {
+    protected <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass, PythonInterpreter interpreter) throws Exception {
         interpreter.exec(script.toPythonString());
         R result = resultClass == null || !script.containsDeepCode(resultAppearance)
                 ? null

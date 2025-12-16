@@ -21,6 +21,10 @@ public class GraalPyProperties {
      */
     private String resultAppearance = "r4java";
     /**
+     * Whether GraalPy sources should be cached.
+     */
+    private boolean cached = true;
+    /**
      * Defines host access level for GraalPy scripts.
      */
     private HostAccessHolder hostAccess = HostAccessHolder.NONE;

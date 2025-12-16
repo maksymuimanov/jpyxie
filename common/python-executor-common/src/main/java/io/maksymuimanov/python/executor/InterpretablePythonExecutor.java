@@ -6,7 +6,6 @@ import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import org.jspecify.annotations.Nullable;
 
-
 public abstract class InterpretablePythonExecutor<I extends AutoCloseable> implements PythonExecutor {
     private final PythonInterpreterFactory<I> interpreterFactory;
 
@@ -22,6 +21,6 @@ public abstract class InterpretablePythonExecutor<I extends AutoCloseable> imple
         }
     }
 
-    protected abstract <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass, I interpreter);
+    protected abstract <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass, I interpreter) throws Exception;
 }
 
