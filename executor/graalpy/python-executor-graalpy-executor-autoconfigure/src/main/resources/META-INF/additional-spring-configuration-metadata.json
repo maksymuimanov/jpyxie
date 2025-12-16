@@ -40,7 +40,7 @@
     },
     {
       "name": "spring.python.executor.graalpy.additional-options",
-      "type": "java.util.Properties",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
       "description": "Additional custom GraalPy context options provided as key-value pairs."
     }
   ],
@@ -84,6 +84,83 @@
         {
           "value": "NONE",
           "description": "Disables all access to Java host classes (default)."
+        }
+      ]
+    },
+    {
+      "name": "spring.python.executor.graalpy.additional-options.keys",
+      "values": [
+        {
+          "value": "python.CheckHashPycsMode",
+          "description": "Controls how .pyc hash-based bytecode files are checked: 'default', 'always', or 'never'."
+        },
+        {
+          "value": "python.CompressionModulesBackend",
+          "description": "Selects backend for compression modules (zlib, bz2, lzma)."
+        },
+        {
+          "value": "python.CoreHome",
+          "description": "Overrides the location of the Python core library home directory."
+        },
+        {
+          "value": "python.PythonHome",
+          "description": "Sets the Python home directory (equivalent to GRAAL_PYTHONHOME)."
+        },
+        {
+          "value": "python.DontWriteBytecodeFlag",
+          "description": "Equivalent to Python '-B': do not write .pyc bytecode files ('true'/'false')."
+        },
+        {
+          "value": "python.EmulateJython",
+          "description": "Enable Jython-like behaviors (may affect performance) ('true'/'false')."
+        },
+        {
+          "value": "python.IgnoreEnvironmentFlag",
+          "description": "Equivalent to Python '-E': ignore PYTHON* environment variables ('true'/'false')."
+        },
+        {
+          "value": "python.InstallSignalHandlers",
+          "description": "Install default Python signal handlers on startup ('true'/'false')."
+        },
+        {
+          "value": "python.IsolateFlag",
+          "description": "Equivalent to Python '-I': isolate from environment on import path ('true'/'false')."
+        },
+        {
+          "value": "python.NoSiteFlag",
+          "description": "Equivalent to Python '-S': do not automatically import 'site' ('true'/'false')."
+        },
+        {
+          "value": "python.PyCachePrefix",
+          "description": "Specify an alternate prefix path for .pyc cache directories."
+        },
+        {
+          "value": "python.SysBasePrefix",
+          "description": "Overrides sys.base_prefix for the embedded Python instance."
+        },
+        {
+          "value": "python.UnsupportedPlatformEmulates",
+          "description": "Allows GraalPy to emulate another platform ('windows', 'macos', or 'linux') when running on an unsupported platform."
+        },
+        {
+          "value": "python.VenvlauncherCommand",
+          "description": "Specifies the command used by the venv launcher."
+        },
+        {
+          "value": "python.WarnExperimentalFeatures",
+          "description": "Print warnings for experimental features at runtime ('true' or 'false')."
+        },
+        {
+          "value": "python.InspectFlag",
+          "description": "Equivalent to Python '-i': inspect interactively after running script ('true'/'false')."
+        },
+        {
+          "value": "engine.WarnInterpreterOnly",
+          "description": "Suppress the interpreter-only warning when runtime compilation to native code is not available ('true'/'false')."
+        },
+        {
+          "value": "engine.MaxHeapSize",
+          "description": "Set the maximum heap size for the polyglot engine. Accepts JVM-style memory values, e.g., '512m'."
         }
       ]
     }

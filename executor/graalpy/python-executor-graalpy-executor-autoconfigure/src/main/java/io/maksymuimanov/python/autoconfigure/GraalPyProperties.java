@@ -6,7 +6,8 @@ import lombok.Setter;
 import org.graalvm.polyglot.HostAccess;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter @Setter
 @ConfigurationProperties(prefix = "spring.python.executor.graalpy")
@@ -34,7 +35,7 @@ public class GraalPyProperties {
     /**
      * Additional custom options for GraalPy context.
      */
-    private Properties additionalOptions = new Properties();
+    private Map<String, String> additionalOptions = new HashMap<>();
 
     @Getter
     @RequiredArgsConstructor

@@ -6,14 +6,14 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Properties;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class GraalInterpreterFactory implements PythonInterpreterFactory<Context> {
     private final HostAccess hostAccess;
     private final boolean allowValueSharing;
     private final boolean allowExperimentalOptions;
-    private final Properties additionalOptions;
+    private final Map<String, String> additionalOptions;
 
     @Override
     public Context create() {
@@ -21,13 +21,13 @@ public class GraalInterpreterFactory implements PythonInterpreterFactory<Context
         builder.allowHostAccess(this.hostAccess);
         builder.allowValueSharing(this.allowValueSharing);
         builder.allowExperimentalOptions(this.allowExperimentalOptions);
-        this.putProperties(builder, this.additionalOptions);
+        this.putOptions(builder, this.additionalOptions);
         return builder.build();
     }
 
-    protected void putProperties(Context.Builder builder, @Nullable Properties properties) {
-        if (properties != null && !properties.isEmpty()) {
-            properties.forEach((key, value) -> this.putOption(builder, key.toString(), value.toString()));
+    protected void putOptions(Context.Builder builder, @Nullable Map<String, String> options) {
+        if (options != null && !options.isEmpty()) {
+            options.forEach((key, value) -> this.putOption(builder, key, value));
         }
     }
 
