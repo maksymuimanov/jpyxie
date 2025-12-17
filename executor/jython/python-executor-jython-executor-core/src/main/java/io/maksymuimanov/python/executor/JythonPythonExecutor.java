@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.executor;
 
-import io.maksymuimanov.python.interpreter.PythonInterpreterFactory;
+import io.maksymuimanov.python.interpreter.PythonInterpreterConsumer;
 import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import org.jspecify.annotations.Nullable;
@@ -9,8 +9,8 @@ import org.python.util.PythonInterpreter;
 public class JythonPythonExecutor extends InterpretablePythonExecutor<PythonInterpreter> {
     private final String resultAppearance;
 
-    public JythonPythonExecutor(PythonInterpreterFactory<PythonInterpreter> interpreterFactory, String resultAppearance) {
-        super(interpreterFactory);
+    public JythonPythonExecutor(PythonInterpreterConsumer<PythonInterpreter> interpreterConsumer, String resultAppearance) {
+        super(interpreterConsumer);
         this.resultAppearance = resultAppearance;
     }
 

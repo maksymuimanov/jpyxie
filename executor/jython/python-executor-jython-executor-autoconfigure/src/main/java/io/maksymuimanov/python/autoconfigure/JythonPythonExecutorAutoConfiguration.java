@@ -3,7 +3,9 @@ package io.maksymuimanov.python.autoconfigure;
 import io.maksymuimanov.python.executor.JythonPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.interpreter.JythonInterpreterFactory;
+import io.maksymuimanov.python.interpreter.PythonInterpreterConsumer;
 import io.maksymuimanov.python.lifecycle.JythonInitializer;
+import org.python.util.PythonInterpreter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -28,7 +30,7 @@ public class JythonPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor jythonPythonExecutor(JythonInterpreterFactory jythonInterpreterFactory, JythonProperties properties) {
-        return new JythonPythonExecutor(jythonInterpreterFactory, properties.getResultAppearance());
+    public PythonExecutor jythonPythonExecutor(PythonInterpreterConsumer<PythonInterpreter> jythonInterpreterConsumer, JythonProperties properties) {
+        return new JythonPythonExecutor(jythonInterpreterConsumer, properties.getResultAppearance());
     }
 }

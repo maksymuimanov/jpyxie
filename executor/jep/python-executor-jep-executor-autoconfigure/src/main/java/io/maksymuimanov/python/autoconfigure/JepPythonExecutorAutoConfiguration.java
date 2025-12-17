@@ -3,11 +3,13 @@ package io.maksymuimanov.python.autoconfigure;
 import io.maksymuimanov.python.executor.JepPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.interpreter.JepInterpreterFactory;
+import io.maksymuimanov.python.interpreter.PythonInterpreterConsumer;
 import io.maksymuimanov.python.library.PipManager;
 import io.maksymuimanov.python.lifecycle.JepFinalizer;
 import io.maksymuimanov.python.lifecycle.JepInitializer;
 import io.maksymuimanov.python.lifecycle.PythonFinalizer;
 import io.maksymuimanov.python.lifecycle.PythonInitializer;
+import jep.Interpreter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -33,8 +35,8 @@ public class JepPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor jepPythonExecutor(JepInterpreterFactory jepInterpreterFactory, JepProperties properties) {
-        return new JepPythonExecutor(jepInterpreterFactory, properties.getResultAppearance());
+    public PythonExecutor jepPythonExecutor(PythonInterpreterConsumer<Interpreter> jepInterpreterConsumer, JepProperties properties) {
+        return new JepPythonExecutor(jepInterpreterConsumer, properties.getResultAppearance());
     }
 
     @Bean
