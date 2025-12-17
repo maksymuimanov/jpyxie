@@ -3,7 +3,7 @@ package io.maksymuimanov.python.autoconfigure;
 import io.maksymuimanov.python.executor.GraalPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.interpreter.GraalInterpreterFactory;
-import io.maksymuimanov.python.interpreter.PythonInterpreterConsumer;
+import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
 import org.graalvm.polyglot.Context;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
@@ -28,7 +28,7 @@ public class GraalPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor graalPythonExecutor(PythonInterpreterConsumer<Context> graalInterpreterConsumer, GraalPyProperties properties) {
-        return new GraalPythonExecutor(graalInterpreterConsumer, properties.getResultAppearance(), properties.isCached());
+    public PythonExecutor graalPythonExecutor(PythonInterpreterProvider<Context> graalInterpreterProvider, GraalPyProperties properties) {
+        return new GraalPythonExecutor(graalInterpreterProvider, properties.getResultAppearance(), properties.isCached());
     }
 }

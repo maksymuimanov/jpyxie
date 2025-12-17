@@ -3,7 +3,7 @@ package io.maksymuimanov.python.autoconfigure;
 import io.maksymuimanov.python.executor.JepPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.interpreter.JepInterpreterFactory;
-import io.maksymuimanov.python.interpreter.PythonInterpreterConsumer;
+import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
 import io.maksymuimanov.python.library.PipManager;
 import io.maksymuimanov.python.lifecycle.JepFinalizer;
 import io.maksymuimanov.python.lifecycle.JepInitializer;
@@ -35,8 +35,8 @@ public class JepPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor jepPythonExecutor(PythonInterpreterConsumer<Interpreter> jepInterpreterConsumer, JepProperties properties) {
-        return new JepPythonExecutor(jepInterpreterConsumer, properties.getResultAppearance());
+    public PythonExecutor jepPythonExecutor(PythonInterpreterProvider<Interpreter> jepInterpreterProvider, JepProperties properties) {
+        return new JepPythonExecutor(jepInterpreterProvider, properties.getResultAppearance());
     }
 
     @Bean

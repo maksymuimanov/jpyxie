@@ -3,3 +3,4 @@ io.maksymuimanov.python.autoconfigure.PythonProcessorAutoConfiguration
 io.maksymuimanov.python.autoconfigure.PythonResolverAutoConfiguration
 io.maksymuimanov.python.autoconfigure.PipAutoConfiguration
 io.maksymuimanov.python.autoconfigure.PythonLifecycleAutoConfiguration
+io.maksymuimanov.python.autoconfigure.PythonInterpreterAutoConfiguration

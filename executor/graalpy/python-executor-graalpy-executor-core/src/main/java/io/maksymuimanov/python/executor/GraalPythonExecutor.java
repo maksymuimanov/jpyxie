@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.executor;
 
-import io.maksymuimanov.python.interpreter.PythonInterpreterConsumer;
+import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
 import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import org.graalvm.polyglot.Context;
@@ -13,8 +13,8 @@ public class GraalPythonExecutor extends InterpretablePythonExecutor<Context> {
     private final String resultAppearance;
     private final boolean cached;
 
-    public GraalPythonExecutor(PythonInterpreterConsumer<Context> interpreterConsumer, String resultAppearance, boolean cached) {
-        super(interpreterConsumer);
+    public GraalPythonExecutor(PythonInterpreterProvider<Context> interpreterProvider, String resultAppearance, boolean cached) {
+        super(interpreterProvider);
         this.resultAppearance = resultAppearance;
         this.cached = cached;
     }
