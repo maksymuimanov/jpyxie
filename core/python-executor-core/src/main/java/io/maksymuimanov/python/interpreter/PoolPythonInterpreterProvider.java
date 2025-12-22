@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.interpreter;
 
-import io.maksymuimanov.python.exception.PythonInterpreterProvidenceException;
+import io.maksymuimanov.python.exception.PythonInterpreterProvisionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jspecify.annotations.Nullable;
@@ -54,14 +54,14 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements R
 
     @Override
     public I acquire(long timeout, TimeUnit unit) {
-        if (this.closed.get()) throw new PythonInterpreterProvidenceException("Pool is closed");
+        if (this.closed.get()) throw new PythonInterpreterProvisionException("Pool is closed");
         try {
             I polled = this.pool.poll(timeout, unit);
             if (polled == null) return this.poolStarvationHandler.handle(this.interpreterFactory, this.pool, this.poolSize);
             return polled;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new PythonInterpreterProvidenceException(e);
+            throw new PythonInterpreterProvisionException(e);
         }
     }
 
@@ -72,7 +72,7 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements R
             try {
                 interpreter.close();
             } catch (Exception e) {
-                throw new PythonInterpreterProvidenceException(e);
+                throw new PythonInterpreterProvisionException(e);
             }
         } else {
             this.pool.offer(interpreter);
@@ -88,7 +88,7 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements R
                 current.close();
             }
         } catch (Exception e) {
-            throw new PythonInterpreterProvidenceException(e);
+            throw new PythonInterpreterProvisionException(e);
         }
     }
 }

@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.interpreter;
 
-import io.maksymuimanov.python.exception.PythonInterpreterProvidenceException;
+import io.maksymuimanov.python.exception.PythonInterpreterProvisionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -26,13 +26,13 @@ public class TrackingInterpreterProvider<I extends AutoCloseable> implements Pyt
 
     @Override
     public I acquire() {
-        if (this.closed.get()) throw new PythonInterpreterProvidenceException("Interpreter is closed");
+        if (this.closed.get()) throw new PythonInterpreterProvisionException("Interpreter is closed");
         try {
             I interpreter = interpreterFactory.create();
             interpreterQueue.add(interpreter);
             return interpreter;
         } catch (Exception e) {
-            throw new PythonInterpreterProvidenceException(e);
+            throw new PythonInterpreterProvisionException(e);
         }
     }
 

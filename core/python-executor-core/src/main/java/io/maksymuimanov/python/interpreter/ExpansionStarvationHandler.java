@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.interpreter;
 
-import io.maksymuimanov.python.exception.PythonInterpreterProvidenceException;
+import io.maksymuimanov.python.exception.PythonInterpreterProvisionException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.concurrent.BlockingQueue;
@@ -25,7 +25,7 @@ public class ExpansionStarvationHandler<I extends AutoCloseable> implements Pyth
             return pool.take();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new PythonInterpreterProvidenceException(e);
+            throw new PythonInterpreterProvisionException(e);
         }
     }
 }

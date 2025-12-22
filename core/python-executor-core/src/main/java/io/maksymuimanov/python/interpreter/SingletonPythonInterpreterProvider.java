@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.interpreter;
 
-import io.maksymuimanov.python.exception.PythonInterpreterProvidenceException;
+import io.maksymuimanov.python.exception.PythonInterpreterProvisionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -18,7 +18,7 @@ public class SingletonPythonInterpreterProvider<I extends AutoCloseable> impleme
 
     @Override
     public I acquire() {
-        if (this.closed.get()) throw new PythonInterpreterProvidenceException("Interpreter is closed");
+        if (this.closed.get()) throw new PythonInterpreterProvisionException("Interpreter is closed");
         return this.interpreter;
     }
 
@@ -28,7 +28,7 @@ public class SingletonPythonInterpreterProvider<I extends AutoCloseable> impleme
         try {
             this.interpreter.close();
         } catch (Exception e) {
-            throw new PythonInterpreterProvidenceException(e);
+            throw new PythonInterpreterProvisionException(e);
         }
     }
 }

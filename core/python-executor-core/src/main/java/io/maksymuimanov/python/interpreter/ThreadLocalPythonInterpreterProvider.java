@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.interpreter;
 
-import io.maksymuimanov.python.exception.PythonInterpreterProvidenceException;
+import io.maksymuimanov.python.exception.PythonInterpreterProvisionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jspecify.annotations.Nullable;
@@ -26,7 +26,7 @@ public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> imple
 
     @Override
     public I acquire() {
-        if (this.closed.get()) throw new PythonInterpreterProvidenceException("Interpreter is closed");
+        if (this.closed.get()) throw new PythonInterpreterProvisionException("Interpreter is closed");
         try {
             I threadLocalInterpreter = threadLocal.get();
             if (threadLocalInterpreter == null) {
@@ -36,7 +36,7 @@ public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> imple
             }
             return threadLocalInterpreter;
         } catch (Exception e) {
-            throw new PythonInterpreterProvidenceException(e);
+            throw new PythonInterpreterProvisionException(e);
         }
     }
 
@@ -47,7 +47,7 @@ public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> imple
             Objects.requireNonNull(this.threadLocal.get()).close();
             this.threadLocal.remove();
         } catch (Exception e) {
-            throw new PythonInterpreterProvidenceException(e);
+            throw new PythonInterpreterProvisionException(e);
         }
     }
 }
