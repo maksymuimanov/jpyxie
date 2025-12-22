@@ -1,33 +1,43 @@
 package io.maksymuimanov.python.executor;
 
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
-import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 import org.jspecify.annotations.Nullable;
 
-public class GraalPythonExecutor extends InterpretablePythonExecutor<Context> {
+import java.util.Map;
+
+public class GraalPythonExecutor extends InterpretablePythonExecutor<Value, Context> {
     public static final String PYTHON = "python";
-    private final String resultAppearance;
     private final boolean cached;
 
-    public GraalPythonExecutor(PythonInterpreterProvider<Context> interpreterProvider, String resultAppearance, boolean cached) {
-        super(interpreterProvider);
-        this.resultAppearance = resultAppearance;
+    public GraalPythonExecutor(PythonResultFieldNameProvider resultFieldNameProvider, PythonInterpreterProvider<Context> interpreterProvider, boolean cached) {
+        super(resultFieldNameProvider, interpreterProvider);
         this.cached = cached;
     }
 
     @Override
-    protected <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass, Context interpreter) throws Exception {
+    @Nullable
+    protected <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription, Context interpreter) throws Exception {
         Source source = Source.newBuilder(PYTHON, script.toPythonString(), script.getSource())
                 .cached(this.cached)
                 .build();
         Value value = interpreter.eval(source);
-        R result = resultClass == null || !script.containsDeepCode(this.resultAppearance)
-                ? null
-                : value.getMember(this.resultAppearance).as(resultClass);
-        return new PythonExecutionResponse<>(result);
+        return this.getResult(resultDescription, value);
+    }
+
+    @Override
+    protected Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Context interpreter) throws Exception {
+        Source source = Source.newBuilder(PYTHON, script.toPythonString(), script.getSource())
+                .cached(this.cached)
+                .build();
+        Value value = interpreter.eval(source);
+        return this.getResultMap(resultDescriptions, value);
+    }
+
+    protected <R> @Nullable R getResult(PythonResultDescription<R> resultDescription, Value resultContainer) {
+        return resultDescription.getValue((type, fieldName) -> resultContainer.getMember(fieldName).as(type));
     }
 }

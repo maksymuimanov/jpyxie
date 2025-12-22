@@ -3,7 +3,6 @@ package io.maksymuimanov.python.input;
 import io.maksymuimanov.python.exception.PythonProcessReadingException;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * Processes and handles the standard error stream of a given {@link Process}.
  *
- * <p>This {@link ProcessHandler} implementation reads the error output (stderr) of the process.
+ * <p>This {@link ProcessErrorHandler} implementation reads the error output (stderr) of the process.
  * If the error stream contains any non-blank content, the message is:
  * <ul>
  *     <li>Logged using SLF4J at <code>ERROR</code> level.</li>
@@ -34,28 +33,15 @@ import java.util.stream.Collectors;
  * new ErrorProcessHandler().handle(process);
  * }</pre>
  *
- * @see ProcessHandler
- * @see BasicPythonInputProcessHandler
+ * @see ProcessErrorHandler
  * @see ProcessPythonExecutor
  * @author w4t3rcs
  * @since 1.0.0
  */
 @Slf4j
-public class BasicPythonErrorProcessHandler implements ProcessHandler<Void> {
-    /**
-     * Reads and processes the standard error stream of the specified {@link Process}.
-     *
-     * <p>If the error stream contains non-blank content, logs the content at
-     * <code>ERROR</code> level and throws a {@link PythonProcessReadingException}.
-     * If no error content is present, returns {@code null}.
-     *
-     * @param process the non-{@code null} {@link Process} whose error output should be handled
-     * @return {@code null} if no error output is present
-     * @throws PythonProcessReadingException if reading the error stream fails or if the stream contains errors
-     */
+public class BasicPythonErrorProcessHandler implements ProcessErrorHandler {
     @Override
-    @Nullable
-    public Void handle(Process process) {
+    public void handle(Process process) {
         try (BufferedReader bufferedReader = process.errorReader()) {
             String errorMessage = bufferedReader.lines().collect(Collectors.joining());
             if (!errorMessage.isBlank()) {
@@ -65,6 +51,5 @@ public class BasicPythonErrorProcessHandler implements ProcessHandler<Void> {
         } catch (IOException e) {
             throw new PythonProcessReadingException(e);
         }
-        return null;
     }
 }

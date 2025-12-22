@@ -1,9 +1,10 @@
 package io.maksymuimanov.python.executor;
 
 import io.maksymuimanov.python.exception.PythonExecutionException;
-import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import org.jspecify.annotations.Nullable;
+
+import java.util.Map;
 
 /**
  * Defines the contract for executing Python scripts and mapping the execution body
@@ -37,6 +38,12 @@ public interface PythonExecutor {
      * @throws PythonExecutionException the exception must be thrown if something goes wrong with the script execution
      * @return the body of the script execution mapped to {@code resultClass}, may be {@code null} if the script produces no output
      */
-    <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass);
+    @Nullable
+    <R> R execute(PythonScript script, Class<R> resultClass);
+
+    @Nullable
+    <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription);
+
+    Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions);
 }
 

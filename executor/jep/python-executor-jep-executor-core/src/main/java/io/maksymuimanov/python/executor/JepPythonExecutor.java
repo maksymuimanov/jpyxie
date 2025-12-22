@@ -1,25 +1,31 @@
 package io.maksymuimanov.python.executor;
 
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
-import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import jep.Interpreter;
 import org.jspecify.annotations.Nullable;
 
-public class JepPythonExecutor extends InterpretablePythonExecutor<Interpreter> {
-    private final String resultAppearance;
+import java.util.Map;
 
-    public JepPythonExecutor(PythonInterpreterProvider<Interpreter> interpreterProvider, String resultAppearance) {
-        super(interpreterProvider);
-        this.resultAppearance = resultAppearance;
+public class JepPythonExecutor extends InterpretablePythonExecutor<Interpreter, Interpreter> {
+    public JepPythonExecutor(PythonResultFieldNameProvider resultFieldProvider, PythonInterpreterProvider<Interpreter> interpreterProvider) {
+        super(resultFieldProvider, interpreterProvider);
     }
 
     @Override
-    protected <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass, Interpreter interpreter) throws Exception {
-        interpreter.exec(script.toString());
-        R result = resultClass == null || !script.containsDeepCode(resultAppearance)
-                ? null
-                : interpreter.getValue(resultAppearance, resultClass);
-        return new PythonExecutionResponse<>(result);
+    protected @Nullable <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription, Interpreter interpreter) throws Exception {
+        interpreter.exec(script.toPythonString());
+        return this.getResult(resultDescription, interpreter);
+    }
+
+    @Override
+    protected Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Interpreter interpreter) throws Exception {
+        interpreter.exec(script.toPythonString());
+        return this.getResultMap(resultDescriptions, interpreter);
+    }
+
+    @Override
+    protected @Nullable <R> R getResult(PythonResultDescription<R> resultDescription, Interpreter resultContainer) {
+        return resultDescription.getValue((type, fieldName) -> resultContainer.getValue(fieldName, type));
     }
 }

@@ -8,7 +8,6 @@ import io.maksymuimanov.python.finisher.BasicPythonProcessFinisher;
 import io.maksymuimanov.python.finisher.ProcessFinisher;
 import io.maksymuimanov.python.input.BasicPythonErrorProcessHandler;
 import io.maksymuimanov.python.input.BasicPythonInputProcessHandler;
-import io.maksymuimanov.python.input.ProcessHandler;
 import io.maksymuimanov.python.starter.BasicPythonProcessStarter;
 import io.maksymuimanov.python.starter.ProcessStarter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
