@@ -82,10 +82,6 @@
         <module>other/py4j/python-executor-py4j-autoconfigure</module>
         <module>other/py4j/python-executor-py4j-spring-boot-starter</module>
 
-        <module>cache/python-executor-spring-boot-cache-core</module>
-        <module>cache/python-executor-spring-boot-cache-autoconfigure</module>
-        <module>cache/python-executor-spring-boot-cache-starter</module>
-
         <module>test/python-rest-server-testcontainers</module>
         <module>test/python-grpc-server-testcontainers</module>
 

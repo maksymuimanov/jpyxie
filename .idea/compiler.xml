@@ -14,13 +14,10 @@
         <module name="python-executor-jep-executor-autoconfigure" />
         <module name="python-grpc-server-testcontainers" />
         <module name="python-executor-core" />
-        <module name="python-executor-spring-boot-cache-starter" />
         <module name="python-executor-grpc-executor-spring-boot-starter" />
         <module name="python-executor-graalpy-executor-autoconfigure" />
         <module name="python-rest-server-testcontainers" />
-        <module name="python-executor-spring-boot-cache-core" />
         <module name="python-executor-autoconfigure" />
-        <module name="python-executor-spring-boot-cache-autoconfigure" />
         <module name="python-executor-pretty-resolver-autoconfigure" />
         <module name="python-executor-jython-executor-autoconfigure" />
         <module name="python-executor-jep-executor-spring-boot-starter" />
@@ -58,6 +55,9 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo-app" target="17" />
+      <module name="python-executor-spring-boot-cache-autoconfigure" target="17" />
+      <module name="python-executor-spring-boot-cache-core" target="17" />
+      <module name="python-executor-spring-boot-cache-starter" target="17" />
       <module name="python-server-testcontainers" target="17" />
       <module name="python-server-tset" target="17" />
       <module name="spring-boot-python-executor-testcontainers" target="17" />
