@@ -6,7 +6,7 @@ import java.util.function.BiFunction;
 
 public record PythonResultDescription<T>(Class<T> type, String fieldName) {
     @Nullable
-    public T getValue(BiFunction<Class<T>, String, T> function) {
+    public T getValue(BiFunction<Class<T>, String, @Nullable T> function) {
         return this.isVoid() ? null : function.apply(this.type, this.fieldName);
     }
 

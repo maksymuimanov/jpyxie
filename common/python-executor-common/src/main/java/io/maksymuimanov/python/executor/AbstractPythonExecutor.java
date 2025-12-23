@@ -21,6 +21,13 @@ public abstract class AbstractPythonExecutor<C> implements PythonExecutor {
         return this.execute(script, resultDescription);
     }
 
+    @Override
+    @Nullable
+    public abstract  <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription);
+
+    @Override
+    public abstract Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions);
+
     protected Map<String, @Nullable Object> getResultMap(Iterable<PythonResultDescription<?>> resultDescriptions, C resultContainer) {
         Map<String, @Nullable Object> result = new HashMap<>();
         for (PythonResultDescription<?> resultDescription : resultDescriptions) {
@@ -32,7 +39,8 @@ public abstract class AbstractPythonExecutor<C> implements PythonExecutor {
         return result;
     }
 
-    protected abstract <R> @Nullable R getResult(PythonResultDescription<R> resultDescription, C resultContainer);
+    @Nullable
+    protected abstract <R> R getResult(PythonResultDescription<R> resultDescription, C resultContainer);
 
     protected PythonResultFieldNameProvider getResultFieldProvider() {
         return resultFieldProvider;
