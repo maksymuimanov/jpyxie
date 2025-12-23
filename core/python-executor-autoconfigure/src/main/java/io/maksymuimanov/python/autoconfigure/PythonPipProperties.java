@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.Duration;
+
 @Getter @Setter
 @ConfigurationProperties("spring.python.pip")
 public class PythonPipProperties {
@@ -12,6 +14,22 @@ public class PythonPipProperties {
      * Command used to invoke pip for managing Python packages. Typically 'python -m pip', but can point to an interpreter inside a virtual environment or a Windows launcher.
      */
     private String command = "python -m pip";
+    /**
+     * Whether to redirect error stream when executing pip commands.
+     */
+    private boolean redirectErrorStream;
+    /**
+     * Whether to redirect output stream when executing pip commands.
+     */
+    private boolean redirectOutputStream;
+    /**
+     * Whether to read the output of pip commands.
+     */
+    private boolean readOutput;
+    /**
+     * Timeout for executing pip commands.
+     */
+    private Duration timeout;
     /**
      * Configuration group for Python library installation and uninstallation using pip.
      */

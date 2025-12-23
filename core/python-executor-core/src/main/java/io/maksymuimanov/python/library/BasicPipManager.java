@@ -3,29 +3,40 @@ package io.maksymuimanov.python.library;
 import io.maksymuimanov.python.exception.PythonLibraryManagementException;
 import lombok.extern.slf4j.Slf4j;
 import org.zeroturnaround.exec.ProcessExecutor;
+import org.zeroturnaround.exec.stream.NullOutputStream;
 import org.zeroturnaround.exec.stream.slf4j.Slf4jStream;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 @Slf4j
 public class BasicPipManager implements PipManager {
+    public static final String EXCEPTION_MESSAGE_FORMAT = "%s failed with exit code: %d";
     public static final String UNINSTALL_WITHOUT_CONFIRMATION_OPTION = "--yes";
     private final String[] pipPath;
+    private final boolean redirectErrorStream;
+    private final boolean redirectOutputStream;
+    private final boolean readOutput;
+    private final Duration timeout;
 
-    public BasicPipManager(String pipPath) {
+    public BasicPipManager(String pipPath, boolean redirectErrorStream, boolean redirectOutputStream, boolean readOutput, Duration timeout) {
         this.pipPath = pipPath.split(" ");
+        this.redirectErrorStream = redirectErrorStream;
+        this.redirectOutputStream = redirectOutputStream;
+        this.readOutput = readOutput;
+        this.timeout = timeout;
     }
 
     @Override
     public boolean exists(PythonLibraryManagement management) {
         AtomicBoolean exists = new AtomicBoolean(false);
-        this.processCommand(SHOW, management.getName(), (exitValue) -> {
+        this.processCommand(SHOW, management.getName(), exitValue -> {
             if (exitValue == 0) {
                 exists.set(true);
             }
@@ -47,7 +58,7 @@ public class BasicPipManager implements PipManager {
     protected void processCommand(String command, String name) {
         this.processCommand(command, name, (exitValue, commandList) -> {
             if (exitValue != 0) {
-                throw new PythonLibraryManagementException(String.format("%s failed with exit code: %d", String.join(" ", commandList), exitValue));
+                throw new PythonLibraryManagementException(String.format(EXCEPTION_MESSAGE_FORMAT, String.join(" ", commandList), exitValue));
             }
         });
     }
@@ -55,18 +66,18 @@ public class BasicPipManager implements PipManager {
     protected void processCommand(String command, PythonLibraryManagement management) {
         this.processCommand(command, management, (exitValue, commandList) -> {
             if (exitValue != 0) {
-                throw new PythonLibraryManagementException(String.format("%s failed with exit code: %d", String.join(" ", commandList), exitValue));
+                throw new PythonLibraryManagementException(String.format(EXCEPTION_MESSAGE_FORMAT, String.join(" ", commandList), exitValue));
             }
         });
     }
 
-    protected void processCommand(String command, PythonLibraryManagement management, Consumer<Integer> exitValueConsumer) {
+    protected void processCommand(String command, PythonLibraryManagement management, IntConsumer exitValueConsumer) {
         this.processCommand(command, management, (exitValue, commandList) -> {
             exitValueConsumer.accept(exitValue);
         });
     }
 
-    protected void processCommand(String command, String name, Consumer<Integer> exitValueConsumer) {
+    protected void processCommand(String command, String name, IntConsumer exitValueConsumer) {
         this.processCommand(command, name, (exitValue, commandList) -> {
             exitValueConsumer.accept(exitValue);
         });
@@ -90,14 +101,14 @@ public class BasicPipManager implements PipManager {
     }
 
     protected void processCommand(List<String> commands) {
-        this.processCommand(commands, (exitValue) -> {
+        this.processCommand(commands, exitValue -> {
             if (exitValue != 0) {
-                throw new PythonLibraryManagementException(String.format("%s failed with exit code: %d", String.join(" ", commands), exitValue));
+                throw new PythonLibraryManagementException(String.format(EXCEPTION_MESSAGE_FORMAT, String.join(" ", commands), exitValue));
             }
         });
     }
 
-    protected void processCommand(List<String> commands, Consumer<Integer> exitValueConsumer) {
+    protected void processCommand(List<String> commands, IntConsumer exitValueConsumer) {
         this.processCommand(commands, (exitValue, commandList) -> {
             exitValueConsumer.accept(exitValue);
         });
@@ -107,10 +118,10 @@ public class BasicPipManager implements PipManager {
         try {
             int exitValue = new ProcessExecutor()
                     .command(commands)
-                    .redirectErrorStream(true)
-                    .readOutput(true)
-                    .timeout(5, TimeUnit.MINUTES)
-                    .redirectOutput(Slf4jStream.of(log).asDebug())
+                    .redirectErrorStream(this.redirectErrorStream)
+                    .redirectOutput(this.redirectOutputStream ? Slf4jStream.of(log).asDebug() : NullOutputStream.NULL_OUTPUT_STREAM)
+                    .readOutput(this.readOutput)
+                    .timeout(this.timeout.toMillis(), TimeUnit.MILLISECONDS)
                     .execute()
                     .getExitValue();
             exitValueCommandsBiConsumer.accept(exitValue, commands);

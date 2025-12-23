@@ -42,6 +42,30 @@
       "sourceType": "io.maksymuimanov.python.autoconfigure.PythonPipProperties"
     },
     {
+      "name": "spring.python.pip.redirect-error-stream",
+      "type": "java.lang.Boolean",
+      "description": "Whether to redirect error stream when executing pip commands.",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.python.pip.redirect-output-stream",
+      "type": "java.lang.Boolean",
+      "description": "Whether to redirect output stream when executing pip commands.",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.python.pip.read-output",
+      "type": "java.lang.Boolean",
+      "description": "Whether to read the output of pip commands.",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.python.pip.timeout",
+      "type": "java.time.Duration",
+      "description": "Timeout for executing pip commands.",
+      "defaultValue": "30s"
+    },
+    {
       "name": "spring.python.pip.library.enabled",
       "description": "Enables or disables automatic Python library management on Spring application lifecycle. When true, the system can preinstall or uninstall required packages.",
       "defaultValue": false,

@@ -18,7 +18,7 @@ public class PipAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(PipManager.class)
     public PipManager basicPipManager(PythonPipProperties pipProperties) {
-        return new BasicPipManager(pipProperties.getCommand());
+        return new BasicPipManager(pipProperties.getCommand(), pipProperties.isRedirectErrorStream(), pipProperties.isRedirectOutputStream(), pipProperties.isReadOutput(), pipProperties.getTimeout());
     }
 
     @Bean
