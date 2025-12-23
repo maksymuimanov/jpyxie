@@ -43,12 +43,10 @@ public class RestPythonExecutor extends AbstractPythonExecutor<PythonRestRespons
     private final PythonRestServerHttpRequestSender requestSender;
     private final ObjectMapper objectMapper;
 
-    public RestPythonExecutor(PythonResultFieldNameProvider resultFieldProvider,
-                                 String uri,
-                                 String token,
-                                 PythonRestServerHttpRequestSender requestSender,
-                                 ObjectMapper objectMapper) {
-        super(resultFieldProvider);
+    public RestPythonExecutor(String uri,
+                              String token,
+                              PythonRestServerHttpRequestSender requestSender,
+                              ObjectMapper objectMapper) {
         this.uri = uri;
         this.token = token;
         this.requestSender = requestSender;

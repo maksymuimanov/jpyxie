@@ -3,7 +3,6 @@ package io.maksymuimanov.python.autoconfigure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
-import io.maksymuimanov.python.executor.PythonResultFieldNameProvider;
 import io.maksymuimanov.python.file.PythonFileReader;
 import io.maksymuimanov.python.finisher.BasicPythonProcessFinisher;
 import io.maksymuimanov.python.finisher.ProcessFinisher;
@@ -34,13 +33,12 @@ import org.springframework.context.annotation.Bean;
 public class ProcessPythonExecutorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor processPythonExecutor(PythonResultFieldNameProvider resultFieldNameProvider,
-                                                ProcessStarter processStarter,
+    public PythonExecutor processPythonExecutor(ProcessStarter processStarter,
                                                 ProcessOutputHandler processOutputHandler,
                                                 ProcessErrorHandler processErrorHandler,
                                                 ObjectMapper objectMapper,
                                                 ProcessFinisher processFinisher) {
-        return new ProcessPythonExecutor(resultFieldNameProvider, processStarter, processOutputHandler, processErrorHandler, objectMapper, processFinisher);
+        return new ProcessPythonExecutor(processStarter, processOutputHandler, processErrorHandler, objectMapper, processFinisher);
     }
 
     /**

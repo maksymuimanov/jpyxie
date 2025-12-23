@@ -13,8 +13,8 @@ public class GraalPythonExecutor extends InterpretablePythonExecutor<Value, Cont
     public static final String PYTHON = "python";
     private final boolean cached;
 
-    public GraalPythonExecutor(PythonResultFieldNameProvider resultFieldNameProvider, PythonInterpreterProvider<Context> interpreterProvider, boolean cached) {
-        super(resultFieldNameProvider, interpreterProvider);
+    public GraalPythonExecutor(PythonInterpreterProvider<Context> interpreterProvider, boolean cached) {
+        super(interpreterProvider);
         this.cached = cached;
     }
 

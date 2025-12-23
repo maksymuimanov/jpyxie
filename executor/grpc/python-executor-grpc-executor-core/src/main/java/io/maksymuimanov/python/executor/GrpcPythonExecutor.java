@@ -43,8 +43,7 @@ public class GrpcPythonExecutor extends AbstractPythonExecutor<PythonGrpcRespons
     private final PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub;
     private final ObjectMapper objectMapper;
 
-    public GrpcPythonExecutor(PythonResultFieldNameProvider resultFieldProvider, PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub, ObjectMapper objectMapper) {
-        super(resultFieldProvider);
+    public GrpcPythonExecutor(PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub, ObjectMapper objectMapper) {
         this.stub = stub;
         this.objectMapper = objectMapper;
     }

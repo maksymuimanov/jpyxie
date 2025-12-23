@@ -48,13 +48,11 @@ public class ProcessPythonExecutor extends AbstractPythonExecutor<ProcessOutputH
     private final ObjectMapper objectMapper;
     private final ProcessFinisher processFinisher;
 
-    public ProcessPythonExecutor(PythonResultFieldNameProvider resultFieldProvider,
-                                 ProcessStarter processStarter,
+    public ProcessPythonExecutor(ProcessStarter processStarter,
                                  ProcessOutputHandler processOutputHandler,
                                  ProcessErrorHandler processErrorHandler,
                                  ObjectMapper objectMapper,
                                  ProcessFinisher processFinisher) {
-        super(resultFieldProvider);
         this.processStarter = processStarter;
         this.processOutputHandler = processOutputHandler;
         this.processErrorHandler = processErrorHandler;

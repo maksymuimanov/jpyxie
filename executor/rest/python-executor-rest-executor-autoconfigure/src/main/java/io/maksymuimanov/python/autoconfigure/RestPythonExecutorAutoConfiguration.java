@@ -2,7 +2,6 @@ package io.maksymuimanov.python.autoconfigure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.executor.PythonExecutor;
-import io.maksymuimanov.python.executor.PythonResultFieldNameProvider;
 import io.maksymuimanov.python.executor.RestPythonExecutor;
 import io.maksymuimanov.python.http.BasicPythonRestServerHttpRequestSender;
 import io.maksymuimanov.python.http.PythonRestServerHttpRequestSender;
@@ -33,11 +32,10 @@ public class RestPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor restPythonExecutor(PythonResultFieldNameProvider resultFieldNameProvider,
-                                             PythonRestServerConnectionDetails connectionDetails,
+    public PythonExecutor restPythonExecutor(PythonRestServerConnectionDetails connectionDetails,
                                              PythonRestServerHttpRequestSender requestSender,
                                              ObjectMapper objectMapper) {
-        return new RestPythonExecutor(resultFieldNameProvider, connectionDetails.getUri(), connectionDetails.getToken(), requestSender, objectMapper);
+        return new RestPythonExecutor(connectionDetails.getUri(), connectionDetails.getToken(), requestSender, objectMapper);
     }
 
     @Bean
@@ -48,11 +46,6 @@ public class RestPythonExecutorAutoConfiguration {
 
     /**
      * Creates a default {@link HttpClient} bean for REST-based Python execution.
-     *
-     * <p>Activated when:
-     * <ul>
-     *   <li>{@code spring.python.executor.type=rest}</li>
-     * </ul>
      *
      * @return never {@code null}, new {@link HttpClient} instance
      */

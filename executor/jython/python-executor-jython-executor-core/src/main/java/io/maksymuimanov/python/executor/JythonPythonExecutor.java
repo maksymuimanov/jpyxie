@@ -8,8 +8,8 @@ import org.python.util.PythonInterpreter;
 import java.util.Map;
 
 public class JythonPythonExecutor extends InterpretablePythonExecutor<PythonInterpreter, PythonInterpreter> {
-    public JythonPythonExecutor(PythonResultFieldNameProvider resultFieldProvider, PythonInterpreterProvider<PythonInterpreter> interpreterProvider) {
-        super(resultFieldProvider, interpreterProvider);
+    public JythonPythonExecutor(PythonInterpreterProvider<PythonInterpreter> interpreterProvider) {
+        super(interpreterProvider);
     }
 
     @Override

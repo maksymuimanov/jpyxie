@@ -1,6 +1,5 @@
 package io.maksymuimanov.python.executor;
 
-import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.script.PythonScript;
 import org.jspecify.annotations.Nullable;
 
@@ -26,21 +25,6 @@ import java.util.Map;
  * @since 1.0.0
  */
 public interface PythonExecutor {
-    /**
-     * Executes the given Python script and converts the body to the specified Java type.
-     *
-     * <p>Implementations must execute the script in a safe and isolated context and perform type conversion to the given {@code resultClass}.
-     * The execution order and environment are defined by the specific implementation.</p>
-     *
-     * @param <R> the expected body type
-     * @param script non-{@code null} Python script to execute
-     * @param resultClass the Java class representing the expected body type, may be {@code null} if the script produces no output
-     * @throws PythonExecutionException the exception must be thrown if something goes wrong with the script execution
-     * @return the body of the script execution mapped to {@code resultClass}, may be {@code null} if the script produces no output
-     */
-    @Nullable
-    <R> R execute(PythonScript script, Class<R> resultClass);
-
     @Nullable
     <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription);
 

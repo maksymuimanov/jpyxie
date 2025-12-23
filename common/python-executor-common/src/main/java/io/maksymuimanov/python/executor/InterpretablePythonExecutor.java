@@ -11,8 +11,7 @@ import java.util.Map;
 public abstract class InterpretablePythonExecutor<C, I extends AutoCloseable> extends AbstractPythonExecutor<C> {
     private final PythonInterpreterProvider<I> interpreterProvider;
 
-    protected InterpretablePythonExecutor(PythonResultFieldNameProvider resultFieldProvider, PythonInterpreterProvider<I> interpreterProvider) {
-        super(resultFieldProvider);
+    protected InterpretablePythonExecutor(PythonInterpreterProvider<I> interpreterProvider) {
         this.interpreterProvider = interpreterProvider;
     }
 

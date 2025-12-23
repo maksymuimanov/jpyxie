@@ -2,7 +2,6 @@ package io.maksymuimanov.python.autoconfigure;
 
 import io.maksymuimanov.python.executor.JythonPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
-import io.maksymuimanov.python.executor.PythonResultFieldNameProvider;
 import io.maksymuimanov.python.interpreter.JythonInterpreterFactory;
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
 import io.maksymuimanov.python.lifecycle.JythonInitializer;
@@ -31,7 +30,7 @@ public class JythonPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor jythonPythonExecutor(PythonResultFieldNameProvider resultFieldNameProvider, PythonInterpreterProvider<PythonInterpreter> jythonInterpreterProvider) {
-        return new JythonPythonExecutor(resultFieldNameProvider, jythonInterpreterProvider);
+    public PythonExecutor jythonPythonExecutor(PythonInterpreterProvider<PythonInterpreter> jythonInterpreterProvider) {
+        return new JythonPythonExecutor(jythonInterpreterProvider);
     }
 }

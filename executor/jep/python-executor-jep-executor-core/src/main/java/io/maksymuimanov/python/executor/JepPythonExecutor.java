@@ -8,8 +8,8 @@ import org.jspecify.annotations.Nullable;
 import java.util.Map;
 
 public class JepPythonExecutor extends InterpretablePythonExecutor<Interpreter, Interpreter> {
-    public JepPythonExecutor(PythonResultFieldNameProvider resultFieldProvider, PythonInterpreterProvider<Interpreter> interpreterProvider) {
-        super(resultFieldProvider, interpreterProvider);
+    public JepPythonExecutor(PythonInterpreterProvider<Interpreter> interpreterProvider) {
+        super(interpreterProvider);
     }
 
     @Override
