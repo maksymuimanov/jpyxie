@@ -1,11 +1,8 @@
 package io.maksymuimanov.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.maksymuimanov.python.dto.ScriptRequest;
 import io.maksymuimanov.python.exception.PythonExecutionException;
-import io.maksymuimanov.python.response.PythonExecutionResponse;
 import io.maksymuimanov.python.script.PythonScript;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpStatus;
@@ -14,6 +11,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of the {@link PythonExecutor} interface that executes Python scripts via a REST endpoint.
@@ -23,7 +23,7 @@ import java.net.http.HttpResponse;
  * <p>
  * The execution flow includes:
  * <ul>
- *   <li>Serializing the Python script wrapped in a {@link ScriptRequest} to JSON.</li>
+ *   <li>Serializing the Python script wrapped in a {@link PythonRestRequest} to JSON.</li>
  *   <li>Sending an HTTP POST request to the configured REST endpoint with authentication headers.</li>
  *   <li>Receiving the JSON response and deserializing it into the expected body type.</li>
  * </ul>
@@ -36,56 +36,89 @@ import java.net.http.HttpResponse;
  * }</pre>
  *
  * @see PythonExecutor
- * @see ScriptRequest
+ * @see PythonRestRequest
  * @author w4t3rcs
  * @since 1.0.0
  */
 @Slf4j
-@RequiredArgsConstructor
-public class RestPythonExecutor implements PythonExecutor {
+public class RestPythonExecutor extends AbstractPythonExecutor<PythonRestResponse> {
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String JSON_CONTENT_TYPE = "application/json";
     private static final String TOKEN_HEADER = "X-Token";
-    public static final String EMPTY_BODY = "\"\"";
     private final String token;
     private final String uri;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
 
-    /**
-     * Executes the given Python {@code script} remotely by sending it to a REST endpoint.
-     * <p>
-     * The method serializes the script into a JSON body, sends it as an HTTP POST request,
-     * and deserializes the JSON response into the specified {@code resultClass}.
-     *
-     * @param <R> the expected body type
-     * @param script the Python script to execute (non-null, non-empty recommended)
-     * @param resultClass the {@link Class} representing the expected return type, may be null if no body expected
-     * @return an instance of {@code R} parsed from the REST response body, or {@code null} if {@code resultClass} is null, or the response body is empty or blank
-     * @throws PythonExecutionException if an error occurs during HTTP communication, JSON serialization/deserialization, or other execution errors
-     */
+    protected RestPythonExecutor(PythonResultFieldNameProvider resultFieldProvider, String token, String uri, ObjectMapper objectMapper, HttpClient httpClient) {
+        super(resultFieldProvider);
+        this.token = token;
+        this.uri = uri;
+        this.objectMapper = objectMapper;
+        this.httpClient = httpClient;
+    }
+
     @Override
-    public <R> PythonExecutionResponse<R> execute(PythonScript script, @Nullable Class<? extends R> resultClass) {
+    public @Nullable <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription) {
         try {
-            String scriptBody = script.toString();
-            ScriptRequest scriptRequest = new ScriptRequest(scriptBody);
-            String scriptJson = objectMapper.writeValueAsString(scriptRequest);
+            String scriptBody = script.toPythonString();
+            List<String> fieldNames = List.of(resultDescription.fieldName());
+            PythonRestRequest pythonRestRequest = new PythonRestRequest(scriptBody, fieldNames);
+            String requestJson = objectMapper.writeValueAsString(pythonRestRequest);
+            HttpRequest.BodyPublisher requestPayload = HttpRequest.BodyPublishers.ofString(requestJson);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(this.uri))
                     .header(CONTENT_TYPE_HEADER, JSON_CONTENT_TYPE)
                     .header(TOKEN_HEADER, this.token)
-                    .POST(HttpRequest.BodyPublishers.ofString(scriptJson))
+                    .POST(requestPayload)
                     .build();
-            HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
-            HttpResponse<String> response = httpClient.send(request, handler);
-            if (response.statusCode() != HttpStatus.OK.value()) throw new PythonExecutionException("Request failed with status code: " + response.statusCode());
+            HttpResponse.BodyHandler<String> stringBodyHandler = HttpResponse.BodyHandlers.ofString();
+            HttpResponse<String> response = httpClient.send(request, stringBodyHandler);
+            if (response.statusCode() != HttpStatus.OK.value()) {
+                throw new PythonExecutionException("Request failed with status code: " + response.statusCode());
+            }
             String body = response.body();
-            R result = resultClass == null || body == null || body.isBlank() || EMPTY_BODY.equals(body)
-                    ? null
-                    : objectMapper.readValue(body, resultClass);
-            return new PythonExecutionResponse<>(result);
+            PythonRestResponse pythonRestResponse = objectMapper.readValue(body, PythonRestResponse.class);
+            return this.getResult(resultDescription, pythonRestResponse);
         } catch (Exception e) {
             throw new PythonExecutionException(e);
         }
+    }
+
+    @Override
+    public Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions) {
+        try {
+            String scriptBody = script.toPythonString();
+            List<String> fieldNames = new ArrayList<>();
+            for (PythonResultDescription<?> resultDescription : resultDescriptions) {
+                fieldNames.add(resultDescription.fieldName());
+            }
+            PythonRestRequest pythonRestRequest = new PythonRestRequest(scriptBody, fieldNames);
+            String requestJson = objectMapper.writeValueAsString(pythonRestRequest);
+            HttpRequest.BodyPublisher requestPayload = HttpRequest.BodyPublishers.ofString(requestJson);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.uri))
+                    .header(CONTENT_TYPE_HEADER, JSON_CONTENT_TYPE)
+                    .header(TOKEN_HEADER, this.token)
+                    .POST(requestPayload)
+                    .build();
+            HttpResponse.BodyHandler<String> stringBodyHandler = HttpResponse.BodyHandlers.ofString();
+            HttpResponse<String> response = httpClient.send(request, stringBodyHandler);
+            if (response.statusCode() != HttpStatus.OK.value()) {
+                throw new PythonExecutionException("Request failed with status code: " + response.statusCode());
+            }
+            String body = response.body();
+            PythonRestResponse pythonRestResponse = objectMapper.readValue(body, PythonRestResponse.class);
+            return this.getResultMap(resultDescriptions, pythonRestResponse);
+        } catch (Exception e) {
+            throw new PythonExecutionException(e);
+        }
+    }
+
+    @Override
+    @Nullable
+    @SuppressWarnings("unchecked")
+    protected <R> R getResult(PythonResultDescription<R> resultDescription, PythonRestResponse resultContainer) {
+        return resultDescription.getValue((type, fieldName) -> (R) resultContainer.fields().get(fieldName));
     }
 }

@@ -1,7 +1,6 @@
 package io.maksymuimanov.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.maksymuimanov.python.dto.ScriptRequest;
 import io.maksymuimanov.python.script.PythonScript;
 import io.maksymuimanov.python.util.TestUtils;
 import lombok.SneakyThrows;
@@ -43,9 +42,9 @@ class RestPythonExecutorTests {
     @ValueSource(strings = {SIMPLE_SCRIPT_0, SIMPLE_SCRIPT_1, SIMPLE_SCRIPT_2, SIMPLE_SCRIPT_3})
     void testExecute(String script) {
         PythonScript pythonScript = new PythonScript(script);
-        ScriptRequest scriptRequest = new ScriptRequest(script);
+        PythonRestRequest pythonRestRequest = new PythonRestRequest(script);
 
-        Mockito.when(objectMapper.writeValueAsString(scriptRequest)).thenReturn("{\"script\": \"%s\"}".formatted(script));
+        Mockito.when(objectMapper.writeValueAsString(pythonRestRequest)).thenReturn("{\"script\": \"%s\"}".formatted(script));
         Mockito.when(client.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class))).thenReturn(response);
         Mockito.when(response.statusCode()).thenReturn(200);
         Mockito.when(response.body()).thenReturn(OK);
