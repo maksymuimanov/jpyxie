@@ -1,12 +1,12 @@
 package io.maksymuimanov.python.constant;
 
-import io.maksymuimanov.python.response.PythonExecutionResponse;
+import io.maksymuimanov.python.response.PythonResponse;
 
 import java.util.Map;
 
 public final class TestConstants {
     public static final String OK = "OK";
-    public static final PythonExecutionResponse<String> OK_RESPONSE = new PythonExecutionResponse<>(OK);
+    public static final PythonResponse<String> OK_RESPONSE = new PythonResponse<>(OK);
     public static final Class<String> STRING_CLASS = String.class;
     public static final Map<String, Object> EMPTY_ARGUMENTS = Map.of();
     public static final String SIMPLE_SCRIPT_0 = "print(2 + 2)";

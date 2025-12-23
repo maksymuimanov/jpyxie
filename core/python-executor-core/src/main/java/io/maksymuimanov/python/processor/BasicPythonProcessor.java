@@ -2,13 +2,16 @@ package io.maksymuimanov.python.processor;
 
 import io.maksymuimanov.python.exception.PythonProcessionException;
 import io.maksymuimanov.python.executor.PythonExecutor;
+import io.maksymuimanov.python.executor.PythonResultDescription;
+import io.maksymuimanov.python.executor.PythonResultFieldNameProvider;
 import io.maksymuimanov.python.file.PythonFileReader;
 import io.maksymuimanov.python.resolver.PythonResolverHolder;
-import io.maksymuimanov.python.response.PythonExecutionResponse;
+import io.maksymuimanov.python.response.PythonResponse;
 import io.maksymuimanov.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,23 +53,34 @@ public class BasicPythonProcessor implements PythonProcessor {
     private final PythonFileReader pythonFileReader;
     private final PythonExecutor pythonExecutor;
     private final PythonResolverHolder pythonResolverHolder;
+    private final PythonResultFieldNameProvider resultFieldNameProvider;
 
-    /**
-     * Processes a Python script by optionally reading it from a file,
-     * applying all resolvers, and executing it.
-     *
-     * @param script non-{@code null} Python script content or file path
-     * @param resultClass nullable target body type
-     * @param arguments optional arguments for resolvers (can be empty but not {@code null})
-     * @param <R> type of the expected body
-     * @return the execution body converted to {@code resultClass}
-     */
     @Override
-    public <R> PythonExecutionResponse<R> process(PythonScript script, @Nullable Class<? extends R> resultClass, Map<String, Object> arguments) {
+    public <R> PythonResponse<R> process(PythonScript script, Class<R> resultClass, Map<String, Object> arguments) {
+        PythonResultDescription<R> resultDescription = new PythonResultDescription<>(resultClass, resultFieldNameProvider.get());
+        return this.process(script, resultDescription, arguments);
+    }
+
+    @Override
+    public <R> PythonResponse<R> process(PythonScript script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments) {
         try {
             if (script.isFile()) pythonFileReader.readScript(script);
             pythonResolverHolder.resolveAll(script, arguments);
-            return pythonExecutor.execute(script, resultClass);
+            String name = resultDescription.fieldName();
+            R result = pythonExecutor.execute(script, resultDescription);
+            return PythonResponse.of(name, result);
+        } catch (Exception e) {
+            throw new PythonProcessionException(e);
+        }
+    }
+
+    @Override
+    public List<PythonResponse<?>> processAll(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments) {
+        try {
+            if (script.isFile()) pythonFileReader.readScript(script);
+            pythonResolverHolder.resolveAll(script, arguments);
+            Map<String, @Nullable Object> resultMap = pythonExecutor.execute(script, resultDescriptions);
+            return PythonResponse.allOf(resultMap);
         } catch (Exception e) {
             throw new PythonProcessionException(e);
         }

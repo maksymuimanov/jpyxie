@@ -4,9 +4,10 @@ import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.executor.PythonResultDescription;
 import io.maksymuimanov.python.resolver.PythonResolver;
 import io.maksymuimanov.python.resolver.PythonResolverHolder;
-import io.maksymuimanov.python.response.PythonExecutionResponse;
+import io.maksymuimanov.python.response.PythonResponse;
 import io.maksymuimanov.python.script.PythonScript;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -52,52 +53,85 @@ public interface PythonProcessor {
         return this.processAsync(script, arguments, ForkJoinPool.commonPool());
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, Class<R> resultClass) {
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, Class<R> resultClass) {
         return this.processAsync(script, resultClass, Map.of());
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, PythonResultDescription<R> resultDescription) {
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, String resultName, Class<R> resultClass) {
+        return this.processAsync(script, resultName, resultClass, Map.of());
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, PythonResultDescription<R> resultDescription) {
         return this.processAsync(script, resultDescription, Map.of());
     }
 
-    default CompletableFuture<List<PythonExecutionResponse<?>>> processAsync(String script, Iterable<PythonResultDescription<?>> resultDescriptions) {
-        return this.processAsync(script, resultDescriptions, Map.of());
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(String script, Map<String, Class<?>> resultDescriptionMap) {
+        return this.processAllAsync(script, resultDescriptionMap, Map.of());
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, Class<R> resultClass) {
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(String script, Iterable<PythonResultDescription<?>> resultDescriptions) {
+        return this.processAllAsync(script, resultDescriptions, Map.of());
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, Class<R> resultClass) {
         return this.processAsync(script, resultClass, Map.of());
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, PythonResultDescription<R> resultDescription) {
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, PythonResultDescription<R> resultDescription) {
         return this.processAsync(script, resultDescription, Map.of());
     }
 
-    default CompletableFuture<List<PythonExecutionResponse<?>>> processAsync(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions) {
-        return this.processAsync(script, resultDescriptions, Map.of());
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, String resultName, Class<R> resultClass) {
+        return this.processAsync(script, resultName, resultClass, Map.of());
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, Class<R> resultClass, Map<String, Object> arguments) {
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(PythonScript script, Map<String, Class<?>> resultDescriptionMap) {
+        return this.processAllAsync(script, resultDescriptionMap, Map.of());
+    }
+
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions) {
+        return this.processAllAsync(script, resultDescriptions, Map.of());
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, Class<R> resultClass, Map<String, Object> arguments) {
         return this.processAsync(script, resultClass, arguments, ForkJoinPool.commonPool());
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments) {
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, String resultName, Class<R> resultClass, Map<String, Object> arguments) {
+        return this.processAsync(script, resultName, resultClass, arguments, ForkJoinPool.commonPool());
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments) {
         return this.processAsync(script, resultDescription, arguments, ForkJoinPool.commonPool());
     }
 
-    default CompletableFuture<List<PythonExecutionResponse<?>>> processAsync(String script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments) {
-        return this.processAsync(script, resultDescriptions, arguments, ForkJoinPool.commonPool());
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(String script, Map<String, Class<?>> resultDescriptionMap, Map<String, Object> arguments) {
+        return this.processAllAsync(script, resultDescriptionMap, arguments, ForkJoinPool.commonPool());
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, Class<R> resultClass, Map<String, Object> arguments) {
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(String script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments) {
+        return this.processAllAsync(script, resultDescriptions, arguments, ForkJoinPool.commonPool());
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, Class<R> resultClass, Map<String, Object> arguments) {
         return this.processAsync(script, resultClass, arguments, ForkJoinPool.commonPool());
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments) {
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, String resultName, Class<R> resultClass, Map<String, Object> arguments) {
+        return this.processAsync(script, resultName, resultClass, arguments, ForkJoinPool.commonPool());
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments) {
         return this.processAsync(script, resultDescription, arguments, ForkJoinPool.commonPool());
     }
 
-    default CompletableFuture<List<PythonExecutionResponse<?>>> processAsync(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments) {
-        return this.processAsync(script, resultDescriptions, arguments, ForkJoinPool.commonPool());
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(PythonScript script, Map<String, Class<?>> resultDescriptionMap, Map<String, Object> arguments) {
+        return this.processAllAsync(script, resultDescriptionMap, arguments, ForkJoinPool.commonPool());
+    }
+
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments) {
+        return this.processAllAsync(script, resultDescriptions, arguments, ForkJoinPool.commonPool());
     }
 
     default CompletableFuture<Void> processAsync(String script, Executor executor) {
@@ -116,55 +150,89 @@ public interface PythonProcessor {
         return CompletableFuture.runAsync(() -> this.process(script, arguments), executor);
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, Class<R> resultClass, Executor executor) {
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, Class<R> resultClass, Executor executor) {
         return this.processAsync(script, resultClass, Map.of(), executor);
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, PythonResultDescription<R> resultDescription, Executor executor) {
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, String resultName, Class<R> resultClass, Executor executor) {
+        return this.processAsync(script, resultName, resultClass, Map.of(), executor);
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, PythonResultDescription<R> resultDescription, Executor executor) {
         return this.processAsync(script, resultDescription, Map.of(), executor);
     }
 
-    default CompletableFuture<List<PythonExecutionResponse<?>>> processAsync(String script, Iterable<PythonResultDescription<?>> resultDescriptions, Executor executor) {
-        return this.processAsync(script, resultDescriptions, Map.of(), executor);
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(String script, Map<String, Class<?>> resultDescriptionMap, Executor executor) {
+        return this.processAllAsync(script, resultDescriptionMap, Map.of(), executor);
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, Class<R> resultClass, Executor executor) {
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(String script, Iterable<PythonResultDescription<?>> resultDescriptions, Executor executor) {
+        return this.processAllAsync(script, resultDescriptions, Map.of(), executor);
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, Class<R> resultClass, Executor executor) {
         return this.processAsync(script, resultClass, Map.of(), executor);
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, PythonResultDescription<R> resultDescription, Executor executor) {
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, String resultName, Class<R> resultClass, Executor executor) {
+        return this.processAsync(script, resultName, resultClass, Map.of(), executor);
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, PythonResultDescription<R> resultDescription, Executor executor) {
         return this.processAsync(script, resultDescription, Map.of(), executor);
     }
 
-    default CompletableFuture<List<PythonExecutionResponse<?>>> processAsync(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Executor executor) {
-        return this.processAsync(script, resultDescriptions, Map.of(), executor);
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(PythonScript script, Map<String, Class<?>> resultDescriptionMap, Executor executor) {
+        return this.processAllAsync(script, resultDescriptionMap, Map.of(), executor);
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, Class<R> resultClass, Map<String, Object> arguments, Executor executor) {
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Executor executor) {
+        return this.processAllAsync(script, resultDescriptions, Map.of(), executor);
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, Class<R> resultClass, Map<String, Object> arguments, Executor executor) {
         PythonScript pythonScript = new PythonScript(script);
         return this.processAsync(pythonScript, resultClass, arguments, executor);
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(String script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments, Executor executor) {
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, String resultName, Class<R> resultClass, Map<String, Object> arguments, Executor executor) {
+        PythonScript pythonScript = new PythonScript(script);
+        return this.processAsync(pythonScript, resultName, resultClass, arguments, executor);
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(String script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments, Executor executor) {
         PythonScript pythonScript = new PythonScript(script);
         return this.processAsync(pythonScript, resultDescription, arguments, executor);
     }
 
-    default CompletableFuture<List<PythonExecutionResponse<?>>> processAsync(String script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments, Executor executor) {
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(String script, Map<String, Class<?>> resultDescriptionMap, Map<String, Object> arguments, Executor executor) {
         PythonScript pythonScript = new PythonScript(script);
-        return this.processAsync(pythonScript, resultDescriptions, arguments, executor);
+        return this.processAllAsync(pythonScript, resultDescriptionMap, arguments, executor);
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, Class<R> resultClass, Map<String, Object> arguments, Executor executor) {
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(String script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments, Executor executor) {
+        PythonScript pythonScript = new PythonScript(script);
+        return this.processAllAsync(pythonScript, resultDescriptions, arguments, executor);
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, Class<R> resultClass, Map<String, Object> arguments, Executor executor) {
         return CompletableFuture.supplyAsync(() -> this.process(script, resultClass, arguments), executor);
     }
 
-    default <R> CompletableFuture<PythonExecutionResponse<R>> processAsync(PythonScript script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments, Executor executor) {
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, String resultName, Class<R> resultClass, Map<String, Object> arguments, Executor executor) {
+        return CompletableFuture.supplyAsync(() -> this.process(script, resultName, resultClass, arguments), executor);
+    }
+
+    default <R> CompletableFuture<PythonResponse<R>> processAsync(PythonScript script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments, Executor executor) {
         return CompletableFuture.supplyAsync(() -> this.process(script, resultDescription, arguments), executor);
     }
 
-    default CompletableFuture<List<PythonExecutionResponse<?>>> processAsync(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments, Executor executor) {
-        return CompletableFuture.supplyAsync(() -> this.process(script, resultDescriptions, arguments), executor);
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(PythonScript script, Map<String, Class<?>> resultDescriptionMap, Map<String, Object> arguments, Executor executor) {
+        return CompletableFuture.supplyAsync(() -> this.processAll(script, resultDescriptionMap, arguments), executor);
+    }
+
+    default CompletableFuture<List<PythonResponse<?>>> processAllAsync(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments, Executor executor) {
+        return CompletableFuture.supplyAsync(() -> this.processAll(script, resultDescriptions, arguments), executor);
     }
 
     /**
@@ -172,7 +240,7 @@ public interface PythonProcessor {
      *
      * @param script non-{@code null} Python script to execute
      */
-    default PythonExecutionResponse<Void> process(String script) {
+    default PythonResponse<Void> process(String script) {
         return this.process(script, Void.class, Map.of());
     }
 
@@ -181,7 +249,7 @@ public interface PythonProcessor {
      *
      * @param script non-{@code null} Python script to execute
      */
-    default PythonExecutionResponse<Void> process(PythonScript script) {
+    default PythonResponse<Void> process(PythonScript script) {
         return this.process(script, Void.class, Map.of());
     }
 
@@ -191,7 +259,7 @@ public interface PythonProcessor {
      * @param script non-{@code null} Python script to execute
      * @param arguments a map of arguments accessible to resolvers during preprocessing
      */
-    default PythonExecutionResponse<Void> process(String script, Map<String, Object> arguments) {
+    default PythonResponse<Void> process(String script, Map<String, Object> arguments) {
         return this.process(script, Void.class, arguments);
     }
 
@@ -201,7 +269,7 @@ public interface PythonProcessor {
      * @param script non-{@code null} Python script to execute
      * @param arguments a map of arguments accessible to resolvers during preprocessing
      */
-    default PythonExecutionResponse<Void> process(PythonScript script, Map<String, Object> arguments) {
+    default PythonResponse<Void> process(PythonScript script, Map<String, Object> arguments) {
         return this.process(script, Void.class, arguments);
     }
 
@@ -213,16 +281,24 @@ public interface PythonProcessor {
      * @param resultClass the class representing the expected body type (nullable)
      * @return the body of execution cast to {@code R}, or {@code null} if the script returns nothing
      */
-    default <R> PythonExecutionResponse<R> process(String script, Class<R> resultClass) {
+    default <R> PythonResponse<R> process(String script, Class<R> resultClass) {
         return this.process(script, resultClass, Map.of());
     }
 
-    default <R> PythonExecutionResponse<R> process(String script, PythonResultDescription<R> resultDescription) {
+    default <R> PythonResponse<R> process(String script, String resultName, Class<R> resultClass) {
+        return this.process(script, resultName, resultClass, Map.of());
+    }
+
+    default <R> PythonResponse<R> process(String script, PythonResultDescription<R> resultDescription) {
         return this.process(script, resultDescription, Map.of());
     }
 
-    default List<PythonExecutionResponse<?>> process(String script, Iterable<PythonResultDescription<?>> resultDescriptions) {
-        return this.process(script, resultDescriptions, Map.of());
+    default List<PythonResponse<?>> processAll(String script, Map<String, Class<?>> resultDescriptionMap) {
+        return this.processAll(script, resultDescriptionMap, Map.of());
+    }
+
+    default List<PythonResponse<?>> processAll(String script, Iterable<PythonResultDescription<?>> resultDescriptions) {
+        return this.processAll(script, resultDescriptions, Map.of());
     }
 
     /**
@@ -233,16 +309,24 @@ public interface PythonProcessor {
      * @param resultClass the class representing the expected body type (nullable)
      * @return the body of execution cast to {@code R}, or {@code null} if the script returns nothing
      */
-    default <R> PythonExecutionResponse<R> process(PythonScript script, Class<R> resultClass) {
+    default <R> PythonResponse<R> process(PythonScript script, Class<R> resultClass) {
         return this.process(script, resultClass, Map.of());
     }
 
-    default <R> PythonExecutionResponse<R> process(PythonScript script, PythonResultDescription<R> resultDescription) {
+    default <R> PythonResponse<R> process(PythonScript script, String resultName, Class<R> resultClass) {
+        return this.process(script, resultName, resultClass, Map.of());
+    }
+
+    default <R> PythonResponse<R> process(PythonScript script, PythonResultDescription<R> resultDescription) {
         return this.process(script, resultDescription, Map.of());
     }
 
-    default List<PythonExecutionResponse<?>> process(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions) {
-        return this.process(script, resultDescriptions, Map.of());
+    default List<PythonResponse<?>> processAll(PythonScript script, Map<String, Class<?>> resultDescriptionMap) {
+        return this.processAll(script, resultDescriptionMap, Map.of());
+    }
+
+    default List<PythonResponse<?>> processAll(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions) {
+        return this.processAll(script, resultDescriptions, Map.of());
     }
 
     /**
@@ -254,19 +338,29 @@ public interface PythonProcessor {
      * @param arguments a map of arguments accessible to resolvers during preprocessing
      * @return the body of execution cast to {@code R}, or {@code null} if the script returns nothing
      */
-    default <R> PythonExecutionResponse<R> process(String script, Class<R> resultClass, Map<String, Object> arguments) {
+    default <R> PythonResponse<R> process(String script, Class<R> resultClass, Map<String, Object> arguments) {
         PythonScript pythonScript = new PythonScript(script);
         return this.process(pythonScript, resultClass, arguments);
     }
 
-    default <R> PythonExecutionResponse<R> process(String script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments) {
+    default <R> PythonResponse<R> process(String script, String resultName, Class<R> resultClass, Map<String, Object> arguments) {
+        PythonScript pythonScript = new PythonScript(script);
+        return this.process(pythonScript, resultName, resultClass, arguments);
+    }
+
+    default <R> PythonResponse<R> process(String script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments) {
         PythonScript pythonScript = new PythonScript(script);
         return this.process(pythonScript, resultDescription, arguments);
     }
 
-    default List<PythonExecutionResponse<?>> process(String script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments) {
+    default List<PythonResponse<?>> processAll(String script, Map<String, Class<?>> resultDescriptionMap, Map<String, Object> arguments) {
         PythonScript pythonScript = new PythonScript(script);
-        return this.process(pythonScript, resultDescriptions, arguments);
+        return this.processAll(pythonScript, resultDescriptionMap, arguments);
+    }
+
+    default List<PythonResponse<?>> processAll(String script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments) {
+        PythonScript pythonScript = new PythonScript(script);
+        return this.processAll(pythonScript, resultDescriptions, arguments);
     }
 
     /**
@@ -278,9 +372,23 @@ public interface PythonProcessor {
      * @param arguments a map of arguments accessible to resolvers during preprocessing
      * @return the body of execution cast to {@code R}, or {@code null} if the script returns nothing
      */
-    <R> PythonExecutionResponse<R> process(PythonScript script, Class<R> resultClass, Map<String, Object> arguments);
+    <R> PythonResponse<R> process(PythonScript script, Class<R> resultClass, Map<String, Object> arguments);
     
-    <R> PythonExecutionResponse<R> process(PythonScript script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments);
+    default <R> PythonResponse<R> process(PythonScript script, String resultName, Class<R> resultClass, Map<String, Object> arguments) {
+        PythonResultDescription<R> resultDescription = new PythonResultDescription<>(resultClass, resultName);
+        return this.process(script, resultDescription, arguments);
+    }
 
-    List<PythonExecutionResponse<?>> process(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments);
+    <R> PythonResponse<R> process(PythonScript script, PythonResultDescription<R> resultDescription, Map<String, Object> arguments);
+
+    default List<PythonResponse<?>> processAll(PythonScript script, Map<String, Class<?>> resultDescriptionMap, Map<String, Object> arguments) {
+        List<PythonResultDescription<?>> resultDescriptions = new ArrayList<>();
+        for (Map.Entry<String, Class<?>> entry : resultDescriptionMap.entrySet()) {
+            PythonResultDescription<?> resultDescription = new PythonResultDescription<>(entry.getValue(), entry.getKey());
+            resultDescriptions.add(resultDescription);
+        }
+        return this.processAll(script, resultDescriptions, arguments);
+    }
+
+    List<PythonResponse<?>> processAll(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Map<String, Object> arguments);
 }
