@@ -57,10 +57,12 @@
         <module>executor/rest/python-executor-rest-executor-core</module>
         <module>executor/rest/python-executor-rest-executor-autoconfigure</module>
         <module>executor/rest/python-executor-rest-executor-spring-boot-starter</module>
+        <module>executor/rest/python-rest-server-testcontainers</module>
 
         <module>executor/grpc/python-executor-grpc-executor-core</module>
         <module>executor/grpc/python-executor-grpc-executor-autoconfigure</module>
         <module>executor/grpc/python-executor-grpc-executor-spring-boot-starter</module>
+        <module>executor/grpc/python-grpc-server-testcontainers</module>
 
         <module>executor/process/python-executor-process-executor-core</module>
         <module>executor/process/python-executor-process-executor-autoconfigure</module>
@@ -81,9 +83,6 @@
         <module>other/py4j/python-executor-py4j-core</module>
         <module>other/py4j/python-executor-py4j-autoconfigure</module>
         <module>other/py4j/python-executor-py4j-spring-boot-starter</module>
-
-        <module>test/python-rest-server-testcontainers</module>
-        <module>test/python-grpc-server-testcontainers</module>
 
         <module>common/python-executor-dependencies</module>
     </modules>
