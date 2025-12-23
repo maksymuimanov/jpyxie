@@ -1,4 +1,4 @@
-package io.maksymuimanov.python.input;
+package io.maksymuimanov.python.output;
 
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import static io.maksymuimanov.python.constant.TestConstants.SIMPLE_SCRIPT_3;
 
-class BasicPythonInputProcessHandlerTests {
-    private static final ProcessHandler<String> INPUT_PROCESS_HANDLER = new BasicPythonInputProcessHandler("r4java", true);
+class BasicPythonOutputProcessHandlerTests {
+    private static final ProcessHandler<String> INPUT_PROCESS_HANDLER = new BasicPythonOutputProcessHandler("r4java", true);
 
     @SneakyThrows
     @Test

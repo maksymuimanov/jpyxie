@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.exception;
 
-import io.maksymuimanov.python.input.BasicPythonErrorProcessHandler;
-import io.maksymuimanov.python.input.BasicPythonInputProcessHandler;
+import io.maksymuimanov.python.output.BasicPythonErrorProcessHandler;
+import io.maksymuimanov.python.output.BasicPythonOutputProcessHandler;
 
 /**
  * Exception thrown when an error occurs while reading output from a Python process.
@@ -12,7 +12,7 @@ import io.maksymuimanov.python.input.BasicPythonInputProcessHandler;
  * It extends {@link PythonProcessExecutionException} and signals a failure in
  * communication or data retrieval from the Python execution environment.
  *
- * @see BasicPythonInputProcessHandler
+ * @see BasicPythonOutputProcessHandler
  * @see BasicPythonErrorProcessHandler
  * @since 1.0.0
  * @author w4t3rcs

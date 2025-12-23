@@ -2,6 +2,7 @@ package io.maksymuimanov.python.autoconfigure;
 
 import io.maksymuimanov.python.executor.GraalPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
+import io.maksymuimanov.python.executor.PythonResultFieldNameProvider;
 import io.maksymuimanov.python.interpreter.GraalInterpreterFactory;
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
 import org.graalvm.polyglot.Context;
@@ -28,7 +29,7 @@ public class GraalPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor graalPythonExecutor(PythonInterpreterProvider<Context> graalInterpreterProvider, GraalPyProperties properties) {
-        return new GraalPythonExecutor(graalInterpreterProvider, properties.getResultAppearance(), properties.isCached());
+    public PythonExecutor graalPythonExecutor(PythonResultFieldNameProvider resultFieldNameProvider, PythonInterpreterProvider<Context> graalInterpreterProvider, GraalPyProperties properties) {
+        return new GraalPythonExecutor(resultFieldNameProvider, graalInterpreterProvider, properties.isCached());
     }
 }

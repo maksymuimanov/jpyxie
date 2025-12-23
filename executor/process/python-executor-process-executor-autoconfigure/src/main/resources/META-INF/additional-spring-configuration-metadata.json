@@ -21,25 +21,9 @@
       "defaultValue": true,
       "type": "java.lang.Boolean",
       "sourceType": "io.maksymuimanov.python.autoconfigure.ProcessPythonExecutorProperties"
-    },
-    {
-      "name": "spring.python.executor.process.result-appearance",
-      "description": "Defines the variable name of the result to be returned to the Java side.",
-      "defaultValue": "r4java",
-      "type": "java.lang.String",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.ProcessPythonExecutorProperties"
     }
   ],
   "hints": [
-    {
-      "name": "spring.python.executor.process.result-appearance",
-      "values": [
-        {
-          "value": "r4java",
-          "description": "Recommended result format by default."
-        }
-      ]
-    },
     {
       "name": "spring.python.executor.process.start-command",
       "values": [

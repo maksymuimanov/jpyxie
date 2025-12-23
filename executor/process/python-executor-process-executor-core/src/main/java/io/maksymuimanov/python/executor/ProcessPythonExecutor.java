@@ -4,9 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.finisher.ProcessFinisher;
-import io.maksymuimanov.python.input.ProcessErrorHandler;
-import io.maksymuimanov.python.input.ProcessInputHandler;
-import io.maksymuimanov.python.input.ResultHolder;
+import io.maksymuimanov.python.output.ProcessErrorHandler;
+import io.maksymuimanov.python.output.ProcessOutputHandler;
 import io.maksymuimanov.python.script.PythonScript;
 import io.maksymuimanov.python.starter.ProcessStarter;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +19,10 @@ import java.util.Map;
  * This class manages the lifecycle of a local Python process by:
  * <ul>
  *   <li>Starting the Python process with the provided script using {@link ProcessStarter}.</li>
- *   <li>Handling the process's input stream to capture the Python script output via {@link ProcessInputHandler}.</li>
+ *   <li>Handling the process's input stream to capture the Python script output via {@link ProcessOutputHandler}.</li>
  *   <li>Handling the process's error stream to capture error messages via {@link ProcessErrorHandler}.</li>
  *   <li>Ensuring the process completes correctly using {@link ProcessFinisher}.</li>
- *   <li>Converting the captured JSON output into the specified Java type from {@link ResultHolder}.</li>
+ *   <li>Converting the captured JSON output into the specified Java type from {@link ProcessOutputHandler}.</li>
  * </ul>
  * <p>
  * Usage example:
@@ -35,33 +34,30 @@ import java.util.Map;
  *
  * @see PythonExecutor
  * @see ProcessStarter
- * @see ProcessInputHandler
+ * @see ProcessOutputHandler
  * @see ProcessErrorHandler
  * @see ProcessFinisher
  * @author w4t3rcs
  * @since 1.0.0
  */
 @Slf4j
-public class ProcessPythonExecutor extends AbstractPythonExecutor<ResultHolder<String>> {
+public class ProcessPythonExecutor extends AbstractPythonExecutor<ProcessOutputHandler> {
     private final ProcessStarter processStarter;
-    private final ProcessInputHandler inputProcessHandler;
-    private final ProcessErrorHandler errorProcessHandler;
-    private final ResultHolder<String> resultHolder;
+    private final ProcessOutputHandler processOutputHandler;
+    private final ProcessErrorHandler processErrorHandler;
     private final ObjectMapper objectMapper;
     private final ProcessFinisher processFinisher;
 
-    protected ProcessPythonExecutor(PythonResultFieldNameProvider resultFieldProvider,
-                                    ProcessStarter processStarter,
-                                    ProcessInputHandler inputProcessHandler,
-                                    ProcessErrorHandler errorProcessHandler,
-                                    ResultHolder<String> resultHolder,
-                                    ObjectMapper objectMapper,
-                                    ProcessFinisher processFinisher) {
+    public ProcessPythonExecutor(PythonResultFieldNameProvider resultFieldProvider,
+                                 ProcessStarter processStarter,
+                                 ProcessOutputHandler processOutputHandler,
+                                 ProcessErrorHandler processErrorHandler,
+                                 ObjectMapper objectMapper,
+                                 ProcessFinisher processFinisher) {
         super(resultFieldProvider);
         this.processStarter = processStarter;
-        this.inputProcessHandler = inputProcessHandler;
-        this.errorProcessHandler = errorProcessHandler;
-        this.resultHolder = resultHolder;
+        this.processOutputHandler = processOutputHandler;
+        this.processErrorHandler = processErrorHandler;
         this.objectMapper = objectMapper;
         this.processFinisher = processFinisher;
     }
@@ -69,11 +65,11 @@ public class ProcessPythonExecutor extends AbstractPythonExecutor<ResultHolder<S
     @Override
     public @Nullable <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription) {
         try {
-            Process process = processStarter.start(script);
-            errorProcessHandler.handle(process);
-            inputProcessHandler.handle(process, resultDescription);
-            processFinisher.finish(process);
-            return this.getResult(resultDescription, resultHolder);
+            Process process = this.processStarter.start(script);
+            this.processErrorHandler.handle(process);
+            this.processOutputHandler.handle(process, resultDescription);
+            this.processFinisher.finish(process);
+            return this.getResult(resultDescription, this.processOutputHandler);
         } catch (Exception e) {
             throw new PythonExecutionException(e);
         }
@@ -82,18 +78,18 @@ public class ProcessPythonExecutor extends AbstractPythonExecutor<ResultHolder<S
     @Override
     public Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions) {
         try {
-            Process process = processStarter.start(script);
-            errorProcessHandler.handle(process);
-            inputProcessHandler.handle(process, resultDescriptions);
-            processFinisher.finish(process);
-            return this.getResultMap(resultDescriptions, resultHolder);
+            Process process = this.processStarter.start(script);
+            this.processErrorHandler.handle(process);
+            this.processOutputHandler.handle(process, resultDescriptions);
+            this.processFinisher.finish(process);
+            return this.getResultMap(resultDescriptions, this.processOutputHandler);
         } catch (Exception e) {
             throw new PythonExecutionException(e);
         }
     }
 
     @Override
-    protected @Nullable <R> R getResult(PythonResultDescription<R> resultDescription, ResultHolder<String> resultContainer) {
+    protected @Nullable <R> R getResult(PythonResultDescription<R> resultDescription, ProcessOutputHandler resultContainer) {
         R value = resultDescription.getValue((type, fieldName) -> {
             String resultJson = resultContainer.getResult(fieldName);
             return this.parseJson(resultJson, type);

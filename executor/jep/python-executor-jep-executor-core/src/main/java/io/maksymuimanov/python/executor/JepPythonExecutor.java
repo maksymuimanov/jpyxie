@@ -25,7 +25,8 @@ public class JepPythonExecutor extends InterpretablePythonExecutor<Interpreter, 
     }
 
     @Override
-    protected @Nullable <R> R getResult(PythonResultDescription<R> resultDescription, Interpreter resultContainer) {
+    @Nullable
+    protected <R> R getResult(PythonResultDescription<R> resultDescription, Interpreter resultContainer) {
         return resultDescription.getValue((type, fieldName) -> resultContainer.getValue(fieldName, type));
     }
 }

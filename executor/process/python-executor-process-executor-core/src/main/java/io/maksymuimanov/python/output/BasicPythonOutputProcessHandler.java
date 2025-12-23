@@ -1,4 +1,4 @@
-package io.maksymuimanov.python.input;
+package io.maksymuimanov.python.output;
 
 import io.maksymuimanov.python.exception.PythonProcessReadingException;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
@@ -14,10 +14,10 @@ import java.util.Map;
 /**
  * Processes and handles the standard output stream of a given {@link Process}.
  *
- * <p>This {@link ProcessInputHandler} implementation reads the standard output (stdout) of the process,
+ * <p>This {@link ProcessOutputHandler} implementation reads the standard output (stdout) of the process,
  * detects and extracts the body value marked by an appearance string, and returns it as a raw JSON string.
  *
- * <p>If {@link BasicPythonInputProcessHandler#loggable} is enabled, all output lines
+ * <p>If {@link BasicPythonOutputProcessHandler#loggable} is enabled, all output lines
  * (including non-body lines) are logged at <code>INFO</code> level.
  *
  * <p>Example usage:
@@ -30,19 +30,19 @@ import java.util.Map;
  * }
  * }</pre>
  *
- * @see ProcessInputHandler
+ * @see ProcessOutputHandler
  * @see ProcessPythonExecutor
  * @author w4t3rcs
  * @since 1.0.0
  */
 @Slf4j
 @RequiredArgsConstructor
-public class BasicPythonInputProcessHandler implements ProcessInputHandler, ResultHolder<String> {
+public class BasicPythonOutputProcessHandler implements ProcessOutputHandler {
     public static final String RESULT_PREFIX = "$";
     private final Map<String, String> resultMap;
     private final boolean loggable;
 
-    public BasicPythonInputProcessHandler(boolean loggable) {
+    public BasicPythonOutputProcessHandler(boolean loggable) {
         this(new LinkedHashMap<>(), loggable);
     }
 

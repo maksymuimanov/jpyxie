@@ -30,7 +30,7 @@ import java.nio.charset.Charset;
  */
 @AutoConfiguration
 @EnableConfigurationProperties(PythonFileProperties.class)
-public class PythonFileReaderAutoConfiguration {
+public class PythonFileAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(InputStreamProvider.class)
     public InputStreamProvider classPathResourceInputStreamProvider(PythonFileProperties fileProperties) {

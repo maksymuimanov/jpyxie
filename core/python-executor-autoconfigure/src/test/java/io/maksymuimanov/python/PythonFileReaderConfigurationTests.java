@@ -1,6 +1,6 @@
 package io.maksymuimanov.python;
 
-import io.maksymuimanov.python.autoconfigure.PythonFileReaderAutoConfiguration;
+import io.maksymuimanov.python.autoconfigure.PythonFileAutoConfiguration;
 import io.maksymuimanov.python.file.BasicPythonFileReader;
 import io.maksymuimanov.python.file.PythonFileReader;
 import org.junit.jupiter.api.Assertions;
@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
 @AutoConfigureJson
-@ContextConfiguration(classes = PythonFileReaderAutoConfiguration.class)
+@ContextConfiguration(classes = PythonFileAutoConfiguration.class)
 class PythonFileReaderConfigurationTests {
     @Autowired
     private PythonFileReader pythonFileReader;

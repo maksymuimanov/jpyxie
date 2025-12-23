@@ -27,12 +27,6 @@
       "description": "The type of JEP interpreter to use."
     },
     {
-      "name": "spring.python.executor.jep.result-appearance",
-      "type": "java.lang.String",
-      "defaultValue": "r4java",
-      "description": "Defines the variable name of the result returned from Python to Java."
-    },
-    {
       "name": "spring.python.executor.jep.library.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
@@ -84,15 +78,6 @@
     }
   ],
   "hints": [
-    {
-      "name": "spring.python.executor.jep.result-appearance",
-      "values": [
-        {
-          "value": "r4java",
-          "description": "Recommended variable name for Python-to-Java result passing (default)."
-        }
-      ]
-    },
     {
       "name": "spring.python.executor.jep.interpreter-type",
       "values": [

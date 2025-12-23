@@ -17,10 +17,6 @@ public class GraalPyProperties {
      */
     private boolean enabled = true;
     /**
-     * Defines the variable name of the result returned from Python to Java.
-     */
-    private String resultAppearance = "r4java";
-    /**
      * Whether GraalPy sources should be cached.
      */
     private boolean cached = true;

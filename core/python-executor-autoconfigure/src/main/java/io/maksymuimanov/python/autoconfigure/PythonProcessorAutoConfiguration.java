@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Bean;
  * @author w4t3rcs
  * @since 1.0.0
  */
-@AutoConfiguration(after = {PythonFileReaderAutoConfiguration.class, PythonResolverAutoConfiguration.class})
+@AutoConfiguration(after = {PythonFileAutoConfiguration.class, PythonResolverAutoConfiguration.class})
 public class PythonProcessorAutoConfiguration {
     /**
      * Creates a default {@link BasicPythonProcessor} bean.

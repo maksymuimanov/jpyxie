@@ -15,12 +15,6 @@
       "description": "Whether the GraalPy executor autoconfiguration is enabled."
     },
     {
-      "name": "spring.python.executor.graalpy.result-appearance",
-      "type": "java.lang.String",
-      "defaultValue": "r4java",
-      "description": "Defines the variable name of the result returned from Python to Java."
-    },
-    {
       "name": "spring.python.executor.graalpy.cached",
       "type": "java.lang.Boolean",
       "defaultValue": true,
@@ -51,15 +45,6 @@
     }
   ],
   "hints": [
-    {
-      "name": "spring.python.executor.graalpy.result-appearance",
-      "values": [
-        {
-          "value": "r4java",
-          "description": "Recommended variable name for Python-to-Java result passing (default)."
-        }
-      ]
-    },
     {
       "name": "spring.python.executor.graalpy.host-access",
       "values": [

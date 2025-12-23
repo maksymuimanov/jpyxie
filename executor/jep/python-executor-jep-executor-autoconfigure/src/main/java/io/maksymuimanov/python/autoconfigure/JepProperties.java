@@ -22,10 +22,6 @@ public class JepProperties {
      * The type of the JEP interpreter to use.
      */
     private JepInterpreterType interpreterType = JepInterpreterType.SHARED;
-    /**
-     * Defines the variable name of the result returned from Python to Java.
-     */
-    private String resultAppearance = "r4java";
 
     @Getter @Setter
     public static class LibraryProperties {

@@ -3,11 +3,14 @@ package io.maksymuimanov.python.autoconfigure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
+import io.maksymuimanov.python.executor.PythonResultFieldNameProvider;
 import io.maksymuimanov.python.file.PythonFileReader;
 import io.maksymuimanov.python.finisher.BasicPythonProcessFinisher;
 import io.maksymuimanov.python.finisher.ProcessFinisher;
-import io.maksymuimanov.python.input.BasicPythonErrorProcessHandler;
-import io.maksymuimanov.python.input.BasicPythonInputProcessHandler;
+import io.maksymuimanov.python.output.BasicPythonErrorProcessHandler;
+import io.maksymuimanov.python.output.BasicPythonOutputProcessHandler;
+import io.maksymuimanov.python.output.ProcessErrorHandler;
+import io.maksymuimanov.python.output.ProcessOutputHandler;
 import io.maksymuimanov.python.starter.BasicPythonProcessStarter;
 import io.maksymuimanov.python.starter.ProcessStarter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -29,28 +32,19 @@ import org.springframework.context.annotation.Bean;
 @AutoConfiguration
 @EnableConfigurationProperties(ProcessPythonExecutorProperties.class)
 public class ProcessPythonExecutorAutoConfiguration {
-    /**
-     * Creates a {@link ProcessPythonExecutor} bean for executing Python scripts locally via Process API.
-     *
-     * @param processStarter non-null {@link ProcessStarter} for launching Python processes
-     * @param inputProcessHandler non-null {@link ProcessHandler} for handling process input
-     * @param errorProcessHandler non-null {@link ProcessHandler} for handling process error output
-     * @param objectMapper non-null {@link ObjectMapper} for JSON serialization/deserialization
-     * @param processFinisher non-null {@link ProcessFinisher} for finalizing process execution
-     * @return never {@code null}, fully initialized {@link ProcessPythonExecutor} instance
-     */
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor processPythonExecutor(ProcessStarter processStarter,
-                                                ProcessHandler<String> inputProcessHandler,
-                                                ProcessHandler<Void> errorProcessHandler,
+    public PythonExecutor processPythonExecutor(PythonResultFieldNameProvider resultFieldNameProvider,
+                                                ProcessStarter processStarter,
+                                                ProcessOutputHandler processOutputHandler,
+                                                ProcessErrorHandler processErrorHandler,
                                                 ObjectMapper objectMapper,
                                                 ProcessFinisher processFinisher) {
-        return new ProcessPythonExecutor(processStarter, inputProcessHandler, errorProcessHandler, objectMapper, processFinisher);
+        return new ProcessPythonExecutor(resultFieldNameProvider, processStarter, processOutputHandler, processErrorHandler, objectMapper, processFinisher);
     }
 
     /**
-     * Creates the {@link io.maksymuimanov.python.starter.ProcessStarter} bean for initializing and starting
+     * Creates the {@link ProcessStarter} bean for initializing and starting
      * local Python processes.
      *
      * <p>
@@ -68,38 +62,15 @@ public class ProcessPythonExecutorAutoConfiguration {
         return new BasicPythonProcessStarter(executorProperties.getStartCommand());
     }
 
-    /**
-     * Creates the {@link ProcessHandler} bean responsible for handling
-     * standard input (stdin) communication with the Python process.
-     *
-     * <p>
-     * The returned instance is based on {@link BasicPythonInputProcessHandler} and supports
-     * passing string-based input to the running Python process.
-     * </p>
-     *
-     * @param executorProperties non-null execution settings for Python processes
-     * @return a non-null {@link ProcessHandler} implementation for input handling
-     */
     @Bean
-    @ConditionalOnMissingBean(BasicPythonInputProcessHandler.class)
-    public ProcessHandler<String> inputProcessHandler(ProcessPythonExecutorProperties executorProperties) {
-        return new BasicPythonInputProcessHandler(executorProperties.getResultAppearance(), executorProperties.isLoggable());
+    @ConditionalOnMissingBean(ProcessOutputHandler.class)
+    public ProcessOutputHandler processOutputHandler(ProcessPythonExecutorProperties executorProperties) {
+        return new BasicPythonOutputProcessHandler(executorProperties.isLoggable());
     }
 
-    /**
-     * Creates the {@link ProcessHandler} bean responsible for handling
-     * standard error (stderr) output from the Python process.
-     *
-     * <p>
-     * The returned instance is based on {@link BasicPythonErrorProcessHandler} and ignores input,
-     * using {@link Void} as the generic type.
-     * </p>
-     *
-     * @return a non-null {@link ProcessHandler} implementation for error handling
-     */
     @Bean
-    @ConditionalOnMissingBean(BasicPythonErrorProcessHandler.class)
-    public ProcessHandler<Void> errorProcessHandler() {
+    @ConditionalOnMissingBean(ProcessErrorHandler.class)
+    public ProcessErrorHandler processErrorHandler() {
         return new BasicPythonErrorProcessHandler();
     }
 

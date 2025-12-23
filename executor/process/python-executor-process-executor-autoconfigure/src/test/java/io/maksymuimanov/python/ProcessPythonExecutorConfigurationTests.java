@@ -5,8 +5,8 @@ import io.maksymuimanov.python.executor.ProcessPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.finisher.BasicPythonProcessFinisher;
 import io.maksymuimanov.python.finisher.ProcessFinisher;
-import io.maksymuimanov.python.input.BasicPythonErrorProcessHandler;
-import io.maksymuimanov.python.input.BasicPythonInputProcessHandler;
+import io.maksymuimanov.python.output.BasicPythonErrorProcessHandler;
+import io.maksymuimanov.python.output.BasicPythonOutputProcessHandler;
 import io.maksymuimanov.python.starter.BasicPythonProcessStarter;
 import io.maksymuimanov.python.starter.ProcessStarter;
 import org.junit.jupiter.api.Assertions;
@@ -30,8 +30,8 @@ class ProcessPythonExecutorConfigurationTests {
     void testMandatoryBeansLoad() {
         Assertions.assertInstanceOf(ProcessPythonExecutor.class, pythonExecutor);
         Assertions.assertInstanceOf(BasicPythonProcessStarter.class, applicationContext.getBean(ProcessStarter.class));
-        Assertions.assertInstanceOf(BasicPythonInputProcessHandler.class, applicationContext.getBean("inputProcessHandler"));
-        Assertions.assertInstanceOf(BasicPythonErrorProcessHandler.class, applicationContext.getBean("errorProcessHandler"));
+        Assertions.assertInstanceOf(BasicPythonOutputProcessHandler.class, applicationContext.getBean("processOutputHandler"));
+        Assertions.assertInstanceOf(BasicPythonErrorProcessHandler.class, applicationContext.getBean("processErrorHandler"));
         Assertions.assertInstanceOf(BasicPythonProcessFinisher.class, applicationContext.getBean(ProcessFinisher.class));
     }
 }

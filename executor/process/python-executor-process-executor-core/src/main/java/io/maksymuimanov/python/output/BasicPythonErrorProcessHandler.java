@@ -1,4 +1,4 @@
-package io.maksymuimanov.python.input;
+package io.maksymuimanov.python.output;
 
 import io.maksymuimanov.python.exception.PythonProcessReadingException;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
