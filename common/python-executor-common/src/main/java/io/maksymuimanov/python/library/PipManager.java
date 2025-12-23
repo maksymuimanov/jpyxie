@@ -1,9 +1,9 @@
 package io.maksymuimanov.python.library;
 
 public interface PipManager {
+    String SHOW = "show";
     String INSTALL = "install";
     String UNINSTALL = "uninstall";
-    String SHOW = "show";
 
     boolean exists(PythonLibraryManagement management);
 

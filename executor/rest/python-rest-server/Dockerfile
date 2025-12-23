@@ -4,14 +4,12 @@ ENV PYTHON_SERVER_HOST="0.0.0.0"
 ENV PYTHON_SERVER_PORT="8000"
 ENV PYTHON_ADDITIONAL_IMPORTS=""
 ENV PYTHON_ADDITIONAL_IMPORTS_DELIMITER=","
-ENV PYTHON_RESULT_APPEARANCE="r4java"
 ENV PYTHON_LOGGING_ENABLED="True"
+ENV PYTHON_SUBPROCESS_TIMEOUT=30
 WORKDIR /app
 COPY main.py install.py entrypoint.sh ./
 RUN pip install fastapi \
     && pip install uvicorn \
-    && pip install py4j \
-    && pip install RestrictedPython \
     && chmod +x entrypoint.sh
 EXPOSE 8000
 ENTRYPOINT ["./entrypoint.sh"]
