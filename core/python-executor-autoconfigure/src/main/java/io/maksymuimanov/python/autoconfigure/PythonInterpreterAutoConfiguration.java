@@ -2,7 +2,7 @@ package io.maksymuimanov.python.autoconfigure;
 
 import io.maksymuimanov.python.interpreter.PythonInterpreterFactory;
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
-import io.maksymuimanov.python.interpreter.SingletonPythonInterpreterProvider;
+import io.maksymuimanov.python.interpreter.ThreadLocalPythonInterpreterProvider;
 import io.maksymuimanov.python.lifecycle.PythonFinalizer;
 import io.maksymuimanov.python.lifecycle.PythonInterpreterProviderFinalizer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -16,7 +16,7 @@ public class PythonInterpreterAutoConfiguration {
     @ConditionalOnBean(PythonInterpreterFactory.class)
     @ConditionalOnMissingBean(PythonInterpreterProvider.class)
     public PythonInterpreterProvider<?> pythonInterpreterProvider(PythonInterpreterFactory<?> interpreterFactory) {
-        return new SingletonPythonInterpreterProvider<>(interpreterFactory);
+        return new ThreadLocalPythonInterpreterProvider<>(interpreterFactory);
     }
 
     @Bean

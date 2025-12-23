@@ -38,18 +38,18 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements R
         this.timeout = timeout;
         this.poolStarvationHandler = poolStarvationHandler;
         this.closed = new AtomicBoolean(false);
-        this.fillPool(interpreterFactory);
+    }
+
+    @Override
+    public I acquire() {
+        if (this.pool.isEmpty()) this.fillPool(interpreterFactory);
+        return this.acquire(this.timeout.toMillis(), TimeUnit.MILLISECONDS);
     }
 
     protected void fillPool(PythonInterpreterFactory<I> interpreterFactory) {
         for (int i = 0; i < this.poolSize.get(); i++) {
             this.pool.offer(interpreterFactory.create());
         }
-    }
-
-    @Override
-    public I acquire() {
-        return this.acquire(this.timeout.toMillis(), TimeUnit.MILLISECONDS);
     }
 
     @Override

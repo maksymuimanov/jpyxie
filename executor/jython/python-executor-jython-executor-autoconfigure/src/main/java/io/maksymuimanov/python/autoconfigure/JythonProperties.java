@@ -12,16 +12,11 @@ public class JythonProperties {
      */
     private boolean enabled = true;
     /**
-     * Defines the variable name of the result returned from Python to Java.
-     */
-    private String resultAppearance = "r4java";
-    /**
      * Specifies the path to the Python Home directory.
      */
     private String pythonHome = "";
     /**
-     * Determines whether the default Python library site modules should be imported
-     * when initializing the Python interpreter.
+     * Determines whether the default Python library site modules should be imported when initializing the Python interpreter.
      */
     private boolean importSite = false;
 }

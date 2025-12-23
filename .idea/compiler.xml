@@ -7,7 +7,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="python-executor-restricted-resolver-spring-boot-starter" />
         <module name="python-executor-rest-executor-spring-boot-starter" />
         <module name="python-executor-py4j-core" />
         <module name="python-executor-spelython-resolver-spring-boot-starter" />
@@ -22,13 +21,10 @@
         <module name="python-executor-jython-executor-autoconfigure" />
         <module name="python-executor-jep-executor-spring-boot-starter" />
         <module name="python-executor-process-executor-spring-boot-starter" />
-        <module name="python-executor-result-resolver-core" />
         <module name="python-executor-grpc-executor-autoconfigure" />
         <module name="python-executor-spring-boot-aop-core" />
         <module name="python-executor-graalpy-executor-spring-boot-starter" />
-        <module name="python-executor-restricted-resolver-autoconfigure" />
         <module name="python-executor-rest-executor-core" />
-        <module name="python-executor-result-resolver-autoconfigure" />
         <module name="python-executor-spelython-resolver-autoconfigure" />
         <module name="python-executor-py4j-autoconfigure" />
         <module name="python-executor-pretty-resolver-spring-boot-starter" />
@@ -37,7 +33,6 @@
         <module name="python-executor-pretty-resolver-core" />
         <module name="python-executor-spelython-resolver-core" />
         <module name="python-executor-jep-executor-core" />
-        <module name="python-executor-restricted-resolver-core" />
         <module name="python-executor-jython-executor-spring-boot-starter" />
         <module name="python-executor-graalpy-executor-core" />
         <module name="python-executor-common" />
@@ -47,7 +42,6 @@
         <module name="test-app" />
         <module name="python-executor-grpc-executor-core" />
         <module name="python-executor-process-executor-autoconfigure" />
-        <module name="python-executor-result-resolver-spring-boot-starter" />
         <module name="python-executor-rest-executor-autoconfigure" />
         <module name="python-executor-spring-boot-aop-autoconfigure" />
         <module name="python-executor-jython-executor-core" />
@@ -55,6 +49,12 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo-app" target="17" />
+      <module name="python-executor-restricted-resolver-autoconfigure" target="17" />
+      <module name="python-executor-restricted-resolver-core" target="17" />
+      <module name="python-executor-restricted-resolver-spring-boot-starter" target="17" />
+      <module name="python-executor-result-resolver-autoconfigure" target="17" />
+      <module name="python-executor-result-resolver-core" target="17" />
+      <module name="python-executor-result-resolver-spring-boot-starter" target="17" />
       <module name="python-executor-spring-boot-cache-autoconfigure" target="17" />
       <module name="python-executor-spring-boot-cache-core" target="17" />
       <module name="python-executor-spring-boot-cache-starter" target="17" />

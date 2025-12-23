@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Bean;
 public class JythonPythonExecutorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(JythonInitializer.class)
-    public JythonInitializer jepInitializer(JythonProperties properties) {
+    public JythonInitializer jythonInitializer(JythonProperties properties) {
         return new JythonInitializer(properties.getPythonHome(), properties.isImportSite());
     }
 

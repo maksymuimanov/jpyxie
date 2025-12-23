@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.autoconfigure;
 
 import io.maksymuimanov.python.executor.PythonResultFieldNameProvider;
-import io.maksymuimanov.python.executor.UuidPythonResultFieldNameProvider;
+import io.maksymuimanov.python.executor.SingletonPythonResultFieldNameProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,6 +13,6 @@ public class PythonExecutorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(PythonResultFieldNameProvider.class)
     public PythonResultFieldNameProvider resultFieldNameProvider(PythonExecutorProperties executorProperties) {
-        return new UuidPythonResultFieldNameProvider(executorProperties.getResultAppearance());
+        return new SingletonPythonResultFieldNameProvider(executorProperties.getResultAppearance());
     }
 }

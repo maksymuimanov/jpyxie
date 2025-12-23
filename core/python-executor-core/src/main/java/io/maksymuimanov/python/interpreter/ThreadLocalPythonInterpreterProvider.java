@@ -15,7 +15,7 @@ public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> imple
     private final AtomicBoolean closed;
 
     public ThreadLocalPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory) {
-        this(interpreterFactory, ThreadLocal.withInitial(interpreterFactory::create));
+        this(interpreterFactory, new ThreadLocal<>());
     }
 
     public ThreadLocalPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, ThreadLocal<@Nullable I> threadLocal) {

@@ -65,7 +65,7 @@ public class PythonResponse<R> {
     public String toString() {
         String stringBuilder = "PythonExecutionResponse{" + "name=" + name +
                 ", body=" + body +
-                ", type=" + type +
+                ", type=" + type.getName() +
                 '}';
         return stringBuilder;
     }
