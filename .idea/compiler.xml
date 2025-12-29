@@ -8,7 +8,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="python-executor-rest-executor-spring-boot-starter" />
-        <module name="python-executor-py4j-core" />
         <module name="python-executor-spelython-resolver-spring-boot-starter" />
         <module name="python-executor-jep-executor-autoconfigure" />
         <module name="python-grpc-server-testcontainers" />
@@ -17,7 +16,6 @@
         <module name="python-executor-graalpy-executor-autoconfigure" />
         <module name="python-rest-server-testcontainers" />
         <module name="python-executor-autoconfigure" />
-        <module name="python-executor-pretty-resolver-autoconfigure" />
         <module name="python-executor-jython-executor-autoconfigure" />
         <module name="python-executor-jep-executor-spring-boot-starter" />
         <module name="python-executor-process-executor-spring-boot-starter" />
@@ -26,17 +24,13 @@
         <module name="python-executor-graalpy-executor-spring-boot-starter" />
         <module name="python-executor-rest-executor-core" />
         <module name="python-executor-spelython-resolver-autoconfigure" />
-        <module name="python-executor-py4j-autoconfigure" />
-        <module name="python-executor-pretty-resolver-spring-boot-starter" />
         <module name="python-executor-bind-core" />
         <module name="python-executor-process-executor-core" />
-        <module name="python-executor-pretty-resolver-core" />
         <module name="python-executor-spelython-resolver-core" />
         <module name="python-executor-jep-executor-core" />
         <module name="python-executor-jython-executor-spring-boot-starter" />
         <module name="python-executor-graalpy-executor-core" />
         <module name="python-executor-common" />
-        <module name="python-executor-py4j-spring-boot-starter" />
         <module name="python-executor-spring-boot-aop-starter" />
         <module name="python-executor-spring-boot-starter" />
         <module name="test-app" />

@@ -42,10 +42,6 @@
         <module>resolver/spelython/python-executor-spelython-resolver-autoconfigure</module>
         <module>resolver/spelython/python-executor-spelython-resolver-spring-boot-starter</module>
 
-        <module>resolver/pretty/python-executor-pretty-resolver-core</module>
-        <module>resolver/pretty/python-executor-pretty-resolver-autoconfigure</module>
-        <module>resolver/pretty/python-executor-pretty-resolver-spring-boot-starter</module>
-
         <module>executor/rest/python-executor-rest-executor-core</module>
         <module>executor/rest/python-executor-rest-executor-autoconfigure</module>
         <module>executor/rest/python-executor-rest-executor-spring-boot-starter</module>

@@ -61,11 +61,6 @@
             <artifactId>python-executor-spelython-resolver-spring-boot-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>python-executor-pretty-resolver-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
