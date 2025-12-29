@@ -72,10 +72,6 @@
         <module>executor/graalpy/python-executor-graalpy-executor-autoconfigure</module>
         <module>executor/graalpy/python-executor-graalpy-executor-spring-boot-starter</module>
 
-        <module>other/py4j/python-executor-py4j-core</module>
-        <module>other/py4j/python-executor-py4j-autoconfigure</module>
-        <module>other/py4j/python-executor-py4j-spring-boot-starter</module>
-
         <module>common/python-executor-dependencies</module>
     </modules>
     <properties>
