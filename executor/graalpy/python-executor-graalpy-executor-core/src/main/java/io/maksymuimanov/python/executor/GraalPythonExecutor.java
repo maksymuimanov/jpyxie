@@ -21,7 +21,8 @@ public class GraalPythonExecutor extends InterpretablePythonExecutor<Value, Cont
     @Override
     @Nullable
     protected <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription, Context interpreter) throws Exception {
-        Source source = Source.newBuilder(PYTHON, script.toPythonString(), script.getSource())
+        String name = String.valueOf(script.getSource());
+        Source source = Source.newBuilder(PYTHON, script.toPythonString(), name)
                 .cached(this.cached)
                 .build();
         Value value = interpreter.eval(source);
@@ -30,7 +31,8 @@ public class GraalPythonExecutor extends InterpretablePythonExecutor<Value, Cont
 
     @Override
     protected Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Context interpreter) throws Exception {
-        Source source = Source.newBuilder(PYTHON, script.toPythonString(), script.getSource())
+        String name = String.valueOf(script.getSource());
+        Source source = Source.newBuilder(PYTHON, script.toPythonString(), name)
                 .cached(this.cached)
                 .build();
         Value value = interpreter.eval(source);

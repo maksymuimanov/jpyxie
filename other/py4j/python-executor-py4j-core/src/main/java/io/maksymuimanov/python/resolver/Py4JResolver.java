@@ -46,7 +46,7 @@ public class Py4JResolver implements PythonResolver {
         return pythonScript.getBuilder()
                 .appendImport(importLine)
                 .prependCode(gatewayObject)
-                .build();
+                .getScript();
     }
 
     @Override

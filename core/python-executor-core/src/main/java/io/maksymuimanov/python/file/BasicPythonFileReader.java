@@ -1,6 +1,7 @@
 package io.maksymuimanov.python.file;
 
 import io.maksymuimanov.python.exception.PythonFileException;
+import io.maksymuimanov.python.script.BasicPythonScriptBuilder;
 import io.maksymuimanov.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @RequiredArgsConstructor
 public class BasicPythonFileReader implements PythonFileReader {
-    private final Map<String, String> fileCache;
+    private final Map<CharSequence, String> fileCache;
     private final InputStreamProvider inputStreamProvider;
     private final Charset charset;
 
@@ -41,7 +42,7 @@ public class BasicPythonFileReader implements PythonFileReader {
     @Override
     public PythonScript readScript(PythonScript script) {
         try {
-            String source = script.getSource();
+            CharSequence source = script.getSource();
             String body = this.fileCache.computeIfAbsent(source, path -> {
                 try (InputStream inputStream = this.inputStreamProvider.open(path)) {
                     byte[] bytes = inputStream.readAllBytes();
@@ -50,7 +51,7 @@ public class BasicPythonFileReader implements PythonFileReader {
                     throw new PythonFileException(e);
                 }
             });
-            script.getBuilder().appendAll(body);
+            BasicPythonScriptBuilder.of(script).appendAll(body);
             return script;
         } catch (Exception e) {
             throw new PythonFileException(e);

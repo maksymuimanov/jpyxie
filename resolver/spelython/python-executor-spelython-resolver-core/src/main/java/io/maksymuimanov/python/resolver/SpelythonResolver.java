@@ -3,6 +3,7 @@ package io.maksymuimanov.python.resolver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.exception.PythonScriptException;
+import io.maksymuimanov.python.script.BasicPythonScriptBuilder;
 import io.maksymuimanov.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -65,7 +66,7 @@ public class SpelythonResolver implements PythonResolver {
                             .setValue(context, value));
         }
         context.setBeanResolver(new BeanFactoryResolver(applicationContext));
-        return pythonScript.getBuilder()
+        return BasicPythonScriptBuilder.of(pythonScript)
                 .appendImport(IMPORT_JSON)
                 .replaceAllCode(this.regex,
                         this.positionFromStart,
@@ -91,7 +92,7 @@ public class SpelythonResolver implements PythonResolver {
                         throw new PythonScriptException(e);
                     }
                 })
-                .build();
+                .getScript();
     }
 
     @Override

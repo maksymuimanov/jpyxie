@@ -4,5 +4,5 @@ import java.io.InputStream;
 
 @FunctionalInterface
 public interface InputStreamProvider {
-    InputStream open(String path);
+    InputStream open(CharSequence path);
 }
