@@ -2,8 +2,7 @@ package io.maksymuimanov.python.script;
 
 import org.jspecify.annotations.NonNull;
 
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.function.Function;
 
 public abstract class AbstractPythonScriptBuilder implements PythonScriptBuilder {
     @NonNull
@@ -15,27 +14,22 @@ public abstract class AbstractPythonScriptBuilder implements PythonScriptBuilder
 
     @Override
     @NonNull
+    public <B extends PythonScriptBuilder> B next(Function<PythonScript, B> switchFunction) {
+        PythonScript pythonScript = this.getScript();
+        return switchFunction.apply(pythonScript);
+    }
+
+    @Override
+    @NonNull
     public PythonScript getScript() {
         return this.script;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (BasicPythonScriptBuilder) obj;
-        return Objects.equals(this.getScript(), that.getScript());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.getScript());
-    }
-
-    @Override
     public String toString() {
-        return new StringJoiner(", ", BasicPythonScriptBuilder.class.getSimpleName() + "[", "]")
-                .add("script=" + this.getScript())
-                .toString();
+        final StringBuilder stringBuilder = new StringBuilder("AbstractPythonScriptBuilder{");
+        stringBuilder.append("script=").append(script);
+        stringBuilder.append('}');
+        return stringBuilder.toString();
     }
 }

@@ -1,39 +1,38 @@
 package io.maksymuimanov.python.script;
 
-import io.maksymuimanov.python.util.CharSequenceUtils;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Objects;
 
 public class PythonCodeLine implements PythonRepresentation {
-    private CharSequence line;
+    private String line;
 
     public PythonCodeLine(CharSequence line) {
-        this.line = line;
+        this.line = line.toString();
     }
 
     public boolean has(CharSequence sequence) {
-        return CharSequenceUtils.contains(this.line, sequence);
+        return this.line.contains(sequence);
     }
 
-    public CharSequence getLine() {
+    public String getLine() {
         return line;
     }
 
     public void setLine(@NonNull CharSequence line) {
-        this.line = line;
+        this.line = line.toString();
     }
 
     @Override
     public String toPythonString() {
-        return this.getLine().toString();
+        return this.getLine();
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         PythonCodeLine that = (PythonCodeLine) o;
-        return Objects.equals(this.getLine().toString(), that.getLine().toString());
+        return Objects.equals(this.getLine(), that.getLine());
     }
 
     @Override

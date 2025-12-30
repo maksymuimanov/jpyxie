@@ -6,6 +6,7 @@ public final class MergingPythonScriptBuilder extends AbstractPythonScriptBuilde
     @NonNull
     private final BasicPythonScriptBuilder basicPythonScriptBuilder;
 
+    @NonNull
     public static MergingPythonScriptBuilder of(@NonNull PythonScript script) {
         return new MergingPythonScriptBuilder(script, BasicPythonScriptBuilder.of(script));
     }
@@ -15,11 +16,7 @@ public final class MergingPythonScriptBuilder extends AbstractPythonScriptBuilde
         this.basicPythonScriptBuilder = basicPythonScriptBuilder;
     }
 
-    public MergingPythonScriptBuilder mergeToStart(@NonNull PythonRepresentation pythonRepresentation) {
-        PythonScript pythonScript = new PythonScript(pythonRepresentation.toPythonString());
-        return this.mergeToStart(pythonScript);
-    }
-
+    @NonNull
     public MergingPythonScriptBuilder mergeToStart(@NonNull PythonScript script) {
         script.getImportLines().forEach(basicPythonScriptBuilder::appendImport);
         basicPythonScriptBuilder.prependCode();
@@ -30,11 +27,7 @@ public final class MergingPythonScriptBuilder extends AbstractPythonScriptBuilde
         return this;
     }
 
-    public MergingPythonScriptBuilder merge(@NonNull PythonRepresentation pythonRepresentation) {
-        PythonScript pythonScript = new PythonScript(pythonRepresentation.toPythonString());
-        return this.merge(pythonScript);
-    }
-
+    @NonNull
     public MergingPythonScriptBuilder merge(@NonNull PythonScript script) {
         script.getImportLines().forEach(basicPythonScriptBuilder::appendImport);
         basicPythonScriptBuilder.appendCode();

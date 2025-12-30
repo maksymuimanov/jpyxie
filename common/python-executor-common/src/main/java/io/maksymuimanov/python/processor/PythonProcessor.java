@@ -9,16 +9,32 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
 
 public interface PythonProcessor {
-    default CompletableFuture<Void> processAsync(PythonScript script) {
-        return CompletableFuture.runAsync(() -> this.process(script), ForkJoinPool.commonPool());
+    default CompletableFuture<PythonResultMap> processAsync(CharSequence script) {
+        return CompletableFuture.supplyAsync(() -> this.process(script), ForkJoinPool.commonPool());
     }
 
-    default CompletableFuture<Void> processAsync(PythonScript script, PythonArgumentSpec argumentSpec) {
-        return CompletableFuture.runAsync(() -> this.process(script, argumentSpec), ForkJoinPool.commonPool());
+    default CompletableFuture<PythonResultMap> processAsync(PythonScript script) {
+        return CompletableFuture.supplyAsync(() -> this.process(script), ForkJoinPool.commonPool());
+    }
+
+    default CompletableFuture<PythonResultMap> processAsync(CharSequence script, PythonArgumentSpec argumentSpec) {
+        return CompletableFuture.supplyAsync(() -> this.process(script, argumentSpec), ForkJoinPool.commonPool());
+    }
+
+    default CompletableFuture<PythonResultMap> processAsync(PythonScript script, PythonArgumentSpec argumentSpec) {
+        return CompletableFuture.supplyAsync(() -> this.process(script, argumentSpec), ForkJoinPool.commonPool());
+    }
+
+    default CompletableFuture<PythonResultMap> processAsync(CharSequence script, PythonResultSpec resultSpec) {
+        return CompletableFuture.supplyAsync(() -> this.process(script, resultSpec), ForkJoinPool.commonPool());
     }
 
     default CompletableFuture<PythonResultMap> processAsync(PythonScript script, PythonResultSpec resultSpec) {
         return CompletableFuture.supplyAsync(() -> this.process(script, resultSpec), ForkJoinPool.commonPool());
+    }
+
+    default CompletableFuture<PythonResultMap> processAsync(CharSequence script, PythonResultSpec resultSpec, PythonArgumentSpec argumentSpec) {
+        return CompletableFuture.supplyAsync(() -> this.process(script, resultSpec, argumentSpec), ForkJoinPool.commonPool());
     }
 
     default CompletableFuture<PythonResultMap> processAsync(PythonScript script, PythonResultSpec resultSpec, PythonArgumentSpec argumentSpec) {
@@ -29,16 +45,32 @@ public interface PythonProcessor {
         return CompletableFuture.supplyAsync(() -> this.process(context), ForkJoinPool.commonPool());
     }
 
-    default CompletableFuture<Void> processAsync(PythonScript script, Executor executor) {
-        return CompletableFuture.runAsync(() -> this.process(script), executor);
+    default CompletableFuture<PythonResultMap> processAsync(CharSequence script, Executor executor) {
+        return CompletableFuture.supplyAsync(() -> this.process(script), executor);
     }
 
-    default CompletableFuture<Void> processAsync(PythonScript script, PythonArgumentSpec argumentSpec, Executor executor) {
-        return CompletableFuture.runAsync(() -> this.process(script, argumentSpec), executor);
+    default CompletableFuture<PythonResultMap> processAsync(PythonScript script, Executor executor) {
+        return CompletableFuture.supplyAsync(() -> this.process(script), executor);
+    }
+
+    default CompletableFuture<PythonResultMap> processAsync(CharSequence script, PythonArgumentSpec argumentSpec, Executor executor) {
+        return CompletableFuture.supplyAsync(() -> this.process(script, argumentSpec), executor);
+    }
+
+    default CompletableFuture<PythonResultMap> processAsync(PythonScript script, PythonArgumentSpec argumentSpec, Executor executor) {
+        return CompletableFuture.supplyAsync(() -> this.process(script, argumentSpec), executor);
+    }
+
+    default CompletableFuture<PythonResultMap> processAsync(CharSequence script, PythonResultSpec resultSpec, Executor executor) {
+        return CompletableFuture.supplyAsync(() -> this.process(script, resultSpec), executor);
     }
 
     default CompletableFuture<PythonResultMap> processAsync(PythonScript script, PythonResultSpec resultSpec, Executor executor) {
         return CompletableFuture.supplyAsync(() -> this.process(script, resultSpec), executor);
+    }
+
+    default CompletableFuture<PythonResultMap> processAsync(CharSequence script, PythonResultSpec resultSpec, PythonArgumentSpec argumentSpec, Executor executor) {
+        return CompletableFuture.supplyAsync(() -> this.process(script, resultSpec, argumentSpec), executor);
     }
 
     default CompletableFuture<PythonResultMap> processAsync(PythonScript script, PythonResultSpec resultSpec, PythonArgumentSpec argumentSpec, Executor executor) {
@@ -49,19 +81,39 @@ public interface PythonProcessor {
         return CompletableFuture.supplyAsync(() -> this.process(context), executor);
     }
 
-    default void process(PythonScript script) {
+    default PythonResultMap process(CharSequence script) {
         PythonResultSpec resultSpec = PythonResultSpec.empty();
-        this.process(script, resultSpec);
+        return this.process(script, resultSpec);
     }
 
-    default void process(PythonScript script, PythonArgumentSpec argumentSpec) {
+    default PythonResultMap process(PythonScript script) {
         PythonResultSpec resultSpec = PythonResultSpec.empty();
-        this.process(script, resultSpec, argumentSpec);
+        return this.process(script, resultSpec);
+    }
+
+    default PythonResultMap process(CharSequence script, PythonArgumentSpec argumentSpec) {
+        PythonResultSpec resultSpec = PythonResultSpec.empty();
+        return this.process(script, resultSpec, argumentSpec);
+    }
+
+    default PythonResultMap process(PythonScript script, PythonArgumentSpec argumentSpec) {
+        PythonResultSpec resultSpec = PythonResultSpec.empty();
+        return this.process(script, resultSpec, argumentSpec);
+    }
+
+    default PythonResultMap process(CharSequence script, PythonResultSpec resultSpec) {
+        PythonArgumentSpec argumentSpec = PythonArgumentSpec.empty();
+        return this.process(script, resultSpec, argumentSpec);
     }
 
     default PythonResultMap process(PythonScript script, PythonResultSpec resultSpec) {
         PythonArgumentSpec argumentSpec = PythonArgumentSpec.empty();
         return this.process(script, resultSpec, argumentSpec);
+    }
+
+    default PythonResultMap process(CharSequence script, PythonResultSpec resultSpec, PythonArgumentSpec argumentSpec) {
+        PythonScript pythonScript = new PythonScript(script);
+        return this.process(pythonScript, resultSpec, argumentSpec);
     }
 
     default PythonResultMap process(PythonScript script, PythonResultSpec resultSpec, PythonArgumentSpec argumentSpec) {

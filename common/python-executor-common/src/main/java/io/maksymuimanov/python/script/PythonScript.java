@@ -1,6 +1,5 @@
 package io.maksymuimanov.python.script;
 
-import io.maksymuimanov.python.util.CharSequenceUtils;
 import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
@@ -15,8 +14,8 @@ public class PythonScript implements PythonRepresentation {
     @NonNull
     private final List<PythonCodeLine> codeLines;
     private final boolean isFile;
-    private final CharSequence source;
-    private CharSequence body;
+    private final String source;
+    private String body;
 
     public PythonScript() {
         this.importLines = new ArrayList<>();
@@ -32,9 +31,9 @@ public class PythonScript implements PythonRepresentation {
     public PythonScript(@NonNull List<PythonImportLine> importLines, @NonNull List<PythonCodeLine> codeLines, CharSequence script) {
         this.importLines = importLines;
         this.codeLines = codeLines;
-        this.source = script;
+        this.source = script.toString();
         this.body = null;
-        if (CharSequenceUtils.endsWith(script, FILE_FORMAT)) {
+        if (this.source.endsWith(FILE_FORMAT)) {
             this.isFile = true;
         } else {
             this.isFile = false;
@@ -168,6 +167,6 @@ public class PythonScript implements PythonRepresentation {
 
             this.body = stringBuilder.toString();
         }
-        return this.body.toString();
+        return this.body;
     }
 }

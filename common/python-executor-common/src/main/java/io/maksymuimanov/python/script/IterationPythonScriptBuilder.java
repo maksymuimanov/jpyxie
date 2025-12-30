@@ -8,6 +8,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public final class IterationPythonScriptBuilder extends AbstractPythonScriptBuilder {
+    @NonNull
     public static IterationPythonScriptBuilder of(@NonNull PythonScript script) {
         return new IterationPythonScriptBuilder(script);
     }
@@ -16,56 +17,68 @@ public final class IterationPythonScriptBuilder extends AbstractPythonScriptBuil
         super(script);
     }
 
-    public IterationPythonScriptBuilder iterateImportLines(@NonNull Consumer<PythonImportLine> action) {
-        return this.iterateImportLines(action, true);
+    @NonNull
+    public IterationPythonScriptBuilder iterateImports(@NonNull Consumer<PythonImportLine> action) {
+        return this.iterateImports(action, true);
     }
 
-    public IterationPythonScriptBuilder iterateImportLines(@NonNull Consumer<PythonImportLine> action, boolean condition) {
+    @NonNull
+    public IterationPythonScriptBuilder iterateImports(@NonNull Consumer<PythonImportLine> action, boolean condition) {
         List<PythonImportLine> importLinesCopy = new ArrayList<>(this.getScript().getImportLines());
         return this.iterate(importLinesCopy, action, condition);
     }
 
-    public IterationPythonScriptBuilder iterateImportLines(@NonNull BiConsumer<PythonImportLine, Integer> action) {
-        return this.iterateImportLines(action, true);
+    @NonNull
+    public IterationPythonScriptBuilder iterateImports(@NonNull BiConsumer<PythonImportLine, Integer> action) {
+        return this.iterateImports(action, true);
     }
 
-    public IterationPythonScriptBuilder iterateImportLines(@NonNull BiConsumer<PythonImportLine, Integer> action, boolean condition) {
+    @NonNull
+    public IterationPythonScriptBuilder iterateImports(@NonNull BiConsumer<PythonImportLine, Integer> action, boolean condition) {
         List<PythonImportLine> importLinesCopy = new ArrayList<>(this.getScript().getImportLines());
         return this.iterate(importLinesCopy, action, condition);
     }
 
-    public IterationPythonScriptBuilder iterateCodeLines(@NonNull Consumer<PythonCodeLine> action) {
-        return this.iterateCodeLines(action, true);
+    @NonNull
+    public IterationPythonScriptBuilder iterateCode(@NonNull Consumer<PythonCodeLine> action) {
+        return this.iterateCode(action, true);
     }
 
-    public IterationPythonScriptBuilder iterateCodeLines(@NonNull Consumer<PythonCodeLine> action, boolean condition) {
+    @NonNull
+    public IterationPythonScriptBuilder iterateCode(@NonNull Consumer<PythonCodeLine> action, boolean condition) {
         List<PythonCodeLine> codeLinesCopy = new ArrayList<>(this.getScript().getCodeLines());
         return this.iterate(codeLinesCopy, action, condition);
     }
 
-    public IterationPythonScriptBuilder iterateCodeLines(@NonNull BiConsumer<PythonCodeLine, Integer> action) {
-        return this.iterateCodeLines(action, true);
+    @NonNull
+    public IterationPythonScriptBuilder iterateCode(@NonNull BiConsumer<PythonCodeLine, Integer> action) {
+        return this.iterateCode(action, true);
     }
 
-    public IterationPythonScriptBuilder iterateCodeLines(@NonNull BiConsumer<PythonCodeLine, Integer> action, boolean condition) {
+    @NonNull
+    public IterationPythonScriptBuilder iterateCode(@NonNull BiConsumer<PythonCodeLine, Integer> action, boolean condition) {
         List<PythonCodeLine> codeLinesCopy = new ArrayList<>(this.getScript().getCodeLines());
         return this.iterate(codeLinesCopy, action, condition);
     }
 
+    @NonNull
     public <T> IterationPythonScriptBuilder iterate(@NonNull Iterable<T> iterable, Consumer<T> action) {
         return this.iterate(iterable, action, true);
     }
 
+    @NonNull
     public <T> IterationPythonScriptBuilder iterate(@NonNull Iterable<T> iterable, Consumer<T> action, boolean condition) {
         this.getScript().clearBody();
         if (condition) iterable.forEach(action);
         return this;
     }
 
+    @NonNull
     public <T> IterationPythonScriptBuilder iterate(@NonNull List<T> iterable, BiConsumer<T, Integer> action) {
         return this.iterate(iterable, action, true);
     }
 
+    @NonNull
     public <T> IterationPythonScriptBuilder iterate(@NonNull List<T> iterable, BiConsumer<T, Integer> action, boolean condition) {
         this.getScript().clearBody();
         if (condition) {
@@ -78,7 +91,8 @@ public final class IterationPythonScriptBuilder extends AbstractPythonScriptBuil
         return this;
     }
 
-    public IterationPythonScriptBuilder doOnCondition(@NonNull Runnable action, boolean condition) {
+    @NonNull
+    public IterationPythonScriptBuilder onCondition(@NonNull Runnable action, boolean condition) {
         this.getScript().clearBody();
         if (condition) action.run();
         return this;
