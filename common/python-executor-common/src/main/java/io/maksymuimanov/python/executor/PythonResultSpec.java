@@ -11,6 +11,14 @@ import java.util.function.BiFunction;
 public class PythonResultSpec implements MapSpec<String, Class<?>> {
     private final Map<String, Class<?>> requirements;
 
+    public static PythonResultSpec empty() {
+        return new PythonResultSpec(Collections.emptyMap());
+    }
+
+    public static PythonResultSpec of(String name, Class<?> type) {
+        return create().require(name, type);
+    }
+
     public static PythonResultSpec create() {
         return new PythonResultSpec(new HashMap<>());
     }
@@ -25,7 +33,7 @@ public class PythonResultSpec implements MapSpec<String, Class<?>> {
     }
 
     public PythonResultContainer collect(BiFunction<String, Class<?>, @Nullable Object> objectGetter) {
-        if (this.isEmpty()) return PythonResultContainer.create();
+        if (this.isEmpty()) return PythonResultContainer.of();
         Map<String, @Nullable Object> result = new HashMap<>();
         this.forEach((name, type) -> {
             Object element = objectGetter.apply(name, type);

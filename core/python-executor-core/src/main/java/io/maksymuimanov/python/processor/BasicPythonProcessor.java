@@ -1,87 +1,38 @@
 package io.maksymuimanov.python.processor;
 
-import io.maksymuimanov.python.exception.PythonProcessionException;
 import io.maksymuimanov.python.executor.PythonExecutor;
-import io.maksymuimanov.python.executor.PythonResultFieldNameProvider;
+import io.maksymuimanov.python.executor.PythonResultContainer;
 import io.maksymuimanov.python.executor.PythonResultSpec;
 import io.maksymuimanov.python.file.PythonFileReader;
+import io.maksymuimanov.python.resolver.PythonArgumentSpec;
 import io.maksymuimanov.python.resolver.PythonResolverHolder;
 import io.maksymuimanov.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
 
-import java.util.List;
-import java.util.Map;
-
-/**
- * Default implementation of {@link PythonProcessor} that provides the basic
- * processing workflow for executing Python scripts with optional argument resolution.
- *
- * <p>This implementation integrates three main components:
- * <ul>
- *     <li>{@link PythonFileReader} – detects if the given script is a file and, if so,
- *         reads its contents.</li>
- *     <li>{@link PythonResolverHolder} – applies all registered resolvers to the script
- *         (e.g., resolves placeholders or SpEL expressions) using the provided argumentSpec.</li>
- *     <li>{@link PythonExecutor} – executes the fully resolved Python script and
- *         converts the body to the requested Java type.</li>
- * </ul>
- *
- * <p><b>Workflow:</b>
- * <ol>
- *     <li>If {@code script} is a Python file path, load its contents.</li>
- *     <li>Apply argument-based resolution to the script text.</li>
- *     <li>Execute the resolved script and return the execution body.</li>
- * </ol>
- *
- * <p>Example usage:
- * <pre>{@code
- * BasicPythonProcessor processor = new BasicPythonProcessor(fileHandler, executor, resolverHolder);
- * String body = processor.process("print('Hello')", String.class, Map.of());
- * }</pre>
- *
- * @see PythonProcessor
- * @see PythonExecutor
- * @see PythonFileReader
- * @see PythonResolverHolder
- * @author w4t3rcs
- * @since 1.0.0
- */
 @RequiredArgsConstructor
 public class BasicPythonProcessor implements PythonProcessor {
     private final PythonFileReader pythonFileReader;
     private final PythonExecutor pythonExecutor;
     private final PythonResolverHolder pythonResolverHolder;
-    private final PythonResultFieldNameProvider resultFieldNameProvider;
 
     @Override
-    public <R> PythonResult<R> process(PythonScript script, Class<R> resultClass, Map<String, Object> arguments) {
-        PythonResultSpec<R> resultDescription = new PythonResultSpec<>(resultClass, resultFieldNameProvider.get());
-        return this.process(script, resultDescription, arguments);
-    }
-
-    @Override
-    public <R> PythonResult<R> process(PythonScript script, PythonResultSpec<R> resultDescription, Map<String, Object> arguments) {
+    public PythonResultMap process(PythonContext context) {
         try {
+            PythonScript script = context.script();
+            PythonResultSpec resultSpec = context.resultSpec();
+            PythonArgumentSpec argumentSpec = context.argumentSpec();
             if (script.isFile()) pythonFileReader.readScript(script);
-            pythonResolverHolder.resolveAll(script, arguments);
-            String name = resultDescription.fieldName();
-            R result = pythonExecutor.execute(script, resultDescription);
-            return PythonResult.of(name, result);
+            PythonContext.PreOperator preResolution = context.preResolution();
+            preResolution.operate(script, resultSpec, argumentSpec);
+            pythonResolverHolder.resolveAll(script, argumentSpec);
+            PythonContext.PreOperator preExecution = context.preExecution();
+            preExecution.operate(script, resultSpec, argumentSpec);
+            PythonResultContainer resultMap = pythonExecutor.execute(script, resultSpec);
+            PythonContext.SuccessHandler successHandler = context.successHandler();
+            return successHandler.onSuccess(resultMap);
         } catch (Exception e) {
-            throw new PythonProcessionException(e);
-        }
-    }
-
-    @Override
-    public List<PythonResult<?>> processAll(PythonScript script, Iterable<PythonResultSpec<?>> resultDescriptions, Map<String, Object> arguments) {
-        try {
-            if (script.isFile()) pythonFileReader.readScript(script);
-            pythonResolverHolder.resolveAll(script, arguments);
-            Map<String, @Nullable Object> resultMap = pythonExecutor.execute(script, resultDescriptions);
-            return PythonResult.allOf(resultMap);
-        } catch (Exception e) {
-            throw new PythonProcessionException(e);
+            PythonContext.FailureHandler failureHandler = context.failureHandler();
+            return failureHandler.onFail(e);
         }
     }
 }

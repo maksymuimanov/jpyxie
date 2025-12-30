@@ -1,5 +1,4 @@
 io.maksymuimanov.python.autoconfigure.PythonFileAutoConfiguration
-io.maksymuimanov.python.autoconfigure.PythonExecutorAutoConfiguration
 io.maksymuimanov.python.autoconfigure.PythonProcessorAutoConfiguration
 io.maksymuimanov.python.autoconfigure.PythonResolverAutoConfiguration
 io.maksymuimanov.python.autoconfigure.PipAutoConfiguration

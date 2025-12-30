@@ -1,7 +1,6 @@
 package io.maksymuimanov.python.autoconfigure;
 
 import io.maksymuimanov.python.executor.PythonExecutor;
-import io.maksymuimanov.python.executor.PythonResultFieldNameProvider;
 import io.maksymuimanov.python.file.PythonFileReader;
 import io.maksymuimanov.python.processor.BasicPythonProcessor;
 import io.maksymuimanov.python.processor.PythonProcessor;
@@ -41,8 +40,7 @@ public class PythonProcessorAutoConfiguration {
     @ConditionalOnMissingBean(PythonProcessor.class)
     public PythonProcessor basicPythonProcessor(PythonFileReader pythonFileReader,
                                                 PythonExecutor pythonExecutor,
-                                                PythonResolverHolder pythonResolverHolder,
-                                                PythonResultFieldNameProvider resultFieldNameProvider) {
-        return new BasicPythonProcessor(pythonFileReader, pythonExecutor, pythonResolverHolder, resultFieldNameProvider);
+                                                PythonResolverHolder pythonResolverHolder) {
+        return new BasicPythonProcessor(pythonFileReader, pythonExecutor, pythonResolverHolder);
     }
 }
