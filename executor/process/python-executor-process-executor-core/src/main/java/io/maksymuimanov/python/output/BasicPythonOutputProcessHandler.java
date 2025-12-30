@@ -2,7 +2,7 @@ package io.maksymuimanov.python.output;
 
 import io.maksymuimanov.python.exception.PythonProcessReadingException;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
-import io.maksymuimanov.python.executor.PythonResultDescription;
+import io.maksymuimanov.python.executor.PythonResultSpec;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,12 +47,12 @@ public class BasicPythonOutputProcessHandler implements ProcessOutputHandler {
     }
 
     @Override
-    public void handle(Process process, PythonResultDescription<?> resultDescription) {
+    public void handle(Process process, PythonResultSpec<?> resultDescription) {
         try (BufferedReader bufferedReader = process.inputReader()) {
             bufferedReader.lines().forEach(line -> {
                 String fieldName = resultDescription.fieldName();
                 String resultIdentifier = RESULT_PREFIX + fieldName;
-                if (resultDescription.isVoid() && line.startsWith(resultIdentifier)) {
+                if (resultDescription.isEmpty() && line.startsWith(resultIdentifier)) {
                     String resultJson = line.replace(resultIdentifier, "");
                     resultMap.put(fieldName, resultJson);
                 }
@@ -66,13 +66,13 @@ public class BasicPythonOutputProcessHandler implements ProcessOutputHandler {
     }
 
     @Override
-    public void handle(Process process, Iterable<PythonResultDescription<?>> resultDescriptions) {
+    public void handle(Process process, Iterable<PythonResultSpec<?>> resultDescriptions) {
         try (BufferedReader bufferedReader = process.inputReader()) {
             bufferedReader.lines().forEach(line -> {
-                for (PythonResultDescription<?> resultDescription : resultDescriptions) {
+                for (PythonResultSpec<?> resultDescription : resultDescriptions) {
                     String fieldName = resultDescription.fieldName();
                     String resultIdentifier = RESULT_PREFIX + fieldName;
-                    if (resultDescription.isVoid() && line.startsWith(resultIdentifier)) {
+                    if (resultDescription.isEmpty() && line.startsWith(resultIdentifier)) {
                         String resultJson = line.replace(resultIdentifier, "");
                         resultMap.put(fieldName, resultJson);
                     }

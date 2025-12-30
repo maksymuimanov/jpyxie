@@ -3,8 +3,6 @@ package io.maksymuimanov.python.resolver;
 import io.maksymuimanov.python.common.Prioritized;
 import io.maksymuimanov.python.script.PythonScript;
 
-import java.util.Map;
-
 /**
  * Defines the contract for resolving expressions and applying transformations
  * to Python scripts before execution.
@@ -15,7 +13,7 @@ import java.util.Map;
  * </p>
  *
  * <p><strong>Behavior:</strong> The method returns a transformed version of the input {@code script}
- * where all applicable expressions or placeholders are resolved using values from the {@code arguments} map.
+ * where all applicable expressions or placeholders are resolved using values from the {@code argumentSpec} map.
  * The exact transformation behavior depends on the implementation.</p>
  *
  * <p><strong>Example usage:</strong></p>
@@ -40,8 +38,8 @@ public interface PythonResolver extends Prioritized {
      * Resolves the given Python script by applying transformations or expression resolution.
      *
      * @param pythonScript the Python script content to resolve (non-{@code null})
-     * @param arguments    a map of variables for resolution (non-{@code null}, can be empty)
+     * @param argumentSpec    a map of variables for resolution (non-{@code null}, can be empty)
      * @return the transformed Python script with resolved expressions (never {@code null})
      */
-    PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments);
+    PythonScript resolve(PythonScript pythonScript, PythonArgumentSpec argumentSpec);
 }

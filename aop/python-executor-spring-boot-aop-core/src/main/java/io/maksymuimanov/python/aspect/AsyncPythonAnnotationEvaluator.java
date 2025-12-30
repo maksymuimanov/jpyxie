@@ -46,7 +46,7 @@ public class AsyncPythonAnnotationEvaluator implements PythonAnnotationEvaluator
      * @param <A> the type of annotation to evaluate, must be a subtype of {@link Annotation}
      * @param joinPoint the AOP join point representing the intercepted method, must not be {@code null}
      * @param annotationClass the {@link Class} object of the annotation type to evaluate, must not be {@code null}
-     * @param additionalArguments additional arguments to pass to the evaluator, must not be {@code null}
+     * @param additionalArguments additional argumentSpec to pass to the evaluator, must not be {@code null}
      */
     @Override
     public <A extends Annotation> void evaluate(JoinPoint joinPoint, Class<? extends A> annotationClass, Map<String, Object> additionalArguments) {

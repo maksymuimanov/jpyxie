@@ -13,8 +13,6 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
-import java.util.Map;
-
 /**
  * {@link PythonResolver} implementation that processes Spring Expression Language (SpEL)
  * expressions embedded within Python scripts.
@@ -25,7 +23,7 @@ import java.util.Map;
  * for use in Python.</p>
  *
  * <p>The resolver automatically inserts the necessary Python JSON import statement if missing.
- * It supports passing external variables to the SpEL context via the {@code arguments} map.
+ * It supports passing external variables to the SpEL context via the {@code argumentSpec} map.
  * Errors during JSON serialization are wrapped and rethrown as {@link PythonScriptException}.</p>
  *
  * @see PythonResolver
@@ -49,19 +47,19 @@ public class SpelythonResolver implements PythonResolver {
      *
      * <p>The method uses configured regex patterns and positional parameters to
      * identify expressions, then evaluates them against the SpEL context enriched
-     * with the provided {@code arguments} as variables.</p>
+     * with the provided {@code argumentSpec} as variables.</p>
      *
      * @param pythonScript non-null Python script content possibly containing SpEL expressions
-     * @param arguments    nullable map of variables for SpEL evaluation context, keys are variable names, values are their corresponding objects. If null or empty, no variables are set.
+     * @param argumentSpec    nullable map of variables for SpEL evaluation context, keys are variable names, values are their corresponding objects. If null or empty, no variables are set.
      * @return non-null-resolved script with SpEL expressions replaced by JSON-wrapped results
      * @throws PythonScriptException if there are any exceptions during JSON serialization {@link PythonScriptException} is thrown
      */
     @Override
-    public PythonScript resolve(PythonScript pythonScript, Map<String, Object> arguments) {
+    public PythonScript resolve(PythonScript pythonScript, PythonArgumentSpec argumentSpec) {
         ExpressionParser parser = new SpelExpressionParser();
         StandardEvaluationContext context = new StandardEvaluationContext();
-        if (!arguments.isEmpty()) {
-            arguments.forEach((key, value) ->
+        if (!argumentSpec.isEmpty()) {
+            argumentSpec.forEach((key, value) ->
                     parser.parseExpression(this.localVariableIndex + key)
                             .setValue(context, value));
         }

@@ -15,8 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationContext;
 
-import java.util.Map;
-
 import static io.maksymuimanov.python.constant.TestConstants.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,7 +44,7 @@ class SpelythonResolverTests {
                 .when(objectMapper.writeValueAsString(expressionValue))
                 .thenReturn(expressionValue);
 
-        spelythonResolver.resolve(pythonScript, Map.of("a", expressionValue, "b", expressionValue));
+        spelythonResolver.resolve(pythonScript, PythonArgumentSpec.create("a", expressionValue).with("b", expressionValue));
         Assertions.assertFalse(pythonScript.containsDeepCode(REGEX));
         Assertions.assertTrue(pythonScript.containsDeepCode("json.loads('" + expressionValue + "')"));
     }

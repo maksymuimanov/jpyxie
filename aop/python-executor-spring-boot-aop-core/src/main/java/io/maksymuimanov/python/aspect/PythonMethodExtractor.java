@@ -13,7 +13,7 @@ import java.util.Map;
  * </p>
  * <p>
  * This interface is typically used in aspect-oriented programming (AOP) contexts
- * where method metadata and runtime arguments need to be inspected or manipulated,
+ * where method metadata and runtime argumentSpec need to be inspected or manipulated,
  * for example, to support script execution or logging.
  * </p>
  *

@@ -13,19 +13,19 @@ public class JythonPythonExecutor extends InterpretablePythonExecutor<PythonInte
     }
 
     @Override
-    protected @Nullable <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription, PythonInterpreter interpreter) throws Exception {
+    protected @Nullable <R> R execute(PythonScript script, PythonResultSpec<R> resultDescription, PythonInterpreter interpreter) throws Exception {
         interpreter.exec(script.toPythonString());
         return this.getResult(resultDescription, interpreter);
     }
 
     @Override
-    protected Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, PythonInterpreter interpreter) throws Exception {
+    protected Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultSpec<?>> resultDescriptions, PythonInterpreter interpreter) throws Exception {
         interpreter.exec(script.toPythonString());
         return this.getResultMap(resultDescriptions, interpreter);
     }
 
     @Override
-    protected @Nullable <R> R getResult(PythonResultDescription<R> resultDescription, PythonInterpreter resultContainer) {
+    protected @Nullable <R> R getResult(PythonResultSpec<R> resultDescription, PythonInterpreter resultContainer) {
         return resultDescription.getValue((type, fieldName) -> resultContainer.get(fieldName, type));
     }
 }

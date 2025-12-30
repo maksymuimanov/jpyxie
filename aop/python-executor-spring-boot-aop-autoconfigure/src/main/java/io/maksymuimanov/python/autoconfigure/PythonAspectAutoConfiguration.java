@@ -89,7 +89,7 @@ public class PythonAspectAutoConfiguration {
     /**
      * Creates a default {@link PythonArgumentsExtractor} implementation.
      *
-     * <p>Extracts arguments from the method for passing to Python script evaluation.
+     * <p>Extracts argumentSpec from the method for passing to Python script evaluation.
      *
      * @param methodExtractor non-null {@link PythonMethodExtractor} used to locate and analyze methods
      * @return non-null {@link BasicPythonArgumentsExtractor} instance
@@ -141,7 +141,7 @@ public class PythonAspectAutoConfiguration {
      *
      * @param profileChecker non-null {@link ProfileChecker} to validate profile constraints
      * @param annotationValueExtractorChain non-null {@link PythonAnnotationValueCompounder} to combine annotation values
-     * @param argumentsExtractor non-null {@link PythonArgumentsExtractor} to extract method arguments
+     * @param argumentsExtractor non-null {@link PythonArgumentsExtractor} to extract method argumentSpec
      * @param pythonProcessor non-null {@link PythonProcessor} to execute Python code
      * @return non-null {@link BasicPythonAnnotationEvaluator} instance
      */

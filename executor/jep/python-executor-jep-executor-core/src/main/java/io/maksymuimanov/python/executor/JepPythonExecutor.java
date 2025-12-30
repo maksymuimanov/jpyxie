@@ -13,20 +13,20 @@ public class JepPythonExecutor extends InterpretablePythonExecutor<Interpreter, 
     }
 
     @Override
-    protected @Nullable <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription, Interpreter interpreter) throws Exception {
+    protected @Nullable <R> R execute(PythonScript script, PythonResultSpec<R> resultDescription, Interpreter interpreter) throws Exception {
         interpreter.exec(script.toPythonString());
         return this.getResult(resultDescription, interpreter);
     }
 
     @Override
-    protected Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, Interpreter interpreter) throws Exception {
+    protected Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultSpec<?>> resultDescriptions, Interpreter interpreter) throws Exception {
         interpreter.exec(script.toPythonString());
         return this.getResultMap(resultDescriptions, interpreter);
     }
 
     @Override
     @Nullable
-    protected <R> R getResult(PythonResultDescription<R> resultDescription, Interpreter resultContainer) {
+    protected <R> R getResult(PythonResultSpec<R> resultDescription, Interpreter resultContainer) {
         return resultDescription.getValue((type, fieldName) -> resultContainer.getValue(fieldName, type));
     }
 }

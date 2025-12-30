@@ -50,7 +50,7 @@ public class GrpcPythonExecutor extends AbstractPythonExecutor<PythonGrpcRespons
 
     @Override
     @Nullable
-    public <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription) {
+    public <R> R execute(PythonScript script, PythonResultSpec<R> resultDescription) {
         try {
             String scriptBody = script.toPythonString();
             PythonGrpcRequest request = PythonGrpcRequest.newBuilder()
@@ -65,11 +65,11 @@ public class GrpcPythonExecutor extends AbstractPythonExecutor<PythonGrpcRespons
     }
 
     @Override
-    public Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions) {
+    public Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultSpec<?>> resultDescriptions) {
         try {
             String scriptBody = script.toPythonString();
             List<String> fieldNames = new ArrayList<>();
-            for (PythonResultDescription<?> resultDescription : resultDescriptions) {
+            for (PythonResultSpec<?> resultDescription : resultDescriptions) {
                 fieldNames.add(resultDescription.fieldName());
             }
             PythonGrpcRequest request = PythonGrpcRequest.newBuilder()
@@ -85,7 +85,7 @@ public class GrpcPythonExecutor extends AbstractPythonExecutor<PythonGrpcRespons
 
     @Override
     @Nullable
-    protected <R> R getResult(PythonResultDescription<R> resultDescription, PythonGrpcResponse resultContainer) {
+    protected <R> R getResult(PythonResultSpec<R> resultDescription, PythonGrpcResponse resultContainer) {
         return resultDescription.getValue((type, fieldName) -> {
             String resultJson = resultContainer.getFieldsOrThrow(fieldName);
             return this.parseJson(resultJson, type);

@@ -64,7 +64,7 @@ public class PythonAfterAspect {
 
     /**
      * Helper method to invoke the {@link PythonAnnotationEvaluator} with the given join point,
-     * annotation class, and additional arguments containing the method's return value under the key {@code "body"}.
+     * annotation class, and additional argumentSpec containing the method's return value under the key {@code "body"}.
      *
      * @param joinPoint non-null join point representing the intercepted method call
      * @param result the returned object from the intercepted method, may be null

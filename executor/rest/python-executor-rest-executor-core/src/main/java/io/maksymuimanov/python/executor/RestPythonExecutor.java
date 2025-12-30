@@ -54,7 +54,7 @@ public class RestPythonExecutor extends AbstractPythonExecutor<PythonRestRespons
     }
 
     @Override
-    public @Nullable <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription) {
+    public @Nullable <R> R execute(PythonScript script, PythonResultSpec<R> resultDescription) {
         try {
             String scriptBody = script.toPythonString();
             List<String> fieldNames = List.of(resultDescription.fieldName());
@@ -69,11 +69,11 @@ public class RestPythonExecutor extends AbstractPythonExecutor<PythonRestRespons
     }
 
     @Override
-    public Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions) {
+    public Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultSpec<?>> resultDescriptions) {
         try {
             String scriptBody = script.toPythonString();
             List<String> fieldNames = new ArrayList<>();
-            for (PythonResultDescription<?> resultDescription : resultDescriptions) {
+            for (PythonResultSpec<?> resultDescription : resultDescriptions) {
                 fieldNames.add(resultDescription.fieldName());
             }
             PythonRestRequest pythonRestRequest = new PythonRestRequest(scriptBody, fieldNames);
@@ -89,7 +89,7 @@ public class RestPythonExecutor extends AbstractPythonExecutor<PythonRestRespons
     @Override
     @Nullable
     @SuppressWarnings("unchecked")
-    protected <R> R getResult(PythonResultDescription<R> resultDescription, PythonRestResponse resultContainer) {
+    protected <R> R getResult(PythonResultSpec<R> resultDescription, PythonRestResponse resultContainer) {
         return resultDescription.getValue((type, fieldName) -> (R) resultContainer.fields().get(fieldName));
     }
 }

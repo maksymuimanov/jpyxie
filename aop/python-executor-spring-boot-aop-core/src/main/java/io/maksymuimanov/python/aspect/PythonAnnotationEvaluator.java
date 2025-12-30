@@ -31,7 +31,7 @@ public interface PythonAnnotationEvaluator {
      * Evaluates the specified annotation on the method represented by the given {@link JoinPoint}.
      * <p>
      * This default method invokes {@link #evaluate(JoinPoint, Class, Map)} with
-     * an empty {@link Map} of additional arguments.
+     * an empty {@link Map} of additional argumentSpec.
      * </p>
      *
      * @param <A> the type of annotation to evaluate, must extend {@link Annotation}
@@ -44,7 +44,7 @@ public interface PythonAnnotationEvaluator {
 
     /**
      * Evaluates the specified annotation on the method represented by the given {@link JoinPoint}
-     * using the provided additional arguments.
+     * using the provided additional argumentSpec.
      * <p>
      * Implementations must process the Python scripts or expressions defined by the annotation,
      * using the {@code additionalArguments} as contextual data during evaluation.

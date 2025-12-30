@@ -40,7 +40,7 @@ public class SpelythonResolverProperties {
      */
     private String regex = "spel\\{.+?}";
     /**
-     * Prefix symbol used to reference additional arguments variables in SpEL expressions.
+     * Prefix symbol used to reference additional argumentSpec variables in SpEL expressions.
      */
     private String localVariableIndex = "#";
     /**

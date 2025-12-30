@@ -61,7 +61,7 @@ public class ProcessPythonExecutor extends AbstractPythonExecutor<ProcessOutputH
     }
 
     @Override
-    public @Nullable <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription) {
+    public @Nullable <R> R execute(PythonScript script, PythonResultSpec<R> resultDescription) {
         try {
             Process process = this.processStarter.start(script);
             this.processErrorHandler.handle(process);
@@ -74,7 +74,7 @@ public class ProcessPythonExecutor extends AbstractPythonExecutor<ProcessOutputH
     }
 
     @Override
-    public Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions) {
+    public Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultSpec<?>> resultDescriptions) {
         try {
             Process process = this.processStarter.start(script);
             this.processErrorHandler.handle(process);
@@ -87,7 +87,7 @@ public class ProcessPythonExecutor extends AbstractPythonExecutor<ProcessOutputH
     }
 
     @Override
-    protected @Nullable <R> R getResult(PythonResultDescription<R> resultDescription, ProcessOutputHandler resultContainer) {
+    protected @Nullable <R> R getResult(PythonResultSpec<R> resultDescription, ProcessOutputHandler resultContainer) {
         R value = resultDescription.getValue((type, fieldName) -> {
             String resultJson = resultContainer.getResult(fieldName);
             return this.parseJson(resultJson, type);

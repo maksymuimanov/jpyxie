@@ -5,14 +5,14 @@ import org.aspectj.lang.JoinPoint;
 import java.util.Map;
 
 /**
- * Interface for extracting method arguments as a map of names to values from a {@link JoinPoint}.
+ * Interface for extracting method argumentSpec as a map of names to values from a {@link JoinPoint}.
  * <p>
  * Implementations provide the logic to extract argument names and values, optionally
- * augmented by additional arguments supplied externally.
+ * augmented by additional argumentSpec supplied externally.
  * </p>
  * <p>
  * The default method {@link #getArguments(JoinPoint)} delegates to
- * {@link #getArguments(JoinPoint, Map)} with an empty additional arguments map.
+ * {@link #getArguments(JoinPoint, Map)} with an empty additional argumentSpec map.
  * </p>
  *
  * @see BasicPythonArgumentsExtractor
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public interface PythonArgumentsExtractor {
     /**
-     * Extracts method arguments from the given {@link JoinPoint} without additional arguments.
+     * Extracts method argumentSpec from the given {@link JoinPoint} without additional argumentSpec.
      *
      * @param joinPoint the join point representing the method invocation, must not be {@code null}
      * @return a map of argument names to their corresponding values, never {@code null}
@@ -31,12 +31,12 @@ public interface PythonArgumentsExtractor {
     }
 
     /**
-     * Extracts method arguments from the given {@link JoinPoint} and merges them with the supplied
-     * additional arguments.
+     * Extracts method argumentSpec from the given {@link JoinPoint} and merges them with the supplied
+     * additional argumentSpec.
      *
      * @param joinPoint the join point representing the method invocation, must not be {@code null}
-     * @param additionalArguments additional arguments to include in the returned map, must not be {@code null}
-     * @return a map of argument names to their corresponding values including additional arguments, never {@code null}
+     * @param additionalArguments additional argumentSpec to include in the returned map, must not be {@code null}
+     * @return a map of argument names to their corresponding values including additional argumentSpec, never {@code null}
      */
     Map<String, Object> getArguments(JoinPoint joinPoint, Map<String, Object> additionalArguments);
 }

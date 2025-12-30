@@ -5,7 +5,6 @@ import io.maksymuimanov.python.script.PythonScript;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Implementation of {@link PythonResolverHolder} that holds a list of {@link PythonResolver}
@@ -47,20 +46,20 @@ public class BasicPythonResolverHolder implements PythonResolverHolder {
      * <p>
      * Returns the final script after all resolvers have been applied in order.
      * <p>
-     * Behavior for {@code arguments} depends on individual resolver implementations.
+     * Behavior for {@code argumentSpec} depends on individual resolver implementations.
      * This method does not modify the original script but creates new string instances on each iteration.
      * </p>
      *
      * @param script the original Python script, must be non-null and non-empty
-     * @param arguments map of arguments passed to resolvers, can be {@code null} or empty
+     * @param argumentSpec map of argumentSpec passed to resolvers, can be {@code null} or empty
      * @return the fully resolved script, never {@code null}
      * @throws IllegalArgumentException if {@code script} is {@code null} or empty
      */
     @Override
-    public PythonScript resolveAll(PythonScript script, Map<String, Object> arguments) {
+    public PythonScript resolveAll(PythonScript script, PythonArgumentSpec argumentSpec) {
         try {
             for (PythonResolver resolver : this.getResolvers()) {
-                resolver.resolve(script, arguments);
+                resolver.resolve(script, argumentSpec);
             }
             return script;
         } catch (Exception e) {

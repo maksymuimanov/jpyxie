@@ -4,11 +4,8 @@ import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
 import io.maksymuimanov.python.interpreter.ReleasablePythonInterpreterProvider;
 import io.maksymuimanov.python.script.PythonScript;
-import org.jspecify.annotations.Nullable;
 
-import java.util.Map;
-
-public abstract class InterpretablePythonExecutor<C, I extends AutoCloseable> extends AbstractPythonExecutor<C> {
+public abstract class InterpretablePythonExecutor<I extends AutoCloseable> implements PythonExecutor {
     private final PythonInterpreterProvider<I> interpreterProvider;
 
     protected InterpretablePythonExecutor(PythonInterpreterProvider<I> interpreterProvider) {
@@ -16,38 +13,20 @@ public abstract class InterpretablePythonExecutor<C, I extends AutoCloseable> ex
     }
 
     @Override
-    @Nullable
-    public <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription) {
+    public PythonResultContainer execute(PythonScript script, PythonResultSpec resultSpec) {
         try {
             I interpreter = interpreterProvider.acquire();
-            R response = this.execute(script, resultDescription, interpreter);
+            PythonResultContainer resultContainer = this.execute(script, resultSpec, interpreter);
             if (interpreterProvider instanceof ReleasablePythonInterpreterProvider<I> releasableProvider) {
                 releasableProvider.release(interpreter);
             }
-            return response;
+            return resultContainer;
         } catch (Exception e) {
             throw new PythonExecutionException(e);
         }
     }
 
-    @Override
-    public Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions) {
-        try {
-            I interpreter = interpreterProvider.acquire();
-            Map<String, @Nullable Object> response = this.execute(script, resultDescriptions, interpreter);
-            if (interpreterProvider instanceof ReleasablePythonInterpreterProvider<I> releasableProvider) {
-                releasableProvider.release(interpreter);
-            }
-            return response;
-        } catch (Exception e) {
-            throw new PythonExecutionException(e);
-        }
-    }
-
-    @Nullable
-    protected abstract <R> R execute(PythonScript script, PythonResultDescription<R> resultDescription, I interpreter) throws Exception;
-
-    protected abstract Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultDescription<?>> resultDescriptions, I interpreter) throws Exception;
+    protected abstract PythonResultContainer execute(PythonScript script, PythonResultSpec resultSpec, I interpreter) throws Exception;
 
     protected PythonInterpreterProvider<I> getInterpreterProvider() {
         return interpreterProvider;

@@ -4,7 +4,6 @@ import io.maksymuimanov.python.script.PythonScript;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
  * <p><strong>Behavior of {@code resolveAll}:</strong> Applies all registered resolvers
  * to the given Python script in a defined order (implementation-dependent),
  * potentially combining or chaining their transformations.
- * The {@code arguments} map is used by resolvers to substitute variables or resolve expressions.</p>
+ * The {@code argumentSpec} map is used by resolvers to substitute variables or resolve expressions.</p>
  *
  * <p><strong>Example usage:</strong></p>
  * <pre>{@code
@@ -77,32 +76,32 @@ public interface PythonResolverHolder extends Iterable<PythonResolver> {
 
     /**
      * Applies all registered resolvers to the given Python script,
-     * resolving variables, placeholders, or expressions with an empty arguments map.
+     * resolving variables, placeholders, or expressions with an empty argumentSpec map.
      * <p>
      * The exact order and manner in which resolvers are applied is implementation-dependent.
-     * The {@code arguments} map provides values for resolution and must not be {@code null}.
+     * The {@code argumentSpec} map provides values for resolution and must not be {@code null}.
      * </p>
      *
      * @param script the Python script containing placeholders or expressions (non-{@code null})
      * @return the fully resolved Python script (never {@code null})
      */
     default PythonScript resolveAll(PythonScript script) {
-        return this.resolveAll(script, Map.of());
+        return this.resolveAll(script, PythonArgumentSpec.create());
     }
 
     /**
      * Applies all registered resolvers to the given Python script,
-     * resolving variables, placeholders, or expressions using the provided arguments.
+     * resolving variables, placeholders, or expressions using the provided argumentSpec.
      * <p>
      * The exact order and manner in which resolvers are applied is implementation-dependent.
-     * The {@code arguments} map provides values for resolution and must not be {@code null}.
+     * The {@code argumentSpec} map provides values for resolution and must not be {@code null}.
      * </p>
      *
      * @param script the Python script containing placeholders or expressions (non-{@code null})
-     * @param arguments the input arguments for resolution (non-{@code null}, can be empty)
+     * @param argumentSpec the input argumentSpec for resolution (non-{@code null}, can be empty)
      * @return the fully resolved Python script (never {@code null})
      */
-    PythonScript resolveAll(PythonScript script, Map<String, Object> arguments);
+    PythonScript resolveAll(PythonScript script, PythonArgumentSpec argumentSpec);
 
     /**
      * Returns a list of registered {@link PythonResolver} instances.
