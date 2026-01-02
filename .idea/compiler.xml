@@ -14,7 +14,6 @@
         <module name="python-executor-core" />
         <module name="python-executor-grpc-executor-spring-boot-starter" />
         <module name="python-executor-graalpy-executor-autoconfigure" />
-        <module name="python-executor-json-autoconfigure" />
         <module name="python-rest-server-testcontainers" />
         <module name="python-executor-autoconfigure" />
         <module name="python-executor-jython-executor-autoconfigure" />
@@ -27,7 +26,6 @@
         <module name="python-executor-spelython-resolver-autoconfigure" />
         <module name="python-executor-bind-core" />
         <module name="python-executor-process-executor-core" />
-        <module name="python-executor-json-spring-boot-starter" />
         <module name="python-executor-spelython-resolver-core" />
         <module name="python-executor-jep-executor-core" />
         <module name="python-executor-jython-executor-spring-boot-starter" />
@@ -39,13 +37,15 @@
         <module name="python-executor-grpc-executor-core" />
         <module name="python-executor-process-executor-autoconfigure" />
         <module name="python-executor-rest-executor-autoconfigure" />
-        <module name="python-executor-json-core" />
         <module name="python-executor-spring-boot-aop-autoconfigure" />
         <module name="python-executor-jython-executor-core" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo-app" target="17" />
+      <module name="python-executor-json-autoconfigure" target="17" />
+      <module name="python-executor-json-core" target="17" />
+      <module name="python-executor-json-spring-boot-starter" target="17" />
       <module name="python-executor-restricted-resolver-autoconfigure" target="17" />
       <module name="python-executor-restricted-resolver-core" target="17" />
       <module name="python-executor-restricted-resolver-spring-boot-starter" target="17" />

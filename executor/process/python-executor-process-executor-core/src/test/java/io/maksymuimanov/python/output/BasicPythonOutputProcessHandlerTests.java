@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.output;
 
+import io.maksymuimanov.python.executor.BasicPythonOutputProcessHandler;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;

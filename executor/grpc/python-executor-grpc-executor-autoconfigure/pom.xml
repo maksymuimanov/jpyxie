@@ -35,6 +35,10 @@
 		<artifactId>python-executor-parent</artifactId>
 		<version>1.1.0</version>
 	</parent>
+	<properties>
+		<grpc.version>1.72.0</grpc.version>
+		<spring-grpc.version>0.9.0</spring-grpc.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>io.github.maksymuimanov</groupId>
@@ -46,6 +50,22 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 			<version>${spring-boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.grpc</groupId>
+			<artifactId>spring-grpc-spring-boot-starter</artifactId>
+			<version>${spring-grpc.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>io.grpc</groupId>
+					<artifactId>grpc-netty</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-netty-shaded</artifactId>
+			<version>${grpc.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

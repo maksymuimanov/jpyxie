@@ -1,15 +1,26 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
 import io.grpc.stub.MetadataUtils;
+import io.maksymuimanov.python.bind.GrpcPythonDeserializer;
+import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.executor.GrpcPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
-import io.maksymuimanov.python.proto.PythonServiceGrpc;
+import io.maksymuimanov.python.proto.GrpcPythonResponse;
+import io.maksymuimanov.python.proto.PythonGrpcServiceGrpc;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.jackson.JsonComponentModule;
+import org.springframework.boot.jackson.JsonMixinModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.grpc.client.GrpcChannelFactory;
 
@@ -33,67 +44,60 @@ public class GrpcPythonExecutorAutoConfiguration {
      */
     public static final String TOKEN_KEY = "x-token";
 
-    /**
-     * Creates a {@link GrpcPythonExecutor} bean for executing Python scripts via gRPC.
-     *
-     * <p>Activated when:
-     * <ul>
-     *   <li>No other {@link PythonExecutor} bean is present in the context</li>
-     * </ul>
-     *
-     * @param stub non-null {@link PythonServiceGrpc.PythonServiceBlockingStub} for gRPC communication
-     * @param objectMapper non-null {@link ObjectMapper} for JSON serialization/deserialization
-     * @return never {@code null}, fully initialized {@link GrpcPythonExecutor} instance
-     */
+    @Bean
+    public ObjectMapper pythonObjectMapper() {
+        return JsonMapper.builder()
+                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+                .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+                .addModule(new JavaTimeModule())
+                .addModule(new JsonComponentModule())
+                .addModule(new JsonMixinModule())
+                .build();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(PythonDeserializer.class)
+    public PythonDeserializer<GrpcPythonResponse> pythonDeserializer(@Qualifier("pythonObjectMapper") ObjectMapper objectMapper) {
+        return new GrpcPythonDeserializer(objectMapper);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub.class)
+    public PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub(GrpcPythonServerConnectionDetails connectionDetails, GrpcChannelFactory channels) {
+        ManagedChannel channel = channels.createChannel(connectionDetails.getUri());
+        Metadata headers = new Metadata();
+        var marshaller = Metadata.ASCII_STRING_MARSHALLER;
+        Metadata.Key<String> tokenKey = Metadata.Key.of(TOKEN_KEY, marshaller);
+        headers.put(tokenKey, connectionDetails.getToken());
+        return PythonGrpcServiceGrpc.newBlockingStub(channel)
+                .withInterceptors(MetadataUtils.newAttachHeadersInterceptor(headers));
+    }
+
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor grpcPythonExecutor(PythonServiceGrpc.PythonServiceBlockingStub stub, ObjectMapper objectMapper) {
-        return new GrpcPythonExecutor(stub, objectMapper);
+    public PythonExecutor grpcPythonExecutor(PythonDeserializer<GrpcPythonResponse> pythonDeserializer,
+                                             PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub) {
+        return new GrpcPythonExecutor(pythonDeserializer, stub);
     }
 
     /**
-     * Creates {@link PythonGrpcServerConnectionDetails} for gRPC Python execution from
+     * Creates {@link GrpcPythonServerConnectionDetails} for gRPC Python execution from
      * {@link GrpcPythonExecutorProperties}.
      *
      * <p>Activated when:
      * <ul>
-     *   <li>No other {@link PythonGrpcServerConnectionDetails} bean is present</li>
+     *   <li>No other {@link GrpcPythonServerConnectionDetails} bean is present</li>
      * </ul>
      *
      * @param properties non-null {@link GrpcPythonExecutorProperties} containing gRPC configuration
      * @return never {@code null}, immutable connection details instance
      */
     @Bean
-    @ConditionalOnMissingBean(PythonGrpcServerConnectionDetails.class)
-    public PythonGrpcServerConnectionDetails grpcConnectionDetails(GrpcPythonExecutorProperties properties) {
-        return PythonGrpcServerConnectionDetails.of(properties.getToken(), properties.getUri());
-    }
-
-    /**
-     * Creates a {@link PythonServiceGrpc.PythonServiceBlockingStub} bean configured with:
-     * <ul>
-     *   <li>Managed channel targeting the Python gRPC server URI</li>
-     *   <li>Authentication metadata containing username and token</li>
-     * </ul>
-     *
-     * <p>The bean is only created if:</p>
-     * <ul>
-     *   <li>No other {@link PythonServiceGrpc.PythonServiceBlockingStub} bean exists in the context</li>
-     * </ul>
-     *
-     * @param connectionDetails non-null connection configuration, including URI, username, and token
-     * @param channels non-null {@link GrpcChannelFactory} for creating managed gRPC channels
-     * @return non-null gRPC blocking stub ready for synchronous communication with the Python service
-     */
-    @Bean
-    @ConditionalOnMissingBean(PythonServiceGrpc.PythonServiceBlockingStub.class)
-    public PythonServiceGrpc.PythonServiceBlockingStub stub(PythonGrpcServerConnectionDetails connectionDetails, GrpcChannelFactory channels) {
-        ManagedChannel channel = channels.createChannel(connectionDetails.getUri());
-        Metadata headers = new Metadata();
-        var marshaller = Metadata.ASCII_STRING_MARSHALLER;
-        Metadata.Key<String> tokenKey = Metadata.Key.of(TOKEN_KEY, marshaller);
-        headers.put(tokenKey, connectionDetails.getToken());
-        return PythonServiceGrpc.newBlockingStub(channel)
-                .withInterceptors(MetadataUtils.newAttachHeadersInterceptor(headers));
+    @ConditionalOnMissingBean(GrpcPythonServerConnectionDetails.class)
+    public GrpcPythonServerConnectionDetails grpcConnectionDetails(GrpcPythonExecutorProperties properties) {
+        return GrpcPythonServerConnectionDetails.of(properties.getToken(), properties.getUri());
     }
 }

@@ -5,14 +5,14 @@ option java_package = "io.maksymuimanov.python.proto";
 option java_outer_classname = "PythonProto";
 
 service PythonGrpcService {
-  rpc SendCode(PythonGrpcRequest) returns (PythonGrpcResponse) {}
+  rpc SendCode(GrpcPythonRequest) returns (GrpcPythonResponse) {}
 }
 
-message PythonGrpcRequest {
+message GrpcPythonRequest {
   string script = 1;
   repeated string fieldNames = 2;
 }
 
-message PythonGrpcResponse {
+message GrpcPythonResponse {
   map<string, string> fields = 1;
 }

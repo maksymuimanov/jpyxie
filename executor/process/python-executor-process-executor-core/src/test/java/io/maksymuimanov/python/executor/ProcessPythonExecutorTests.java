@@ -1,9 +1,7 @@
 package io.maksymuimanov.python.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.maksymuimanov.python.finisher.ProcessFinisher;
 import io.maksymuimanov.python.script.PythonScript;
-import io.maksymuimanov.python.starter.ProcessStarter;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;

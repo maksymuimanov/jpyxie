@@ -4,10 +4,15 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public interface SetSpec<T> extends Iterable<T> {
     default boolean isEmpty() {
         return this.toSet().isEmpty();
+    }
+
+    default Stream<T> stream() {
+        return this.toSet().stream();
     }
 
     @Override

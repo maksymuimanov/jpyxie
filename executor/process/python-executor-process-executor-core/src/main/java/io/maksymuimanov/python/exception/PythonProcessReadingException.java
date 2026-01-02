@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.exception;
 
-import io.maksymuimanov.python.error.BasicPythonErrorProcessHandler;
-import io.maksymuimanov.python.output.BasicPythonOutputProcessHandler;
+import io.maksymuimanov.python.executor.BasicPythonErrorProcessHandler;
+import io.maksymuimanov.python.executor.BasicPythonOutputProcessHandler;
 
 /**
  * Exception thrown when an error occurs while reading output from a Python process.

@@ -42,9 +42,9 @@ class RestPythonExecutorTests {
     @ValueSource(strings = {SIMPLE_SCRIPT_0, SIMPLE_SCRIPT_1, SIMPLE_SCRIPT_2, SIMPLE_SCRIPT_3})
     void testExecute(String script) {
         PythonScript pythonScript = new PythonScript(script);
-        PythonRestRequest pythonRestRequest = new PythonRestRequest(script);
+        RestPythonRequest restPythonRequest = new RestPythonRequest(script);
 
-        Mockito.when(objectMapper.writeValueAsString(pythonRestRequest)).thenReturn("{\"script\": \"%s\"}".formatted(script));
+        Mockito.when(objectMapper.writeValueAsString(restPythonRequest)).thenReturn("{\"script\": \"%s\"}".formatted(script));
         Mockito.when(client.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class))).thenReturn(response);
         Mockito.when(response.statusCode()).thenReturn(200);
         Mockito.when(response.body()).thenReturn(OK);

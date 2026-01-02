@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.finisher;
 
+import io.maksymuimanov.python.executor.ProcessFinisher;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;

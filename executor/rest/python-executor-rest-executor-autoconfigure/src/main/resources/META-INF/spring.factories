@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.service.connection.ConnectionDetailsFactory=\
-io.maksymuimanov.python.testcontainers.PythonRestServerConnectionDetailsFactory
+io.maksymuimanov.python.testcontainers.RestPythonServerConnectionDetailsFactory

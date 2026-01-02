@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.exception;
 
-import io.maksymuimanov.python.starter.BasicPythonProcessStarter;
+import io.maksymuimanov.python.executor.BasicPythonProcessStarter;
 
 /**
  * Exception thrown when an error occurs while starting a process.

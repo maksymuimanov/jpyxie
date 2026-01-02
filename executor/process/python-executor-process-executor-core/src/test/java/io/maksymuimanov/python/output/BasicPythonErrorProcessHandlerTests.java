@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.output;
 
-import io.maksymuimanov.python.error.BasicPythonErrorProcessHandler;
 import io.maksymuimanov.python.exception.PythonProcessReadingException;
+import io.maksymuimanov.python.executor.BasicPythonErrorProcessHandler;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;

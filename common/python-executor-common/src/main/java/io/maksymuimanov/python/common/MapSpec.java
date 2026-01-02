@@ -5,10 +5,15 @@ import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public interface MapSpec<K, V> extends Iterable<Map.Entry<K, V>> {
     default boolean isEmpty() {
         return this.toMap().isEmpty();
+    }
+
+    default Stream<Map.Entry<K, V>> stream() {
+        return this.toMap().entrySet().stream();
     }
 
     @Override

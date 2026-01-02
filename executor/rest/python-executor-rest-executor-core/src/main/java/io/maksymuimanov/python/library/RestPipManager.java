@@ -2,7 +2,7 @@ package io.maksymuimanov.python.library;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.exception.PythonLibraryManagementException;
-import io.maksymuimanov.python.http.PythonRestServerHttpRequestSender;
+import io.maksymuimanov.python.http.PythonServerRequestSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,7 +12,7 @@ public class RestPipManager implements PipManager {
     public static final String UNINSTALL_WITHOUT_CONFIRMATION_OPTION = "--yes";
     private final String uri;
     private final String token;
-    private final PythonRestServerHttpRequestSender requestSender;
+    private final PythonServerRequestSender requestSender;
     private final ObjectMapper objectMapper;
 
     @Override

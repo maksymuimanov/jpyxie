@@ -34,10 +34,6 @@
         <module>core/python-executor-autoconfigure</module>
         <module>core/python-executor-spring-boot-starter</module>
 
-        <module>bind/json/python-executor-json-core</module>
-        <module>bind/json/python-executor-json-autoconfigure</module>
-        <module>bind/json/python-executor-json-spring-boot-starter</module>
-
         <module>aop/python-executor-spring-boot-aop-core</module>
         <module>aop/python-executor-spring-boot-aop-autoconfigure</module>
         <module>aop/python-executor-spring-boot-aop-starter</module>
