@@ -8,14 +8,14 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
-public class GraalPythonExecutor extends InterpretablePythonExecutor<Context> {
+public class GraalPythonExecutor extends InterpretablePythonExecutor<Value, Context> {
     public static final String PYTHON = "python";
-    private final PythonDeserializer<Value> pythonDeserializer;
     private final boolean cached;
 
-    public GraalPythonExecutor(PythonInterpreterProvider<Context> interpreterProvider, PythonDeserializer<Value> pythonDeserializer, boolean cached) {
-        super(interpreterProvider);
-        this.pythonDeserializer = pythonDeserializer;
+    public GraalPythonExecutor(PythonDeserializer<Value> pythonDeserializer,
+                               PythonInterpreterProvider<Context> interpreterProvider,
+                               boolean cached) {
+        super(pythonDeserializer, interpreterProvider);
         this.cached = cached;
     }
 
@@ -26,6 +26,6 @@ public class GraalPythonExecutor extends InterpretablePythonExecutor<Context> {
                 .cached(this.cached)
                 .build();
         Value value = interpreter.eval(source);
-        return PythonResultMap.of(resultSpec.getRequirements(), pythonDeserializer, value::getMember);
+        return this.createResultMap(resultSpec, value);
     }
 }

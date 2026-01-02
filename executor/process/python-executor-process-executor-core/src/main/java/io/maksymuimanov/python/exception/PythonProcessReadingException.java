@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.exception;
 
-import io.maksymuimanov.python.output.BasicPythonErrorProcessHandler;
+import io.maksymuimanov.python.error.BasicPythonErrorProcessHandler;
 import io.maksymuimanov.python.output.BasicPythonOutputProcessHandler;
 
 /**

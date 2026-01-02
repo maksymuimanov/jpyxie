@@ -1,15 +1,17 @@
 package io.maksymuimanov.python.executor;
 
+import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
 import io.maksymuimanov.python.interpreter.ReleasablePythonInterpreterProvider;
 import io.maksymuimanov.python.processor.PythonResultMap;
 import io.maksymuimanov.python.script.PythonScript;
 
-public abstract class InterpretablePythonExecutor<I extends AutoCloseable> implements PythonExecutor {
+public abstract class InterpretablePythonExecutor<F, I extends AutoCloseable> extends AbstractPythonExecutor<F> {
     private final PythonInterpreterProvider<I> interpreterProvider;
 
-    protected InterpretablePythonExecutor(PythonInterpreterProvider<I> interpreterProvider) {
+    protected InterpretablePythonExecutor(PythonDeserializer<F> pythonDeserializer, PythonInterpreterProvider<I> interpreterProvider) {
+        super(pythonDeserializer);
         this.interpreterProvider = interpreterProvider;
     }
 

@@ -1,7 +1,6 @@
 package io.maksymuimanov.python.processor;
 
 import io.maksymuimanov.python.executor.PythonExecutor;
-import io.maksymuimanov.python.executor.PythonResultContainer;
 import io.maksymuimanov.python.executor.PythonResultSpec;
 import io.maksymuimanov.python.file.PythonFileReader;
 import io.maksymuimanov.python.resolver.PythonArgumentSpec;
@@ -27,7 +26,7 @@ public class BasicPythonProcessor implements PythonProcessor {
             pythonResolverHolder.resolveAll(script, argumentSpec);
             PythonContext.PreOperator preExecution = context.preExecution();
             preExecution.operate(script, resultSpec, argumentSpec);
-            PythonResultContainer resultMap = pythonExecutor.execute(script, resultSpec);
+            PythonResultMap resultMap = pythonExecutor.execute(script, resultSpec);
             PythonContext.SuccessHandler successHandler = context.successHandler();
             return successHandler.onSuccess(resultMap);
         } catch (Exception e) {

@@ -1,7 +1,6 @@
 package io.maksymuimanov.python.processor;
 
 import io.maksymuimanov.python.exception.PythonProcessionException;
-import io.maksymuimanov.python.executor.PythonResultContainer;
 import io.maksymuimanov.python.executor.PythonResultSpec;
 import io.maksymuimanov.python.resolver.PythonArgumentSpec;
 import io.maksymuimanov.python.script.PythonScript;
@@ -32,7 +31,7 @@ public record PythonContext(PythonScript script,
             this.argumentSpec = PythonArgumentSpec.create();
             this.preResolution = (s, r, a) -> {};
             this.preExecution = (s, r, a) -> {};
-            this.successHandler = x -> PythonResultMap.empty();
+            this.successHandler = r -> r;
             this.failureHandler = t -> {throw new PythonProcessionException(t);};
         }
 
@@ -78,7 +77,7 @@ public record PythonContext(PythonScript script,
 
     @FunctionalInterface
     public interface SuccessHandler {
-        PythonResultMap onSuccess(PythonResultContainer resultContainer);
+        PythonResultMap onSuccess(PythonResultMap resultMap);
     }
 
     @FunctionalInterface

@@ -1,15 +1,14 @@
 package io.maksymuimanov.python.executor;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.maksymuimanov.python.bind.PythonDeserializer;
+import io.maksymuimanov.python.error.ProcessErrorHandler;
 import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.finisher.ProcessFinisher;
-import io.maksymuimanov.python.output.ProcessErrorHandler;
 import io.maksymuimanov.python.output.ProcessOutputHandler;
+import io.maksymuimanov.python.processor.PythonResultMap;
 import io.maksymuimanov.python.script.PythonScript;
 import io.maksymuimanov.python.starter.ProcessStarter;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 
@@ -41,68 +40,55 @@ import java.util.Map;
  * @since 1.0.0
  */
 @Slf4j
-public class ProcessPythonExecutor extends AbstractPythonExecutor<ProcessOutputHandler> {
+public class ProcessPythonExecutor extends AbstractPythonExecutor<String> {
+    private static final String WARN_MESSAGE = "Result is null! Consider to print the needed field with '$' identifier!";
     private final ProcessStarter processStarter;
     private final ProcessOutputHandler processOutputHandler;
     private final ProcessErrorHandler processErrorHandler;
-    private final ObjectMapper objectMapper;
     private final ProcessFinisher processFinisher;
 
-    public ProcessPythonExecutor(ProcessStarter processStarter,
-                                 ProcessOutputHandler processOutputHandler,
-                                 ProcessErrorHandler processErrorHandler,
-                                 ObjectMapper objectMapper,
-                                 ProcessFinisher processFinisher) {
+    public ProcessPythonExecutor(PythonDeserializer<String> pythonDeserializer,
+                                    ProcessStarter processStarter,
+                                    ProcessOutputHandler processOutputHandler,
+                                    ProcessErrorHandler processErrorHandler,
+                                    ProcessFinisher processFinisher) {
+        super(pythonDeserializer);
         this.processStarter = processStarter;
         this.processOutputHandler = processOutputHandler;
         this.processErrorHandler = processErrorHandler;
-        this.objectMapper = objectMapper;
         this.processFinisher = processFinisher;
     }
 
     @Override
-    public @Nullable <R> R execute(PythonScript script, PythonResultSpec<R> resultDescription) {
+    public PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec) {
         try {
             Process process = this.processStarter.start(script);
             this.processErrorHandler.handle(process);
-            this.processOutputHandler.handle(process, resultDescription);
+            Map<String, String> resultJsons = this.processOutputHandler.handle(process, resultSpec);
             this.processFinisher.finish(process);
-            return this.getResult(resultDescription, this.processOutputHandler);
+            PythonResultMap resultMap = createResultMap(resultSpec, resultJsons);
+            this.warnOnEmptyResult(resultMap);
+            return resultMap;
         } catch (Exception e) {
             throw new PythonExecutionException(e);
         }
     }
 
-    @Override
-    public Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultSpec<?>> resultDescriptions) {
-        try {
-            Process process = this.processStarter.start(script);
-            this.processErrorHandler.handle(process);
-            this.processOutputHandler.handle(process, resultDescriptions);
-            this.processFinisher.finish(process);
-            return this.getResultMap(resultDescriptions, this.processOutputHandler);
-        } catch (Exception e) {
-            throw new PythonExecutionException(e);
-        }
+    private PythonResultMap createResultMap(PythonResultSpec resultSpec, Map<String, String> resultJsons) {
+        PythonResultMap resultMap = PythonResultMap.create();
+        resultJsons.forEach((key, value) -> deserializeJsonPythonResult(resultSpec, key, value, resultMap));
+        return resultMap;
     }
 
-    @Override
-    protected @Nullable <R> R getResult(PythonResultSpec<R> resultDescription, ProcessOutputHandler resultContainer) {
-        R value = resultDescription.getValue((type, fieldName) -> {
-            String resultJson = resultContainer.getResult(fieldName);
-            return this.parseJson(resultJson, type);
-        });
-        if (value == null) {
-            log.warn("Result is null! Maybe you should try to set the spring.python.resolver.result.is-printed=true");
-        }
-        return value;
+    private void deserializeJsonPythonResult(PythonResultSpec resultSpec, String key, String value, PythonResultMap resultMap) {
+        PythonDeserializer<String> jsonPythonDeserializer = this.getPythonDeserializer();
+        Object deserialized = jsonPythonDeserializer.deserialize(value, resultSpec.getRequirement(key));
+        resultMap.putObject(key, deserialized);
     }
 
-    private <R> R parseJson(String json, Class<R> type) {
-        try {
-            return objectMapper.readValue(json, type);
-        } catch (JsonProcessingException e) {
-            throw new PythonExecutionException(e);
+    private void warnOnEmptyResult(PythonResultMap resultMap) {
+        if (resultMap.isEmpty()) {
+            log.warn(WARN_MESSAGE);
         }
     }
 }

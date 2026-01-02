@@ -1,14 +1,14 @@
 package io.maksymuimanov.python.autoconfigure;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.maksymuimanov.python.bind.PythonDeserializer;
+import io.maksymuimanov.python.error.BasicPythonErrorProcessHandler;
+import io.maksymuimanov.python.error.ProcessErrorHandler;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.file.PythonFileReader;
 import io.maksymuimanov.python.finisher.BasicPythonProcessFinisher;
 import io.maksymuimanov.python.finisher.ProcessFinisher;
-import io.maksymuimanov.python.output.BasicPythonErrorProcessHandler;
 import io.maksymuimanov.python.output.BasicPythonOutputProcessHandler;
-import io.maksymuimanov.python.output.ProcessErrorHandler;
 import io.maksymuimanov.python.output.ProcessOutputHandler;
 import io.maksymuimanov.python.starter.BasicPythonProcessStarter;
 import io.maksymuimanov.python.starter.ProcessStarter;
@@ -33,12 +33,12 @@ import org.springframework.context.annotation.Bean;
 public class ProcessPythonExecutorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor processPythonExecutor(ProcessStarter processStarter,
+    public PythonExecutor processPythonExecutor(PythonDeserializer<String> jsonPythonDeserializer,
+                                                ProcessStarter processStarter,
                                                 ProcessOutputHandler processOutputHandler,
                                                 ProcessErrorHandler processErrorHandler,
-                                                ObjectMapper objectMapper,
                                                 ProcessFinisher processFinisher) {
-        return new ProcessPythonExecutor(processStarter, processOutputHandler, processErrorHandler, objectMapper, processFinisher);
+        return new ProcessPythonExecutor(jsonPythonDeserializer, processStarter, processOutputHandler, processErrorHandler, processFinisher);
     }
 
     /**

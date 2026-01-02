@@ -1,32 +1,20 @@
 package io.maksymuimanov.python.executor;
 
+import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
+import io.maksymuimanov.python.processor.PythonResultMap;
 import io.maksymuimanov.python.script.PythonScript;
 import jep.Interpreter;
-import org.jspecify.annotations.Nullable;
-
-import java.util.Map;
 
 public class JepPythonExecutor extends InterpretablePythonExecutor<Interpreter, Interpreter> {
-    public JepPythonExecutor(PythonInterpreterProvider<Interpreter> interpreterProvider) {
-        super(interpreterProvider);
+    public JepPythonExecutor(PythonDeserializer<Interpreter> pythonDeserializer,
+                             PythonInterpreterProvider<Interpreter> interpreterProvider) {
+        super(pythonDeserializer, interpreterProvider);
     }
 
     @Override
-    protected @Nullable <R> R execute(PythonScript script, PythonResultSpec<R> resultDescription, Interpreter interpreter) throws Exception {
+    protected PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec, Interpreter interpreter) throws Exception {
         interpreter.exec(script.toPythonString());
-        return this.getResult(resultDescription, interpreter);
-    }
-
-    @Override
-    protected Map<String, @Nullable Object> execute(PythonScript script, Iterable<PythonResultSpec<?>> resultDescriptions, Interpreter interpreter) throws Exception {
-        interpreter.exec(script.toPythonString());
-        return this.getResultMap(resultDescriptions, interpreter);
-    }
-
-    @Override
-    @Nullable
-    protected <R> R getResult(PythonResultSpec<R> resultDescription, Interpreter resultContainer) {
-        return resultDescription.getValue((type, fieldName) -> resultContainer.getValue(fieldName, type));
+        return this.createResultMap(resultSpec, interpreter);
     }
 }

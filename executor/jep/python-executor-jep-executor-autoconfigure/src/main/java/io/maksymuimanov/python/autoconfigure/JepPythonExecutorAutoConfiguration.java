@@ -1,8 +1,11 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import io.maksymuimanov.python.bind.JepPythonDeserializer;
+import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.executor.JepPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.interpreter.JepInterpreterFactory;
+import io.maksymuimanov.python.interpreter.PythonInterpreterFactory;
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
 import io.maksymuimanov.python.library.PipManager;
 import io.maksymuimanov.python.lifecycle.JepFinalizer;
@@ -28,15 +31,21 @@ public class JepPythonExecutorAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(JepInterpreterFactory.class)
-    public JepInterpreterFactory jepInterpreterFactory(JepProperties properties) {
+    @ConditionalOnMissingBean(PythonDeserializer.class)
+    public PythonDeserializer<Interpreter> jepPythonDeserializer() {
+        return new JepPythonDeserializer();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(PythonInterpreterFactory.class)
+    public PythonInterpreterFactory<Interpreter> jepInterpreterFactory(JepProperties properties) {
         return new JepInterpreterFactory(properties.getInterpreterType());
     }
 
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor jepPythonExecutor(PythonInterpreterProvider<Interpreter> jepInterpreterProvider) {
-        return new JepPythonExecutor(jepInterpreterProvider);
+    public PythonExecutor jepPythonExecutor(PythonDeserializer<Interpreter> jepPythonDeserializer, PythonInterpreterProvider<Interpreter> jepInterpreterProvider) {
+        return new JepPythonExecutor(jepPythonDeserializer, jepInterpreterProvider);
     }
 
     @Bean

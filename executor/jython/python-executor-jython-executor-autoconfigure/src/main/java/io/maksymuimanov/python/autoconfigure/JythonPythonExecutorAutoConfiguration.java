@@ -1,8 +1,11 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import io.maksymuimanov.python.bind.JythonPythonDeserializer;
+import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.executor.JythonPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.interpreter.JythonInterpreterFactory;
+import io.maksymuimanov.python.interpreter.PythonInterpreterFactory;
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
 import io.maksymuimanov.python.lifecycle.JythonInitializer;
 import org.python.util.PythonInterpreter;
@@ -23,14 +26,20 @@ public class JythonPythonExecutorAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(JythonInterpreterFactory.class)
-    public JythonInterpreterFactory jythonInterpreterFactory() {
+    @ConditionalOnMissingBean(PythonDeserializer.class)
+    public PythonDeserializer<PythonInterpreter> jythonPythonDeserializer() {
+        return new JythonPythonDeserializer();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(PythonInterpreterFactory.class)
+    public PythonInterpreterFactory<PythonInterpreter> jythonInterpreterFactory() {
         return new JythonInterpreterFactory();
     }
 
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor jythonPythonExecutor(PythonInterpreterProvider<PythonInterpreter> jythonInterpreterProvider) {
-        return new JythonPythonExecutor(jythonInterpreterProvider);
+    public PythonExecutor jythonPythonExecutor(PythonDeserializer<PythonInterpreter> jythonPythonDeserializer, PythonInterpreterProvider<PythonInterpreter> jythonInterpreterProvider) {
+        return new JythonPythonExecutor(jythonPythonDeserializer, jythonInterpreterProvider);
     }
 }

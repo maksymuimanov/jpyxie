@@ -20,6 +20,12 @@ import org.springframework.context.annotation.Bean;
 @ConditionalOnBooleanProperty(name = "spring.python.executor.graalpy.enabled", matchIfMissing = true)
 public class GraalPythonExecutorAutoConfiguration {
     @Bean
+    @ConditionalOnMissingBean(PythonDeserializer.class)
+    public PythonDeserializer<Value> graalPythonDeserializer() {
+        return new GraalPythonDeserializer();
+    }
+
+    @Bean
     @ConditionalOnMissingBean(PythonInterpreterFactory.class)
     public PythonInterpreterFactory<Context> graalInterpreterFactory(GraalPyProperties properties) {
         return new GraalInterpreterFactory(
@@ -31,14 +37,8 @@ public class GraalPythonExecutorAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(PythonDeserializer.class)
-    public PythonDeserializer<Value> graalPythonDeserializer() {
-        return new GraalPythonDeserializer();
-    }
-
-    @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
     public PythonExecutor graalPythonExecutor(PythonInterpreterProvider<Context> graalInterpreterProvider, PythonDeserializer<Value> graalPythonDeserializer, GraalPyProperties properties) {
-        return new GraalPythonExecutor(graalInterpreterProvider, graalPythonDeserializer, properties.isCached());
+        return new GraalPythonExecutor(graalPythonDeserializer, graalInterpreterProvider, properties.isCached());
     }
 }

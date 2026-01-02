@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/executor/grpc/python-executor-grpc-executor-core/python-executor-grpc-executor-core.iml" filepath="$PROJECT_DIR$/executor/grpc/python-executor-grpc-executor-core/python-executor-grpc-executor-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/executor/grpc/python-grpc-server/python-grpc-server.iml" filepath="$PROJECT_DIR$/executor/grpc/python-grpc-server/python-grpc-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/executor/rest/python-rest-server/python-rest-server.iml" filepath="$PROJECT_DIR$/executor/rest/python-rest-server/python-rest-server.iml" />
     </modules>

@@ -1,11 +1,11 @@
 package io.maksymuimanov.python;
 
 import io.maksymuimanov.python.autoconfigure.ProcessPythonExecutorAutoConfiguration;
+import io.maksymuimanov.python.error.BasicPythonErrorProcessHandler;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.finisher.BasicPythonProcessFinisher;
 import io.maksymuimanov.python.finisher.ProcessFinisher;
-import io.maksymuimanov.python.output.BasicPythonErrorProcessHandler;
 import io.maksymuimanov.python.output.BasicPythonOutputProcessHandler;
 import io.maksymuimanov.python.starter.BasicPythonProcessStarter;
 import io.maksymuimanov.python.starter.ProcessStarter;

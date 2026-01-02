@@ -1,14 +1,14 @@
 package io.maksymuimanov.python.processor;
 
-import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.common.MapSpec;
+import io.maksymuimanov.python.executor.PythonResultRequirement;
+import io.maksymuimanov.python.executor.PythonResultSpec;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
@@ -18,18 +18,12 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
         return new PythonResultMap(new HashMap<>());
     }
 
-    public static <F> PythonResultMap of(Map<String, Class<?>> requirements, PythonDeserializer<F> deserializer, Function<String, F> fromFunction) {
-        return of(requirements, (name, type) -> {
-            F from = fromFunction.apply(name);
-            return deserializer.deserialize(from, type);
-        });
-    }
-
-    public static PythonResultMap of(Map<String, Class<?>> requirements, BiFunction<String, Class<?>, @Nullable Object> valueFunction) {
-        if (requirements.isEmpty()) return empty();
+    public static PythonResultMap of(PythonResultSpec resultSpec, Function<PythonResultRequirement<?>, @Nullable Object> valueFunction) {
+        if (resultSpec.isEmpty()) return empty();
         Map<String, PythonResult<?>> results = new HashMap<>();
-        requirements.forEach((name, type) -> {
-            Object value = valueFunction.apply(name, type);
+        resultSpec.forEach(requirement -> {
+            String name = requirement.name();
+            Object value = valueFunction.apply(requirement);
             PythonResult<?> result = PythonResult.present(name, value);
             results.put(name, result);
         });
@@ -71,7 +65,7 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
         return this.delegate.get(name);
     }
 
-    public void putObject(String name, Object object) {
+    public void putObject(String name, @Nullable Object object) {
         PythonResult<?> result = PythonResult.present(name, object);
         this.put(name, result);
     }

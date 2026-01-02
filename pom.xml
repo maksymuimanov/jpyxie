@@ -34,6 +34,10 @@
         <module>core/python-executor-autoconfigure</module>
         <module>core/python-executor-spring-boot-starter</module>
 
+        <module>bind/json/python-executor-json-core</module>
+        <module>bind/json/python-executor-json-autoconfigure</module>
+        <module>bind/json/python-executor-json-spring-boot-starter</module>
+
         <module>aop/python-executor-spring-boot-aop-core</module>
         <module>aop/python-executor-spring-boot-aop-autoconfigure</module>
         <module>aop/python-executor-spring-boot-aop-starter</module>
@@ -73,8 +77,10 @@
     <properties>
         <java.version>17</java.version>
         <jspecify.version>1.0.0</jspecify.version>
+        <jetbrains-annotations.version>26.0.2-1</jetbrains-annotations.version>
         <spring-boot.version>3.5.3</spring-boot.version>
         <spring.version>6.2.8</spring.version>
+        <jackson.version>2.19.1</jackson.version>
         <lombok.version>1.18.38</lombok.version>
         <junit.version>5.12.2</junit.version>
         <mockito.version>5.17.0</mockito.version>
@@ -86,6 +92,12 @@
             <groupId>org.jspecify</groupId>
             <artifactId>jspecify</artifactId>
             <version>${jspecify.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${jetbrains-annotations.version}</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
     <build>
