@@ -1,7 +1,8 @@
 package io.maksymuimanov.python.serializer;
 
 import io.maksymuimanov.python.bind.PythonNone;
-import io.maksymuimanov.python.converter.PythonTypeConverter;
+import io.maksymuimanov.python.bind.PythonSerializer;
+import io.maksymuimanov.python.bind.PythonTypeConverter;
 import io.maksymuimanov.python.exception.PythonSerializationException;
 import io.maksymuimanov.python.script.PythonRepresentation;
 import org.jspecify.annotations.Nullable;

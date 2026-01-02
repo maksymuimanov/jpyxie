@@ -1,6 +1,5 @@
-package io.maksymuimanov.python.serializer;
+package io.maksymuimanov.python.bind;
 
-import io.maksymuimanov.python.converter.PythonTypeConverter;
 import io.maksymuimanov.python.script.PythonRepresentation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;

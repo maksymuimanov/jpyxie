@@ -1,7 +1,6 @@
-package io.maksymuimanov.python.deconverter;
+package io.maksymuimanov.python.bind;
 
 import io.maksymuimanov.python.common.Prioritized;
-import io.maksymuimanov.python.deserializer.PythonDeserializer;
 import io.maksymuimanov.python.script.PythonRepresentation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;

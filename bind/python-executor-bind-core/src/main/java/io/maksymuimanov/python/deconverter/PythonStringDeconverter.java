@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.deconverter;
 
+import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.bind.PythonString;
-import io.maksymuimanov.python.deserializer.PythonDeserializer;
 import io.maksymuimanov.python.exception.PythonUnsupportedTypeDeconversionException;
 import org.jspecify.annotations.Nullable;
 

@@ -1,12 +1,10 @@
 package io.maksymuimanov.python.executor;
 
 import io.maksymuimanov.python.common.MapSpec;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 public class PythonResultSpec implements MapSpec<String, Class<?>> {
     private final Map<String, Class<?>> requirements;
@@ -30,17 +28,6 @@ public class PythonResultSpec implements MapSpec<String, Class<?>> {
     public PythonResultSpec require(String name, Class<?> type) {
         this.getRequirements().put(name, type);
         return this;
-    }
-
-    public PythonResultContainer collect(BiFunction<String, Class<?>, @Nullable Object> objectGetter) {
-        if (this.isEmpty()) return PythonResultContainer.of();
-        Map<String, @Nullable Object> result = new HashMap<>();
-        this.forEach((name, type) -> {
-            Object element = objectGetter.apply(name, type);
-            result.put(name, element);
-        });
-
-        return PythonResultContainer.of(result);
     }
 
     @Override

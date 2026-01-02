@@ -1,6 +1,7 @@
 package io.maksymuimanov.python.deserializer;
 
-import io.maksymuimanov.python.deconverter.PythonTypeDeconverter;
+import io.maksymuimanov.python.bind.PythonDeserializer;
+import io.maksymuimanov.python.bind.PythonTypeDeconverter;
 import io.maksymuimanov.python.script.PythonRepresentation;
 
 public class BasicPythonDeserializer implements PythonDeserializer {

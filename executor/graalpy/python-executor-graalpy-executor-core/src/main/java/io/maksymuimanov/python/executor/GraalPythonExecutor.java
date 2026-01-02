@@ -1,7 +1,8 @@
 package io.maksymuimanov.python.executor;
 
-import io.maksymuimanov.python.deserializer.PythonDeserializer;
+import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
+import io.maksymuimanov.python.processor.PythonResultMap;
 import io.maksymuimanov.python.script.PythonScript;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Source;
@@ -19,15 +20,12 @@ public class GraalPythonExecutor extends InterpretablePythonExecutor<Context> {
     }
 
     @Override
-    protected PythonResultContainer execute(PythonScript script, PythonResultSpec resultSpec, Context interpreter) throws Exception {
-        String name = String.valueOf(script.getSource());
-        Source source = Source.newBuilder(PYTHON, script.toPythonString(), name)
+    protected PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec, Context interpreter) throws Exception {
+        String scriptSource = String.valueOf(script.getSource());
+        Source source = Source.newBuilder(PYTHON, script.toPythonString(), scriptSource)
                 .cached(this.cached)
                 .build();
         Value value = interpreter.eval(source);
-        return resultSpec.collect((fieldName, type) -> {
-            Value member = value.getMember(fieldName);
-            return this.pythonDeserializer.deserialize(member, type);
-        });
+        return PythonResultMap.of(resultSpec.getRequirements(), pythonDeserializer, value::getMember);
     }
 }

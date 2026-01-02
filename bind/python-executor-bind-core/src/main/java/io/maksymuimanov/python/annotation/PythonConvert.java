@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.annotation;
 
-import io.maksymuimanov.python.converter.PythonTypeConverter;
+import io.maksymuimanov.python.bind.PythonTypeConverter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

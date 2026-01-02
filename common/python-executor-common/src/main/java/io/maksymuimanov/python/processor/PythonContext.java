@@ -32,7 +32,7 @@ public record PythonContext(PythonScript script,
             this.argumentSpec = PythonArgumentSpec.create();
             this.preResolution = (s, r, a) -> {};
             this.preExecution = (s, r, a) -> {};
-            this.successHandler = PythonResultMap::of;
+            this.successHandler = x -> PythonResultMap.empty();
             this.failureHandler = t -> {throw new PythonProcessionException(t);};
         }
 

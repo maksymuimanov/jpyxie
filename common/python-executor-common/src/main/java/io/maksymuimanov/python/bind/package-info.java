@@ -1,4 +1,4 @@
 @NullMarked
-package io.maksymuimanov.python.deserializer;
+package io.maksymuimanov.python.bind;
 
 import org.jspecify.annotations.NullMarked;

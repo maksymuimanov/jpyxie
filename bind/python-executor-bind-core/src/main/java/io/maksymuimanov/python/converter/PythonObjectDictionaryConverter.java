@@ -5,10 +5,11 @@ import io.maksymuimanov.python.annotation.PythonDictionaryKey;
 import io.maksymuimanov.python.annotation.PythonIgnore;
 import io.maksymuimanov.python.annotation.PythonInclude;
 import io.maksymuimanov.python.bind.PythonDictionary;
+import io.maksymuimanov.python.bind.PythonSerializer;
 import io.maksymuimanov.python.bind.PythonString;
+import io.maksymuimanov.python.bind.PythonTypeConverter;
 import io.maksymuimanov.python.exception.PythonTypeConversionException;
 import io.maksymuimanov.python.script.PythonRepresentation;
-import io.maksymuimanov.python.serializer.PythonSerializer;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

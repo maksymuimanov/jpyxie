@@ -1,7 +1,8 @@
 package io.maksymuimanov.python.deconverter;
 
+import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.bind.PythonNone;
-import io.maksymuimanov.python.deserializer.PythonDeserializer;
+import io.maksymuimanov.python.bind.PythonTypeDeconverter;
 import org.jspecify.annotations.Nullable;
 
 public class PythonNoneDeconverter implements PythonTypeDeconverter<PythonNone> {

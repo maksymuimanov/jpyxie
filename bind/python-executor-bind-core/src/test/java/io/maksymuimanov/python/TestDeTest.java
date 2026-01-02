@@ -1,11 +1,11 @@
 package io.maksymuimanov.python;
 
 import io.maksymuimanov.python.bind.PythonDate;
+import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.bind.PythonTime;
 import io.maksymuimanov.python.deconverter.PythonDateDeconverter;
 import io.maksymuimanov.python.deconverter.PythonTimeDeconverter;
 import io.maksymuimanov.python.deserializer.BasicPythonDeserializer;
-import io.maksymuimanov.python.deserializer.PythonDeserializer;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

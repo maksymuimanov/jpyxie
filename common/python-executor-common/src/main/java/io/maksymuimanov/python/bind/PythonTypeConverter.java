@@ -1,8 +1,7 @@
-package io.maksymuimanov.python.converter;
+package io.maksymuimanov.python.bind;
 
 import io.maksymuimanov.python.common.Prioritized;
 import io.maksymuimanov.python.script.PythonRepresentation;
-import io.maksymuimanov.python.serializer.PythonSerializer;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Experimental

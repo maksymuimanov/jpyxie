@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.deconverter;
 
+import io.maksymuimanov.python.bind.PythonTypeDeconverter;
 import io.maksymuimanov.python.script.PythonRepresentation;
 import lombok.AccessLevel;
 import lombok.Getter;
