@@ -18,6 +18,10 @@ public class PythonResultSpec implements SetSpec<PythonResultRequirement<?>> {
         return create().require(name, type);
     }
 
+    public static PythonResultSpec of(PythonResultRequirement<?> resultRequirement) {
+        return create().require(resultRequirement);
+    }
+
     public static PythonResultSpec create() {
         return new PythonResultSpec(new HashSet<>());
     }

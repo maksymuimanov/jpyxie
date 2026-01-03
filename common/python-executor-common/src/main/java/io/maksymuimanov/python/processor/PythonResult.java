@@ -3,7 +3,7 @@ package io.maksymuimanov.python.processor;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
-import java.util.Optional;
+import java.util.function.Supplier;
 
 public class PythonResult<R> {
     private final String name;
@@ -27,25 +27,26 @@ public class PythonResult<R> {
         this.type = type;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    @SuppressWarnings("DataFlowIssue")
+    public R getBodyOrElse(Supplier<R> onAbsent) {
+        return this.isPresent() ? this.getBody() : onAbsent.get();
+    }
+
     public boolean isPresent() {
-        return this.getBody() != null;
+        return !isAbsent();
     }
 
     public boolean isAbsent() {
-        return !isPresent();
-    }
-
-    public String getName() {
-        return name;
+        return this.getBody() == null;
     }
 
     @Nullable
     public R getBody() {
         return body;
-    }
-
-    public Optional<R> getBodyOptional() {
-        return Optional.ofNullable(this.getBody());
     }
 
     public Class<R> getType() {

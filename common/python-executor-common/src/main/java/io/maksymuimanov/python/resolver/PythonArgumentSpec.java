@@ -15,9 +15,9 @@ public class PythonArgumentSpec implements MapSpec<String, Object> {
 
     public static PythonArgumentSpec of(String name, Object value, Object... others) {
         PythonArgumentSpec spec = create();
-        spec.put(name, value);
+        spec.with(name, value);
         for (int i = 0; i < others.length; i += 2) {
-            spec.put((String) others[i], others[i + 1]);
+            spec.with((String) others[i], others[i + 1]);
         }
         return spec;
     }
@@ -27,7 +27,7 @@ public class PythonArgumentSpec implements MapSpec<String, Object> {
     }
 
     public static PythonArgumentSpec of(String name, Object value) {
-        return create().put(name, value);
+        return create().with(name, value);
     }
 
     public static PythonArgumentSpec create() {
@@ -42,7 +42,7 @@ public class PythonArgumentSpec implements MapSpec<String, Object> {
         return this.getArguments().get(name);
     }
 
-    public PythonArgumentSpec put(String name, Object value) {
+    public PythonArgumentSpec with(String name, Object value) {
         this.getArguments().put(name, value);
         return this;
     }
