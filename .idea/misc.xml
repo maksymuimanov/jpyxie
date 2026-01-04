@@ -73,6 +73,7 @@
         <option value="$PROJECT_DIR$/bind/python-executor-json-core/pom.xml" />
         <option value="$PROJECT_DIR$/bind/json/python-executor-json-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/bind/json/python-executor-json-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/observability/actuator/python-executor-actuator-core/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
