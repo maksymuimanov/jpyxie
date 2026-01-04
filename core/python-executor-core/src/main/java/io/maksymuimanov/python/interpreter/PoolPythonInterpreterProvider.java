@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter(AccessLevel.PROTECTED)
-public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements ReleasablePythonInterpreterProvider<I> {
+public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements PythonReleasableInterpreterProvider<I> {
     public static final int DEFAULT_POOL_SIZE = 8;
     public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
     private final PythonInterpreterFactory<I> interpreterFactory;

@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>python-executor-actuator-core</artifactId>
+    <artifactId>python-executor-actuator-spring-boot-starter</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
-    <name>Spring Boot Python Executor Actuator Core</name>
+    <name>Spring Boot Python Executor Actuator Starter</name>
     <description>
-        Core actuator module for the Python Executor, providing production-ready features for
-        monitoring and managing Python script execution. Offers health indicators, and custom
-        endpoints to observe and control the Python execution environment within Spring Boot applications.
+        Spring Boot Starter for Python Executor Actuator integration. This starter provides
+        autoconfiguration for Actuator endpoints that expose Python execution environment
+        information and health checks in Spring Boot applications.
     </description>
     <url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
     <licenses>
@@ -38,24 +38,13 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>python-executor-spring-boot-starter</artifactId>
+            <artifactId>python-executor-actuator-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-actuator</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring-boot.version}</version>
-            <scope>test</scope>
+            <groupId>io.github.maksymuimanov</groupId>
+            <artifactId>python-executor-actuator-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>

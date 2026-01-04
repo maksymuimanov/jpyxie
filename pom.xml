@@ -68,6 +68,10 @@
         <module>executor/graalpy/python-executor-graalpy-executor-autoconfigure</module>
         <module>executor/graalpy/python-executor-graalpy-executor-spring-boot-starter</module>
 
+        <module>observability/actuator/python-executor-actuator-core</module>
+        <module>observability/actuator/python-executor-actuator-autoconfigure</module>
+        <module>observability/actuator/python-executor-actuator-spring-boot-starter</module>
+
         <module>common/python-executor-dependencies</module>
     </modules>
     <properties>

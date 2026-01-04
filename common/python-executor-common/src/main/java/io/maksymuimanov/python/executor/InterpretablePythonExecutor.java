@@ -3,7 +3,7 @@ package io.maksymuimanov.python.executor;
 import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.exception.PythonExecutionException;
 import io.maksymuimanov.python.interpreter.PythonInterpreterProvider;
-import io.maksymuimanov.python.interpreter.ReleasablePythonInterpreterProvider;
+import io.maksymuimanov.python.interpreter.PythonReleasableInterpreterProvider;
 import io.maksymuimanov.python.processor.PythonResultMap;
 import io.maksymuimanov.python.script.PythonScript;
 
@@ -20,7 +20,7 @@ public abstract class InterpretablePythonExecutor<F, I extends AutoCloseable> ex
         try {
             I interpreter = interpreterProvider.acquire();
             PythonResultMap resultMap = this.execute(script, resultSpec, interpreter);
-            if (interpreterProvider instanceof ReleasablePythonInterpreterProvider<I> releasableProvider) {
+            if (interpreterProvider instanceof PythonReleasableInterpreterProvider<I> releasableProvider) {
                 releasableProvider.release(interpreter);
             }
             return resultMap;

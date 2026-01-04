@@ -28,6 +28,7 @@
         <module name="python-executor-process-executor-core" />
         <module name="python-executor-spelython-resolver-core" />
         <module name="python-executor-actuator-core" />
+        <module name="python-executor-actuator-spring-boot-starter" />
         <module name="python-executor-jep-executor-core" />
         <module name="python-executor-jython-executor-spring-boot-starter" />
         <module name="python-executor-graalpy-executor-core" />
@@ -38,6 +39,7 @@
         <module name="python-executor-grpc-executor-core" />
         <module name="python-executor-process-executor-autoconfigure" />
         <module name="python-executor-rest-executor-autoconfigure" />
+        <module name="python-executor-actuator-autoconfigure" />
         <module name="python-executor-spring-boot-aop-autoconfigure" />
         <module name="python-executor-jython-executor-core" />
       </profile>
@@ -63,7 +65,9 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="python-executor-actuator-autoconfigure" options="" />
       <module name="python-executor-actuator-core" options="" />
+      <module name="python-executor-actuator-spring-boot-starter" options="" />
       <module name="python-executor-autoconfigure" options="" />
       <module name="python-executor-bind-core" options="" />
       <module name="python-executor-common" options="" />
