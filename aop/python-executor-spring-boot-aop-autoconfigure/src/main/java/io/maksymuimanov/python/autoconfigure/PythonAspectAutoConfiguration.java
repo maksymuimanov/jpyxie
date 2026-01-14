@@ -19,7 +19,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.List;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -30,8 +29,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  * <p>This configuration defines default implementations for core components such as:
  * <ul>
  *   <li>{@link ProfileChecker} - to validate active Spring profiles before Python script execution.</li>
- *   <li>{@link PythonMethodExtractor} and {@link PythonArgumentsExtractor} - to extract method.</li>
- *   <li>{@link PythonAnnotationValueExtractor} and {@link PythonAnnotationValueCompounder} - to parse and combine annotation values.</li>
  *   <li>{@link PythonAnnotationEvaluator} - to execute Python scripts synchronously or asynchronously.</li>
  *   <li>{@link PythonBeforeAspect} and {@link PythonAfterAspect} - to handle execution before and after method invocation.</li>
  * </ul>
@@ -45,10 +42,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @see PythonAfter
  * @see PythonAfters
  * @see ProfileChecker
- * @see PythonMethodExtractor
- * @see PythonArgumentsExtractor
- * @see PythonAnnotationValueExtractor
- * @see PythonAnnotationValueCompounder
  * @see PythonAnnotationEvaluator
  * @author w4t3rcs
  * @since 1.0.0
@@ -73,85 +66,11 @@ public class PythonAspectAutoConfiguration {
         return new BasicProfileChecker(environment);
     }
 
-    /**
-     * Creates a default {@link PythonMethodExtractor} implementation.
-     *
-     * <p>Responsible extracting methods from JoinPoint object.
-     *
-     * @return non-null {@link BasicPythonMethodExtractor} instance
-     */
-    @Bean
-    @ConditionalOnMissingBean(PythonMethodExtractor.class)
-    public PythonMethodExtractor pythonMethodExtractor() {
-        return new BasicPythonMethodExtractor();
-    }
-
-    /**
-     * Creates a default {@link PythonArgumentsExtractor} implementation.
-     *
-     * <p>Extracts argumentSpec from the method for passing to Python script evaluation.
-     *
-     * @param methodExtractor non-null {@link PythonMethodExtractor} used to locate and analyze methods
-     * @return non-null {@link BasicPythonArgumentsExtractor} instance
-     */
-    @Bean
-    @ConditionalOnMissingBean(PythonArgumentsExtractor.class)
-    public PythonArgumentsExtractor pythonArgumentsExtractor(PythonMethodExtractor methodExtractor) {
-        return new BasicPythonArgumentsExtractor(methodExtractor);
-    }
-
-    /**
-     * Creates an extractor for annotations that contain Python script as value().
-     *
-     * @param methodExtractor non-null {@link PythonMethodExtractor} for method analysis
-     * @return non-null {@link SinglePythonScriptExtractor} instance
-     */
-    @Bean
-    public PythonAnnotationValueExtractor singlePythonAnnotationValueExtractor(PythonMethodExtractor methodExtractor) {
-        return new SinglePythonScriptExtractor(methodExtractor);
-    }
-
-    /**
-     * Creates an extractor for annotations that contain an array of annotations as value() which contains Python scripts as value().
-     *
-     * @param methodExtractor non-null {@link PythonMethodExtractor} for method analysis
-     * @return non-null {@link MultiPythonScriptExtractor} instance
-     */
-    @Bean
-    public PythonAnnotationValueExtractor multiPythonAnnotationValueExtractor(PythonMethodExtractor methodExtractor) {
-        return new MultiPythonScriptExtractor(methodExtractor);
-    }
-
-    /**
-     * Creates a default {@link PythonAnnotationValueCompounder} implementation.
-     *
-     * <p>Combines results from multiple {@link PythonAnnotationValueExtractor} instances into a single value.
-     *
-     * @param annotationValueExtractors non-null, possibly empty list of extractors
-     * @return non-null {@link BasicPythonAnnotationValueCompounder} instance
-     */
-    @Bean
-    @ConditionalOnMissingBean(PythonAnnotationValueCompounder.class)
-    public PythonAnnotationValueCompounder pythonAnnotationValueCompounder(List<PythonAnnotationValueExtractor> annotationValueExtractors) {
-        return new BasicPythonAnnotationValueCompounder(annotationValueExtractors);
-    }
-
-    /**
-     * Creates the synchronous {@link PythonAnnotationEvaluator}.
-     *
-     * @param profileChecker non-null {@link ProfileChecker} to validate profile constraints
-     * @param annotationValueExtractorChain non-null {@link PythonAnnotationValueCompounder} to combine annotation values
-     * @param argumentsExtractor non-null {@link PythonArgumentsExtractor} to extract method argumentSpec
-     * @param pythonProcessor non-null {@link PythonProcessor} to execute Python code
-     * @return non-null {@link BasicPythonAnnotationEvaluator} instance
-     */
     @Bean
     @ConditionalOnMissingBean(PythonAnnotationEvaluator.class)
     public PythonAnnotationEvaluator basicPythonAnnotationEvaluator(ProfileChecker profileChecker,
-                                                                    PythonAnnotationValueCompounder annotationValueExtractorChain,
-                                                                    PythonArgumentsExtractor argumentsExtractor,
                                                                     PythonProcessor pythonProcessor) {
-        return new BasicPythonAnnotationEvaluator(profileChecker, annotationValueExtractorChain, argumentsExtractor, pythonProcessor);
+        return new BasicPythonAnnotationEvaluator(profileChecker, pythonProcessor);
     }
 
     /**

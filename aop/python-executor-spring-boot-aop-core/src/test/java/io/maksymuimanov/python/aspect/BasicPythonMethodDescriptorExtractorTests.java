@@ -15,7 +15,7 @@ import java.util.Map;
 import static io.maksymuimanov.python.constant.TestConstants.*;
 
 @ExtendWith(MockitoExtension.class)
-class BasicPythonMethodExtractorTests {
+class BasicPythonMethodDescriptorExtractorTests {
     @InjectMocks
     private BasicPythonMethodExtractor basicPythonMethodExtractor;
     @Mock

@@ -46,7 +46,7 @@ public class BasicPythonFileReader implements PythonFileReader {
     @Override
     public PythonScript readScript(PythonScript script) {
         try {
-            String source = script.getName();
+            String source = script.getSource();
             String body = this.fileCache.computeIfAbsent(source, path -> {
                 try (InputStream inputStream = this.inputStreamProvider.open(path)) {
                     byte[] bytes = inputStream.readAllBytes();

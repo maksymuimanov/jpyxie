@@ -45,6 +45,10 @@ public @interface PythonBefore {
     @AliasFor("script")
     String value() default "";
 
+    String name();
+
+    boolean isFile() default false;
+
     /**
      * The Python script content or file path to execute before the annotated method completes.
      * <p>

@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.exception;
 
-public class PythonAspectException extends AopPythonExceptionException {
+public class PythonAspectException extends PythonException {
     public PythonAspectException() {
     }
 

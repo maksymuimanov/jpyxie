@@ -1,6 +1,5 @@
 package io.maksymuimanov.python.annotation;
 
-import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.env.Environment;
 
 import java.lang.annotation.*;
@@ -34,27 +33,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface PythonAfter {
-    /**
-     * Alias for {@link #script()}.
-     * <p>
-     * Must not be {@code null}/empty or {@link #script()} not be {@code null}/empty.
-     * </p>
-     *
-     * @return the Python script content or file path to execute after the method
-     */
-    @AliasFor("script")
-    String value() default "";
+    String name();
 
-    /**
-     * The Python script content or file path to execute after the annotated method completes.
-     * <p>
-     * If both {@link #value()} and {@code script} are specified, their values must be identical.
-     * The value can be either inline Python code or a path to a Python file.
-     * </p>
-     *
-     * @return the Python script or file path (never {@code null} or empty)
-     */
-    @AliasFor("value")
+    boolean isFile() default false;
+
     String script() default "";
 
     /**

@@ -1,6 +1,6 @@
 package io.maksymuimanov.python.aspect;
 
-import io.maksymuimanov.python.exception.AnnotationEvaluationException;
+import io.maksymuimanov.python.exception.PythonAspectException;
 import io.maksymuimanov.python.processor.PythonProcessor;
 import io.maksymuimanov.python.resolver.PythonArgumentSpec;
 import io.maksymuimanov.python.script.PythonScript;
@@ -11,76 +11,35 @@ import org.aspectj.lang.JoinPoint;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-/**
- * Basic implementation of {@link PythonAnnotationEvaluator} that evaluates
- * Python script annotations.
- * <p>
- * This evaluator extracts Python scripts and their associated active profiles
- * from the annotation on the intercepted method, checks the active Spring profiles,
- * extracts method argumentSpec, and processes the Python scripts accordingly.
- * </p>
- * <p>
- * The evaluation is performed synchronously in the calling thread.
- * </p>
- *
- * <p><b>Example usage:</b></p>
- * <pre>{@code
- * PythonAnnotationEvaluator evaluator = new BasicPythonAnnotationEvaluator(
- *     profileChecker,
- *     annotationValueExtractorChain,
- *     argumentsExtractor,
- *     pythonProcessor
- * );
- * evaluator.evaluate(joinPoint, PythonAfter.class);
- * }</pre>
- *
- * @see PythonAnnotationEvaluator
- * @see AsyncPythonAnnotationEvaluator
- * @author w4t3rcs
- * @since 1.0.0
- */
 @Slf4j
 @RequiredArgsConstructor
 public class BasicPythonAnnotationEvaluator implements PythonAnnotationEvaluator {
+    private static final String ANNOTATION_EVALUATION_EXCEPTION_MESSAGE = "Exception occurred during basic Python annotation evaluation";
     private final ProfileChecker profileChecker;
-    private final PythonAnnotationValueCompounder annotationValueCompounder;
-    private final PythonArgumentsExtractor argumentsExtractor;
     private final PythonProcessor pythonProcessor;
 
-    /**
-     * Evaluates the specified Python-related annotation.
-     * <p>
-     * For each Python script and its associated active profiles extracted from
-     * the annotation on the method represented by {@code joinPoint}, this method:
-     * <ul>
-     *     <li>Checks if the current Spring profile matches the specified active profiles using {@link ProfileChecker}.</li>
-     *     <li>If the profiles match, extracts method argumentSpec using {@link PythonArgumentsExtractor}.</li>
-     *     <li>Processes the Python script with the extracted argumentSpec using {@link PythonProcessor}.</li>
-     * </ul>
-     * </p>
-     * <p>
-     * If no active profiles are specified for a script, the script is always executed.
-     * </p>
-     *
-     * @param <A> the type of annotation to evaluate, must be a subtype of {@link Annotation}
-     * @param joinPoint the AOP join point representing the intercepted method, must not be {@code null}
-     * @param annotationClass the {@link Class} object of the annotation type to evaluate, must not be {@code null}
-     * @param additionalArguments additional argumentSpec to pass to the evaluator, must not be {@code null}
-     */
     @Override
-    public <A extends Annotation> void evaluate(JoinPoint joinPoint, Class<? extends A> annotationClass, Map<String, Object> additionalArguments) {
+    public void evaluate(JoinPoint joinPoint, Annotation annotation, Map<String, Object> additionalArguments) {
         try {
-            Map<String, String[]> annotationValue = annotationValueCompounder.compound(joinPoint, annotationClass);
-            annotationValue.forEach((script, activeProfiles) -> {
-                profileChecker.doOnProfiles(activeProfiles, () -> {
-                    Map<String, Object> arguments = argumentsExtractor.getArguments(joinPoint, additionalArguments);
-                    PythonScript pythonScript = PythonScript.fromFile(script);
-                    pythonProcessor.process(pythonScript, PythonArgumentSpec.of(arguments));
+            var annotatedMethodDescriptor = PythonAspectUtils.createAnnotatedMethodDescriptor(joinPoint, annotation);
+            var methodDescriptor = annotatedMethodDescriptor.methodDescriptor();
+            var annotationDescriptors = annotatedMethodDescriptor.annotationDescriptors();
+            methodDescriptor.addAdditionalArguments(additionalArguments);
+            annotationDescriptors.forEach(annotationDescriptor -> {
+                profileChecker.doOnProfiles(annotationDescriptor.activeProfiles(), () -> {
+                    PythonScript pythonScript;
+                    if (annotationDescriptor.script().isBlank()) {
+                        pythonScript = PythonScript.fromFile(annotationDescriptor.name());
+                    } else {
+                        pythonScript = PythonScript.parse(annotationDescriptor.name(), annotationDescriptor.script());
+                    }
+                    PythonArgumentSpec pythonArgumentSpec = PythonArgumentSpec.of(methodDescriptor.arguments());
+                    pythonProcessor.process(pythonScript, pythonArgumentSpec);
                 });
             });
         } catch (Exception e) {
-            log.error("Exception occurred during basic execution", e);
-            throw new AnnotationEvaluationException(e);
+            log.error(ANNOTATION_EVALUATION_EXCEPTION_MESSAGE, e);
+            throw new PythonAspectException(ANNOTATION_EVALUATION_EXCEPTION_MESSAGE, e);
         }
     }
 }

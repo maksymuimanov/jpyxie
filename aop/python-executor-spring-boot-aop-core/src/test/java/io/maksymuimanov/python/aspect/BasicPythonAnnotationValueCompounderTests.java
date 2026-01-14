@@ -1,7 +1,6 @@
 package io.maksymuimanov.python.aspect;
 
 import io.maksymuimanov.python.annotation.PythonBefore;
-import io.maksymuimanov.python.exception.AnnotationExtractionException;
 import io.maksymuimanov.python.util.TestUtils;
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.Assertions;

@@ -25,10 +25,6 @@ public class MeteredPythonProcessor implements PythonProcessor {
     private final PythonProcessor delegate;
     private final MeterRegistry meterRegistry;
     private final double @Nullable [] percentiles;
-    private final Counter totalAttemptCounter;
-    private final Counter totalSuccessCounter;
-    private final Counter totalErrorCounter;
-    private final Timer totalTimer;
     private final Map<String, Counter> attemptCounters;
     private final Map<String, Counter> successCounters;
     private final Map<String, Counter> errorCounters;
@@ -38,19 +34,6 @@ public class MeteredPythonProcessor implements PythonProcessor {
         this.delegate = delegate;
         this.meterRegistry = meterRegistry;
         this.percentiles = percentiles;
-        this.totalAttemptCounter = Counter.builder(ATTEMPT_COUNTER_KEY)
-                .description(ATTEMPT_COUNTER_DESCRIPTION)
-                .register(this.meterRegistry);
-        this.totalSuccessCounter = Counter.builder(SUCCESS_COUNTER_KEY)
-                .description(SUCCESS_COUNTER_DESCRIPTION)
-                .register(this.meterRegistry);
-        this.totalErrorCounter = Counter.builder(ERROR_COUNTER_KEY)
-                .description(ERROR_COUNTER_DESCRIPTION)
-                .register(this.meterRegistry);
-        this.totalTimer = Timer.builder(EXECUTION_TIMER_KEY)
-                .description(EXECUTION_TIMER_DESCRIPTION)
-                .publishPercentiles(this.percentiles)
-                .register(this.meterRegistry);
         this.attemptCounters = new ConcurrentHashMap<>();
         this.successCounters = new ConcurrentHashMap<>();
         this.errorCounters = new ConcurrentHashMap<>();
@@ -59,26 +42,21 @@ public class MeteredPythonProcessor implements PythonProcessor {
 
     @Override
     public PythonResultMap process(PythonContext context) {
-        this.totalAttemptCounter.increment();
         Counter attemptCounter = this.getScriptCounter(context, this.attemptCounters, ATTEMPT_COUNTER_KEY, ATTEMPT_COUNTER_DESCRIPTION);
         attemptCounter.increment();
-        Timer.Sample totalSample = Timer.start(this.meterRegistry);
         Timer timer = this.getScriptTimer(context, EXECUTION_TIMER_KEY, EXECUTION_TIMER_DESCRIPTION);
         Timer.Sample sample = Timer.start(this.meterRegistry);
         try {
             PythonResultMap resultMap = this.delegate.process(context);
-            this.totalSuccessCounter.increment();
             Counter successCounter = this.getScriptCounter(context, this.successCounters, SUCCESS_COUNTER_KEY, SUCCESS_COUNTER_DESCRIPTION);
             successCounter.increment();
             return resultMap;
         } catch (Exception e) {
-            this.totalErrorCounter.increment();
             Counter errorCounter = this.getScriptCounter(context, this.errorCounters, ERROR_COUNTER_KEY, ERROR_COUNTER_DESCRIPTION);
             errorCounter.increment();
             throw e;
         } finally {
             sample.stop(timer);
-            totalSample.stop(this.totalTimer);
         }
     }
 

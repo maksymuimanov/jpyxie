@@ -11,37 +11,49 @@ public class PythonScript implements PythonRepresentation {
     public static final String FILE_FORMAT = ".py";
     public static final int START_INDEX = 0;
     @NonNull
+    private final String name;
+    private final String source;
+    private final boolean isFile;
+    @NonNull
     private final List<PythonImportLine> importLines;
     @NonNull
     private final List<PythonCodeLine> codeLines;
-    private final boolean isFile;
-    private final String name;
     private String body;
 
-    public static PythonScript fromFile(@NonNull CharSequence name) {
-        if (!isFile(name)) throw new PythonScriptException("Invalid file name format. It must end with " + FILE_FORMAT);
-        return new PythonScript(new ArrayList<>(), new ArrayList<>(), true, name.toString());
+    public static PythonScript parse(@NonNull CharSequence name, @NonNull CharSequence script) {
+        String scriptString = script.toString();
+        return isFile(scriptString) ? fromFile(name, scriptString) : fromString(name, scriptString);
     }
 
-    public static boolean isFile(@NonNull CharSequence name) {
-        return name.toString().endsWith(FILE_FORMAT);
+    public static PythonScript fromFile(@NonNull CharSequence name) {
+        return fromFile(name, name);
+    }
+
+    public static PythonScript fromFile(@NonNull CharSequence name, @NonNull CharSequence script) {
+        if (!isFile(script)) throw new PythonScriptException("Invalid file name format. It must end with " + FILE_FORMAT);
+        return new PythonScript(name.toString(), script.toString(), true, new ArrayList<>(), new ArrayList<>());
+    }
+
+    public static boolean isFile(@NonNull CharSequence source) {
+        return source.toString().endsWith(FILE_FORMAT);
     }
 
     public static PythonScript fromString(@NonNull CharSequence name, @NonNull CharSequence script) {
-        PythonScript pythonScript = new PythonScript(new ArrayList<>(), new ArrayList<>(), false, name.toString());
+        PythonScript pythonScript = new PythonScript(name.toString(), script.toString(), false, new ArrayList<>(), new ArrayList<>());
         BasicPythonScriptBuilder.of(pythonScript).appendAll(script);
         return pythonScript;
     }
 
     public static PythonScript empty(@NonNull CharSequence name) {
-        return new PythonScript(new ArrayList<>(), new ArrayList<>(), false, name.toString());
+        return new PythonScript(name.toString(), null, false, new ArrayList<>(), new ArrayList<>());
     }
 
-    public PythonScript(@NonNull List<PythonImportLine> importLines, @NonNull List<PythonCodeLine> codeLines, boolean isFile, String name) {
+    public PythonScript(String name, String source, boolean isFile, @NonNull List<PythonImportLine> importLines, @NonNull List<PythonCodeLine> codeLines) {
+        this.name = name;
+        this.source = source;
+        this.isFile = isFile;
         this.importLines = importLines;
         this.codeLines = codeLines;
-        this.isFile = isFile;
-        this.name = name;
     }
 
     public void clearBody() {
@@ -118,6 +130,19 @@ public class PythonScript implements PythonRepresentation {
     }
 
     @NonNull
+    public String getName() {
+        return name;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public boolean isFile() {
+        return isFile;
+    }
+
+    @NonNull
     public List<PythonImportLine> getImportLines() {
         return importLines;
     }
@@ -127,27 +152,20 @@ public class PythonScript implements PythonRepresentation {
         return codeLines;
     }
 
-    public boolean isFile() {
-        return isFile;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        PythonScript that = (PythonScript) o;
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
+        PythonScript that = (PythonScript) object;
         return this.isFile() == that.isFile()
+                && Objects.equals(this.getName(), that.getName())
+                && Objects.equals(this.getSource(), that.getSource())
                 && Objects.equals(this.getImportLines(), that.getImportLines())
-                && Objects.equals(this.getCodeLines(), that.getCodeLines())
-                && Objects.equals(this.getName(), that.getName());
+                && Objects.equals(this.getCodeLines(), that.getCodeLines());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getImportLines(), getCodeLines(), isFile(), getName());
+        return Objects.hash(this.getName(), this.getSource(), this.isFile(), this.getImportLines(), this.getCodeLines());
     }
 
     @Override
