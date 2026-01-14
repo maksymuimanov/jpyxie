@@ -72,6 +72,10 @@
         <module>observability/actuator/python-executor-actuator-autoconfigure</module>
         <module>observability/actuator/python-executor-actuator-spring-boot-starter</module>
 
+        <module>observability/metrics/python-executor-micrometer-core</module>
+        <module>observability/metrics/python-executor-micrometer-autoconfigure</module>
+<!--        <module>observability/metrics/python-executor-micrometer-spring-boot-starter</module>-->
+
         <module>common/python-executor-dependencies</module>
     </modules>
     <properties>

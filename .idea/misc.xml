@@ -24,8 +24,9 @@
     </option>
   </component>
   <component name="EntryPointsManager">
-    <list size="1">
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="org.mockito.Mock" />
+      <item index="1" class="java.lang.String" itemvalue="org.springframework.boot.actuate.endpoint.annotation.ReadOperation" />
     </list>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
@@ -76,10 +77,13 @@
         <option value="$PROJECT_DIR$/observability/actuator/python-executor-actuator-core/pom.xml" />
         <option value="$PROJECT_DIR$/observability/actuator/python-executor-actuator-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/observability/actuator/python-executor-actuator-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/observability/metrics/python-executor-metrics-core/pom.xml" />
+        <option value="$PROJECT_DIR$/observability/metrics/python-executor-micrometer-core/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/observability/metrics/python-executor-metrics-core/pom.xml" />
         <option value="$PROJECT_DIR$/python-executor-jython-executor-spring-boot-starter/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot-python-executor-grpc-executor-core/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot-python-executor-process-executor-autoconfigure/pom.xml" />
