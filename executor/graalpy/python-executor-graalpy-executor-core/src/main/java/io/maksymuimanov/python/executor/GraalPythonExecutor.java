@@ -21,7 +21,7 @@ public class GraalPythonExecutor extends InterpretablePythonExecutor<Value, Cont
 
     @Override
     protected PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec, Context interpreter) throws Exception {
-        String scriptSource = String.valueOf(script.getSource());
+        String scriptSource = String.valueOf(script.getName());
         Source source = Source.newBuilder(PYTHON, script.toPythonString(), scriptSource)
                 .cached(this.cached)
                 .build();

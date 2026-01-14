@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.script;
 
+import io.maksymuimanov.python.exception.PythonScriptException;
 import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
@@ -14,31 +15,33 @@ public class PythonScript implements PythonRepresentation {
     @NonNull
     private final List<PythonCodeLine> codeLines;
     private final boolean isFile;
-    private final String source;
+    private final String name;
     private String body;
 
-    public PythonScript() {
-        this.importLines = new ArrayList<>();
-        this.codeLines = new ArrayList<>();
-        this.isFile = false;
-        this.source = null;
+    public static PythonScript fromFile(@NonNull CharSequence name) {
+        if (!isFile(name)) throw new PythonScriptException("Invalid file name format. It must end with " + FILE_FORMAT);
+        return new PythonScript(new ArrayList<>(), new ArrayList<>(), true, name.toString());
     }
 
-    public PythonScript(CharSequence script) {
-        this(new ArrayList<>(), new ArrayList<>(), script);
+    public static boolean isFile(@NonNull CharSequence name) {
+        return name.toString().endsWith(FILE_FORMAT);
     }
 
-    public PythonScript(@NonNull List<PythonImportLine> importLines, @NonNull List<PythonCodeLine> codeLines, CharSequence script) {
+    public static PythonScript fromString(@NonNull CharSequence name, @NonNull CharSequence script) {
+        PythonScript pythonScript = new PythonScript(new ArrayList<>(), new ArrayList<>(), false, name.toString());
+        BasicPythonScriptBuilder.of(pythonScript).appendAll(script);
+        return pythonScript;
+    }
+
+    public static PythonScript empty(@NonNull CharSequence name) {
+        return new PythonScript(new ArrayList<>(), new ArrayList<>(), false, name.toString());
+    }
+
+    public PythonScript(@NonNull List<PythonImportLine> importLines, @NonNull List<PythonCodeLine> codeLines, boolean isFile, String name) {
         this.importLines = importLines;
         this.codeLines = codeLines;
-        this.source = script.toString();
-        this.body = null;
-        if (this.source.endsWith(FILE_FORMAT)) {
-            this.isFile = true;
-        } else {
-            this.isFile = false;
-            BasicPythonScriptBuilder.of(this).appendAll(script);
-        }
+        this.isFile = isFile;
+        this.name = name;
     }
 
     public void clearBody() {
@@ -128,23 +131,23 @@ public class PythonScript implements PythonRepresentation {
         return isFile;
     }
 
-    public CharSequence getSource() {
-        return source;
+    public String getName() {
+        return name;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         PythonScript that = (PythonScript) o;
-        return isFile() == that.isFile()
-                && Objects.equals(getImportLines(), that.getImportLines())
-                && Objects.equals(getCodeLines(), that.getCodeLines())
-                && Objects.equals(getSource().toString(), that.getSource().toString());
+        return this.isFile() == that.isFile()
+                && Objects.equals(this.getImportLines(), that.getImportLines())
+                && Objects.equals(this.getCodeLines(), that.getCodeLines())
+                && Objects.equals(this.getName(), that.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getImportLines(), getCodeLines(), isFile(), getSource());
+        return Objects.hash(getImportLines(), getCodeLines(), isFile(), getName());
     }
 
     @Override
