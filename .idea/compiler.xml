@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="python-executor-micrometer-core" />
+        <module name="python-executor-micrometer-spring-boot-starter" />
         <module name="python-executor-rest-executor-spring-boot-starter" />
         <module name="python-executor-spelython-resolver-spring-boot-starter" />
         <module name="python-executor-jep-executor-autoconfigure" />
@@ -91,6 +92,7 @@
       <module name="python-executor-jython-executor-spring-boot-starter" options="" />
       <module name="python-executor-metrics-core" options="-parameters" />
       <module name="python-executor-micrometer-core" options="" />
+      <module name="python-executor-micrometer-spring-boot-starter" options="" />
       <module name="python-executor-pretty-resolver-autoconfigure" options="" />
       <module name="python-executor-pretty-resolver-core" options="" />
       <module name="python-executor-pretty-resolver-spring-boot-starter" options="" />

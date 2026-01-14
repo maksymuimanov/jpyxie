@@ -3,6 +3,7 @@ package io.maksymuimanov.python.aspect;
 import io.maksymuimanov.python.exception.AnnotationEvaluationException;
 import io.maksymuimanov.python.processor.PythonProcessor;
 import io.maksymuimanov.python.resolver.PythonArgumentSpec;
+import io.maksymuimanov.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -73,7 +74,8 @@ public class BasicPythonAnnotationEvaluator implements PythonAnnotationEvaluator
             annotationValue.forEach((script, activeProfiles) -> {
                 profileChecker.doOnProfiles(activeProfiles, () -> {
                     Map<String, Object> arguments = argumentsExtractor.getArguments(joinPoint, additionalArguments);
-                    pythonProcessor.process(script, PythonArgumentSpec.of(arguments));
+                    PythonScript pythonScript = PythonScript.fromFile(script);
+                    pythonProcessor.process(pythonScript, PythonArgumentSpec.of(arguments));
                 });
             });
         } catch (Exception e) {
