@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
@@ -33,11 +34,22 @@ import java.nio.charset.Charset;
 public class PythonFileAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(InputStreamProvider.class)
-    public InputStreamProvider classPathResourceInputStreamProvider(PythonFileProperties fileProperties) {
+    public InputStreamProvider classPathResourceInputStreamProvider(PythonFileProperties fileProperties, Environment environment) {
         return path -> {
             try {
                 ClassPathResource resource = new ClassPathResource(fileProperties.getPath() + path);
-                return resource.getInputStream();
+                if (resource.exists()) {
+                    return resource.getInputStream();
+                } else {
+                    String[] activeProfiles = environment.getActiveProfiles();
+                    for (String activeProfile : activeProfiles) {
+                        ClassPathResource profileResource = new ClassPathResource(fileProperties.getPath() + activeProfile + "/" + path);
+                        if (profileResource.exists()) {
+                            return profileResource.getInputStream();
+                        }
+                    }
+                    throw new PythonFileException(path + " not found");
+                }
             } catch (IOException e) {
                 throw new PythonFileException(e);
             }

@@ -26,7 +26,8 @@ public class PythonScript implements PythonRepresentation {
     }
 
     public static PythonScript fromFile(@NonNull CharSequence name) {
-        return fromFile(name, name);
+        String nameString = name.toString();
+        return fromFile(nameString, isFile(nameString) ? nameString : nameString + FILE_FORMAT);
     }
 
     public static PythonScript fromFile(@NonNull CharSequence name, @NonNull CharSequence script) {
