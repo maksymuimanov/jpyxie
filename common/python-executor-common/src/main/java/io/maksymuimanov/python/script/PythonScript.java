@@ -49,7 +49,7 @@ public class PythonScript implements PythonRepresentation {
         return new PythonScript(name.toString(), null, false, new ArrayList<>(), new ArrayList<>());
     }
 
-    public PythonScript(String name, String source, boolean isFile, @NonNull List<PythonImportLine> importLines, @NonNull List<PythonCodeLine> codeLines) {
+    public PythonScript(@NonNull String name, String source, boolean isFile, @NonNull List<PythonImportLine> importLines, @NonNull List<PythonCodeLine> codeLines) {
         this.name = name;
         this.source = source;
         this.isFile = isFile;
