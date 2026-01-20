@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/observability/actuator/python-executor-actuator-autoconfigure/python-executor-actuator-autoconfigure.iml" filepath="$PROJECT_DIR$/observability/actuator/python-executor-actuator-autoconfigure/python-executor-actuator-autoconfigure.iml" />
-      <module fileurl="file://$PROJECT_DIR$/executor/grpc/python-executor-grpc-executor-core/python-executor-grpc-executor-core.iml" filepath="$PROJECT_DIR$/executor/grpc/python-executor-grpc-executor-core/python-executor-grpc-executor-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/bind/json/python-executor-json-autoconfigure/python-executor-json-autoconfigure.iml" filepath="$PROJECT_DIR$/bind/json/python-executor-json-autoconfigure/python-executor-json-autoconfigure.iml" />
       <module fileurl="file://$PROJECT_DIR$/bind/json/python-executor-json-core/python-executor-json-core.iml" filepath="$PROJECT_DIR$/bind/json/python-executor-json-core/python-executor-json-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/bind/json/python-executor-json-spring-boot-starter/python-executor-json-spring-boot-starter.iml" filepath="$PROJECT_DIR$/bind/json/python-executor-json-spring-boot-starter/python-executor-json-spring-boot-starter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/observability/metrics/python-executor-micrometer-autoconfigure/python-executor-micrometer-autoconfigure.iml" filepath="$PROJECT_DIR$/observability/metrics/python-executor-micrometer-autoconfigure/python-executor-micrometer-autoconfigure.iml" />
       <module fileurl="file://$PROJECT_DIR$/executor/grpc/python-grpc-server/python-grpc-server.iml" filepath="$PROJECT_DIR$/executor/grpc/python-grpc-server/python-grpc-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/executor/rest/python-rest-server/python-rest-server.iml" filepath="$PROJECT_DIR$/executor/rest/python-rest-server/python-rest-server.iml" />
     </modules>

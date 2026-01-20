@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>jpyxie-spring-boot-aop-core</artifactId>
+    <version>1.1.0</version>
+    <packaging>jar</packaging>
+    <name>JPyxie AOP Core</name>
+    <description>
+        Core module that provides aspect-oriented programming (AOP) integration for the
+        JPyxie ecosystem. Defines interceptors and pointcuts for
+        executing Python scripts before, after, or around Java method invocations.
+    </description>
+    <url>https://github.com/maksymuimanov/jpyxie</url>
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Maksym Uimanov</name>
+            <email>uimanovmaks@gmail.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <url>https://github.com/maksymuimanov/jpyxie</url>
+        <connection>scm:git:git://github.com/maksymuimanov/jpyxie.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:maksymuimanov/jpyxie.git</developerConnection>
+    </scm>
+    <parent>
+        <groupId>io.github.maksymuimanov</groupId>
+        <artifactId>jpyxie-parent</artifactId>
+        <version>1.1.0</version>
+    </parent>
+    <dependencies>
+        <dependency>
+            <groupId>io.github.maksymuimanov</groupId>
+            <artifactId>jpyxie-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>annotationProcessor</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

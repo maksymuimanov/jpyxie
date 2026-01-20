@@ -2,13 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>python-grpc-server-testcontainers</artifactId>
+    <artifactId>jpyxie-spring-boot-aop-autoconfigure</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
-    <name>Python Server Testcontainers</name>
+    <name>JPyxie AOP Autoconfigure</name>
     <description>
-        Reusable Testcontainers-based module providing gRPC server containers
-        for integration tests of the JPyxie library.
+        Autoconfiguration module that integrates AOP Core with Spring Boot.
+        Provides default aspects, configuration properties, and bean definitions
+        to enable automatic Python script execution around annotated Java methods.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>
@@ -34,21 +35,32 @@
         <artifactId>jpyxie-parent</artifactId>
         <version>1.1.0</version>
     </parent>
-    <properties>
-        <testcontainers.version>1.19.3</testcontainers.version>
-        <assertj.version>3.27.3</assertj.version>
-    </properties>
     <dependencies>
         <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>testcontainers</artifactId>
-            <version>${testcontainers.version}</version>
+            <groupId>io.github.maksymuimanov</groupId>
+            <artifactId>jpyxie-spring-boot-aop-core</artifactId>
+            <version>${project.version}</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

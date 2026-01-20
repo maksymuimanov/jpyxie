@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.maksymuimanov</groupId>
-    <artifactId>python-executor-parent</artifactId>
+    <artifactId>jpyxie-parent</artifactId>
     <version>1.1.0</version>
     <packaging>pom</packaging>
     <name>Spring Boot Python Executor Parent</name>
     <description>Parent module for managing all submodules of Spring Boot Python Executor.</description>
-    <url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
+    <url>https://github.com/maksymuimanov/spring-boot-jpyxie</url>
     <licenses>
         <license>
             <name>The MIT License</name>
@@ -23,60 +23,60 @@
         </developer>
     </developers>
     <scm>
-        <url>https://github.com/maksymuimanov/spring-boot-python-executor</url>
-        <connection>scm:git:git://github.com/maksymuimanov/spring-boot-python-executor.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:maksymuimanov/spring-boot-python-executor.git</developerConnection>
+        <url>https://github.com/maksymuimanov/spring-boot-jpyxie</url>
+        <connection>scm:git:git://github.com/maksymuimanov/spring-boot-jpyxie.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:maksymuimanov/spring-boot-jpyxie.git</developerConnection>
     </scm>
     <modules>
-        <module>common/python-executor-common</module>
+        <module>common/jpyxie-common</module>
 
-        <module>core/python-executor-core</module>
-        <module>core/python-executor-autoconfigure</module>
-        <module>core/python-executor-spring-boot-starter</module>
+        <module>core/jpyxie-core</module>
+        <module>core/jpyxie-autoconfigure</module>
+        <module>core/jpyxie-spring-boot-starter</module>
 
-        <module>aop/python-executor-spring-boot-aop-core</module>
-        <module>aop/python-executor-spring-boot-aop-autoconfigure</module>
-        <module>aop/python-executor-spring-boot-aop-starter</module>
+        <module>aop/jpyxie-spring-boot-aop-core</module>
+        <module>aop/jpyxie-spring-boot-aop-autoconfigure</module>
+        <module>aop/jpyxie-spring-boot-aop-starter</module>
 
-        <module>resolver/spelython/python-executor-spelython-resolver-core</module>
-        <module>resolver/spelython/python-executor-spelython-resolver-autoconfigure</module>
-        <module>resolver/spelython/python-executor-spelython-resolver-spring-boot-starter</module>
+        <module>resolver/spelython/jpyxie-spelython-resolver-core</module>
+        <module>resolver/spelython/jpyxie-spelython-resolver-autoconfigure</module>
+        <module>resolver/spelython/jpyxie-spelython-resolver-spring-boot-starter</module>
 
-        <module>executor/rest/python-executor-rest-executor-core</module>
-        <module>executor/rest/python-executor-rest-executor-autoconfigure</module>
-        <module>executor/rest/python-executor-rest-executor-spring-boot-starter</module>
+        <module>executor/rest/jpyxie-rest-executor-core</module>
+        <module>executor/rest/jpyxie-rest-executor-autoconfigure</module>
+        <module>executor/rest/jpyxie-rest-executor-spring-boot-starter</module>
         <module>executor/rest/python-rest-server-testcontainers</module>
 
-        <module>executor/grpc/python-executor-grpc-executor-core</module>
-        <module>executor/grpc/python-executor-grpc-executor-autoconfigure</module>
-        <module>executor/grpc/python-executor-grpc-executor-spring-boot-starter</module>
+        <module>executor/grpc/jpyxie-grpc-executor-core</module>
+        <module>executor/grpc/jpyxie-grpc-executor-autoconfigure</module>
+        <module>executor/grpc/jpyxie-grpc-executor-spring-boot-starter</module>
         <module>executor/grpc/python-grpc-server-testcontainers</module>
 
-        <module>executor/process/python-executor-process-executor-core</module>
-        <module>executor/process/python-executor-process-executor-autoconfigure</module>
-        <module>executor/process/python-executor-process-executor-spring-boot-starter</module>
+        <module>executor/process/jpyxie-process-executor-core</module>
+        <module>executor/process/jpyxie-process-executor-autoconfigure</module>
+        <module>executor/process/jpyxie-process-executor-spring-boot-starter</module>
 
-        <module>executor/jep/python-executor-jep-executor-core</module>
-        <module>executor/jep/python-executor-jep-executor-autoconfigure</module>
-        <module>executor/jep/python-executor-jep-executor-spring-boot-starter</module>
+        <module>executor/jep/jpyxie-jep-executor-core</module>
+        <module>executor/jep/jpyxie-jep-executor-autoconfigure</module>
+        <module>executor/jep/jpyxie-jep-executor-spring-boot-starter</module>
 
-        <module>executor/jython/python-executor-jython-executor-core</module>
-        <module>executor/jython/python-executor-jython-executor-autoconfigure</module>
-        <module>executor/jython/python-executor-jython-executor-spring-boot-starter</module>
+        <module>executor/jython/jpyxie-jython-executor-core</module>
+        <module>executor/jython/jpyxie-jython-executor-autoconfigure</module>
+        <module>executor/jython/jpyxie-jython-executor-spring-boot-starter</module>
 
-        <module>executor/graalpy/python-executor-graalpy-executor-core</module>
-        <module>executor/graalpy/python-executor-graalpy-executor-autoconfigure</module>
-        <module>executor/graalpy/python-executor-graalpy-executor-spring-boot-starter</module>
+        <module>executor/graalpy/jpyxie-graalpy-executor-core</module>
+        <module>executor/graalpy/jpyxie-graalpy-executor-autoconfigure</module>
+        <module>executor/graalpy/jpyxie-graalpy-executor-spring-boot-starter</module>
 
-        <module>observability/actuator/python-executor-actuator-core</module>
-        <module>observability/actuator/python-executor-actuator-autoconfigure</module>
-        <module>observability/actuator/python-executor-actuator-spring-boot-starter</module>
+        <module>observability/actuator/jpyxie-actuator-core</module>
+        <module>observability/actuator/jpyxie-actuator-autoconfigure</module>
+        <module>observability/actuator/jpyxie-actuator-spring-boot-starter</module>
 
-        <module>observability/metrics/python-executor-micrometer-core</module>
-        <module>observability/metrics/python-executor-micrometer-autoconfigure</module>
-        <module>observability/metrics/python-executor-micrometer-spring-boot-starter</module>
+        <module>observability/metrics/jpyxie-micrometer-core</module>
+        <module>observability/metrics/jpyxie-micrometer-autoconfigure</module>
+        <module>observability/metrics/jpyxie-micrometer-spring-boot-starter</module>
 
-        <module>common/python-executor-dependencies</module>
+        <module>common/jpyxie-dependencies</module>
     </modules>
     <properties>
         <java.version>17</java.version>
