@@ -1,0 +1,24 @@
+[project]
+name = "jpyxie-rest-server"
+version = "2.0.0"
+description = "A REST server for executing Python code"
+authors = [
+    { name = "Maksym Uimanov", email = "uimanovmaks@gmail.com" }
+]
+requires-python = ">=3.9"
+keywords = ["python", "rest", "fastapi", "server", "java"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Framework :: FastAPI",
+    "License :: OSI Approved :: MIT License"
+]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic"
+]
+[project.urls]
+Homepage = "https://github.com/maksymuimanov/spring-boot-python-executor"
+Repository = "https://github.com/maksymuimanov/spring-boot-python-executor.git"
+Documentation = "https://github.com/maksymuimanov/spring-boot-python-executor"
+BugTracker = "https://github.com/maksymuimanov/spring-boot-python-executor/issues"

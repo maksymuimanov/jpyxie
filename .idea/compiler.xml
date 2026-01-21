@@ -7,50 +7,54 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="jpyxie-jython-autoconfigure" />
         <module name="jpyxie-core" />
-        <module name="jpyxie-graalpy-executor-autoconfigure" />
-        <module name="jpyxie-rest-executor-core" />
-        <module name="python-grpc-server-testcontainers" />
-        <module name="jpyxie-spelython-resolver-autoconfigure" />
+        <module name="jpyxie-spelython-spring-boot-starter" />
+        <module name="jpyxie-process-spring-boot-starter" />
+        <module name="jpyxie-grpc-autoconfigure" />
         <module name="jpyxie-spring-boot-aop-core" />
-        <module name="jpyxie-process-executor-core" />
-        <module name="jpyxie-rest-executor-spring-boot-starter" />
-        <module name="python-rest-server-testcontainers" />
-        <module name="jpyxie-rest-executor-autoconfigure" />
+        <module name="jpyxie-jython-spring-boot-starter" />
         <module name="jpyxie-micrometer-autoconfigure" />
+        <module name="jpyxie-graalpy-spring-boot-starter" />
         <module name="jpyxie-spring-boot-starter" />
-        <module name="jpyxie-spelython-resolver-core" />
-        <module name="jpyxie-process-executor-autoconfigure" />
+        <module name="jpyxie-bind-core" />
         <module name="jpyxie-actuator-spring-boot-starter" />
+        <module name="jpyxie-process-core" />
+        <module name="jpyxie-spelython-core" />
         <module name="jpyxie-autoconfigure" />
         <module name="jpyxie-micrometer-core" />
-        <module name="python-executor-bind-core" />
-        <module name="jpyxie-jep-executor-autoconfigure" />
-        <module name="jpyxie-process-executor-spring-boot-starter" />
-        <module name="jpyxie-jep-executor-core" />
-        <module name="jpyxie-jython-executor-autoconfigure" />
-        <module name="jpyxie-graalpy-executor-spring-boot-starter" />
+        <module name="jpyxie-rest-core" />
+        <module name="jpyxie-graalpy-autoconfigure" />
+        <module name="jpyxie-rest-testcontainers" />
+        <module name="jpyxie-jep-core" />
         <module name="jpyxie-actuator-autoconfigure" />
-        <module name="jpyxie-jython-executor-spring-boot-starter" />
-        <module name="jpyxie-graalpy-executor-core" />
+        <module name="jpyxie-jython-core" />
+        <module name="jpyxie-rest-spring-boot-starter" />
+        <module name="jpyxie-spelython-autoconfigure" />
+        <module name="jpyxie-grpc-core" />
         <module name="jpyxie-common" />
-        <module name="jpyxie-grpc-executor-autoconfigure" />
+        <module name="jpyxie-jep-autoconfigure" />
         <module name="jpyxie-spring-boot-aop-autoconfigure" />
         <module name="jpyxie-spring-boot-aop-starter" />
         <module name="jpyxie-actuator-core" />
-        <module name="jpyxie-jython-executor-core" />
+        <module name="jpyxie-grpc-spring-boot-starter" />
+        <module name="jpyxie-graalpy-core" />
+        <module name="jpyxie-grpc-testcontainers" />
         <module name="test-app" />
-        <module name="jpyxie-grpc-executor-core" />
-        <module name="jpyxie-grpc-executor-spring-boot-starter" />
-        <module name="jpyxie-jep-executor-spring-boot-starter" />
+        <module name="jpyxie-rest-autoconfigure" />
+        <module name="jpyxie-jep-spring-boot-starter" />
+        <module name="jpyxie-process-autoconfigure" />
         <module name="jpyxie-micrometer-spring-boot-starter" />
-        <module name="jpyxie-spelython-resolver-spring-boot-starter" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo-app" target="17" />
-      <module name="jpyxie-bind-core" target="17" />
+      <module name="jpyxie-bom" target="17" />
+      <module name="jpyxie-spelython-resolver-autoconfigure" target="17" />
+      <module name="jpyxie-spelython-resolver-core" target="17" />
+      <module name="jpyxie-spelython-resolver-spring-boot-starter" target="17" />
       <module name="python-executor-autoconfigure" target="17" />
+      <module name="python-executor-bind-core" target="17" />
       <module name="python-executor-common" target="17" />
       <module name="python-executor-core" target="17" />
       <module name="python-executor-dependencies" target="17" />
@@ -98,15 +102,17 @@
       <module name="jpyxie-actuator-core" options="" />
       <module name="jpyxie-actuator-spring-boot-starter" options="" />
       <module name="jpyxie-bind-core" options="" />
-      <module name="jpyxie-graalpy-executor-core" options="" />
-      <module name="jpyxie-graalpy-executor-spring-boot-starter" options="" />
-      <module name="jpyxie-jep-executor-autoconfigure" options="" />
-      <module name="jpyxie-jep-executor-spring-boot-starter" options="" />
-      <module name="jpyxie-jython-executor-autoconfigure" options="" />
-      <module name="jpyxie-jython-executor-core" options="" />
-      <module name="jpyxie-jython-executor-spring-boot-starter" options="" />
+      <module name="jpyxie-graalpy-core" options="" />
+      <module name="jpyxie-graalpy-spring-boot-starter" options="" />
+      <module name="jpyxie-grpc-testcontainers" options="" />
+      <module name="jpyxie-jep-autoconfigure" options="" />
+      <module name="jpyxie-jep-spring-boot-starter" options="" />
+      <module name="jpyxie-jython-autoconfigure" options="" />
+      <module name="jpyxie-jython-core" options="" />
+      <module name="jpyxie-jython-spring-boot-starter" options="" />
       <module name="jpyxie-micrometer-core" options="" />
       <module name="jpyxie-micrometer-spring-boot-starter" options="" />
+      <module name="jpyxie-rest-testcontainers" options="" />
       <module name="python-executor-autoconfigure" options="" />
       <module name="python-executor-common" options="" />
       <module name="python-executor-core" options="" />
@@ -146,8 +152,6 @@
       <module name="python-executor-spring-boot-cache-core" options="" />
       <module name="python-executor-spring-boot-cache-starter" options="" />
       <module name="python-executor-spring-boot-starter" options="" />
-      <module name="python-grpc-server-testcontainers" options="" />
-      <module name="python-rest-server-testcontainers" options="" />
       <module name="spring-boot-python-executor-testcontainers" options="" />
       <module name="test-app" options="-parameters" />
     </option>

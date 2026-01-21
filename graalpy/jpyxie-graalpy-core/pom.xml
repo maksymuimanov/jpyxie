@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jpyxie-spring-boot-starter</artifactId>
+    <artifactId>jpyxie-graalpy-core</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
-    <name>JPyxie Starter</name>
+    <name>JPyxie GraalPy Core</name>
     <description>
-        Spring Boot starter for JPyxie integration.
-        Provides all necessary dependencies and autoconfiguration to enable safe Python script execution
-        within a Spring Boot application, including SpEL integration, result processing, and multiple execution strategies.
+        Core module for executing Python scripts within a Java application using GraalVM Python (GraalPy).
+        Provides seamless integration of Python 3 code, enabling asynchronous execution, script evaluation.
+        Ideal for projects that require running Python logic alongside Java services without other executors limitations.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>
@@ -35,40 +35,43 @@
         <artifactId>jpyxie-parent</artifactId>
         <version>1.1.0</version>
     </parent>
+    <properties>
+        <graalvm.version>25.0.1</graalvm.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-autoconfigure</artifactId>
+            <artifactId>jpyxie-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-core</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>polyglot</artifactId>
+            <version>${graalvm.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-spring-boot-aop-starter</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>python</artifactId>
+            <version>${graalvm.version}</version>
+            <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-graalpy-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-spelython-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>annotationProcessor</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-            </plugin>
-        </plugins>
-    </build>
 </project>

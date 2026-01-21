@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jpyxie-spring-boot-starter</artifactId>
+    <artifactId>jpyxie-jython-spring-boot-starter</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
-    <name>JPyxie Starter</name>
+    <name>JPyxie Jython Starter</name>
     <description>
-        Spring Boot starter for JPyxie integration.
-        Provides all necessary dependencies and autoconfiguration to enable safe Python script execution
-        within a Spring Boot application, including SpEL integration, result processing, and multiple execution strategies.
+        Starter module that simplifies adding Python execution capabilities via Jython to Spring Boot projects.
+        Includes the necessary dependencies and autoconfiguration to run Python code within a Java application,
+        offering an easy drop-in integration for developers.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>
@@ -38,27 +38,12 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-autoconfigure</artifactId>
+            <artifactId>jpyxie-jython-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-spring-boot-aop-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-graalpy-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-spelython-spring-boot-starter</artifactId>
+            <artifactId>jpyxie-jython-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

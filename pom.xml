@@ -6,9 +6,9 @@
     <artifactId>jpyxie-parent</artifactId>
     <version>1.1.0</version>
     <packaging>pom</packaging>
-    <name>Spring Boot Python Executor Parent</name>
-    <description>Parent module for managing all submodules of Spring Boot Python Executor.</description>
-    <url>https://github.com/maksymuimanov/spring-boot-jpyxie</url>
+    <name>JPyxie Parent</name>
+    <description>Parent module for managing all submodules of JPyxie.</description>
+    <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>
         <license>
             <name>The MIT License</name>
@@ -23,9 +23,9 @@
         </developer>
     </developers>
     <scm>
-        <url>https://github.com/maksymuimanov/spring-boot-jpyxie</url>
-        <connection>scm:git:git://github.com/maksymuimanov/spring-boot-jpyxie.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:maksymuimanov/spring-boot-jpyxie.git</developerConnection>
+        <url>https://github.com/maksymuimanov/jpyxie</url>
+        <connection>scm:git:git://github.com/maksymuimanov/jpyxie.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:maksymuimanov/jpyxie.git</developerConnection>
     </scm>
     <modules>
         <module>common/jpyxie-common</module>
@@ -38,45 +38,45 @@
         <module>aop/jpyxie-spring-boot-aop-autoconfigure</module>
         <module>aop/jpyxie-spring-boot-aop-starter</module>
 
-        <module>resolver/spelython/jpyxie-spelython-resolver-core</module>
-        <module>resolver/spelython/jpyxie-spelython-resolver-autoconfigure</module>
-        <module>resolver/spelython/jpyxie-spelython-resolver-spring-boot-starter</module>
+        <module>spelython/jpyxie-spelython-core</module>
+        <module>spelython/jpyxie-spelython-autoconfigure</module>
+        <module>spelython/jpyxie-spelython-spring-boot-starter</module>
 
-        <module>executor/rest/jpyxie-rest-executor-core</module>
-        <module>executor/rest/jpyxie-rest-executor-autoconfigure</module>
-        <module>executor/rest/jpyxie-rest-executor-spring-boot-starter</module>
-        <module>executor/rest/python-rest-server-testcontainers</module>
+        <module>rest/jpyxie-rest-core</module>
+        <module>rest/jpyxie-rest-autoconfigure</module>
+        <module>rest/jpyxie-rest-spring-boot-starter</module>
+        <module>rest/jpyxie-rest-testcontainers</module>
 
-        <module>executor/grpc/jpyxie-grpc-executor-core</module>
-        <module>executor/grpc/jpyxie-grpc-executor-autoconfigure</module>
-        <module>executor/grpc/jpyxie-grpc-executor-spring-boot-starter</module>
-        <module>executor/grpc/python-grpc-server-testcontainers</module>
+        <module>grpc/jpyxie-grpc-core</module>
+        <module>grpc/jpyxie-grpc-autoconfigure</module>
+        <module>grpc/jpyxie-grpc-spring-boot-starter</module>
+        <module>grpc/jpyxie-grpc-testcontainers</module>
 
-        <module>executor/process/jpyxie-process-executor-core</module>
-        <module>executor/process/jpyxie-process-executor-autoconfigure</module>
-        <module>executor/process/jpyxie-process-executor-spring-boot-starter</module>
+        <module>process/jpyxie-process-core</module>
+        <module>process/jpyxie-process-autoconfigure</module>
+        <module>process/jpyxie-process-spring-boot-starter</module>
 
-        <module>executor/jep/jpyxie-jep-executor-core</module>
-        <module>executor/jep/jpyxie-jep-executor-autoconfigure</module>
-        <module>executor/jep/jpyxie-jep-executor-spring-boot-starter</module>
+        <module>jep/jpyxie-jep-core</module>
+        <module>jep/jpyxie-jep-autoconfigure</module>
+        <module>jep/jpyxie-jep-spring-boot-starter</module>
 
-        <module>executor/jython/jpyxie-jython-executor-core</module>
-        <module>executor/jython/jpyxie-jython-executor-autoconfigure</module>
-        <module>executor/jython/jpyxie-jython-executor-spring-boot-starter</module>
+        <module>jython/jpyxie-jython-core</module>
+        <module>jython/jpyxie-jython-autoconfigure</module>
+        <module>jython/jpyxie-jython-spring-boot-starter</module>
 
-        <module>executor/graalpy/jpyxie-graalpy-executor-core</module>
-        <module>executor/graalpy/jpyxie-graalpy-executor-autoconfigure</module>
-        <module>executor/graalpy/jpyxie-graalpy-executor-spring-boot-starter</module>
+        <module>graalpy/jpyxie-graalpy-core</module>
+        <module>graalpy/jpyxie-graalpy-autoconfigure</module>
+        <module>graalpy/jpyxie-graalpy-spring-boot-starter</module>
 
-        <module>observability/actuator/jpyxie-actuator-core</module>
-        <module>observability/actuator/jpyxie-actuator-autoconfigure</module>
-        <module>observability/actuator/jpyxie-actuator-spring-boot-starter</module>
+        <module>actuator/jpyxie-actuator-core</module>
+        <module>actuator/jpyxie-actuator-autoconfigure</module>
+        <module>actuator/jpyxie-actuator-spring-boot-starter</module>
 
-        <module>observability/metrics/jpyxie-micrometer-core</module>
-        <module>observability/metrics/jpyxie-micrometer-autoconfigure</module>
-        <module>observability/metrics/jpyxie-micrometer-spring-boot-starter</module>
+        <module>metrics/jpyxie-micrometer-core</module>
+        <module>metrics/jpyxie-micrometer-autoconfigure</module>
+        <module>metrics/jpyxie-micrometer-spring-boot-starter</module>
 
-        <module>common/jpyxie-dependencies</module>
+        <module>bom/jpyxie-bom</module>
     </modules>
     <properties>
         <java.version>17</java.version>

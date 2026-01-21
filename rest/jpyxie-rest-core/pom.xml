@@ -2,14 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jpyxie-spring-boot-starter</artifactId>
+    <artifactId>jpyxie-rest-core</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
-    <name>JPyxie Starter</name>
+    <name>JPyxie REST Core</name>
     <description>
-        Spring Boot starter for JPyxie integration.
-        Provides all necessary dependencies and autoconfiguration to enable safe Python script execution
-        within a Spring Boot application, including SpEL integration, result processing, and multiple execution strategies.
+        Core module of the JPyxie REST integration.
+        Provides all components required to execute Python scripts over REST,
+        including request handling, execution lifecycle management,
+        result serialization, and error handling.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>
@@ -38,28 +39,30 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-autoconfigure</artifactId>
+            <artifactId>jpyxie-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-core</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-spring-boot-aop-starter</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>annotationProcessor</scope>
         </dependency>
         <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-graalpy-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-spelython-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
