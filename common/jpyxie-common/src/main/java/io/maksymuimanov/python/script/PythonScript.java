@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.script;
 
 import io.maksymuimanov.python.exception.PythonScriptException;
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,46 +10,44 @@ import java.util.Objects;
 public class PythonScript implements PythonRepresentation {
     public static final String FILE_FORMAT = ".py";
     public static final int START_INDEX = 0;
-    @NonNull
     private final String name;
     private final String source;
     private final boolean isFile;
-    @NonNull
     private final List<PythonImportLine> importLines;
-    @NonNull
     private final List<PythonCodeLine> codeLines;
+    @Nullable
     private String body;
 
-    public static PythonScript parse(@NonNull CharSequence name, @NonNull CharSequence script) {
+    public static PythonScript parse(CharSequence name, CharSequence script) {
         String scriptString = script.toString();
         return isFile(scriptString) ? fromFile(name, scriptString) : fromString(name, scriptString);
     }
 
-    public static PythonScript fromFile(@NonNull CharSequence name) {
+    public static PythonScript fromFile(CharSequence name) {
         String nameString = name.toString();
         return fromFile(nameString, isFile(nameString) ? nameString : nameString + FILE_FORMAT);
     }
 
-    public static PythonScript fromFile(@NonNull CharSequence name, @NonNull CharSequence script) {
+    public static PythonScript fromFile(CharSequence name, CharSequence script) {
         if (!isFile(script)) throw new PythonScriptException("Invalid file name format. It must end with " + FILE_FORMAT);
         return new PythonScript(name.toString(), script.toString(), true, new ArrayList<>(), new ArrayList<>());
     }
 
-    public static boolean isFile(@NonNull CharSequence source) {
+    public static boolean isFile(CharSequence source) {
         return source.toString().endsWith(FILE_FORMAT);
     }
 
-    public static PythonScript fromString(@NonNull CharSequence name, @NonNull CharSequence script) {
+    public static PythonScript fromString(CharSequence name, CharSequence script) {
         PythonScript pythonScript = new PythonScript(name.toString(), script.toString(), false, new ArrayList<>(), new ArrayList<>());
         BasicPythonScriptBuilder.of(pythonScript).appendAll(script);
         return pythonScript;
     }
 
-    public static PythonScript empty(@NonNull CharSequence name) {
-        return new PythonScript(name.toString(), null, false, new ArrayList<>(), new ArrayList<>());
+    public static PythonScript empty(CharSequence name) {
+        return new PythonScript(name.toString(), "", false, new ArrayList<>(), new ArrayList<>());
     }
 
-    public PythonScript(@NonNull String name, String source, boolean isFile, @NonNull List<PythonImportLine> importLines, @NonNull List<PythonCodeLine> codeLines) {
+    public PythonScript(String name, String source, boolean isFile, List<PythonImportLine> importLines, List<PythonCodeLine> codeLines) {
         this.name = name;
         this.source = source;
         this.isFile = isFile;
@@ -130,7 +128,6 @@ public class PythonScript implements PythonRepresentation {
         return this.getCodeLines().get(index);
     }
 
-    @NonNull
     public String getName() {
         return name;
     }
@@ -143,12 +140,10 @@ public class PythonScript implements PythonRepresentation {
         return isFile;
     }
 
-    @NonNull
     public List<PythonImportLine> getImportLines() {
         return importLines;
     }
 
-    @NonNull
     public List<PythonCodeLine> getCodeLines() {
         return codeLines;
     }

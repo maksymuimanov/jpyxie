@@ -5,33 +5,33 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Getter(AccessLevel.PROTECTED)
 public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> implements PythonInterpreterProvider<I> {
     private final PythonInterpreterFactory<I> interpreterFactory;
     private final ThreadLocal<@Nullable I> threadLocal;
-    private final AtomicBoolean closed;
+    private final Queue<I> interpreterQueue;
 
     public ThreadLocalPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory) {
-        this(interpreterFactory, new ThreadLocal<>());
+        this(interpreterFactory, new ThreadLocal<>(), new ConcurrentLinkedQueue<>());
     }
 
-    public ThreadLocalPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, ThreadLocal<@Nullable I> threadLocal) {
+    public ThreadLocalPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, ThreadLocal<@Nullable I> threadLocal, Queue<I> interpreterQueue) {
         this.interpreterFactory = interpreterFactory;
         this.threadLocal = threadLocal;
-        this.closed = new AtomicBoolean(false);
+        this.interpreterQueue = interpreterQueue;
     }
 
     @Override
     public I acquire() {
-        if (this.closed.get()) throw new PythonInterpreterProvisionException("Interpreter is closed");
         try {
             I threadLocalInterpreter = threadLocal.get();
             if (threadLocalInterpreter == null) {
                 I interpreter = this.interpreterFactory.create();
                 threadLocal.set(interpreter);
+                interpreterQueue.offer(interpreter);
                 return interpreter;
             }
             return threadLocalInterpreter;
@@ -42,10 +42,10 @@ public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> imple
 
     @Override
     public void close() throws Exception {
-        if (!this.closed.compareAndSet(false, true)) return;
         try {
-            Objects.requireNonNull(this.threadLocal.get()).close();
-            this.threadLocal.remove();
+            for (I interpreter : interpreterQueue) {
+                interpreter.close();
+            }
         } catch (Exception e) {
             throw new PythonInterpreterProvisionException(e);
         }

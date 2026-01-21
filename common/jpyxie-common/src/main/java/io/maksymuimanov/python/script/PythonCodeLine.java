@@ -1,7 +1,5 @@
 package io.maksymuimanov.python.script;
 
-import org.jspecify.annotations.NonNull;
-
 import java.util.Objects;
 
 public class PythonCodeLine implements PythonRepresentation {
@@ -19,7 +17,7 @@ public class PythonCodeLine implements PythonRepresentation {
         return line;
     }
 
-    public void setLine(@NonNull CharSequence line) {
+    public void setLine(CharSequence line) {
         this.line = line.toString();
     }
 

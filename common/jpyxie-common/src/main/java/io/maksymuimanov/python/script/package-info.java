@@ -1,4 +1,4 @@
-@NullUnmarked
+@NullMarked
 package io.maksymuimanov.python.script;
 
-import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.NullMarked;
