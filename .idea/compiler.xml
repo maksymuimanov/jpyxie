@@ -53,6 +53,7 @@
       <module name="jpyxie-spelython-resolver-autoconfigure" target="17" />
       <module name="jpyxie-spelython-resolver-core" target="17" />
       <module name="jpyxie-spelython-resolver-spring-boot-starter" target="17" />
+      <module name="jpyxie-spelython-spring-boot-starter" target="17" />
       <module name="python-executor-autoconfigure" target="17" />
       <module name="python-executor-bind-core" target="17" />
       <module name="python-executor-common" target="17" />

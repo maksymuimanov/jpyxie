@@ -34,10 +34,6 @@
         <module>core/jpyxie-autoconfigure</module>
         <module>core/jpyxie-spring-boot-starter</module>
 
-        <module>aop/jpyxie-spring-boot-aop-core</module>
-        <module>aop/jpyxie-spring-boot-aop-autoconfigure</module>
-        <module>aop/jpyxie-spring-boot-aop-starter</module>
-
         <module>spelython/jpyxie-spelython-core</module>
         <module>spelython/jpyxie-spelython-autoconfigure</module>
         <module>spelython/jpyxie-spelython-spring-boot-starter</module>
