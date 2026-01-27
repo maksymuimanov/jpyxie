@@ -1,13 +1,26 @@
 syntax = "proto3";
 
-service PythonService {
-  rpc SendCode(PythonRequest) returns (PythonResponse) {}
+service PythonGrpcService {
+  rpc SendCode(GrpcPythonRequest) returns (GrpcPythonResponse) {}
+
+  rpc SendPip(GrpcPythonPipRequest) returns (GrpcPythonPipResponse) {}
 }
 
-message PythonRequest {
+message GrpcPythonRequest {
   string script = 1;
+  repeated string fieldNames = 2;
 }
 
-message PythonResponse {
-  string result = 1;
+message GrpcPythonResponse {
+  map<string, string> fields = 1;
+}
+
+message GrpcPythonPipRequest {
+  string name = 1;
+  string libraryName = 2;
+  repeated string options = 3;
+}
+
+message GrpcPythonPipResponse {
+  bool successful = 1;
 }

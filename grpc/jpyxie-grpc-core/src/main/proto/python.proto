@@ -6,6 +6,8 @@ option java_outer_classname = "PythonProto";
 
 service PythonGrpcService {
   rpc SendCode(GrpcPythonRequest) returns (GrpcPythonResponse) {}
+
+  rpc SendPip(GrpcPythonPipRequest) returns (GrpcPythonPipResponse) {}
 }
 
 message GrpcPythonRequest {
@@ -15,4 +17,14 @@ message GrpcPythonRequest {
 
 message GrpcPythonResponse {
   map<string, string> fields = 1;
+}
+
+message GrpcPythonPipRequest {
+  string name = 1;
+  string libraryName = 2;
+  repeated string options = 3;
+}
+
+message GrpcPythonPipResponse {
+  bool successful = 1;
 }

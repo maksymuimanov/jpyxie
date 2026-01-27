@@ -1,18 +1,16 @@
 package io.maksymuimanov.python.library;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.exception.PythonLibraryManagementException;
-import io.maksymuimanov.python.http.PythonServerRequestSender;
+import io.maksymuimanov.python.proto.GrpcPythonPipRequest;
+import io.maksymuimanov.python.proto.GrpcPythonPipResponse;
+import io.maksymuimanov.python.proto.PythonGrpcServiceGrpc;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class RestPipManager implements PipManager {
+public class GrpcPipManager implements PipManager {
     public static final String INSTALLATION_FAILURE_EXCEPTION_MESSAGE = "Installation has failed";
     public static final String UNINSTALLATION_FAILURE_EXCEPTION_MESSAGE = "Uninstallation has failed";
-    private final String uri;
-    private final String token;
-    private final PythonServerRequestSender requestSender;
-    private final ObjectMapper objectMapper;
+    private final PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub;
 
     @Override
     public boolean exists(PythonLibraryManagement management) {
@@ -36,12 +34,15 @@ public class RestPipManager implements PipManager {
         }
     }
 
-    protected boolean executePipCommand(String command, PythonLibraryManagement management) {
+    protected boolean executePipCommand(String name, PythonLibraryManagement management) {
         try {
-            RestPythonPipRequest restPythonPipRequest = new RestPythonPipRequest(command, management.getName(), management.getOptions());
-            String requestJson = this.objectMapper.writeValueAsString(restPythonPipRequest);
-            String responseJson = this.requestSender.send(this.uri, this.token, requestJson);
-            return Boolean.parseBoolean(responseJson);
+            GrpcPythonPipRequest pipRequest = GrpcPythonPipRequest.newBuilder()
+                    .setName(name)
+                    .setLibraryName(management.getName())
+                    .addAllOptions(management.getOptions())
+                    .build();
+            GrpcPythonPipResponse pipResponse = stub.sendPip(pipRequest);
+            return pipResponse.getSuccessful();
         } catch (Exception e) {
             throw new PythonLibraryManagementException(e);
         }

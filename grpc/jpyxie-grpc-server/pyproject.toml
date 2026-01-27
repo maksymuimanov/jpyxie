@@ -1,21 +1,21 @@
 [project]
-name = "jpyxie-rest-server"
+name = "jpyxie-grpc-server"
 version = "2.0.0"
-description = "The REST server for executing Python code"
+description = "The gRPC server for executing Python code"
 authors = [
     { name = "Maksym Uimanov", email = "uimanovmaks@gmail.com" }
 ]
 requires-python = ">=3.9"
-keywords = ["python", "rest", "fastapi", "server", "java"]
+keywords = ["python", "grpc", "grpcio", "server", "java"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Framework :: FastAPI",
+    "Framework :: grpcio",
     "License :: OSI Approved :: MIT License"
 ]
 dependencies = [
-    "fastapi",
-    "uvicorn",
-    "pydantic"
+    "grpcio",
+    "grpcio-tools",
+    "protobuf"
 ]
 [project.urls]
 Homepage = "https://github.com/maksymuimanov/jpyxie"

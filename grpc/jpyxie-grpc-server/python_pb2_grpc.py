@@ -5,7 +5,7 @@ import warnings
 
 import python_pb2 as python__pb2
 
-GRPC_GENERATED_VERSION = '1.73.1'
+GRPC_GENERATED_VERSION = '1.76.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -18,14 +18,14 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in python_pb2_grpc.py depends on'
+        + ' but the generated code in python_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
     )
 
 
-class PythonServiceStub(object):
+class PythonGrpcServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -35,18 +35,18 @@ class PythonServiceStub(object):
             channel: A grpc.Channel.
         """
         self.SendCode = channel.unary_unary(
-                '/python.PythonService/SendCode',
-                request_serializer=python__pb2.PythonRequest.SerializeToString,
-                response_deserializer=python__pb2.PythonResponse.FromString,
+                '/PythonGrpcService/SendCode',
+                request_serializer=python__pb2.GrpcPythonRequest.SerializeToString,
+                response_deserializer=python__pb2.GrpcPythonResponse.FromString,
                 _registered_method=True)
-        self.StreamCodeExecution = channel.unary_stream(
-                '/python.PythonService/StreamCodeExecution',
-                request_serializer=python__pb2.PythonRequest.SerializeToString,
-                response_deserializer=python__pb2.PythonResponse.FromString,
+        self.SendPip = channel.unary_unary(
+                '/PythonGrpcService/SendPip',
+                request_serializer=python__pb2.GrpcPythonPipRequest.SerializeToString,
+                response_deserializer=python__pb2.GrpcPythonPipResponse.FromString,
                 _registered_method=True)
 
 
-class PythonServiceServicer(object):
+class PythonGrpcServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def SendCode(self, request, context):
@@ -55,34 +55,34 @@ class PythonServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def StreamCodeExecution(self, request, context):
+    def SendPip(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_PythonServiceServicer_to_server(servicer, server):
+def add_PythonGrpcServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SendCode': grpc.unary_unary_rpc_method_handler(
                     servicer.SendCode,
-                    request_deserializer=python__pb2.PythonRequest.FromString,
-                    response_serializer=python__pb2.PythonResponse.SerializeToString,
+                    request_deserializer=python__pb2.GrpcPythonRequest.FromString,
+                    response_serializer=python__pb2.GrpcPythonResponse.SerializeToString,
             ),
-            'StreamCodeExecution': grpc.unary_stream_rpc_method_handler(
-                    servicer.StreamCodeExecution,
-                    request_deserializer=python__pb2.PythonRequest.FromString,
-                    response_serializer=python__pb2.PythonResponse.SerializeToString,
+            'SendPip': grpc.unary_unary_rpc_method_handler(
+                    servicer.SendPip,
+                    request_deserializer=python__pb2.GrpcPythonPipRequest.FromString,
+                    response_serializer=python__pb2.GrpcPythonPipResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'python.PythonService', rpc_method_handlers)
+            'PythonGrpcService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('python.PythonService', rpc_method_handlers)
+    server.add_registered_method_handlers('PythonGrpcService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class PythonService(object):
+class PythonGrpcService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -99,9 +99,9 @@ class PythonService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/python.PythonService/SendCode',
-            python__pb2.PythonRequest.SerializeToString,
-            python__pb2.PythonResponse.FromString,
+            '/PythonGrpcService/SendCode',
+            python__pb2.GrpcPythonRequest.SerializeToString,
+            python__pb2.GrpcPythonResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -113,7 +113,7 @@ class PythonService(object):
             _registered_method=True)
 
     @staticmethod
-    def StreamCodeExecution(request,
+    def SendPip(request,
             target,
             options=(),
             channel_credentials=None,
@@ -123,12 +123,12 @@ class PythonService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(
+        return grpc.experimental.unary_unary(
             request,
             target,
-            '/python.PythonService/StreamCodeExecution',
-            python__pb2.PythonRequest.SerializeToString,
-            python__pb2.PythonResponse.FromString,
+            '/PythonGrpcService/SendPip',
+            python__pb2.GrpcPythonPipRequest.SerializeToString,
+            python__pb2.GrpcPythonPipResponse.FromString,
             options,
             channel_credentials,
             insecure,

@@ -13,6 +13,8 @@ import io.maksymuimanov.python.bind.GrpcPythonDeserializer;
 import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.executor.GrpcPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
+import io.maksymuimanov.python.library.GrpcPipManager;
+import io.maksymuimanov.python.library.PipManager;
 import io.maksymuimanov.python.proto.GrpcPythonResponse;
 import io.maksymuimanov.python.proto.PythonGrpcServiceGrpc;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,9 +37,11 @@ import org.springframework.grpc.client.GrpcChannelFactory;
  * @author w4t3rcs
  * @since 1.0.0
  */
-@AutoConfiguration
+@AutoConfiguration(beforeName = GrpcPythonExecutorAutoConfiguration.MAIN_PIP_AUTO_CONFIGURATION_REFERENCE)
 @EnableConfigurationProperties(GrpcPythonExecutorProperties.class)
 public class GrpcPythonExecutorAutoConfiguration {
+    protected static final String MAIN_PIP_AUTO_CONFIGURATION_REFERENCE = "io.maksymuimanov.python.autoconfigure.PipAutoConfiguration";
+
     /**
      * HTTP header name used for passing the token in gRPC metadata.
      * <p>This header is attached to every outgoing gRPC request.</p>
@@ -99,5 +103,11 @@ public class GrpcPythonExecutorAutoConfiguration {
     @ConditionalOnMissingBean(GrpcPythonServerConnectionDetails.class)
     public GrpcPythonServerConnectionDetails grpcConnectionDetails(GrpcPythonExecutorProperties properties) {
         return GrpcPythonServerConnectionDetails.of(properties.getToken(), properties.getUri());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(PipManager.class)
+    public PipManager pipManager(PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub) {
+        return new GrpcPipManager(stub);
     }
 }

@@ -21,17 +21,17 @@ if LOGGING_ENABLED:
 app = FastAPI()
 token_header = APIKeyHeader(name="X-Token", auto_error=False)
 
-class PythonRestRequest(BaseModel):
+class RestPythonRequest(BaseModel):
     script: str
     fieldNames: List[str] = []
 
-class PythonRestPipRequest(BaseModel):
+class RestPythonPipRequest(BaseModel):
     name: str
     libraryName: str
     options: List[str] = []
 
 @app.post("/execute")
-async def execute_script(request: PythonRestRequest,
+async def execute_script(request: RestPythonRequest,
                          api_key_header: str = Security(token_header)):
     if not api_key_header or api_key_header != TOKEN:
         if LOGGING_ENABLED:
@@ -54,7 +54,7 @@ async def execute_script(request: PythonRestRequest,
         raise HTTPException(400, detail=str(e))
         
 @app.post("/pip")
-def execute_pip_command(request: PythonRestPipRequest,
+def execute_pip_command(request: RestPythonPipRequest,
                         api_key_header: str = Security(token_header)):
     if not api_key_header or api_key_header != TOKEN:
         if LOGGING_ENABLED:

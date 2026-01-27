@@ -18,7 +18,6 @@ import java.util.function.IntConsumer;
 @Slf4j
 public class BasicPipManager implements PipManager {
     public static final String EXCEPTION_MESSAGE_FORMAT = "%s failed with exit code: %d";
-    public static final String UNINSTALL_WITHOUT_CONFIRMATION_OPTION = "--yes";
     private final String[] pipPath;
     private final boolean redirectErrorStream;
     private final boolean redirectOutputStream;
