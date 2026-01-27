@@ -22,6 +22,7 @@ public class MeteredPythonProcessor implements PythonProcessor {
     public static final String EXECUTION_TIMER_KEY = "python.processor.execution";
     public static final String EXECUTION_TIMER_DESCRIPTION = "PythonProcessor execution duration";
     public static final String SCRIPT_NAME_TAG_KEY = "script";
+    public static final double[] DEFAULT_PERCENTILES = {0.5, 0.75, 0.95, 0.99};
     private final PythonProcessor delegate;
     private final MeterRegistry meterRegistry;
     private final double @Nullable [] percentiles;
@@ -29,6 +30,10 @@ public class MeteredPythonProcessor implements PythonProcessor {
     private final Map<String, Counter> successCounters;
     private final Map<String, Counter> errorCounters;
     private final Map<String, Timer> timers;
+
+    public MeteredPythonProcessor(PythonProcessor delegate, MeterRegistry meterRegistry) {
+        this(delegate, meterRegistry, DEFAULT_PERCENTILES);
+    }
 
     public MeteredPythonProcessor(PythonProcessor delegate, MeterRegistry meterRegistry, double @Nullable ... percentiles) {
         this.delegate = delegate;

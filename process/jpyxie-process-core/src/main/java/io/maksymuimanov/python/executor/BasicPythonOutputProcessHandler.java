@@ -13,7 +13,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class BasicPythonOutputProcessHandler implements ProcessOutputHandler {
     public static final String RESULT_PREFIX = "$";
+    public static final boolean DEFAULT_LOGGABLE = true;
     private final boolean loggable;
+
+    public BasicPythonOutputProcessHandler() {
+        this(DEFAULT_LOGGABLE);
+    }
 
     @Override
     public ProcessPythonResponse handle(Process process, PythonResultSpec resultSpec) {

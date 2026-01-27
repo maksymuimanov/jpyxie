@@ -1,12 +1,13 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import io.maksymuimanov.python.executor.GraalPythonExecutor;
+import io.maksymuimanov.python.interpreter.GraalInterpreterFactory;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.graalvm.polyglot.HostAccess;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Getter @Setter
@@ -19,27 +20,28 @@ public class GraalPyProperties {
     /**
      * Whether GraalPy sources should be cached.
      */
-    private boolean cached = true;
+    private boolean cached = GraalPythonExecutor.DEFAULT_CACHED;
     /**
      * Defines host access level for GraalPy scripts.
      */
-    private HostAccessHolder hostAccess = HostAccessHolder.NONE;
+    private HostAccessHolder hostAccess = HostAccessHolder.DEFAULT;
     /**
      * Allows sharing values across contexts.
      */
-    private boolean allowValueSharing = false;
+    private boolean allowValueSharing = GraalInterpreterFactory.DEFAULT_ALLOW_VALUE_SHARING;
     /**
      * Enables experimental options in GraalPy.
      */
-    private boolean allowExperimentalOptions = false;
+    private boolean allowExperimentalOptions = GraalInterpreterFactory.DEFAULT_ALLOW_EXPERIMENTAL_OPTIONS;
     /**
      * Additional custom options for GraalPy context.
      */
-    private Map<String, String> additionalOptions = new HashMap<>();
+    private Map<String, String> additionalOptions = GraalInterpreterFactory.DEFAULT_ADDITIONAL_OPTIONS;
 
     @Getter
     @RequiredArgsConstructor
     public enum HostAccessHolder {
+        DEFAULT(GraalInterpreterFactory.DEFAULT_HOST_ACCESS),
         ALL(HostAccess.ALL),
         EXPLICIT(HostAccess.EXPLICIT),
         SCOPED(HostAccess.SCOPED),

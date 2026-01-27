@@ -55,7 +55,7 @@ public class RestPythonExecutorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(RestPythonServerConnectionDetails.class)
     public RestPythonServerConnectionDetails restConnectionDetails(RestPythonExecutorProperties properties) {
-        return RestPythonServerConnectionDetails.of(properties.getToken(), properties.getUri());
+        return RestPythonServerConnectionDetails.of(properties.getToken(), properties.getExecuteUri(), properties.getPipUri());
     }
 
     @Bean
@@ -101,7 +101,7 @@ public class RestPythonExecutorAutoConfiguration {
                                              RestPythonServerConnectionDetails connectionDetails,
                                              PythonServerRequestSender requestSender,
                                              @Qualifier("pythonObjectMapper") ObjectMapper objectMapper) {
-        return new RestPythonExecutor(pythonDeserializer, connectionDetails.getUri(), connectionDetails.getToken(), requestSender, objectMapper);
+        return new RestPythonExecutor(pythonDeserializer, connectionDetails.getExecuteUri(), connectionDetails.getToken(), requestSender, objectMapper);
     }
 
     @Bean
@@ -109,6 +109,6 @@ public class RestPythonExecutorAutoConfiguration {
     public PipManager pipManager(RestPythonServerConnectionDetails connectionDetails,
                                  PythonServerRequestSender requestSender,
                                  ObjectMapper objectMapper) {
-        return new RestPipManager(connectionDetails.getUri(), connectionDetails.getToken(), requestSender, objectMapper);
+        return new RestPipManager(connectionDetails.getExecuteUri(), connectionDetails.getToken(), requestSender, objectMapper);
     }
 }

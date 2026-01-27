@@ -38,5 +38,5 @@ public class PythonFileProperties {
     /**
      * Charset used to read Python script files.
      */
-    private String charset = "UTF-8";
+    private String charset = BasicPythonFileReader.DEFAULT_CHARSET_NAME;
 }

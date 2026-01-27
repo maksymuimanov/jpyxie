@@ -26,11 +26,20 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @RequiredArgsConstructor
 public class BasicPythonFileReader implements PythonFileReader {
+    public static final String DEFAULT_CHARSET_NAME = "UTF-8";
     private static final String READING_BYTES_EXCEPTION_MESSAGE = "An exception occurred while reading all bytes from Python script file.";
     private static final String READING_FILE_EXCEPTION_MESSAGE = "An exception occurred while reading Python script file.";
     private final Map<String, String> fileCache;
     private final InputStreamProvider inputStreamProvider;
     private final Charset charset;
+
+    public BasicPythonFileReader(InputStreamProvider inputStreamProvider) {
+        this(inputStreamProvider, DEFAULT_CHARSET_NAME);
+    }
+
+    public BasicPythonFileReader(InputStreamProvider inputStreamProvider, String charsetName) {
+        this(inputStreamProvider, Charset.forName(charsetName));
+    }
 
     public BasicPythonFileReader(InputStreamProvider inputStreamProvider, Charset charset) {
         this(new ConcurrentHashMap<>(), inputStreamProvider, charset);

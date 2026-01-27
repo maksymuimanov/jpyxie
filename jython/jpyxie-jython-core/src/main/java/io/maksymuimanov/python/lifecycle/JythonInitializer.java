@@ -9,8 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 public class JythonInitializer implements PythonInitializer {
     public static final String PYTHON_HOME = "python.home";
     public static final String PYTHON_IMPORT_SITE = "python.import.site";
+    public static final boolean DEFAULT_IMPORT_SITE = false;
     private final String pythonHome;
     private final boolean importSite;
+
+    public JythonInitializer(String pythonHome) {
+        this(pythonHome, DEFAULT_IMPORT_SITE);
+    }
 
     @Override
     public void initialize() {

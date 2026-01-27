@@ -12,7 +12,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 
 /**
  * Spring Boot autoconfiguration for {@link PythonFileReader} beans.
@@ -65,6 +64,6 @@ public class PythonFileAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(PythonFileReader.class)
     public PythonFileReader basicPythonFileHandler(PythonFileProperties fileProperties, InputStreamProvider inputStreamProvider) {
-        return new BasicPythonFileReader(inputStreamProvider, Charset.forName(fileProperties.getCharset()));
+        return new BasicPythonFileReader(inputStreamProvider, fileProperties.getCharset());
     }
 }

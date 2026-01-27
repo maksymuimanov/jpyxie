@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import io.maksymuimanov.python.metrics.MeteredPythonProcessor;
 import lombok.Getter;
 import lombok.Setter;
 import org.jspecify.annotations.Nullable;
@@ -11,5 +12,5 @@ public class PythonMicrometerProperties {
     /**
      * Percentiles to compute for Python-related Micrometer timers.
      */
-    private double @Nullable [] percentiles = null;
+    private double @Nullable [] percentiles = MeteredPythonProcessor.DEFAULT_PERCENTILES;
 }

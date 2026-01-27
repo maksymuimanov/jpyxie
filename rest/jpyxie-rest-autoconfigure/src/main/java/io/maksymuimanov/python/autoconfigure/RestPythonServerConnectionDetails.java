@@ -21,6 +21,10 @@ import org.springframework.boot.autoconfigure.service.connection.ConnectionDetai
  * @since 1.0.0
  */
 public interface RestPythonServerConnectionDetails extends ConnectionDetails {
+    String getExecuteUri();
+
+    String getPipUri();
+
     /**
      * Returns the token used for authenticating with the Python server.
      *
@@ -28,33 +32,21 @@ public interface RestPythonServerConnectionDetails extends ConnectionDetails {
      */
     String getToken();
 
-    /**
-     * Returns the URI of the target Python server.
-     *
-     * @return non-{@code null} server URI
-     */
-    String getUri();
-
-    /**
-     * Creates an immutable {@link RestPythonServerConnectionDetails} instance with the given parameters.
-     *
-     * <p>The returned instance is thread-safe and all values are stored as provided.
-     * Null values are not allowed.</p>
-     *
-     * @param token non-{@code null} token
-     * @param uri non-{@code null} URI of the Python server, including protocol and port if applicable
-     * @return non-{@code null} {@link RestPythonServerConnectionDetails} instance
-     */
-    static RestPythonServerConnectionDetails of(String token, String uri) {
+    static RestPythonServerConnectionDetails of(String token, String executeUri, String pipUri) {
         return new RestPythonServerConnectionDetails() {
             @Override
-            public String getToken() {
-                return token;
+            public String getExecuteUri() {
+                return executeUri;
             }
 
             @Override
-            public String getUri() {
-                return uri;
+            public String getPipUri() {
+                return pipUri;
+            }
+
+            @Override
+            public String getToken() {
+                return token;
             }
         };
     }

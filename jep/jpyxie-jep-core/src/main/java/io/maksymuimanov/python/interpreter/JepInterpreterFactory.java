@@ -7,7 +7,12 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JepInterpreterFactory implements PythonInterpreterFactory<Interpreter> {
+    public static final JepInterpreterType DEFAULT_INTERPRETER_TYPE = JepInterpreterType.SHARED;
     private final JepInterpreterType interpreterType;
+
+    public JepInterpreterFactory() {
+        this(DEFAULT_INTERPRETER_TYPE);
+    }
 
     @Override
     public Interpreter create() {

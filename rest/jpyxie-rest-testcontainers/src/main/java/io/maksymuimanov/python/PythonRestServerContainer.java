@@ -16,7 +16,7 @@ import java.time.Duration;
  * <p>This container provides an HTTP interface for executing Python scripts in a
  * controlled environment. It exposes a single REST endpoint at the
  * {@code /script} path on the configured port. By default, the container runs
- * on port {@value #PYTHON_SERVER_DEFAULT_PORT} and uses the official Docker image
+ * on port {@value #DEFAULT_PORT} and uses the official Docker image
  * {@code w4t3rcs/spring-boot-python-executor-python-rest-server}.</p>
  * <p>
  * Default token: {@value #DEFAULT_TOKEN}
@@ -25,7 +25,7 @@ import java.time.Duration;
  *
  * <p>Environment variables used:</p>
  * <ul>
- *   <li>{@value #PYTHON_SERVER_DEFAULT_PORT} - port for connection</li>
+ *   <li>{@value #DEFAULT_PORT} - port for connection</li>
  *   <li>{@value #PYTHON_SERVER_TOKEN_ENV} - token for authentication</li>
  *   <li>{@value #PYTHON_ADDITIONAL_IMPORTS_ENV} - additional Python imports as a delimiter-separated string</li>
  *   <li>{@value #PYTHON_ADDITIONAL_IMPORTS_DELIMITER_ENV} - delimiter used in additional imports</li>
@@ -37,22 +37,27 @@ import java.time.Duration;
  * @since 1.0.0
  */
 public class PythonRestServerContainer extends GenericContainer<PythonRestServerContainer> {
-    private static final DockerImageName DOCKER_IMAGE_NAME = DockerImageName.parse("w4t3rcs/spring-boot-python-executor-python-rest-server");
-    private static final int PYTHON_SERVER_DEFAULT_PORT = 8000;
+    public static final String DOCKER_IMAGE_NAME_STRING = "w4t3rcs/spring-boot-python-executor-python-rest-server:latest";
+    private static final DockerImageName DOCKER_IMAGE_NAME = DockerImageName.parse(DOCKER_IMAGE_NAME_STRING);
     public static final String PYTHON_SERVER_TOKEN_ENV = "PYTHON_SERVER_TOKEN";
     public static final String PYTHON_ADDITIONAL_IMPORTS_ENV = "PYTHON_ADDITIONAL_IMPORTS";
     public static final String PYTHON_ADDITIONAL_IMPORTS_DELIMITER_ENV = "PYTHON_ADDITIONAL_IMPORTS_DELIMITER";
     public static final String PYTHON_RESULT_APPEARANCE_ENV = "PYTHON_RESULT_APPEARANCE";
+    protected static final int DEFAULT_PORT = 8000;
+    protected static final String DEFAULT_EXECUTE_ENDPOINT = "/execute";
+    protected static final String DEFAULT_PIP_ENDPOINT = "/pip";
     protected static final String DEFAULT_TOKEN = "secret";
     protected static final String DEFAULT_ADDITIONAL_IMPORTS_DELIMITER = ",";
+    private String executeEndpoint = DEFAULT_EXECUTE_ENDPOINT;
+    private String pipEndpoint = DEFAULT_PIP_ENDPOINT;
     private String token = DEFAULT_TOKEN;
 
     /**
      * Creates a new {@link PythonRestServerContainer} instance using a Docker image name string.
-     * Docker image to use is {@code w4t3rcs/spring-boot-python-executor-python-rest-server:latest}
+     * Docker image to use is {@link #DOCKER_IMAGE_NAME_STRING}
      */
     public PythonRestServerContainer() {
-        this("w4t3rcs/spring-boot-python-executor-python-rest-server:latest");
+        this(DOCKER_IMAGE_NAME_STRING);
     }
 
     /**
@@ -74,13 +79,25 @@ public class PythonRestServerContainer extends GenericContainer<PythonRestServer
      */
     public PythonRestServerContainer(DockerImageName dockerImageName) {
         super(dockerImageName);
+        this.withExecuteEndpoint(DEFAULT_EXECUTE_ENDPOINT);
+        this.withPipEndpoint(DEFAULT_PIP_ENDPOINT);
         this.withToken(DEFAULT_TOKEN);
         dockerImageName.assertCompatibleWith(DOCKER_IMAGE_NAME);
-        this.addExposedPort(PYTHON_SERVER_DEFAULT_PORT);
+        this.addExposedPort(DEFAULT_PORT);
         this.waitingFor(
                 new WaitAllStrategy()
                         .withStartupTimeout(Duration.ofMinutes(5))
                         .withStrategy(Wait.forListeningPort()));
+    }
+
+    public PythonRestServerContainer withExecuteEndpoint(String endpoint) {
+        this.executeEndpoint = endpoint;
+        return this.self();
+    }
+
+    public PythonRestServerContainer withPipEndpoint(String endpoint) {
+        this.pipEndpoint = endpoint;
+        return this.self();
     }
 
     /**
@@ -139,6 +156,14 @@ public class PythonRestServerContainer extends GenericContainer<PythonRestServer
         return this.self();
     }
 
+    public String getExecuteUrl() {
+        return this.getHost() + ":" + this.getMappedPort(DEFAULT_PORT) + this.executeEndpoint;
+    }
+
+    public String getPipUrl() {
+        return this.getHost() + ":" + this.getMappedPort(DEFAULT_PORT) + this.pipEndpoint;
+    }
+
     /**
      * Returns the currently configured token.
      *
@@ -146,17 +171,5 @@ public class PythonRestServerContainer extends GenericContainer<PythonRestServer
      */
     public String getToken() {
         return token;
-    }
-
-    /**
-     * Returns the base URL of the Python REST server endpoint.
-     *
-     * <p>The returned URL is always in the form:
-     * {@code http://<host>:<mappedPort>/script}</p>
-     *
-     * @return non-null base URL string of the REST endpoint
-     */
-    public String getServerUrl() {
-        return this.getHost() + ":" + this.getMappedPort(PYTHON_SERVER_DEFAULT_PORT) + "/script";
     }
 }

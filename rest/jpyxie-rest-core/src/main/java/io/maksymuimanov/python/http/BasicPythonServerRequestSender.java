@@ -12,6 +12,9 @@ import java.net.http.HttpResponse;
 
 @RequiredArgsConstructor
 public class BasicPythonServerRequestSender implements PythonServerRequestSender {
+    public static final String DEFAULT_HOST = "http://localhost";
+    public static final int DEFAULT_PORT = 8000;
+    public static final String DEFAULT_TOKEN = "";
     private final HttpClient httpClient;
 
     @Override

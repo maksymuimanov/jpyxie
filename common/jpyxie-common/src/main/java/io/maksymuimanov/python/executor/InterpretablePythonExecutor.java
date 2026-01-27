@@ -10,7 +10,8 @@ import io.maksymuimanov.python.script.PythonScript;
 public abstract class InterpretablePythonExecutor<F, I extends AutoCloseable> extends AbstractPythonExecutor<F> {
     private final PythonInterpreterProvider<I> interpreterProvider;
 
-    protected InterpretablePythonExecutor(PythonDeserializer<F> pythonDeserializer, PythonInterpreterProvider<I> interpreterProvider) {
+    protected InterpretablePythonExecutor(PythonDeserializer<F> pythonDeserializer,
+                                          PythonInterpreterProvider<I> interpreterProvider) {
         super(pythonDeserializer);
         this.interpreterProvider = interpreterProvider;
     }

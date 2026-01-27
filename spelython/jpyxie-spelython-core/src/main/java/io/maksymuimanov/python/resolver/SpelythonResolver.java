@@ -33,13 +33,21 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
  */
 @RequiredArgsConstructor
 public class SpelythonResolver implements PythonResolver {
-    public static final int PRIORITY = -100;
+    public static final String DEFAULT_REGEX = "spel\\{.+?}";
+    public static final String DEFAULT_LOCAL_VARIABLE_INDEX = "#";
+    public static final int DEFAULT_POSITION_FROM_START = 5;
+    public static final int DEFAULT_POSITION_FROM_END = 1;
     private final String regex;
     private final String localVariableIndex;
     private final int positionFromStart;
     private final int positionFromEnd;
     private final ApplicationContext applicationContext;
     private final ObjectMapper objectMapper;
+
+    public SpelythonResolver(ApplicationContext applicationContext,
+                             ObjectMapper objectMapper) {
+        this(DEFAULT_REGEX, DEFAULT_LOCAL_VARIABLE_INDEX, DEFAULT_POSITION_FROM_START, DEFAULT_POSITION_FROM_END, applicationContext, objectMapper);
+    }
 
     /**
      * Resolves SpEL expressions within the given Python script by evaluating each
@@ -91,10 +99,5 @@ public class SpelythonResolver implements PythonResolver {
                     }
                 })
                 .getScript();
-    }
-
-    @Override
-    public int getPriority() {
-        return PRIORITY;
     }
 }

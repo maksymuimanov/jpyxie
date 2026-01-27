@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import io.maksymuimanov.python.lifecycle.JythonInitializer;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,5 +19,5 @@ public class JythonProperties {
     /**
      * Determines whether the default Python library site modules should be imported when initializing the Python interpreter.
      */
-    private boolean importSite = false;
+    private boolean importSite = JythonInitializer.DEFAULT_IMPORT_SITE;
 }

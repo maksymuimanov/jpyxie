@@ -76,14 +76,19 @@ public class RestPythonServerConnectionDetailsFactory extends ContainerConnectio
 
         /** {@inheritDoc} */
         @Override
-        public String getToken() {
-            return this.getContainer().getToken();
+        public String getExecuteUri() {
+            return this.getContainer().getExecuteUrl();
+        }
+
+        @Override
+        public String getPipUri() {
+            return this.getContainer().getPipUrl();
         }
 
         /** {@inheritDoc} */
         @Override
-        public String getUri() {
-            return this.getContainer().getServerUrl();
+        public String getToken() {
+            return this.getContainer().getToken();
         }
     }
 }

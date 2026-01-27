@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.bind.PythonDeserializer;
 import io.maksymuimanov.python.exception.PythonExecutionException;
+import io.maksymuimanov.python.http.BasicPythonServerRequestSender;
 import io.maksymuimanov.python.http.PythonServerRequestSender;
 import io.maksymuimanov.python.processor.PythonResultMap;
 import io.maksymuimanov.python.script.PythonScript;
@@ -13,12 +14,24 @@ import java.util.List;
 
 @Slf4j
 public class RestPythonExecutor extends AbstractPythonExecutor<RestPythonResponse> {
+    public static final String DEFAULT_ENDPOINT = "/execute";
+    public static final String DEFAULT_URI = BasicPythonServerRequestSender.DEFAULT_HOST + ":" + BasicPythonServerRequestSender.DEFAULT_PORT + DEFAULT_ENDPOINT;
     private final String uri;
     private final String token;
     private final PythonServerRequestSender requestSender;
     private final ObjectMapper objectMapper;
 
-    public RestPythonExecutor(PythonDeserializer<RestPythonResponse> pythonDeserializer, String uri, String token, PythonServerRequestSender requestSender, ObjectMapper objectMapper) {
+    public RestPythonExecutor(PythonDeserializer<RestPythonResponse> pythonDeserializer,
+                              PythonServerRequestSender requestSender,
+                              ObjectMapper objectMapper) {
+        this(pythonDeserializer, DEFAULT_URI, BasicPythonServerRequestSender.DEFAULT_TOKEN, requestSender, objectMapper);
+    }
+
+    public RestPythonExecutor(PythonDeserializer<RestPythonResponse> pythonDeserializer,
+                              String uri,
+                              String token,
+                              PythonServerRequestSender requestSender,
+                              ObjectMapper objectMapper) {
         super(pythonDeserializer);
         this.uri = uri;
         this.token = token;

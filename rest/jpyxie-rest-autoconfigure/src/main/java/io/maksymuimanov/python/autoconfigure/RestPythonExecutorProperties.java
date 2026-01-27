@@ -2,6 +2,8 @@ package io.maksymuimanov.python.autoconfigure;
 
 import io.maksymuimanov.python.executor.PythonExecutor;
 import io.maksymuimanov.python.executor.RestPythonExecutor;
+import io.maksymuimanov.python.http.BasicPythonServerRequestSender;
+import io.maksymuimanov.python.library.RestPipManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -32,17 +34,17 @@ public class RestPythonExecutorProperties {
     /**
      * Base host URL of the REST Python executor service.
      */
-    private String host = "http://localhost";
+    private String host = BasicPythonServerRequestSender.DEFAULT_HOST;
     /**
      * Port number used to connect to the REST Python executor service.
      */
-    private int port = 8000;
+    private int port = BasicPythonServerRequestSender.DEFAULT_PORT;
     /**
      * Authentication token for securing REST requests to the Python executor.
      */
-    private String token;
-    /**
-     * Full URI composed of host and port, pointing to the '/script' REST endpoint.
-     */
-    private String uri = this.host + ":" + this.port + "/script";
+    private String token = BasicPythonServerRequestSender.DEFAULT_TOKEN;
+    private String scriptEndpoint = RestPythonExecutor.DEFAULT_ENDPOINT;
+    private String executeUri = this.host + ":" + this.port + this.scriptEndpoint;
+    private String pipEndpoint = RestPipManager.DEFAULT_ENDPOINT;
+    private String pipUri = this.host + ":" + this.port + this.pipEndpoint;
 }

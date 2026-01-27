@@ -8,7 +8,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
 public class ExpansionStarvationHandler<I extends AutoCloseable> implements PythonInterpreterPoolStarvationHandler<I>{
+    public static final int DEFAULT_SIZE_MULTIPLIER = 2;
     private final int sizeMultiplier;
+
+    public ExpansionStarvationHandler() {
+        this(DEFAULT_SIZE_MULTIPLIER);
+    }
 
     @Override
     public I handle(PythonInterpreterFactory<I> interpreterFactory, BlockingQueue<I> pool, AtomicInteger poolSize) {

@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import io.maksymuimanov.python.interpreter.JepInterpreterFactory;
 import io.maksymuimanov.python.interpreter.JepInterpreterType;
 import io.maksymuimanov.python.library.JepLibraryManagement;
 import io.maksymuimanov.python.library.PythonLibraryManagement;
@@ -21,7 +22,7 @@ public class JepProperties {
     /**
      * The type of the JEP interpreter to use.
      */
-    private JepInterpreterType interpreterType = JepInterpreterType.SHARED;
+    private JepInterpreterType interpreterType = JepInterpreterFactory.DEFAULT_INTERPRETER_TYPE;
 
     @Getter @Setter
     public static class LibraryProperties {

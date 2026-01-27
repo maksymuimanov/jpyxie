@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.script;
 
+import io.maksymuimanov.python.constant.PythonConstants;
 import io.maksymuimanov.python.exception.PythonScriptException;
 import org.jspecify.annotations.Nullable;
 
@@ -8,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class PythonScript implements PythonRepresentation {
-    public static final String FILE_FORMAT = ".py";
     public static final int START_INDEX = 0;
     private final String name;
     private final String source;
@@ -25,16 +25,16 @@ public class PythonScript implements PythonRepresentation {
 
     public static PythonScript fromFile(CharSequence name) {
         String nameString = name.toString();
-        return fromFile(nameString, isFile(nameString) ? nameString : nameString + FILE_FORMAT);
+        return fromFile(nameString, isFile(nameString) ? nameString : nameString + PythonConstants.FILE_FORMAT);
     }
 
     public static PythonScript fromFile(CharSequence name, CharSequence script) {
-        if (!isFile(script)) throw new PythonScriptException("Invalid file name format. It must end with " + FILE_FORMAT);
+        if (!isFile(script)) throw new PythonScriptException("Invalid file name format. It must end with " + PythonConstants.FILE_FORMAT);
         return new PythonScript(name.toString(), script.toString(), true, new ArrayList<>(), new ArrayList<>());
     }
 
     public static boolean isFile(CharSequence source) {
-        return source.toString().endsWith(FILE_FORMAT);
+        return source.toString().endsWith(PythonConstants.FILE_FORMAT);
     }
 
     public static PythonScript fromString(CharSequence name, CharSequence script) {

@@ -1,5 +1,7 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import io.maksymuimanov.python.executor.BasicPythonOutputProcessHandler;
+import io.maksymuimanov.python.executor.BasicPythonProcessStarter;
 import io.maksymuimanov.python.executor.ProcessPythonExecutor;
 import io.maksymuimanov.python.executor.PythonExecutor;
 import lombok.Getter;
@@ -36,13 +38,9 @@ public class ProcessPythonExecutorProperties {
     /**
      * The base command used to start the Python interpreter process.
      */
-    private String startCommand = "python";
+    private String startCommand = BasicPythonProcessStarter.DEFAULT_START_COMMAND;
     /**
      * Whether process execution details (input, output, errors) should be logged.
      */
-    private boolean loggable = true;
-    /**
-     * Defines the variable name of the result to be returned to the Java side.
-     */
-    private String resultAppearance = "r4java";
+    private boolean loggable = BasicPythonOutputProcessHandler.DEFAULT_LOGGABLE;
 }

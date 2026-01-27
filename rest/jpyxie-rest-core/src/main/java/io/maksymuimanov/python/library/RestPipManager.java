@@ -2,17 +2,25 @@ package io.maksymuimanov.python.library;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.exception.PythonLibraryManagementException;
+import io.maksymuimanov.python.http.BasicPythonServerRequestSender;
 import io.maksymuimanov.python.http.PythonServerRequestSender;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RestPipManager implements PipManager {
+    public static final String DEFAULT_ENDPOINT = "/pip";
+    public static final String DEFAULT_URI = BasicPythonServerRequestSender.DEFAULT_HOST + ":" + BasicPythonServerRequestSender.DEFAULT_PORT + DEFAULT_ENDPOINT;
     public static final String INSTALLATION_FAILURE_EXCEPTION_MESSAGE = "Installation has failed";
     public static final String UNINSTALLATION_FAILURE_EXCEPTION_MESSAGE = "Uninstallation has failed";
     private final String uri;
     private final String token;
     private final PythonServerRequestSender requestSender;
     private final ObjectMapper objectMapper;
+
+    public RestPipManager(PythonServerRequestSender requestSender,
+                          ObjectMapper objectMapper) {
+        this(DEFAULT_URI, BasicPythonServerRequestSender.DEFAULT_TOKEN, requestSender, objectMapper);
+    }
 
     @Override
     public boolean exists(PythonLibraryManagement management) {

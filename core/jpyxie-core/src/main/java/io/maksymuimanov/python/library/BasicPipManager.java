@@ -17,12 +17,22 @@ import java.util.function.IntConsumer;
 
 @Slf4j
 public class BasicPipManager implements PipManager {
+    public static final String DEFAULT_COMMAND = "python -m pip";
+    public static final boolean DEFAULT_REDIRECT_ERROR_STREAM = false;
+    public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = false;
+    public static final boolean DEFAULT_READ_OUTPUT = false;
+    public static final Duration DEFAULT_TIMEOUT = Duration.ofMillis(-1);
+    public static final String SHOW = "show";
     public static final String EXCEPTION_MESSAGE_FORMAT = "%s failed with exit code: %d";
     private final String[] pipPath;
     private final boolean redirectErrorStream;
     private final boolean redirectOutputStream;
     private final boolean readOutput;
     private final Duration timeout;
+
+    public BasicPipManager(String pipPath) {
+        this(pipPath, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
+    }
 
     public BasicPipManager(String pipPath, boolean redirectErrorStream, boolean redirectOutputStream, boolean readOutput, Duration timeout) {
         this.pipPath = pipPath.split(" ");

@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.autoconfigure;
 
+import io.maksymuimanov.python.library.BasicPipManager;
 import io.maksymuimanov.python.library.PythonLibraryManagement;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,23 +14,23 @@ public class PythonPipProperties {
     /**
      * Command used to invoke pip for managing Python packages. Typically 'python -m pip', but can point to an interpreter inside a virtual environment or a Windows launcher.
      */
-    private String command = "python -m pip";
+    private String command = BasicPipManager.DEFAULT_COMMAND;
     /**
      * Whether to redirect error stream when executing pip commands.
      */
-    private boolean redirectErrorStream;
+    private boolean redirectErrorStream = BasicPipManager.DEFAULT_REDIRECT_ERROR_STREAM;
     /**
      * Whether to redirect output stream when executing pip commands.
      */
-    private boolean redirectOutputStream;
+    private boolean redirectOutputStream = BasicPipManager.DEFAULT_REDIRECT_OUTPUT_STREAM;
     /**
      * Whether to read the output of pip commands.
      */
-    private boolean readOutput;
+    private boolean readOutput = BasicPipManager.DEFAULT_READ_OUTPUT;
     /**
      * Timeout for executing pip commands.
      */
-    private Duration timeout;
+    private Duration timeout = BasicPipManager.DEFAULT_TIMEOUT;
     /**
      * Configuration group for Python library installation and uninstallation using pip.
      */

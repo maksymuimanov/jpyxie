@@ -38,7 +38,9 @@ public class GraalPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor graalPythonExecutor(PythonInterpreterProvider<Context> graalInterpreterProvider, PythonDeserializer<Value> graalPythonDeserializer, GraalPyProperties properties) {
+    public PythonExecutor graalPythonExecutor(PythonInterpreterProvider<Context> graalInterpreterProvider,
+                                              PythonDeserializer<Value> graalPythonDeserializer,
+                                              GraalPyProperties properties) {
         return new GraalPythonExecutor(graalPythonDeserializer, graalInterpreterProvider, properties.isCached());
     }
 }

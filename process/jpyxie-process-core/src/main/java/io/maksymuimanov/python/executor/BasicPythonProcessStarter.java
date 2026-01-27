@@ -1,5 +1,6 @@
 package io.maksymuimanov.python.executor;
 
+import io.maksymuimanov.python.constant.PythonConstants;
 import io.maksymuimanov.python.exception.PythonProcessStartException;
 import io.maksymuimanov.python.file.PythonFileReader;
 import io.maksymuimanov.python.script.PythonScript;
@@ -45,7 +46,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class BasicPythonProcessStarter implements ProcessStarter {
     private static final String COMMAND_HEADER = "-c";
+    public static final String DEFAULT_START_COMMAND = PythonConstants.PYTHON;
     private final String startCommand;
+
+    public BasicPythonProcessStarter() {
+        this(DEFAULT_START_COMMAND);
+    }
 
     /**
      * Starts a Python process from either a file or inline code.

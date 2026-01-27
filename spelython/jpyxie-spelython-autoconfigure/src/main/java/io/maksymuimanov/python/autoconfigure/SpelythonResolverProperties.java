@@ -38,17 +38,17 @@ public class SpelythonResolverProperties {
     /**
      * Regular expression pattern used to locate SpEL expressions within Python scripts.
      */
-    private String regex = "spel\\{.+?}";
+    private String regex = SpelythonResolver.DEFAULT_REGEX;
     /**
      * Prefix symbol used to reference additional argumentSpec variables in SpEL expressions.
      */
-    private String localVariableIndex = "#";
+    private String localVariableIndex = SpelythonResolver.DEFAULT_LOCAL_VARIABLE_INDEX;
     /**
      * Number of characters to skip from the start of a matched SpEL expression before evaluating it.
      */
-    private int positionFromStart = 5;
+    private int positionFromStart = SpelythonResolver.DEFAULT_POSITION_FROM_START;
     /**
      * Number of characters to skip from the end of a matched SpEL expression before evaluation.
      */
-    private int positionFromEnd = 1;
+    private int positionFromEnd = SpelythonResolver.DEFAULT_POSITION_FROM_END;
 }
