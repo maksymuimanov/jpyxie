@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.autoconfigure;
 
-import io.maksymuimanov.python.exception.PythonFileException;
 import io.maksymuimanov.python.file.BasicPythonFileReader;
+import io.maksymuimanov.python.file.ClassPathResourceInputStreamProvider;
 import io.maksymuimanov.python.file.InputStreamProvider;
 import io.maksymuimanov.python.file.PythonFileReader;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -9,9 +9,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
-
-import java.io.IOException;
 
 /**
  * Spring Boot autoconfiguration for {@link PythonFileReader} beans.
@@ -34,25 +31,7 @@ public class PythonFileAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(InputStreamProvider.class)
     public InputStreamProvider classPathResourceInputStreamProvider(PythonFileProperties fileProperties, Environment environment) {
-        return path -> {
-            try {
-                ClassPathResource resource = new ClassPathResource(fileProperties.getPath() + path);
-                if (resource.exists()) {
-                    return resource.getInputStream();
-                } else {
-                    String[] activeProfiles = environment.getActiveProfiles();
-                    for (String activeProfile : activeProfiles) {
-                        ClassPathResource profileResource = new ClassPathResource(fileProperties.getPath() + activeProfile + "/" + path);
-                        if (profileResource.exists()) {
-                            return profileResource.getInputStream();
-                        }
-                    }
-                    throw new PythonFileException(path + " not found");
-                }
-            } catch (IOException e) {
-                throw new PythonFileException(e);
-            }
-        };
+        return new ClassPathResourceInputStreamProvider(fileProperties, environment);
     }
 
     /**
