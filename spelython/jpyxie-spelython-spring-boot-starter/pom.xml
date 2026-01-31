@@ -38,7 +38,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.github.maksymuimanov</groupId>
-			<artifactId>jpyxie-spelython-autoconfigure</artifactId>
+			<artifactId>jpyxie-spelython-spring-boot-autoconfigure</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

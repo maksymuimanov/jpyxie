@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jpyxie-rest-autoconfigure</artifactId>
+    <artifactId>jpyxie-process-spring-boot-autoconfigure</artifactId>
     <version>2.0.0</version>
     <packaging>jar</packaging>
-    <name>JPyxie REST Autoconfigure</name>
+    <name>JPyxie Process Autoconfigure</name>
     <description>
-        Spring Boot autoconfiguration module for the REST JPyxie.
-        Automatically configures the PythonExecutor implementation and needed infrastructure for the script execution via REST,
+        Spring Boot autoconfiguration module for the Process JPyxie.
+        Automatically configures the PythonExecutor implementation and needed infrastructure for the script execution via Process API,
         Designed to work seamlessly with Spring Boot via the starter module.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
@@ -38,7 +38,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-rest-core</artifactId>
+            <artifactId>jpyxie-process-core</artifactId>
             <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
@@ -52,16 +52,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring-boot.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-testcontainers</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-rest-testcontainers</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>

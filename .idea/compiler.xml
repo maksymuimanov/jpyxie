@@ -7,39 +7,39 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="jpyxie-jython-autoconfigure" />
+        <module name="jpyxie-grpc-spring-boot-autoconfigure" />
         <module name="jpyxie-core" />
         <module name="jpyxie-spelython-spring-boot-starter" />
         <module name="jpyxie-process-spring-boot-starter" />
-        <module name="jpyxie-grpc-autoconfigure" />
+        <module name="jpyxie-rest-spring-boot-autoconfigure" />
+        <module name="jpyxie-jython-spring-boot-autoconfigure" />
+        <module name="jpyxie-micrometer-spring-boot-autoconfigure" />
         <module name="jpyxie-jython-spring-boot-starter" />
-        <module name="jpyxie-micrometer-autoconfigure" />
         <module name="jpyxie-graalpy-spring-boot-starter" />
         <module name="jpyxie-spring-boot-starter" />
+        <module name="jpyxie-jep-spring-boot-autoconfigure" />
         <module name="jpyxie-actuator-spring-boot-starter" />
         <module name="jpyxie-process-core" />
         <module name="jpyxie-spelython-core" />
-        <module name="jpyxie-autoconfigure" />
+        <module name="jpyxie-actuator-spring-boot-autoconfigure" />
         <module name="jpyxie-micrometer-core" />
         <module name="jpyxie-rest-core" />
-        <module name="jpyxie-graalpy-autoconfigure" />
         <module name="jpyxie-rest-testcontainers" />
+        <module name="jpyxie-spring-boot-autoconfigure" />
         <module name="jpyxie-jep-core" />
-        <module name="jpyxie-actuator-autoconfigure" />
+        <module name="jpyxie-process-spring-boot-autoconfigure" />
         <module name="jpyxie-jython-core" />
         <module name="jpyxie-rest-spring-boot-starter" />
-        <module name="jpyxie-spelython-autoconfigure" />
+        <module name="jpyxie-spelython-spring-boot-autoconfigure" />
         <module name="jpyxie-grpc-core" />
+        <module name="jpyxie-graalpy-spring-boot-autoconfigure" />
         <module name="jpyxie-common" />
-        <module name="jpyxie-jep-autoconfigure" />
-        <module name="jpyxie-actuator-core" />
         <module name="jpyxie-grpc-spring-boot-starter" />
         <module name="jpyxie-graalpy-core" />
         <module name="jpyxie-grpc-testcontainers" />
+        <module name="jpyxie-actuator-spring-boot-core" />
         <module name="test-app" />
-        <module name="jpyxie-rest-autoconfigure" />
         <module name="jpyxie-jep-spring-boot-starter" />
-        <module name="jpyxie-process-autoconfigure" />
         <module name="jpyxie-micrometer-spring-boot-starter" />
       </profile>
     </annotationProcessing>
@@ -98,17 +98,17 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="jpyxie-actuator-autoconfigure" options="" />
-      <module name="jpyxie-actuator-core" options="" />
+      <module name="jpyxie-actuator-spring-boot-autoconfigure" options="" />
+      <module name="jpyxie-actuator-spring-boot-core" options="" />
       <module name="jpyxie-actuator-spring-boot-starter" options="" />
       <module name="jpyxie-bind-core" options="" />
       <module name="jpyxie-graalpy-core" options="" />
       <module name="jpyxie-graalpy-spring-boot-starter" options="" />
       <module name="jpyxie-grpc-testcontainers" options="" />
-      <module name="jpyxie-jep-autoconfigure" options="" />
+      <module name="jpyxie-jep-spring-boot-autoconfigure" options="" />
       <module name="jpyxie-jep-spring-boot-starter" options="" />
-      <module name="jpyxie-jython-autoconfigure" options="" />
       <module name="jpyxie-jython-core" options="" />
+      <module name="jpyxie-jython-spring-boot-autoconfigure" options="" />
       <module name="jpyxie-jython-spring-boot-starter" options="" />
       <module name="jpyxie-micrometer-core" options="" />
       <module name="jpyxie-micrometer-spring-boot-starter" options="" />

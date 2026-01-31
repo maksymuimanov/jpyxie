@@ -37,7 +37,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-micrometer-autoconfigure</artifactId>
+            <artifactId>jpyxie-micrometer-spring-boot-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

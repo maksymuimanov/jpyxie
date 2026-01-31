@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/actuator/jpyxie-actuator-autoconfigure/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/actuator/jpyxie-actuator-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/actuator/jpyxie-actuator-spring-boot-autoconfigure/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/actuator/jpyxie-actuator-spring-boot-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/actuator/jpyxie-actuator-spring-boot-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/aop/jpyxie-spring-boot-aop-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/aop/jpyxie-spring-boot-aop-core/src/main/java" charset="UTF-8" />
@@ -18,20 +18,20 @@
     <file url="file://$PROJECT_DIR$/cache/python-executor-spring-boot-cache-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/jpyxie-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/jpyxie-common/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/core/jpyxie-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/jpyxie-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/jpyxie-spring-boot-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/jpyxie-spring-boot-starter/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/graalpy/jpyxie-graalpy-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/graalpy/jpyxie-graalpy-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/graalpy/jpyxie-graalpy-spring-boot-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/graalpy/jpyxie-graalpy-spring-boot-starter/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/grpc/jpyxie-grpc-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grpc/jpyxie-grpc-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/grpc/jpyxie-grpc-spring-boot-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grpc/jpyxie-grpc-spring-boot-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grpc/jpyxie-grpc-testcontainers/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/jep/jpyxie-jep-autoconfigure/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jep/jpyxie-jep-spring-boot-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jep/jpyxie-jep-spring-boot-starter/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/jython/jpyxie-jython-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jython/jpyxie-jython-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jython/jpyxie-jython-spring-boot-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jython/jpyxie-jython-spring-boot-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/metrics/jpyxie-micrometer-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/metrics/jpyxie-micrometer-spring-boot-starter/src/main/java" charset="UTF-8" />
@@ -39,8 +39,8 @@
     <file url="file://$PROJECT_DIR$/other/py4j/python-executor-py4j-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/other/py4j/python-executor-py4j-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/other/py4j/python-executor-py4j-spring-boot-starter/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/process/jpyxie-process-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/process/jpyxie-process-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/process/jpyxie-process-spring-boot-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/process/jpyxie-process-spring-boot-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/python-executor-jython-executor-spring-boot-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resolver/pretty/python-executor-pretty-resolver-autoconfigure/src/main/java" charset="UTF-8" />
@@ -52,12 +52,12 @@
     <file url="file://$PROJECT_DIR$/resolver/result/python-executor-result-resolver-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resolver/result/python-executor-result-resolver-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resolver/result/python-executor-result-resolver-spring-boot-starter/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/rest/jpyxie-rest-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rest/jpyxie-rest-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rest/jpyxie-rest-spring-boot-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rest/jpyxie-rest-spring-boot-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rest/jpyxie-rest-testcontainers/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/spelython/jpyxie-spelython-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spelython/jpyxie-spelython-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spelython/jpyxie-spelython-spring-boot-autoconfigure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spelython/jpyxie-spelython-spring-boot-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-boot-python-executor-coree/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-boot-python-executor-grpc-executor-core/src/main/java" charset="UTF-8" />

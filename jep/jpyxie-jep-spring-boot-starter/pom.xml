@@ -39,7 +39,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-jep-autoconfigure</artifactId>
+            <artifactId>jpyxie-jep-spring-boot-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

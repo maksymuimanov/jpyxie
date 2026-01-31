@@ -31,45 +31,45 @@
         <module>common/jpyxie-common</module>
 
         <module>core/jpyxie-core</module>
-        <module>core/jpyxie-autoconfigure</module>
+        <module>core/jpyxie-spring-boot-autoconfigure</module>
         <module>core/jpyxie-spring-boot-starter</module>
 
         <module>spelython/jpyxie-spelython-core</module>
-        <module>spelython/jpyxie-spelython-autoconfigure</module>
+        <module>spelython/jpyxie-spelython-spring-boot-autoconfigure</module>
         <module>spelython/jpyxie-spelython-spring-boot-starter</module>
 
         <module>rest/jpyxie-rest-core</module>
-        <module>rest/jpyxie-rest-autoconfigure</module>
+        <module>rest/jpyxie-rest-spring-boot-autoconfigure</module>
         <module>rest/jpyxie-rest-spring-boot-starter</module>
         <module>rest/jpyxie-rest-testcontainers</module>
 
         <module>grpc/jpyxie-grpc-core</module>
-        <module>grpc/jpyxie-grpc-autoconfigure</module>
+        <module>grpc/jpyxie-grpc-spring-boot-autoconfigure</module>
         <module>grpc/jpyxie-grpc-spring-boot-starter</module>
         <module>grpc/jpyxie-grpc-testcontainers</module>
 
         <module>process/jpyxie-process-core</module>
-        <module>process/jpyxie-process-autoconfigure</module>
+        <module>process/jpyxie-process-spring-boot-autoconfigure</module>
         <module>process/jpyxie-process-spring-boot-starter</module>
 
         <module>jep/jpyxie-jep-core</module>
-        <module>jep/jpyxie-jep-autoconfigure</module>
+        <module>jep/jpyxie-jep-spring-boot-autoconfigure</module>
         <module>jep/jpyxie-jep-spring-boot-starter</module>
 
         <module>jython/jpyxie-jython-core</module>
-        <module>jython/jpyxie-jython-autoconfigure</module>
+        <module>jython/jpyxie-jython-spring-boot-autoconfigure</module>
         <module>jython/jpyxie-jython-spring-boot-starter</module>
 
         <module>graalpy/jpyxie-graalpy-core</module>
-        <module>graalpy/jpyxie-graalpy-autoconfigure</module>
+        <module>graalpy/jpyxie-graalpy-spring-boot-autoconfigure</module>
         <module>graalpy/jpyxie-graalpy-spring-boot-starter</module>
 
-        <module>actuator/jpyxie-actuator-core</module>
-        <module>actuator/jpyxie-actuator-autoconfigure</module>
+        <module>actuator/jpyxie-actuator-spring-boot-core</module>
+        <module>actuator/jpyxie-actuator-spring-boot-autoconfigure</module>
         <module>actuator/jpyxie-actuator-spring-boot-starter</module>
 
         <module>metrics/jpyxie-micrometer-core</module>
-        <module>metrics/jpyxie-micrometer-autoconfigure</module>
+        <module>metrics/jpyxie-micrometer-spring-boot-autoconfigure</module>
         <module>metrics/jpyxie-micrometer-spring-boot-starter</module>
 
         <module>bom/jpyxie-bom</module>

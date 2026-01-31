@@ -38,12 +38,12 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-actuator-autoconfigure</artifactId>
+            <artifactId>jpyxie-actuator-spring-boot-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-actuator-core</artifactId>
+            <artifactId>jpyxie-actuator-spring-boot-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

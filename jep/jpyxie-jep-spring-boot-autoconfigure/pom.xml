@@ -2,14 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jpyxie-actuator-autoconfigure</artifactId>
+    <artifactId>jpyxie-jep-spring-boot-autoconfigure</artifactId>
     <version>2.0.0</version>
     <packaging>jar</packaging>
-    <name>JPyxie Actuator Autoconfigure</name>
+    <name>JPyxie JEP Autoconfigure</name>
     <description>
-        Spring Boot Actuator autoconfiguration module for Python execution monitoring and management.
-        Provides health indicators and info contributors to monitor Python execution environment
-        and processor status through Spring Boot's Actuator endpoints.
+        Spring Boot autoconfiguration module for integrating JEP (Java Embedded Python)
+        into the JPyxie framework. It automatically configures JEP-based Python
+        execution, library initialization, and resource management using Spring Boot’s
+        autoconfiguration mechanism.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>
@@ -38,18 +39,13 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-actuator-core</artifactId>
+            <artifactId>jpyxie-jep-core</artifactId>
             <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-actuator-autoconfigure</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>

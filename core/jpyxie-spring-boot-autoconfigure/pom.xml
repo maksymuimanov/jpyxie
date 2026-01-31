@@ -2,14 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jpyxie-process-autoconfigure</artifactId>
+    <artifactId>jpyxie-spring-boot-autoconfigure</artifactId>
     <version>2.0.0</version>
     <packaging>jar</packaging>
-    <name>JPyxie Process Autoconfigure</name>
+    <name>JPyxie Autoconfigure</name>
     <description>
-        Spring Boot autoconfiguration module for the Process JPyxie.
-        Automatically configures the PythonExecutor implementation and needed infrastructure for the script execution via Process API,
-        Designed to work seamlessly with Spring Boot via the starter module.
+        Spring Boot autoconfiguration module for the JPyxie.
+        Automatically configures Python execution, SpEL-based expression resolving,
+        and result handling based on application properties. Designed to work seamlessly
+        with Spring Boot via the starter module.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>
@@ -38,7 +39,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-process-core</artifactId>
+            <artifactId>jpyxie-core</artifactId>
             <version>${project.version}</version>
             <optional>true</optional>
         </dependency>

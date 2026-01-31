@@ -2,14 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jpyxie-jython-autoconfigure</artifactId>
+    <artifactId>jpyxie-graalpy-spring-boot-autoconfigure</artifactId>
     <version>2.0.0</version>
     <packaging>jar</packaging>
-    <name>JPyxie Jython Autoconfigure</name>
+    <name>JPyxie GraalPy Autoconfigure</name>
     <description>
-        Provides autoconfiguration for integrating the Python and Jython executor into Spring Boot applications.
-        It automatically registers the required beans, enabling seamless execution of Python code within the Spring
-        framework environment.
+        Provides automatic configuration for embedding a GraalPy Python interpreter within a Spring Boot application.
+        This module sets up a pre-configured Context builder, allowing safe execution of Python scripts,
+        including options for standard library paths, experimental features, and interop with Java code.
+        It is designed to simplify the integration of Python scripting in Java projects while respecting GraalPy runtime constraints.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>
@@ -38,7 +39,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-jython-core</artifactId>
+            <artifactId>jpyxie-graalpy-core</artifactId>
             <version>${project.version}</version>
             <optional>true</optional>
         </dependency>

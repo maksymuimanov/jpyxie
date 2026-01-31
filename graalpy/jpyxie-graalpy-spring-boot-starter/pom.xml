@@ -38,7 +38,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-graalpy-autoconfigure</artifactId>
+            <artifactId>jpyxie-graalpy-spring-boot-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

@@ -38,7 +38,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-grpc-autoconfigure</artifactId>
+            <artifactId>jpyxie-grpc-spring-boot-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
