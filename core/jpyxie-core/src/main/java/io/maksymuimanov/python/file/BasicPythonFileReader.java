@@ -13,9 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Implementation of the {@link PythonFileReader} interface providing
- * reading file operations for Python scripts.
+ * reading file operations for Python script [name: {}]s.
  * <p>
- * This class supports reading from Python script files and creating script input
+ * This class supports reading from Python script [name: {}] files and creating script input
  * stream based on configured {@link BasicPythonFileReader#inputStreamProvider}.
  * </p>
  *
@@ -44,7 +44,7 @@ public class BasicPythonFileReader implements PythonFileReader {
     }
 
     /**
-     * Reads the content of a Python script file resolved from the given path string.
+     * Reads the content of a Python script [name: {}] file resolved from the given path string.
      *
      * @param script the script object containing the path string for the script file, must be non-null
      * @return the script content as a {@link PythonScript}, never null but possibly empty
@@ -52,29 +52,30 @@ public class BasicPythonFileReader implements PythonFileReader {
      */
     @Override
     public PythonScript readScript(PythonScript script) {
+        String name = script.getName();
         if (!script.isFile()) {
-            log.debug("Python script [name: {}] is not a file, returning as-is", script.getName());
+            log.debug("Python script [name: {}] is not a file, returning as-is", name);
             return script;
         }
         try {
             String source = script.getSource();
-            log.debug("Reading Python script from source [length: {}]", source.length());
+            log.debug("Reading Python script [name: {}] from source [length: {}]", name, source.length());
             String body = this.fileCache.computeIfAbsent(source, path -> {
-                log.debug("Cache miss for Python script, loading from filesystem");
+                log.debug("Cache miss for Python script [name: {}], loading from filesystem", name);
                 try (InputStream inputStream = this.inputStreamProvider.open(path)) {
                     byte[] bytes = inputStream.readAllBytes();
-                    log.debug("Successfully read [{}] bytes from Python script file", bytes.length);
+                    log.debug("Successfully read [{}] bytes from Python script [name: {}] file", bytes.length, name);
                     return new String(bytes, this.charset);
                 } catch (Exception e) {
-                    log.error("Failed to read Python script file [path: {}]", path, e);
+                    log.error("Failed to read Python script [name: {}] file [path: {}]", name, path, e);
                     throw new PythonFileException(e);
                 }
             });
             BasicPythonScriptBuilder.of(script).appendAll(body);
-            log.debug("Python script loaded successfully [cache hit: {}]", this.fileCache.containsKey(source));
+            log.debug("Python script [name: {}] loaded successfully [cache hit: {}]", name, this.fileCache.containsKey(source));
             return script;
         } catch (Exception e) {
-            log.error("Failed to read Python script", e);
+            log.error("Failed to read Python script [name: {}]", name, e);
             throw new PythonFileException(e);
         }
     }

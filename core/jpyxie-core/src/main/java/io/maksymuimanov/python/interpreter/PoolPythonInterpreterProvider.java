@@ -50,7 +50,7 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
     }
 
     protected void fillPool(PythonInterpreterFactory<I> interpreterFactory) {
-        log.debug("Filling interpreter pool [size: {}]", this.poolSize.get());
+        log.debug("Filling interpreter pool [size: {}]", this.pool.size());
         for (int i = 0; i < this.poolSize.get(); i++) {
             this.pool.offer(interpreterFactory.create());
         }

@@ -20,12 +20,11 @@ public class BasicPythonProcessor implements PythonProcessor {
     public PythonResultMap process(PythonContext context) {
         try {
             PythonScript script = context.script();
-            boolean isFile = script.isFile();
             String name = script.getName();
-            log.debug("Processing Python script [name = {}, isFile = {}]", name, isFile);
+            log.debug("Processing Python script [name: {}]", name);
             PythonResultSpec resultSpec = context.resultSpec();
             PythonArgumentSpec argumentSpec = context.argumentSpec();
-            if (isFile) pythonFileReader.readScript(script);
+            pythonFileReader.readScript(script);
             PythonContext.PreOperator preResolution = context.preResolution();
             preResolution.operate(script, resultSpec, argumentSpec);
             this.pythonResolverHolder.resolveAll(script, argumentSpec);
