@@ -48,10 +48,14 @@ public class BasicPipManager implements PipManager {
 
     @Override
     public boolean exists(PythonLibraryManagement management) {
+        log.debug("Checking if library [{}] exists", management.getName());
         AtomicBoolean exists = new AtomicBoolean(false);
         this.processCommand(SHOW, management.getName(), exitValue -> {
             if (exitValue == 0) {
                 exists.set(true);
+                log.debug("Library [{}] exists", management.getName());
+            } else {
+                log.debug("Library [{}] does not exist (exit code: [{}])", management.getName(), exitValue);
             }
         });
         return exists.get();
@@ -59,11 +63,13 @@ public class BasicPipManager implements PipManager {
 
     @Override
     public void install(PythonLibraryManagement management) {
+        log.info("Installing Python library [{}] with options [{}]", management.getName(), management.getOptions());
         this.processCommand(INSTALL, management);
     }
 
     @Override
     public void uninstall(PythonLibraryManagement management) {
+        log.info("Uninstalling Python library [{}] with options [{}]", management.getName(), management.getOptions());
         management.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
         this.processCommand(UNINSTALL, management);
     }
@@ -128,7 +134,9 @@ public class BasicPipManager implements PipManager {
     }
 
     protected void processCommand(List<String> commands, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
+        String combinedCommands = String.join(" ", commands);
         try {
+            log.debug("Executing pip command: [{}]", combinedCommands);
             int exitValue = new ProcessExecutor()
                     .command(commands)
                     .redirectErrorStream(this.redirectErrorStream)
@@ -137,11 +145,14 @@ public class BasicPipManager implements PipManager {
                     .timeout(this.timeout.toMillis(), TimeUnit.MILLISECONDS)
                     .execute()
                     .getExitValue();
+            log.debug("Pip command completed with exit code: [{}]", exitValue);
             exitValueCommandsBiConsumer.accept(exitValue, commands);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            log.error("Pip command interrupted: [{}]", combinedCommands, e);
             throw new PythonLibraryManagementException(e);
         } catch (Exception e) {
+            log.error("Pip command failed: [{}]", combinedCommands, e);
             throw new PythonLibraryManagementException(e);
         }
     }

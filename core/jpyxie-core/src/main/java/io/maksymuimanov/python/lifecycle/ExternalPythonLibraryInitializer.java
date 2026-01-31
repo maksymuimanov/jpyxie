@@ -15,14 +15,19 @@ public class ExternalPythonLibraryInitializer implements PythonInitializer {
     @Override
     public void initialize() {
         try {
-            log.info("Starting Python libraries installation");
+            log.info("Starting Python libraries installation for [{}] libraries", libraries.length);
             for (PythonLibraryManagement library : libraries) {
-                if (pipManager.exists(library)) continue;
+                if (pipManager.exists(library)) {
+                    log.debug("Library [{}] already exists, skipping installation", library.getName());
+                    continue;
+                }
                 log.info("Installing [{}] with options {}", library.getName(), library.getOptions());
                 pipManager.install(library);
                 log.info("Installed [{}] successfully", library.getName());
             }
+            log.info("Completed Python libraries installation, installed [{}] libraries", libraries.length);
         } catch (Exception e) {
+            log.error("Failed to install Python libraries", e);
             throw new PythonLifecycleException(e);
         }
     }

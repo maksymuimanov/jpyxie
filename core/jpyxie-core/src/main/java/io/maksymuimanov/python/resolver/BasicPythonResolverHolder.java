@@ -2,6 +2,7 @@ package io.maksymuimanov.python.resolver;
 
 import io.maksymuimanov.python.exception.PythonScriptException;
 import io.maksymuimanov.python.script.PythonScript;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
  * @author w4t3rcs
  * @since 1.0.0
  */
+@Slf4j
 public class BasicPythonResolverHolder implements PythonResolverHolder {
     /**
      * The list of resolvers used to process the script sequentially.

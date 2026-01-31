@@ -2,10 +2,12 @@ package io.maksymuimanov.python.interpreter;
 
 import io.maksymuimanov.python.exception.PythonInterpreterProvisionException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Slf4j
 @RequiredArgsConstructor
 public class ExpansionStarvationHandler<I extends AutoCloseable> implements PythonInterpreterPoolStarvationHandler<I>{
     public static final int DEFAULT_SIZE_MULTIPLIER = 2;
@@ -20,16 +22,23 @@ public class ExpansionStarvationHandler<I extends AutoCloseable> implements Pyth
         try {
             synchronized (pool) {
                 int oldSize = poolSize.get();
-                poolSize.set(oldSize * sizeMultiplier);
-                for (int i = 1; i < sizeMultiplier; i++) {
-                    for (int j = 0; j < oldSize; j++) {
-                        pool.put(interpreterFactory.create());
-                    }
+                int newSize = oldSize * sizeMultiplier;
+                poolSize.set(newSize);
+                log.info("Expanding pool from [{}] to [{}] interpreters", oldSize, newSize);
+                for (int i = 0; i < newSize - oldSize; i++) {
+                    pool.put(interpreterFactory.create());
                 }
+                log.debug("Created [{}] additional interpreters during expansion", newSize - oldSize);
             }
-            return pool.take();
+            I interpreter = pool.take();
+            log.debug("Acquired interpreter after pool expansion");
+            return interpreter;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            log.warn("Interrupted while waiting for interpreter during pool expansion");
+            throw new PythonInterpreterProvisionException(e);
+        } catch (Exception e) {
+            log.error("Failed to expand interpreter pool", e);
             throw new PythonInterpreterProvisionException(e);
         }
     }

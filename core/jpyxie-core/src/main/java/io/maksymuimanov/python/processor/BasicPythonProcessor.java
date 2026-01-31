@@ -7,7 +7,9 @@ import io.maksymuimanov.python.resolver.PythonArgumentSpec;
 import io.maksymuimanov.python.resolver.PythonResolverHolder;
 import io.maksymuimanov.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class BasicPythonProcessor implements PythonProcessor {
     private final PythonFileReader pythonFileReader;
@@ -18,18 +20,22 @@ public class BasicPythonProcessor implements PythonProcessor {
     public PythonResultMap process(PythonContext context) {
         try {
             PythonScript script = context.script();
+            boolean isFile = script.isFile();
+            String name = script.getName();
+            log.debug("Processing Python script [name = {}, isFile = {}]", name, isFile);
             PythonResultSpec resultSpec = context.resultSpec();
             PythonArgumentSpec argumentSpec = context.argumentSpec();
-            if (script.isFile()) pythonFileReader.readScript(script);
+            if (isFile) pythonFileReader.readScript(script);
             PythonContext.PreOperator preResolution = context.preResolution();
             preResolution.operate(script, resultSpec, argumentSpec);
-            pythonResolverHolder.resolveAll(script, argumentSpec);
+            this.pythonResolverHolder.resolveAll(script, argumentSpec);
             PythonContext.PreOperator preExecution = context.preExecution();
             preExecution.operate(script, resultSpec, argumentSpec);
-            PythonResultMap resultMap = pythonExecutor.execute(script, resultSpec);
+            PythonResultMap resultMap = this.pythonExecutor.execute(script, resultSpec);
             PythonContext.SuccessHandler successHandler = context.successHandler();
             return successHandler.onSuccess(resultMap);
         } catch (Exception e) {
+            log.warn("Python script processing failed, applying failure handler", e);
             PythonContext.FailureHandler failureHandler = context.failureHandler();
             return failureHandler.onFail(e);
         }

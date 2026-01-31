@@ -27,8 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class BasicPythonFileReader implements PythonFileReader {
     public static final String DEFAULT_CHARSET_NAME = "UTF-8";
-    private static final String READING_BYTES_EXCEPTION_MESSAGE = "An exception occurred while reading all bytes from Python script file.";
-    private static final String READING_FILE_EXCEPTION_MESSAGE = "An exception occurred while reading Python script file.";
     private final Map<String, String> fileCache;
     private final InputStreamProvider inputStreamProvider;
     private final Charset charset;
@@ -48,28 +46,36 @@ public class BasicPythonFileReader implements PythonFileReader {
     /**
      * Reads the content of a Python script file resolved from the given path string.
      *
-     * @param script the script object containing path string for the script file, must be non-null
+     * @param script the script object containing the path string for the script file, must be non-null
      * @return the script content as a {@link PythonScript}, never null but possibly empty
      * @throws PythonFileException if an I/O error occurs during reading
      */
     @Override
     public PythonScript readScript(PythonScript script) {
+        if (!script.isFile()) {
+            log.debug("Python script [name: {}] is not a file, returning as-is", script.getName());
+            return script;
+        }
         try {
             String source = script.getSource();
+            log.debug("Reading Python script from source [length: {}]", source.length());
             String body = this.fileCache.computeIfAbsent(source, path -> {
+                log.debug("Cache miss for Python script, loading from filesystem");
                 try (InputStream inputStream = this.inputStreamProvider.open(path)) {
                     byte[] bytes = inputStream.readAllBytes();
+                    log.debug("Successfully read [{}] bytes from Python script file", bytes.length);
                     return new String(bytes, this.charset);
                 } catch (Exception e) {
-                    log.error(READING_BYTES_EXCEPTION_MESSAGE, e);
-                    throw new PythonFileException(READING_BYTES_EXCEPTION_MESSAGE, e);
+                    log.error("Failed to read Python script file [path: {}]", path, e);
+                    throw new PythonFileException(e);
                 }
             });
             BasicPythonScriptBuilder.of(script).appendAll(body);
+            log.debug("Python script loaded successfully [cache hit: {}]", this.fileCache.containsKey(source));
             return script;
         } catch (Exception e) {
-            log.error(READING_FILE_EXCEPTION_MESSAGE, e);
-            throw new PythonFileException(READING_FILE_EXCEPTION_MESSAGE, e);
+            log.error("Failed to read Python script", e);
+            throw new PythonFileException(e);
         }
     }
 }

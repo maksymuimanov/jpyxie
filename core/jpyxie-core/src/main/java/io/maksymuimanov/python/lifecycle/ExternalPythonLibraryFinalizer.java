@@ -15,14 +15,19 @@ public class ExternalPythonLibraryFinalizer implements PythonFinalizer {
     @Override
     public void finish() {
         try {
-            log.info("Starting Python libraries uninstallation");
+            log.info("Starting Python libraries uninstallation for [{}] libraries", libraries.length);
             for (PythonLibraryManagement library : libraries) {
-                if (!pipManager.exists(library)) continue;
+                if (!pipManager.exists(library)) {
+                    log.debug("Library [{}] not found, skipping uninstallation", library.getName());
+                    continue;
+                }
                 log.info("Uninstalling [{}] with options {}", library.getName(), library.getOptions());
                 pipManager.uninstall(library);
                 log.info("Uninstalled [{}] successfully", library.getName());
             }
+            log.info("Completed Python libraries uninstallation, removed [{}] libraries", libraries.length);
         } catch (Exception e) {
+            log.error("Failed to uninstall Python libraries", e);
             throw new PythonLifecycleException(e);
         }
     }
