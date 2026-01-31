@@ -30,6 +30,10 @@ public class BasicPipManager implements PipManager {
     private final boolean readOutput;
     private final Duration timeout;
 
+    public BasicPipManager() {
+        this(DEFAULT_COMMAND, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
+    }
+
     public BasicPipManager(String pipPath) {
         this(pipPath, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
     }

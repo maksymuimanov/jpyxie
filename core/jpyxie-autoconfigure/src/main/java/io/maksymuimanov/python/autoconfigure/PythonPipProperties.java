@@ -12,7 +12,7 @@ import java.time.Duration;
 @ConfigurationProperties("spring.python.pip")
 public class PythonPipProperties {
     /**
-     * Command used to invoke pip for managing Python packages. Typically 'python -m pip', but can point to an interpreter inside a virtual environment or a Windows launcher.
+     * Command used to invoke pip for managing Python packages. Typically, 'python -m pip', but can point to an interpreter inside a virtual environment or a Windows launcher.
      */
     private String command = BasicPipManager.DEFAULT_COMMAND;
     /**
