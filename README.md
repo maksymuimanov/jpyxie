@@ -65,13 +65,13 @@
 
 ## 📝 Introduction
 
-**Spring Boot Python Executor** is a library that enables secure and extensible execution of Python scripts from Java applications built with Spring Boot. It bridges the gap between Java and Python ecosystems, allowing developers to leverage Python's strengths while maintaining the robustness of Spring Boot applications.
+**JPyxie** is a library that enables secure and extensible execution of Python scripts from Java applications built with Spring Boot. It bridges the gap between Java and Python ecosystems, allowing developers to leverage Python's strengths while maintaining the robustness of Spring Boot applications.
 
 This library is designed for Spring Boot developers who need to integrate Python functionality (like data processing, machine learning algorithms, or specialized libraries) into their Java applications without the complexity of manual process management.
 
 ## 🏗️ Features & Architecture
 
-Spring Boot Python Executor provides a flexible architecture for executing Python code from Java:
+JPyxie provides a flexible architecture for executing Python code from Java:
 
 ### Core Components
 
