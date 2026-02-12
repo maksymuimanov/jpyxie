@@ -1,4 +1,4 @@
-# 🐍 Spring Boot Python Executor
+# 🐍 JPyxie 🐍
 
 <img src="logo.svg" alt="logo :D">
 
