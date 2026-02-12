@@ -1,4 +1,4 @@
-# 🐍 JPyxie 🐍
+# 🐍 JPyxie
 
 <img src="logo.svg" alt="logo :D">
 
