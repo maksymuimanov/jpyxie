@@ -18,9 +18,9 @@ public class BasicPythonProcessor implements PythonProcessor {
 
     @Override
     public PythonResultMap process(PythonContext context) {
+        PythonScript script = context.script();
+        String name = script.getName();
         try {
-            PythonScript script = context.script();
-            String name = script.getName();
             log.debug("Processing Python script [name: {}]", name);
             PythonResultSpec resultSpec = context.resultSpec();
             PythonArgumentSpec argumentSpec = context.argumentSpec();
@@ -34,7 +34,7 @@ public class BasicPythonProcessor implements PythonProcessor {
             PythonContext.SuccessHandler successHandler = context.successHandler();
             return successHandler.onSuccess(resultMap);
         } catch (Exception e) {
-            log.warn("Python script processing failed, applying failure handler", e);
+            log.warn("Python script [name: {}] processing failed, applying failure handler", name, e);
             PythonContext.FailureHandler failureHandler = context.failureHandler();
             return failureHandler.onFail(e);
         }

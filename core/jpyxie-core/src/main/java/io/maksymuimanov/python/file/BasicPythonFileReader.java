@@ -59,7 +59,7 @@ public class BasicPythonFileReader implements PythonFileReader {
         }
         try {
             String source = script.getSource();
-            log.debug("Reading Python script [name: {}] from source [length: {}]", name, source.length());
+            log.debug("Reading Python script [name: {}] from source [source: {}]", name, source);
             String body = this.fileCache.computeIfAbsent(source, path -> {
                 log.debug("Cache miss for Python script [name: {}], loading from filesystem", name);
                 try (InputStream inputStream = this.inputStreamProvider.open(path)) {
@@ -72,7 +72,7 @@ public class BasicPythonFileReader implements PythonFileReader {
                 }
             });
             BasicPythonScriptBuilder.of(script).appendAll(body);
-            log.debug("Python script [name: {}] loaded successfully [cache hit: {}]", name, this.fileCache.containsKey(source));
+            log.debug("Python script [name: {}] loaded successfully", name);
             return script;
         } catch (Exception e) {
             log.error("Failed to read Python script [name: {}]", name, e);

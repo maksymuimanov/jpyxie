@@ -21,7 +21,6 @@ public class ExternalPythonLibraryFinalizer implements PythonFinalizer {
                     log.debug("Library [{}] not found, skipping uninstallation", library.getName());
                     continue;
                 }
-                log.info("Uninstalling [{}] with options {}", library.getName(), library.getOptions());
                 pipManager.uninstall(library);
                 log.info("Uninstalled [{}] successfully", library.getName());
             }

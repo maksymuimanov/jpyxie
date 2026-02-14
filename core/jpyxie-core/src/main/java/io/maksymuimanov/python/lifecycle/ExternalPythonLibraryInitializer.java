@@ -21,7 +21,6 @@ public class ExternalPythonLibraryInitializer implements PythonInitializer {
                     log.debug("Library [{}] already exists, skipping installation", library.getName());
                     continue;
                 }
-                log.info("Installing [{}] with options {}", library.getName(), library.getOptions());
                 pipManager.install(library);
                 log.info("Installed [{}] successfully", library.getName());
             }

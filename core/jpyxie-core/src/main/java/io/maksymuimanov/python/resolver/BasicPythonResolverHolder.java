@@ -59,12 +59,17 @@ public class BasicPythonResolverHolder implements PythonResolverHolder {
      */
     @Override
     public PythonScript resolveAll(PythonScript script, PythonArgumentSpec argumentSpec) {
+        String name = script.getName();
         try {
+            log.debug("Resolving Python script [name: {}]", name);
             for (PythonResolver resolver : this.getResolvers()) {
+                log.debug("Applying Python script [name: {}] resolver [{}]", name, resolver.getClass().getSimpleName());
                 resolver.resolve(script, argumentSpec);
             }
+            log.debug("Resolved Python script [name: {}]", name);
             return script;
         } catch (Exception e) {
+            log.error("Failed to resolve Python script [name: {}]", name, e);
             throw new PythonScriptException(e);
         }
     }
