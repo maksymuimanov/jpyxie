@@ -1,6 +1,6 @@
-io.maksymuimanov.python.autoconfigure.PythonFileAutoConfiguration
-io.maksymuimanov.python.autoconfigure.PythonProcessorAutoConfiguration
-io.maksymuimanov.python.autoconfigure.PythonResolverAutoConfiguration
-io.maksymuimanov.python.autoconfigure.PipAutoConfiguration
-io.maksymuimanov.python.autoconfigure.PythonLifecycleAutoConfiguration
-io.maksymuimanov.python.autoconfigure.PythonInterpreterAutoConfiguration
+io.jpyxie.python.autoconfigure.PythonFileAutoConfiguration
+io.jpyxie.python.autoconfigure.PythonProcessorAutoConfiguration
+io.jpyxie.python.autoconfigure.PythonResolverAutoConfiguration
+io.jpyxie.python.autoconfigure.PipAutoConfiguration
+io.jpyxie.python.autoconfigure.PythonLifecycleAutoConfiguration
+io.jpyxie.python.autoconfigure.PythonInterpreterAutoConfiguration

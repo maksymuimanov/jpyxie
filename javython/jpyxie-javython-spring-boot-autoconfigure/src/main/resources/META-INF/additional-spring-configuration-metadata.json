@@ -3,8 +3,8 @@
     {
       "name": "spring.python.resolver.javython",
       "description": "Configuration properties for the JavythonResolver, which processes PythonArgumentSpec variable expressions embedded within Python scripts.",
-      "type": "io.maksymuimanov.python.autoconfigure.JavythonResolverProperties",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.JavythonResolverProperties"
+      "type": "io.jpyxie.python.autoconfigure.JavythonResolverProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.JavythonResolverProperties"
     }
   ],
   "properties": [
@@ -13,21 +13,21 @@
       "description": "Regular expression pattern used to locate Javython expressions (e.g. java{...}) within Python scripts.",
       "defaultValue": "java\\{.+?}",
       "type": "java.lang.String",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.JavythonResolverProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.JavythonResolverProperties"
     },
     {
       "name": "spring.python.resolver.javython.position-from-start",
       "description": "Number of characters to skip from the start of a matched Javython expression before evaluating it.",
       "defaultValue": 5,
       "type": "java.lang.Integer",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.JavythonResolverProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.JavythonResolverProperties"
     },
     {
       "name": "spring.python.resolver.javython.position-from-end",
       "description": "Number of characters to skip from the end of a matched Javython expression before evaluation.",
       "defaultValue": 1,
       "type": "java.lang.Integer",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.JavythonResolverProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.JavythonResolverProperties"
     }
   ]
 }

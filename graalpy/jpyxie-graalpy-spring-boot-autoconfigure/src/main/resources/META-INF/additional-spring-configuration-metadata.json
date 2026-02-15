@@ -2,8 +2,8 @@
   "groups": [
     {
       "name": "spring.python.executor.graalpy",
-      "type": "io.maksymuimanov.python.autoconfigure.GraalPyProperties",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.GraalPyProperties",
+      "type": "io.jpyxie.python.autoconfigure.GraalPyProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.GraalPyProperties",
       "description": "Configuration properties for the GraalPy-based Python executor integration."
     }
   ],
@@ -22,7 +22,7 @@
     },
     {
       "name": "spring.python.executor.graalpy.host-access",
-      "type": "io.maksymuimanov.python.autoconfigure.GraalPyProperties$HostAccessHolder",
+      "type": "io.jpyxie.python.autoconfigure.GraalPyProperties$HostAccessHolder",
       "defaultValue": "NONE",
       "description": "Specifies the level of Java host access available to GraalPy scripts."
     },

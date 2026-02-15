@@ -3,8 +3,8 @@
     {
       "name": "spring.python.bind",
       "description": "Configuration properties for the bind module.",
-      "type": "io.maksymuimanov.python.autoconfigure.PythonBindProperties",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonBindProperties"
+      "type": "io.jpyxie.python.autoconfigure.PythonBindProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonBindProperties"
     }
   ],
   "properties": [
@@ -12,8 +12,8 @@
       "name": "spring.python.bind.type",
       "description": "Implementation type to use as PythonSerializer.",
       "defaultValue": "json",
-      "type": "io.maksymuimanov.python.autoconfigure.PythonBindProperties$Type",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonBindProperties"
+      "type": "io.jpyxie.python.autoconfigure.PythonBindProperties$Type",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonBindProperties"
     }
   ],
   "hints": [

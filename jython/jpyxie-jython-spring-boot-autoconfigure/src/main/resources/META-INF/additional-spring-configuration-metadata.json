@@ -2,8 +2,8 @@
   "groups": [
     {
       "name": "spring.python.executor.jython",
-      "type": "io.maksymuimanov.python.autoconfigure.JythonProperties",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.JythonProperties",
+      "type": "io.jpyxie.python.autoconfigure.JythonProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.JythonProperties",
       "description": "Configuration properties for the Jython-based Python executor integration."
     }
   ],

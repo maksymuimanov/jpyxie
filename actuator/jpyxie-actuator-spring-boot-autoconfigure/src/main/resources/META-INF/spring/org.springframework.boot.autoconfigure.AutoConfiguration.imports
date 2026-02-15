@@ -1,2 +1,2 @@
-io.maksymuimanov.python.autoconfigure.PythonEndpointAutoConfiguration
-io.maksymuimanov.python.autoconfigure.PythonHealthAutoConfiguration
+io.jpyxie.python.autoconfigure.PythonEndpointAutoConfiguration
+io.jpyxie.python.autoconfigure.PythonHealthAutoConfiguration

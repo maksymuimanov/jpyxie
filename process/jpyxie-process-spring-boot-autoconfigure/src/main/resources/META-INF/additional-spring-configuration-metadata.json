@@ -3,8 +3,8 @@
     {
       "name": "spring.python.executor.process",
       "description": "Configuration properties for the process-based Python executor.",
-      "type": "io.maksymuimanov.python.autoconfigure.ProcessPythonExecutorProperties",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.ProcessPythonExecutorProperties"
+      "type": "io.jpyxie.python.autoconfigure.ProcessPythonExecutorProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.ProcessPythonExecutorProperties"
     }
   ],
   "properties": [
@@ -13,14 +13,14 @@
       "description": "The base command used to start the Python interpreter process.",
       "defaultValue": "python",
       "type": "java.lang.String",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.ProcessPythonExecutorProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.ProcessPythonExecutorProperties"
     },
     {
       "name": "spring.python.executor.process.loggable",
       "description": "Whether process execution details (input, output, errors) should be logged.",
       "defaultValue": true,
       "type": "java.lang.Boolean",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.ProcessPythonExecutorProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.ProcessPythonExecutorProperties"
     }
   ],
   "hints": [

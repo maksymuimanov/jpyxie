@@ -1,0 +1,47 @@
+package io.jpyxie.python.executor;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jpyxie.python.proto.PythonRequest;
+import io.jpyxie.python.proto.PythonResponse;
+import io.jpyxie.python.proto.PythonServiceGrpc;
+import io.jpyxie.python.script.PythonScript;
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static io.jpyxie.python.constant.TestConstants.*;
+
+@ExtendWith(MockitoExtension.class)
+class GrpcPythonExecutorTests {
+    @InjectMocks
+    private GrpcPythonExecutor grpcPythonExecutor;
+    @Mock
+    private PythonServiceGrpc.PythonServiceBlockingStub stub;
+    @Mock
+    private ObjectMapper objectMapper;
+
+    @SneakyThrows
+    @ParameterizedTest
+    @ValueSource(strings = {SIMPLE_SCRIPT_0, SIMPLE_SCRIPT_1, SIMPLE_SCRIPT_2, SIMPLE_SCRIPT_3})
+    void testExecute(String script) {
+        PythonScript pythonScript = new PythonScript(script);
+        PythonRequest scriptRequest = PythonRequest.newBuilder()
+                .setScript(pythonScript.toString())
+                .build();
+        PythonResponse scriptResponse = PythonResponse.newBuilder()
+                .setResult(OK)
+                .build();
+
+        Mockito.when(stub.sendCode(scriptRequest)).thenReturn(scriptResponse);
+        Mockito.when(objectMapper.readValue(OK, STRING_CLASS)).thenReturn(OK);
+
+        String executed = grpcPythonExecutor.execute(pythonScript, STRING_CLASS).body();
+        Assertions.assertEquals(OK, executed);
+    }
+}

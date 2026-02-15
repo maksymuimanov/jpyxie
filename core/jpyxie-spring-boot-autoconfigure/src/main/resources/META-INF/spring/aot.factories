@@ -1,2 +1,2 @@
 org.springframework.aot.hint.RuntimeHintsRegistrar=\
-io.maksymuimanov.python.autoconfigure.PythonRuntimeHintsRegistrar
+io.jpyxie.python.autoconfigure.PythonRuntimeHintsRegistrar

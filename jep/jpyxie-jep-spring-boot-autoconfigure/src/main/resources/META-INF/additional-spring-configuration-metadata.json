@@ -2,14 +2,14 @@
   "groups": [
     {
       "name": "spring.python.executor.jep",
-      "type": "io.maksymuimanov.python.autoconfigure.JepProperties",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.JepProperties",
+      "type": "io.jpyxie.python.autoconfigure.JepProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.JepProperties",
       "description": "Configuration properties for the JEP-based Python executor integration."
     },
     {
       "name": "spring.python.executor.jep.library",
-      "type": "io.maksymuimanov.python.autoconfigure.JepProperties",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.JepProperties$LibraryProperties",
+      "type": "io.jpyxie.python.autoconfigure.JepProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.JepProperties$LibraryProperties",
       "description": "Configuration properties for the JEP library management."
     }
   ],
@@ -22,7 +22,7 @@
     },
     {
       "name": "spring.python.executor.jep.interpreter-type",
-      "type": "io.maksymuimanov.python.interpreter.JepInterpreterType",
+      "type": "io.jpyxie.python.interpreter.JepInterpreterType",
       "defaultValue": "SHARED",
       "description": "The type of JEP interpreter to use."
     },

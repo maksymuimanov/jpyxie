@@ -1,0 +1,59 @@
+package io.jpyxie.python.executor;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jpyxie.python.bind.PythonDeserializer;
+import io.jpyxie.python.exception.PythonExecutionException;
+import io.jpyxie.python.http.BasicPythonServerRequestSender;
+import io.jpyxie.python.http.PythonServerRequestSender;
+import io.jpyxie.python.processor.PythonResultMap;
+import io.jpyxie.python.script.PythonScript;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
+@Slf4j
+public class RestPythonExecutor extends AbstractPythonExecutor<RestPythonResponse> {
+    public static final String DEFAULT_ENDPOINT = "/execute";
+    public static final String DEFAULT_URI = BasicPythonServerRequestSender.DEFAULT_HOST + ":" + BasicPythonServerRequestSender.DEFAULT_PORT + DEFAULT_ENDPOINT;
+    private final String uri;
+    private final String token;
+    private final PythonServerRequestSender requestSender;
+    private final ObjectMapper objectMapper;
+
+    public RestPythonExecutor(PythonDeserializer<RestPythonResponse> pythonDeserializer,
+                              PythonServerRequestSender requestSender,
+                              ObjectMapper objectMapper) {
+        this(pythonDeserializer, DEFAULT_URI, BasicPythonServerRequestSender.DEFAULT_TOKEN, requestSender, objectMapper);
+    }
+
+    public RestPythonExecutor(PythonDeserializer<RestPythonResponse> pythonDeserializer,
+                              String uri,
+                              String token,
+                              PythonServerRequestSender requestSender,
+                              ObjectMapper objectMapper) {
+        super(pythonDeserializer);
+        this.uri = uri;
+        this.token = token;
+        this.requestSender = requestSender;
+        this.objectMapper = objectMapper;
+    }
+
+    @Override
+    public PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec) {
+        try {
+            String scriptBody = script.toPythonString();
+            List<String> fieldNames = resultSpec.stream()
+                    .map(PythonResultRequirement::name)
+                    .toList();
+            RestPythonRequest restPythonRequest = new RestPythonRequest(scriptBody, fieldNames);
+            String requestJson = this.objectMapper.writeValueAsString(restPythonRequest);
+            String responseJson = this.requestSender.send(this.uri, this. token, requestJson);
+            JsonNode jsonTree = this.objectMapper.readTree(responseJson);
+            RestPythonResponse restPythonResponse = new RestPythonResponse(jsonTree);
+            return this.createResultMap(resultSpec, restPythonResponse);
+        } catch (Exception e) {
+            throw new PythonExecutionException(e);
+        }
+    }
+}

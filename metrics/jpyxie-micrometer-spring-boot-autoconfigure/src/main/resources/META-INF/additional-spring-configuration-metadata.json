@@ -3,8 +3,8 @@
     {
       "name": "management.metrics.python",
       "description": "Configuration properties for managing Python metrics.",
-      "type": "io.maksymuimanov.python.autoconfigure.PythonMicrometerProperties",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonMicrometerProperties"
+      "type": "io.jpyxie.python.autoconfigure.PythonMicrometerProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonMicrometerProperties"
     }
   ],
   "properties": [
@@ -13,7 +13,7 @@
       "description": "Percentiles to compute for Python-related Micrometer timers.",
       "defaultValue": "",
       "type": "java.lang.Double[]",
-      "sourceType": "io.maksymuimanov.python.autoconfigure.PythonMicrometerProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonMicrometerProperties"
     }
   ],
   "hints": [
