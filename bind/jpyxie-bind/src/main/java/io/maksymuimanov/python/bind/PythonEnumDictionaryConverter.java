@@ -1,8 +1,8 @@
 package io.maksymuimanov.python.bind;
 
-import io.maksymuimanov.python.representation.PythonDictionary;
-import io.maksymuimanov.python.representation.PythonString;
+import io.maksymuimanov.python.script.PythonDictionary;
 import io.maksymuimanov.python.script.PythonRepresentation;
+import io.maksymuimanov.python.script.PythonString;
 import org.jspecify.annotations.Nullable;
 
 public class PythonEnumDictionaryConverter implements PythonTypeConverter {

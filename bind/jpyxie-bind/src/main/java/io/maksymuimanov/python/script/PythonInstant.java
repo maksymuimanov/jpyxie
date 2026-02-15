@@ -1,4 +1,4 @@
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
 import java.time.Instant;
 

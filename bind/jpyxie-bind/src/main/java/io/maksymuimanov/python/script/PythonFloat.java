@@ -1,4 +1,4 @@
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
 public class PythonFloat extends PythonValueContainer<Number> {
     public PythonFloat(Number value) {

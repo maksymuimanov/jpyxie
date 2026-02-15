@@ -5,9 +5,9 @@ import io.maksymuimanov.python.annotation.PythonDictionaryKey;
 import io.maksymuimanov.python.annotation.PythonIgnore;
 import io.maksymuimanov.python.annotation.PythonInclude;
 import io.maksymuimanov.python.exception.PythonTypeConversionException;
-import io.maksymuimanov.python.representation.PythonDictionary;
-import io.maksymuimanov.python.representation.PythonString;
+import io.maksymuimanov.python.script.PythonDictionary;
 import io.maksymuimanov.python.script.PythonRepresentation;
+import io.maksymuimanov.python.script.PythonString;
 import org.jspecify.annotations.Nullable;
 
 import java.lang.reflect.Field;

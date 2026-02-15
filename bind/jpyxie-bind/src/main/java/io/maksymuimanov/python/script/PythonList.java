@@ -1,17 +1,15 @@
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
-import io.maksymuimanov.python.script.PythonRepresentation;
-
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class PythonQueue extends PythonValueContainer<Queue<PythonRepresentation>> {
-    public PythonQueue() {
-        this(new ArrayDeque<>());
+public class PythonList extends PythonValueContainer<List<PythonRepresentation>> {
+    public PythonList() {
+        this(new ArrayList<>());
     }
 
-    public PythonQueue(Queue<PythonRepresentation> value) {
+    public PythonList(List<PythonRepresentation> value) {
         super(value);
     }
 
@@ -22,12 +20,12 @@ public class PythonQueue extends PythonValueContainer<Queue<PythonRepresentation
     @Override
     public String toPythonString() {
         return String.join("",
-                "deque([",
+                "[",
                 this.getValue()
                         .stream()
                         .map(PythonRepresentation::toPythonString)
                         .collect(Collectors.joining(", ")),
-                "])"
+                "]"
         );
     }
 }

@@ -1,4 +1,4 @@
 @NullMarked
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
 import org.jspecify.annotations.NullMarked;

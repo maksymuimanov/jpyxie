@@ -1,4 +1,4 @@
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
 public class PythonString extends PythonValueContainer<String> {
     public PythonString(Object value) {

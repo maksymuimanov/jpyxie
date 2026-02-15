@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.bind;
 
-import io.maksymuimanov.python.representation.PythonTime;
 import io.maksymuimanov.python.script.PythonRepresentation;
+import io.maksymuimanov.python.script.PythonTime;
 import io.maksymuimanov.python.util.JavaTypeUtils;
 import org.jspecify.annotations.Nullable;
 

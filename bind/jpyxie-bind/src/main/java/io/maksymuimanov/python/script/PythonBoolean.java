@@ -1,4 +1,4 @@
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
 public class PythonBoolean extends PythonValueContainer<Boolean> {
     public static final String TRUE = "True";

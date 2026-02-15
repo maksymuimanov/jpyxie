@@ -1,6 +1,4 @@
-package io.maksymuimanov.python.representation;
-
-import io.maksymuimanov.python.script.PythonRepresentation;
+package io.maksymuimanov.python.script;
 
 public class PythonNone implements PythonRepresentation {
     public static final String NONE = "None";

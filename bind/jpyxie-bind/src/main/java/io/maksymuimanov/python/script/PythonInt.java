@@ -1,4 +1,4 @@
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
 public class PythonInt extends PythonValueContainer<Number> {
     public PythonInt(Number value) {

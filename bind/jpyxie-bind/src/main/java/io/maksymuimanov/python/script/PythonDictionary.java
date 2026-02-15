@@ -1,6 +1,4 @@
-package io.maksymuimanov.python.representation;
-
-import io.maksymuimanov.python.script.PythonRepresentation;
+package io.maksymuimanov.python.script;
 
 import java.util.HashMap;
 import java.util.Map;

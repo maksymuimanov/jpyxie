@@ -2,8 +2,8 @@ package io.maksymuimanov.python.bind;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maksymuimanov.python.exception.PythonSerializationException;
-import io.maksymuimanov.python.representation.PythonJson;
-import io.maksymuimanov.python.representation.PythonNone;
+import io.maksymuimanov.python.script.PythonJson;
+import io.maksymuimanov.python.script.PythonNone;
 import io.maksymuimanov.python.script.PythonRepresentation;
 import org.jspecify.annotations.Nullable;
 

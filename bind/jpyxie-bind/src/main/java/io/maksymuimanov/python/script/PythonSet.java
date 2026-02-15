@@ -1,17 +1,15 @@
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
-import io.maksymuimanov.python.script.PythonRepresentation;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class PythonList extends PythonValueContainer<List<PythonRepresentation>> {
-    public PythonList() {
-        this(new ArrayList<>());
+public class PythonSet extends PythonValueContainer<Set<PythonRepresentation>> {
+    public PythonSet() {
+        this(new HashSet<>());
     }
 
-    public PythonList(List<PythonRepresentation> value) {
+    public PythonSet(Set<PythonRepresentation> value) {
         super(value);
     }
 
@@ -22,12 +20,12 @@ public class PythonList extends PythonValueContainer<List<PythonRepresentation>>
     @Override
     public String toPythonString() {
         return String.join("",
-                "[",
+                "{",
                 this.getValue()
                         .stream()
                         .map(PythonRepresentation::toPythonString)
                         .collect(Collectors.joining(", ")),
-                "]"
+                "}"
         );
     }
 }

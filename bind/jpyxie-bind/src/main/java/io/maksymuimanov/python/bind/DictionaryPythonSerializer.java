@@ -1,7 +1,7 @@
 package io.maksymuimanov.python.bind;
 
 import io.maksymuimanov.python.exception.PythonSerializationException;
-import io.maksymuimanov.python.representation.PythonNone;
+import io.maksymuimanov.python.script.PythonNone;
 import io.maksymuimanov.python.script.PythonRepresentation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;

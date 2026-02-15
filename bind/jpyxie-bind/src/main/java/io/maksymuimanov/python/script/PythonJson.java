@@ -1,4 +1,4 @@
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
 public class PythonJson extends PythonValueContainer<String> {
     public PythonJson(String value) {

@@ -1,17 +1,15 @@
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
-import java.time.Duration;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
 
-public class PythonOffsetDateTime extends PythonValueContainer<OffsetDateTime> {
-    public PythonOffsetDateTime(OffsetDateTime value) {
+public class PythonDateTime extends PythonValueContainer<LocalDateTime> {
+    public PythonDateTime(LocalDateTime value) {
         super(value);
     }
 
     @Override
     public String toPythonString() {
-        Duration offset = Duration.ofSeconds(this.getValue().getOffset().getTotalSeconds());
         return "datetime(" + String.join(", ",
                 String.valueOf(this.getValue().getYear()),
                 String.valueOf(this.getValue().getMonthValue()),
@@ -19,8 +17,7 @@ public class PythonOffsetDateTime extends PythonValueContainer<OffsetDateTime> {
                 String.valueOf(this.getValue().getHour()),
                 String.valueOf(this.getValue().getMinute()),
                 String.valueOf(this.getValue().getSecond()),
-                String.valueOf(this.getValue().get(ChronoField.MICRO_OF_SECOND)),
-                "timezone(timedelta(hours=" + offset.toHoursPart() + ", minutes=" + offset.toMinutesPart() + ")"
+                String.valueOf(this.getValue().get(ChronoField.MICRO_OF_SECOND))
         ) + ")";
     }
 }

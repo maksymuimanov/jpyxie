@@ -10,7 +10,7 @@ public class PythonBindProperties {
     /**
      * Implementation type to use as PythonSerializer.
      */
-    private Type type;
+    private Type type = Type.JSON;
 
     public enum Type {
         DICTIONARY, JSON

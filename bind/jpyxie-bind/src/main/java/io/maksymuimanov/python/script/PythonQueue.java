@@ -1,17 +1,15 @@
-package io.maksymuimanov.python.representation;
+package io.maksymuimanov.python.script;
 
-import io.maksymuimanov.python.script.PythonRepresentation;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
-public class PythonSet extends PythonValueContainer<Set<PythonRepresentation>> {
-    public PythonSet() {
-        this(new HashSet<>());
+public class PythonQueue extends PythonValueContainer<Queue<PythonRepresentation>> {
+    public PythonQueue() {
+        this(new ArrayDeque<>());
     }
 
-    public PythonSet(Set<PythonRepresentation> value) {
+    public PythonQueue(Queue<PythonRepresentation> value) {
         super(value);
     }
 
@@ -22,12 +20,12 @@ public class PythonSet extends PythonValueContainer<Set<PythonRepresentation>> {
     @Override
     public String toPythonString() {
         return String.join("",
-                "{",
+                "deque([",
                 this.getValue()
                         .stream()
                         .map(PythonRepresentation::toPythonString)
                         .collect(Collectors.joining(", ")),
-                "}"
+                "])"
         );
     }
 }

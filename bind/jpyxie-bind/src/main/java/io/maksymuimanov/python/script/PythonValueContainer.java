@@ -1,6 +1,4 @@
-package io.maksymuimanov.python.representation;
-
-import io.maksymuimanov.python.script.PythonRepresentation;
+package io.maksymuimanov.python.script;
 
 @SuppressWarnings("LombokGetterMayBeUsed")
 public abstract class PythonValueContainer<T> implements PythonRepresentation {
