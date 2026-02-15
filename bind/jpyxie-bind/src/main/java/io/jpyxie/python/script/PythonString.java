@@ -6,11 +6,11 @@ public class PythonString extends PythonValueContainer<String> {
     }
 
     public PythonString(String value) {
-        super(value.replace("\"", "\\\""));
+        super(value);
     }
 
     @Override
     public String toPythonString() {
-        return "\"" + this.getValue() + "\"";
+        return "r\"\"\"" + this.getValue() + "\"\"\"";
     }
 }

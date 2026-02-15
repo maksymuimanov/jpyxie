@@ -7,6 +7,6 @@ public class PythonJson extends PythonValueContainer<String> {
 
     @Override
     public String toPythonString() {
-        return String.join("", "json.loads('", this.getValue(), "')");
+        return String.join("", "json.loads(r\"\"\"", this.getValue(), "\"\"\")");
     }
 }
