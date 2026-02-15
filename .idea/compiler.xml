@@ -51,7 +51,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo-app" target="17" />
-      <module name="jpyxie-bom" target="17" />
       <module name="jpyxie-spelython-resolver-autoconfigure" target="17" />
       <module name="jpyxie-spelython-resolver-core" target="17" />
       <module name="jpyxie-spelython-resolver-spring-boot-starter" target="17" />

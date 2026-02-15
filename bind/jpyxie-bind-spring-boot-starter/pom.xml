@@ -7,6 +7,10 @@
     <packaging>jar</packaging>
     <name>JPyxie Bind Starter</name>
     <description>
+        Spring Boot starter for JPyxie Python binding library. Provides convenient dependency management 
+        and automatic configuration for integrating Python execution capabilities into Spring Boot applications. 
+        Includes all necessary dependencies for Python serialization, type conversion, and seamless 
+        Java-Python interoperability with minimal configuration.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>

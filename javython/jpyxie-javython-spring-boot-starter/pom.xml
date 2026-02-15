@@ -7,6 +7,10 @@
     <packaging>jar</packaging>
     <name>JPyxie Javython Starter</name>
     <description>
+        Spring Boot starter for JPyxie Javython integration. Provides convenient dependency management 
+        and automatic configuration for Java-based expression substitution in Python scripts. 
+        Enables seamless embedding of Java objects into Python code using the java{...} syntax 
+        with minimal setup and configuration required.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>

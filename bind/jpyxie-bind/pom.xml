@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <name>JPyxie Bind Core</name>
     <description>
-        Core module providing object binding, serialization, and schema mapping
+        Core module providing object binding, serialization
         between Java and Python within the JPyxie library.
         It enables automatic conversion of Java objects into Python-compatible
         structures and vice versa, supporting reflective parsing and field-level mapping.

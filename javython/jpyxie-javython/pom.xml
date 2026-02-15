@@ -7,6 +7,9 @@
     <packaging>jar</packaging>
     <name>JPyxie Javython Core</name>
     <description>
+        Core module for JPyxie Javython integration. Provides Python script resolution capabilities 
+        for Java-based expression substitution within Python code. Enables seamless embedding of Java objects 
+        into Python scripts using a custom java{...} syntax, with automatic serialization and JSON import management.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>

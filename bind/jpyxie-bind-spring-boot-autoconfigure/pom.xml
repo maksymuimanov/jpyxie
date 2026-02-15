@@ -7,7 +7,10 @@
     <packaging>jar</packaging>
     <name>JPyxie Bind Autoconfigure</name>
     <description>
-
+        Spring Boot autoconfiguration module for JPyxie Python binding library.
+        Provides automatic configuration of Python serializers and type converters for seamless 
+        Java-Python interoperability. Supports both JSON and dictionary-based serialization 
+        with comprehensive type conversion for Java collections, dates, numbers, and custom objects.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>

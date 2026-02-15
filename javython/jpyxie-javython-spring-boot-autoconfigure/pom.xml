@@ -7,6 +7,10 @@
     <packaging>jar</packaging>
     <name>JPyxie Javython Autoconfigure</name>
     <description>
+        Spring Boot autoconfiguration module for JPyxie Javython resolver. Provides automatic configuration 
+        of the JavythonResolver bean for Java-based expression substitution in Python scripts. Enables customizable 
+        regex patterns and positioning parameters for seamless integration of Java objects within Python code 
+        through the java{...} syntax.
     </description>
     <url>https://github.com/maksymuimanov/jpyxie</url>
     <licenses>
