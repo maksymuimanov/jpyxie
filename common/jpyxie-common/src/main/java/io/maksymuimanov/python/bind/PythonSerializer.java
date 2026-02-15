@@ -1,10 +1,8 @@
 package io.maksymuimanov.python.bind;
 
 import io.maksymuimanov.python.script.PythonRepresentation;
-import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
-@ApiStatus.Experimental
 public interface PythonSerializer {
     PythonRepresentation serialize(@Nullable Object o);
 

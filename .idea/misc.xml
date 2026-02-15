@@ -80,6 +80,12 @@
         <option value="$PROJECT_DIR$/observability/metrics/python-executor-metrics-core/pom.xml" />
         <option value="$PROJECT_DIR$/observability/metrics/python-executor-micrometer-core/pom.xml" />
         <option value="$PROJECT_DIR$/observability/metrics/python-executor-micrometer-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/bind/jpyxie-bind-spring-boot-autoconfigure/pom.xml" />
+        <option value="$PROJECT_DIR$/bind/jpyxie-bind-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/javython/jpyxie-javython/pom.xml" />
+        <option value="$PROJECT_DIR$/javython/jpyxie-javython-spring-boot-autoconfigure/pom.xml" />
+        <option value="$PROJECT_DIR$/javython/jpyxie-javython-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/jpyxie-bbind/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

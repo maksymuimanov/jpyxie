@@ -38,7 +38,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.github.maksymuimanov</groupId>
-			<artifactId>jpyxie-spelython-core</artifactId>
+			<artifactId>jpyxie-spelython</artifactId>
 			<version>${project.version}</version>
 			<optional>true</optional>
 		</dependency>

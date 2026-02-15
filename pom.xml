@@ -34,7 +34,15 @@
         <module>core/jpyxie-spring-boot-autoconfigure</module>
         <module>core/jpyxie-spring-boot-starter</module>
 
-        <module>spelython/jpyxie-spelython-core</module>
+        <module>bind/jpyxie-bind</module>
+        <module>bind/jpyxie-bind-spring-boot-autoconfigure</module>
+        <module>bind/jpyxie-bind-spring-boot-starter</module>
+
+        <module>javython/jpyxie-javython</module>
+        <module>javython/jpyxie-javython-spring-boot-autoconfigure</module>
+        <module>javython/jpyxie-javython-spring-boot-starter</module>
+
+        <module>spelython/jpyxie-spelython</module>
         <module>spelython/jpyxie-spelython-spring-boot-autoconfigure</module>
         <module>spelython/jpyxie-spelython-spring-boot-starter</module>
 

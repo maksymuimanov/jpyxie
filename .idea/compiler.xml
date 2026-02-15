@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="jpyxie-grpc-spring-boot-autoconfigure" />
+        <module name="jpyxie-javython" />
         <module name="jpyxie-core" />
         <module name="jpyxie-spelython-spring-boot-starter" />
         <module name="jpyxie-process-spring-boot-starter" />
@@ -18,21 +19,26 @@
         <module name="jpyxie-graalpy-spring-boot-starter" />
         <module name="jpyxie-spring-boot-starter" />
         <module name="jpyxie-jep-spring-boot-autoconfigure" />
+        <module name="jpyxie-javython-spring-boot-starter" />
         <module name="jpyxie-actuator-spring-boot-starter" />
         <module name="jpyxie-process-core" />
-        <module name="jpyxie-spelython-core" />
         <module name="jpyxie-actuator-spring-boot-autoconfigure" />
         <module name="jpyxie-micrometer-core" />
         <module name="jpyxie-rest-core" />
+        <module name="jpyxie-bind-spring-boot-starter" />
+        <module name="jpyxie-spelython" />
         <module name="jpyxie-rest-testcontainers" />
         <module name="jpyxie-spring-boot-autoconfigure" />
         <module name="jpyxie-jep-core" />
         <module name="jpyxie-process-spring-boot-autoconfigure" />
         <module name="jpyxie-jython-core" />
+        <module name="jpyxie-bind" />
         <module name="jpyxie-rest-spring-boot-starter" />
         <module name="jpyxie-spelython-spring-boot-autoconfigure" />
+        <module name="jpyxie-bind-spring-boot-autoconfigure" />
         <module name="jpyxie-grpc-core" />
         <module name="jpyxie-graalpy-spring-boot-autoconfigure" />
+        <module name="jpyxie-javython-spring-boot-autoconfigure" />
         <module name="jpyxie-common" />
         <module name="jpyxie-grpc-spring-boot-starter" />
         <module name="jpyxie-graalpy-core" />
@@ -45,7 +51,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo-app" target="17" />
-      <module name="jpyxie-bind-core" target="17" />
       <module name="jpyxie-bom" target="17" />
       <module name="jpyxie-spelython-resolver-autoconfigure" target="17" />
       <module name="jpyxie-spelython-resolver-core" target="17" />
@@ -101,7 +106,7 @@
       <module name="jpyxie-actuator-spring-boot-autoconfigure" options="" />
       <module name="jpyxie-actuator-spring-boot-core" options="" />
       <module name="jpyxie-actuator-spring-boot-starter" options="" />
-      <module name="jpyxie-bind-core" options="" />
+      <module name="jpyxie-bind" options="" />
       <module name="jpyxie-graalpy-core" options="" />
       <module name="jpyxie-graalpy-spring-boot-starter" options="" />
       <module name="jpyxie-grpc-testcontainers" options="" />
