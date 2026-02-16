@@ -93,7 +93,12 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
                 throw new PythonInterpreterProvisionException(e);
             }
         } else {
-            this.pool.offer(interpreter);
+            boolean offered = this.pool.offer(interpreter);
+            if (!offered) {
+                PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to return interpreter to pool");
+                log.error(exception.getMessage(), exception);
+                throw exception;
+            }
             log.debug("Interpreter returned to pool [available: {}]", this.pool.size());
         }
     }

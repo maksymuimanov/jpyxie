@@ -26,7 +26,13 @@ public class ExpansionStarvationHandler<I extends AutoCloseable> implements Pyth
                 poolSize.set(newSize);
                 log.info("Expanding pool from [{}] to [{}] interpreters", oldSize, newSize);
                 for (int i = 0; i < newSize - oldSize; i++) {
-                    pool.put(interpreterFactory.create());
+                    I interpreter = interpreterFactory.create();
+                    boolean offered = pool.offer(interpreter);
+                    if (!offered) {
+                        PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to create interpreter during pool expansion");
+                        log.error(exception.getMessage(), exception);
+                        throw exception;
+                    }
                 }
                 log.debug("Created [{}] additional interpreters during expansion", newSize - oldSize);
             }
@@ -35,7 +41,7 @@ public class ExpansionStarvationHandler<I extends AutoCloseable> implements Pyth
             return interpreter;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            log.warn("Interrupted while waiting for interpreter during pool expansion");
+            log.error("Interrupted while waiting for interpreter during pool expansion");
             throw new PythonInterpreterProvisionException(e);
         } catch (Exception e) {
             log.error("Failed to expand interpreter pool", e);
