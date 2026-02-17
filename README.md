@@ -15,7 +15,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3%2B-brightgreen?style=for-the-badge&logo=spring-boot)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=open-source-initiative)](https://opensource.org/licenses/MIT)
-![Tests Passed](https://img.shields.io/badge/Tests%20Passed-99%25-green?style=for-the-badge&logo=checkmarx)
+![Tests Covered](https://img.shields.io/badge/Tests%20Passed-10%25-red?style=for-the-badge&logo=checkmarx)
 
 ## 📋 Table of Contents
 

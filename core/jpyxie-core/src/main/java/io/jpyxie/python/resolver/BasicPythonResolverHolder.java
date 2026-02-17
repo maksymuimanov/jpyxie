@@ -38,6 +38,10 @@ public class BasicPythonResolverHolder implements PythonResolverHolder {
      */
     private final List<PythonResolver> pythonResolvers;
 
+    public BasicPythonResolverHolder(PythonResolver pythonResolver) {
+        this.pythonResolvers = List.of(pythonResolver);
+    }
+
     public BasicPythonResolverHolder(List<PythonResolver> pythonResolvers) {
         this.pythonResolvers = pythonResolvers;
         Collections.sort(this.pythonResolvers);

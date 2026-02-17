@@ -92,6 +92,7 @@
         <lombok.version>1.18.38</lombok.version>
         <junit.version>5.12.2</junit.version>
         <mockito.version>5.17.0</mockito.version>
+        <assertj.version>3.27.7</assertj.version>
         <slf4j.version>2.0.17</slf4j.version>
         <zt-exec.version>1.12</zt-exec.version>
     </properties>
@@ -106,6 +107,42 @@
             <artifactId>annotations</artifactId>
             <version>${jetbrains-annotations.version}</version>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>annotationProcessor</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>

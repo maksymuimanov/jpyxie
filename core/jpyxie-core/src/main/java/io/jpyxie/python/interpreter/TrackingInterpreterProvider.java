@@ -28,11 +28,12 @@ public class TrackingInterpreterProvider<I extends AutoCloseable> implements Pyt
 
     @Override
     public I acquire() {
-        if (this.closed.get()) {
-            log.warn("Attempted to acquire interpreter from closed tracking provider");
-            throw new PythonInterpreterProvisionException("Interpreter is closed");
-        }
         try {
+            if (this.closed.get()) {
+                PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Attempted to acquire interpreter from closed tracking provider");
+                log.error(exception.getMessage(), exception);
+                throw exception;
+            }
             log.debug("Creating new tracked interpreter, total tracked: [{}]", interpreterQueue.size() + 1);
             I interpreter = interpreterFactory.create();
             interpreterQueue.add(interpreter);
@@ -45,11 +46,11 @@ public class TrackingInterpreterProvider<I extends AutoCloseable> implements Pyt
 
     @Override
     public void close() throws Exception {
-        if (!this.closed.compareAndSet(false, true)) {
-            log.debug("Tracking provider is already closed");
-            return;
-        }
         try {
+            if (!this.closed.compareAndSet(false, true)) {
+                log.debug("Tracking provider is already closed");
+                return;
+            }
             int size = interpreterQueue.size();
             log.info("Closing [{}] tracked interpreters", size);
             I current;

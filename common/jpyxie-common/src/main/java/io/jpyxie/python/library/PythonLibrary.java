@@ -4,25 +4,28 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class PythonLibraryManagement {
+public class PythonLibrary {
     private String name;
+    @Nullable
     private List<String> options;
 
-    public PythonLibraryManagement() {
+    public PythonLibrary() {
         this("");
     }
 
-    public PythonLibraryManagement(String name) {
+    public PythonLibrary(String name) {
         this(name, new ArrayList<>());
     }
 
-    public PythonLibraryManagement(String name, List<String> options) {
+    public PythonLibrary(String name, List<String> options) {
         this.name = name;
         this.options = options;
     }
 
     public void addOption(String option) {
+        Objects.requireNonNull(this.options);
         this.options.add(option);
     }
 
@@ -39,7 +42,7 @@ public class PythonLibraryManagement {
         this.name = name;
     }
 
-    public void setOptions(List<String> options) {
+    public void setOptions(@Nullable List<String> options) {
         this.options = options;
     }
 }

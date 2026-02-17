@@ -21,9 +21,8 @@ public class BasicPipManager implements PipManager {
     public static final boolean DEFAULT_REDIRECT_ERROR_STREAM = false;
     public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = false;
     public static final boolean DEFAULT_READ_OUTPUT = false;
-    public static final Duration DEFAULT_TIMEOUT = Duration.ofMillis(-1);
+    public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(1);
     public static final String SHOW = "show";
-    public static final String EXCEPTION_MESSAGE_FORMAT = "%s failed with exit code: %d";
     private final String[] pipPath;
     private final boolean redirectErrorStream;
     private final boolean redirectOutputStream;
@@ -47,7 +46,7 @@ public class BasicPipManager implements PipManager {
     }
 
     @Override
-    public boolean exists(PythonLibraryManagement management) {
+    public boolean exists(PythonLibrary management) {
         log.debug("Checking if library [{}] exists", management.getName());
         AtomicBoolean exists = new AtomicBoolean(false);
         this.processCommand(SHOW, management.getName(), exitValue -> {
@@ -62,47 +61,32 @@ public class BasicPipManager implements PipManager {
     }
 
     @Override
-    public void install(PythonLibraryManagement management) {
+    public void install(PythonLibrary management) {
         log.info("Installing Python library [{}] with options [{}]", management.getName(), management.getOptions());
         this.processCommand(INSTALL, management);
     }
 
     @Override
-    public void uninstall(PythonLibraryManagement management) {
+    public void uninstall(PythonLibrary management) {
         log.info("Uninstalling Python library [{}] with options [{}]", management.getName(), management.getOptions());
         management.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
         this.processCommand(UNINSTALL, management);
     }
 
-    protected void processCommand(String command, String name) {
-        this.processCommand(command, name, (exitValue, commandList) -> {
-            if (exitValue != 0) {
-                throw new PythonLibraryManagementException(String.format(EXCEPTION_MESSAGE_FORMAT, String.join(" ", commandList), exitValue));
-            }
-        });
-    }
-
-    protected void processCommand(String command, PythonLibraryManagement management) {
+    protected void processCommand(String command, PythonLibrary management) {
         this.processCommand(command, management, (exitValue, commandList) -> {
             if (exitValue != 0) {
-                throw new PythonLibraryManagementException(String.format(EXCEPTION_MESSAGE_FORMAT, String.join(" ", commandList), exitValue));
+                throw new PythonLibraryManagementException(commandList, exitValue);
             }
-        });
-    }
-
-    protected void processCommand(String command, PythonLibraryManagement management, IntConsumer exitValueConsumer) {
-        this.processCommand(command, management, (exitValue, commandList) -> {
-            exitValueConsumer.accept(exitValue);
         });
     }
 
     protected void processCommand(String command, String name, IntConsumer exitValueConsumer) {
-        this.processCommand(command, name, (exitValue, commandList) -> {
-            exitValueConsumer.accept(exitValue);
-        });
+        this.processCommand(command, name, (exitValue, commandList) ->
+                exitValueConsumer.accept(exitValue));
     }
 
-    protected void processCommand(String command, PythonLibraryManagement management, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
+    protected void processCommand(String command, PythonLibrary management, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
         List<String> commands = new ArrayList<>();
         Collections.addAll(commands, this.pipPath);
         commands.add(command);
@@ -117,20 +101,6 @@ public class BasicPipManager implements PipManager {
         commands.add(command);
         commands.add(name);
         this.processCommand(commands, exitValueCommandsBiConsumer);
-    }
-
-    protected void processCommand(List<String> commands) {
-        this.processCommand(commands, exitValue -> {
-            if (exitValue != 0) {
-                throw new PythonLibraryManagementException(String.format(EXCEPTION_MESSAGE_FORMAT, String.join(" ", commands), exitValue));
-            }
-        });
-    }
-
-    protected void processCommand(List<String> commands, IntConsumer exitValueConsumer) {
-        this.processCommand(commands, (exitValue, commandList) -> {
-            exitValueConsumer.accept(exitValue);
-        });
     }
 
     protected void processCommand(List<String> commands, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {

@@ -2,7 +2,7 @@ package io.jpyxie.python.lifecycle;
 
 import io.jpyxie.python.exception.PythonLifecycleException;
 import io.jpyxie.python.library.PipManager;
-import io.jpyxie.python.library.PythonLibraryManagement;
+import io.jpyxie.python.library.PythonLibrary;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ExternalPythonLibraryInitializer implements PythonInitializer {
     private final PipManager pipManager;
-    private final PythonLibraryManagement[] libraries;
+    private final PythonLibrary[] libraries;
 
     @Override
     public void initialize() {
         try {
             log.info("Starting Python libraries installation for [{}] libraries", libraries.length);
-            for (PythonLibraryManagement library : libraries) {
+            for (PythonLibrary library : libraries) {
                 if (pipManager.exists(library)) {
                     log.debug("Library [{}] already exists, skipping installation", library.getName());
                     continue;

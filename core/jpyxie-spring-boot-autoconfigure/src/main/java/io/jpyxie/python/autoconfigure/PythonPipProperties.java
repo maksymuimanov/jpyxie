@@ -1,7 +1,7 @@
 package io.jpyxie.python.autoconfigure;
 
 import io.jpyxie.python.library.BasicPipManager;
-import io.jpyxie.python.library.PythonLibraryManagement;
+import io.jpyxie.python.library.PythonLibrary;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -45,10 +45,10 @@ public class PythonPipProperties {
         /**
          * List of Python libraries to install before executing any Python scripts. Each entry defines a PythonLibraryManagement object.
          */
-        private PythonLibraryManagement[] installed = new PythonLibraryManagement[0];
+        private PythonLibrary[] installed = new PythonLibrary[0];
         /**
          * List of Python libraries to uninstall before whole application shutdown. Each entry defines a PythonLibraryManagement object.
          */
-        private PythonLibraryManagement[] uninstalled = new PythonLibraryManagement[0];
+        private PythonLibrary[] uninstalled = new PythonLibrary[0];
     }
 }

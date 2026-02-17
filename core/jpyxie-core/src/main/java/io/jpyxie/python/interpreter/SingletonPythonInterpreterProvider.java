@@ -4,6 +4,7 @@ import io.jpyxie.python.exception.PythonInterpreterProvisionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -12,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class SingletonPythonInterpreterProvider<I extends AutoCloseable> implements PythonInterpreterProvider<I> {
     private final PythonInterpreterFactory<I> interpreterFactory;
     private final AtomicBoolean closed;
+    @Nullable
     private volatile I interpreter;
 
     public SingletonPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory) {
@@ -20,34 +22,44 @@ public class SingletonPythonInterpreterProvider<I extends AutoCloseable> impleme
     }
 
     @Override
-    @SuppressWarnings("ConstantValue")
     public I acquire() {
-        if (this.interpreter == null) {
-            synchronized (SingletonPythonInterpreterProvider.class) {
-                if (interpreter == null) {
-                    log.debug("Creating new singleton interpreter instance");
-                    this.interpreter = interpreterFactory.create();
-                    log.info("Singleton interpreter initialized successfully");
+        try {
+            if (this.closed.get()) {
+                PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to acquire interpreter, interpreter is closed");
+                log.error(exception.getMessage(), exception);
+                throw exception;
+            }
+
+            if (this.interpreter == null) {
+                synchronized (SingletonPythonInterpreterProvider.class) {
+                    if (interpreter == null) {
+                        log.debug("Creating new singleton interpreter instance");
+                        this.interpreter = this.interpreterFactory.create();
+                        log.info("Singleton interpreter initialized successfully");
+                    }
                 }
             }
-        }
 
-        if (this.closed.get()) {
-            log.warn("Attempted to acquire closed singleton interpreter");
-            throw new PythonInterpreterProvisionException("Interpreter is closed");
+            return this.interpreter;
+        } catch (Exception e) {
+            PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to acquire singleton interpreter", e);
+            log.error(exception.getMessage(), e);
+            throw exception;
         }
-        return this.interpreter;
     }
 
     @Override
     public void close() throws Exception {
-        if (!this.closed.compareAndSet(false, true)) {
-            log.debug("Singleton interpreter is already closed");
-            return;
-        }
         try {
-            log.info("Closing singleton interpreter instance");
-            this.interpreter.close();
+            if (!this.closed.compareAndSet(false, true)) {
+                log.debug("Singleton interpreter is already closed");
+                return;
+            }
+
+            if (this.interpreter != null) {
+                log.info("Closing singleton interpreter instance");
+                this.interpreter.close();
+            }
         } catch (Exception e) {
             log.error("Failed to close singleton interpreter", e);
             throw new PythonInterpreterProvisionException(e);

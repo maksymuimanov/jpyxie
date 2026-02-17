@@ -1,7 +1,7 @@
 package io.jpyxie.python.lifecycle;
 
 import io.jpyxie.python.exception.PythonLifecycleException;
-import io.jpyxie.python.library.JepLibraryManagement;
+import io.jpyxie.python.library.JepLibrary;
 import io.jpyxie.python.library.PipManager;
 import jep.MainInterpreter;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.nio.file.Path;
 @RequiredArgsConstructor
 public class JepInitializer implements PythonInitializer {
     private final PipManager pipManager;
-    private final JepLibraryManagement jepLibraryManagement;
+    private final JepLibrary jepLibraryManagement;
 
     @Override
     public void initialize() {

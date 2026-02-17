@@ -89,14 +89,14 @@
       "name": "spring.python.pip.library.installed",
       "description": "List of Python libraries to install before executing any Python scripts. Each entry defines a PythonLibraryManagement object.",
       "defaultValue": [],
-      "type": "io.jpyxie.python.library.PythonLibraryManagement[]",
+      "type": "io.jpyxie.python.library.PythonLibrary[]",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties$LibraryProperties"
     },
     {
       "name": "spring.python.pip.library.uninstalled",
       "description": "List of Python libraries to uninstall before whole application shutdown. Each entry defines a PythonLibraryManagement object.",
       "defaultValue": [],
-      "type": "io.jpyxie.python.library.PythonLibraryManagement[]",
+      "type": "io.jpyxie.python.library.PythonLibrary[]",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties$LibraryProperties"
     }
   ],

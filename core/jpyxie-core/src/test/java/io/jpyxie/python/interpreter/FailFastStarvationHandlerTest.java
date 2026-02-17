@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,8 +29,10 @@ class FailFastStarvationHandlerTest {
     }
 
     @Test
-    void handleShouldThrowPythonInterpreterProvisionException() {
-        assertThrows(PythonInterpreterProvisionException.class, () -> handler.handle(interpreterFactory, pool, poolSize));
+    @SuppressWarnings("resource")
+    void handle_shouldThrowPythonInterpreterProvisionException() {
+        assertThatThrownBy(() -> handler.handle(interpreterFactory, pool, poolSize))
+                .isInstanceOf(PythonInterpreterProvisionException.class);
         verifyNoInteractions(interpreterFactory);
         verifyNoInteractions(pool);
     }

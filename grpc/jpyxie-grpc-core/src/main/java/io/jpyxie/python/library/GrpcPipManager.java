@@ -13,12 +13,12 @@ public class GrpcPipManager implements PipManager {
     private final PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub;
 
     @Override
-    public boolean exists(PythonLibraryManagement management) {
+    public boolean exists(PythonLibrary management) {
         return this.executePipCommand(SHOW, management);
     }
 
     @Override
-    public void install(PythonLibraryManagement management) {
+    public void install(PythonLibrary management) {
         boolean isSuccessful = this.executePipCommand(INSTALL, management);
         if (!isSuccessful) {
             throw new PythonLibraryManagementException(INSTALLATION_FAILURE_EXCEPTION_MESSAGE);
@@ -26,7 +26,7 @@ public class GrpcPipManager implements PipManager {
     }
 
     @Override
-    public void uninstall(PythonLibraryManagement management) {
+    public void uninstall(PythonLibrary management) {
         management.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
         boolean isSuccessful = this.executePipCommand(UNINSTALL, management);
         if (!isSuccessful) {
@@ -34,7 +34,7 @@ public class GrpcPipManager implements PipManager {
         }
     }
 
-    protected boolean executePipCommand(String name, PythonLibraryManagement management) {
+    protected boolean executePipCommand(String name, PythonLibrary management) {
         try {
             GrpcPythonPipRequest pipRequest = GrpcPythonPipRequest.newBuilder()
                     .setName(name)

@@ -8,6 +8,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 @Getter(AccessLevel.PROTECTED)
@@ -15,20 +16,32 @@ public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> imple
     private final PythonInterpreterFactory<I> interpreterFactory;
     private final ThreadLocal<@Nullable I> threadLocal;
     private final Queue<I> interpreterQueue;
+    private final AtomicBoolean closed;
 
     public ThreadLocalPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory) {
-        this(interpreterFactory, new ThreadLocal<>(), new ConcurrentLinkedQueue<>());
+        this(interpreterFactory, new ConcurrentLinkedQueue<>());
+    }
+
+    public ThreadLocalPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, Queue<I> interpreterQueue) {
+        this(interpreterFactory, new ThreadLocal<>(), interpreterQueue);
     }
 
     public ThreadLocalPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, ThreadLocal<@Nullable I> threadLocal, Queue<I> interpreterQueue) {
         this.interpreterFactory = interpreterFactory;
         this.threadLocal = threadLocal;
         this.interpreterQueue = interpreterQueue;
+        this.closed = new AtomicBoolean(false);
     }
 
     @Override
     public I acquire() {
         try {
+            if (this.closed.get()) {
+                PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Attempted to acquire interpreter from closed thread-local provider");
+                log.error(exception.getMessage(), exception);
+                throw exception;
+            }
+
             I threadLocalInterpreter = threadLocal.get();
             String threadName = Thread.currentThread().getName();
             if (threadLocalInterpreter == null) {
@@ -50,6 +63,11 @@ public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> imple
     @Override
     public void close() throws Exception {
         try {
+            if (!this.closed.compareAndSet(false, true)) {
+                log.debug("Thread-local provider is already closed");
+                return;
+            }
+
             int size = interpreterQueue.size();
             log.info("Closing [{}] thread-local interpreters", size);
             for (I interpreter : interpreterQueue) {

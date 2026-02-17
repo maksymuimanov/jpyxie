@@ -23,7 +23,6 @@ public class ExpansionStarvationHandler<I extends AutoCloseable> implements Pyth
             synchronized (pool) {
                 int oldSize = poolSize.get();
                 int newSize = oldSize * sizeMultiplier;
-                poolSize.set(newSize);
                 log.info("Expanding pool from [{}] to [{}] interpreters", oldSize, newSize);
                 for (int i = 0; i < newSize - oldSize; i++) {
                     I interpreter = interpreterFactory.create();
@@ -35,6 +34,7 @@ public class ExpansionStarvationHandler<I extends AutoCloseable> implements Pyth
                     }
                 }
                 log.debug("Created [{}] additional interpreters during expansion", newSize - oldSize);
+                poolSize.set(newSize);
             }
             I interpreter = pool.take();
             log.debug("Acquired interpreter after pool expansion");

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class JepLibraryManagement extends PythonLibraryManagement {
+public class JepLibrary extends PythonLibrary {
     public static final String JEP_LIBRARY_NAME = "jep";
     public static final String NO_CACHE_DIR_OPTION = "--no-cache-dir";
     public static final String NO_BUILD_ISOLATION_OPTION = "--no-build-isolation";
@@ -21,19 +21,19 @@ public class JepLibraryManagement extends PythonLibraryManagement {
     @Nullable
     private String jepExecutablePath;
 
-    public JepLibraryManagement() {
+    public JepLibrary() {
         this(JEP_LIBRARY_NAME);
     }
 
-    public JepLibraryManagement(List<String> options) {
+    public JepLibrary(List<String> options) {
         this(JEP_LIBRARY_NAME, options);
     }
 
-    public JepLibraryManagement(String name) {
+    public JepLibrary(String name) {
         this(name, new ArrayList<>());
     }
 
-    public JepLibraryManagement(String name, List<String> options) {
+    public JepLibrary(String name, List<String> options) {
         super(name, options);
         if (this.isNoCacheDir()) this.addOption(NO_CACHE_DIR_OPTION);
         if (this.isNoBuildIsolation()) this.addOption(NO_BUILD_ISOLATION_OPTION);

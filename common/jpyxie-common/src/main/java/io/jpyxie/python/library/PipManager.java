@@ -6,9 +6,9 @@ public interface PipManager {
     String UNINSTALL = "uninstall";
     String UNINSTALL_WITHOUT_CONFIRMATION_OPTION = "--yes";
 
-    boolean exists(PythonLibraryManagement management);
+    boolean exists(PythonLibrary management);
 
-    void install(PythonLibraryManagement management);
+    void install(PythonLibrary management);
 
-    void uninstall(PythonLibraryManagement management);
+    void uninstall(PythonLibrary management);
 }

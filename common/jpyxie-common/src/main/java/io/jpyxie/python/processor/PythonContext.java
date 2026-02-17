@@ -27,8 +27,8 @@ public record PythonContext(PythonScript script,
 
         private Builder(PythonScript script) {
             this.script = script;
-            this.resultSpec = PythonResultSpec.create();
-            this.argumentSpec = PythonArgumentSpec.create();
+            this.resultSpec = PythonResultSpec.empty();
+            this.argumentSpec = PythonArgumentSpec.empty();
             this.preResolution = (s, r, a) -> {};
             this.preExecution = (s, r, a) -> {};
             this.successHandler = r -> r;

@@ -4,6 +4,7 @@ import io.jpyxie.python.exception.PythonInterpreterProvisionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.time.Duration;
@@ -15,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Getter(AccessLevel.PROTECTED)
+@ApiStatus.Experimental
 public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements PythonReleasableInterpreterProvider<I> {
     public static final int DEFAULT_POOL_SIZE = 8;
     public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
@@ -23,6 +25,7 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
     private final AtomicInteger poolSize;
     private final Duration timeout;
     private final PythonInterpreterPoolStarvationHandler<I> poolStarvationHandler;
+    private final AtomicBoolean filled;
     private final AtomicBoolean closed;
 
     public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, PythonInterpreterPoolStarvationHandler<I> poolStarvationHandler) {
@@ -34,36 +37,36 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
     }
 
     public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, BlockingQueue<I> pool, int poolSize, Duration timeout, PythonInterpreterPoolStarvationHandler<I> poolStarvationHandler) {
+        this(interpreterFactory, pool, new AtomicInteger(poolSize), timeout, poolStarvationHandler);
+    }
+
+    public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, BlockingQueue<I> pool, AtomicInteger poolSize, Duration timeout, PythonInterpreterPoolStarvationHandler<I> poolStarvationHandler) {
         this.interpreterFactory = interpreterFactory;
         this.pool = pool;
-        this.poolSize = new AtomicInteger(poolSize);
+        this.poolSize = poolSize;
         this.timeout = timeout;
         this.poolStarvationHandler = poolStarvationHandler;
+        this.filled = new AtomicBoolean(false);
         this.closed = new AtomicBoolean(false);
     }
 
     @Override
     public I acquire() {
-        log.debug("Acquiring interpreter from pool [available: {}, pool size: {}]", this.pool.size(), this.poolSize.get());
-        if (this.pool.isEmpty()) this.fillPool(interpreterFactory);
         return this.acquire(this.timeout.toMillis(), TimeUnit.MILLISECONDS);
-    }
-
-    protected void fillPool(PythonInterpreterFactory<I> interpreterFactory) {
-        log.debug("Filling interpreter pool [size: {}]", this.pool.size());
-        for (int i = 0; i < this.poolSize.get(); i++) {
-            this.pool.offer(interpreterFactory.create());
-        }
-        log.debug("Pool filled successfully [available: {}]", this.pool.size());
     }
 
     @Override
     public I acquire(long timeout, TimeUnit unit) {
+        log.debug("Acquiring interpreter from pool [available: {}, pool size: {}]", this.pool.size(), this.poolSize.get());
         if (this.closed.get()) {
             log.warn("Attempted to acquire interpreter from closed pool");
             throw new PythonInterpreterProvisionException("Pool is closed");
         }
         try {
+            if (this.pool.isEmpty()
+                    && this.filled.compareAndSet(false, true)) {
+                this.fillPool(interpreterFactory);
+            }
             I polled = this.pool.poll(timeout, unit);
             if (polled == null) {
                 log.debug("Pool starvation detected, invoking handler");
@@ -75,7 +78,24 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
             Thread.currentThread().interrupt();
             log.error("Interpreter acquisition interrupted", e);
             throw new PythonInterpreterProvisionException(e);
+        } catch (Exception e) {
+            log.error("Failed to acquire interpreter from pool", e);
+            throw new PythonInterpreterProvisionException(e);
         }
+    }
+
+    protected void fillPool(PythonInterpreterFactory<I> interpreterFactory) {
+        log.debug("Filling interpreter pool [size: {}]", this.pool.size());
+        for (int i = 0; i < this.poolSize.get(); i++) {
+            I interpreter = interpreterFactory.create();
+            boolean offered = this.pool.offer(interpreter);
+            if (!offered) {
+                PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to create interpreter during pool expansion");
+                log.error(exception.getMessage(), exception);
+                throw exception;
+            }
+        }
+        log.debug("Pool filled successfully [available: {}]", this.pool.size());
     }
 
     @Override
@@ -84,22 +104,27 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
             log.debug("Attempted to release null interpreter, ignoring");
             return;
         }
-        if (this.closed.get()) {
-            try {
-                log.debug("Pool is closed, closing released interpreter");
-                interpreter.close();
-            } catch (Exception e) {
-                log.error("Failed to close interpreter during release", e);
-                throw new PythonInterpreterProvisionException(e);
+        try {
+            if (this.closed.get()) {
+                try {
+                    log.debug("Pool is closed, closing released interpreter");
+                    interpreter.close();
+                } catch (Exception e) {
+                    log.error("Failed to close interpreter during release", e);
+                    throw new PythonInterpreterProvisionException(e);
+                }
+            } else {
+                boolean offered = this.pool.offer(interpreter);
+                if (!offered) {
+                    PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to return interpreter to pool");
+                    log.error(exception.getMessage(), exception);
+                    throw exception;
+                }
+                log.debug("Interpreter returned to pool [available: {}]", this.pool.size());
             }
-        } else {
-            boolean offered = this.pool.offer(interpreter);
-            if (!offered) {
-                PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to return interpreter to pool");
-                log.error(exception.getMessage(), exception);
-                throw exception;
-            }
-            log.debug("Interpreter returned to pool [available: {}]", this.pool.size());
+        } catch (Exception e) {
+            log.error("Failed to return interpreter to pool", e);
+            throw new PythonInterpreterProvisionException(e);
         }
     }
 
