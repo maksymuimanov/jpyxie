@@ -67,7 +67,7 @@ public class MeteredPythonProcessor implements PythonProcessor {
 
     protected Counter getScriptCounter(PythonContext context, Map<String, Counter> counters, String counterName, String description) {
         PythonScript pythonScript = context.script();
-        String source = pythonScript.getName();
+        String source = pythonScript.name();
         return counters.computeIfAbsent(source, (key) ->
                 Counter.builder(counterName)
                         .description(description)
@@ -77,7 +77,7 @@ public class MeteredPythonProcessor implements PythonProcessor {
 
     protected Timer getScriptTimer(PythonContext context, String timerName, String description) {
         PythonScript pythonScript = context.script();
-        String source = pythonScript.getName();
+        String source = pythonScript.name();
         return this.timers.computeIfAbsent(source, (key) ->
                 Timer.builder(timerName)
                         .description(description)

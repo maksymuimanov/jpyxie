@@ -275,10 +275,5 @@ class PythonResultTest {
     }
 
     private record TestObject(String value) {
-
-        @Override
-            public String toString() {
-                return "TestObject{" + "value='" + value + '\'' + '}';
-            }
-        }
+    }
 }

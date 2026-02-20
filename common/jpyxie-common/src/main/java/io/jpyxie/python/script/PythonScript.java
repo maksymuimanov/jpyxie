@@ -5,9 +5,11 @@ import io.jpyxie.python.exception.PythonScriptException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public record PythonScript(String name, String source, boolean isFile, List<PythonImportLine> importLines,
+public record PythonScript(String name,
+                           String source,
+                           boolean isFile,
+                           List<PythonImportLine> importLines,
                            List<PythonCodeLine> codeLines) implements PythonRepresentation {
     public static final int START_INDEX = 0;
 
@@ -108,22 +110,6 @@ public record PythonScript(String name, String source, boolean isFile, List<Pyth
 
     public PythonCodeLine getCode(int index) {
         return this.codeLines().get(index);
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null || getClass() != object.getClass()) return false;
-        PythonScript that = (PythonScript) object;
-        return this.isFile() == that.isFile()
-                && Objects.equals(this.name(), that.name())
-                && Objects.equals(this.source(), that.source())
-                && Objects.equals(this.importLines(), that.importLines())
-                && Objects.equals(this.codeLines(), that.codeLines());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.name(), this.source(), this.isFile(), this.importLines(), this.codeLines());
     }
 
     @Override

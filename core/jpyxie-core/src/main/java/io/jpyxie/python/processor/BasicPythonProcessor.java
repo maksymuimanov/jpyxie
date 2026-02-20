@@ -19,7 +19,7 @@ public class BasicPythonProcessor implements PythonProcessor {
     @Override
     public PythonResultMap process(PythonContext context) {
         PythonScript script = context.script();
-        String name = script.getName();
+        String name = script.name();
         try {
             log.debug("Processing Python script [name: {}]", name);
             PythonResultSpec resultSpec = context.resultSpec();

@@ -52,13 +52,13 @@ public class BasicPythonFileReader implements PythonFileReader {
      */
     @Override
     public PythonScript readScript(PythonScript script) {
-        String name = script.getName();
+        String name = script.name();
         if (!script.isFile()) {
             log.debug("Python script [name: {}] is not a file, returning as-is", name);
             return script;
         }
         try {
-            String source = script.getSource();
+            String source = script.source();
             log.debug("Reading Python script [name: {}] from source [source: {}]", name, source);
             String body = this.fileCache.computeIfAbsent(source, path -> {
                 log.debug("Cache miss for Python script [name: {}], loading from filesystem", name);

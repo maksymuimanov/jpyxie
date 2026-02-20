@@ -22,7 +22,7 @@ public class GraalPythonExecutor extends InterpretablePythonExecutor<Value, Cont
 
     @Override
     protected PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec, Context interpreter) throws Exception {
-        String scriptSource = script.getName();
+        String scriptSource = script.name();
         Source source = Source.newBuilder(PythonConstants.PYTHON, script.toPythonString(), scriptSource)
                 .cached(this.cached)
                 .build();
