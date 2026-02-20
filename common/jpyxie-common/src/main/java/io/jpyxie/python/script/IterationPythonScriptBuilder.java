@@ -19,7 +19,7 @@ public final class IterationPythonScriptBuilder extends AbstractPythonScriptBuil
     }
 
     public IterationPythonScriptBuilder iterateImports(Consumer<PythonImportLine> action, boolean condition) {
-        List<PythonImportLine> importLinesCopy = new ArrayList<>(this.getScript().getImportLines());
+        List<PythonImportLine> importLinesCopy = new ArrayList<>(this.getScript().importLines());
         return this.iterate(importLinesCopy, action, condition);
     }
 
@@ -29,7 +29,7 @@ public final class IterationPythonScriptBuilder extends AbstractPythonScriptBuil
 
     
     public IterationPythonScriptBuilder iterateImports(ObjIntConsumer<PythonImportLine> action, boolean condition) {
-        List<PythonImportLine> importLinesCopy = new ArrayList<>(this.getScript().getImportLines());
+        List<PythonImportLine> importLinesCopy = new ArrayList<>(this.getScript().importLines());
         return this.iterate(importLinesCopy, action, condition);
     }
 
@@ -38,7 +38,7 @@ public final class IterationPythonScriptBuilder extends AbstractPythonScriptBuil
     }
 
     public IterationPythonScriptBuilder iterateCode(Consumer<PythonCodeLine> action, boolean condition) {
-        List<PythonCodeLine> codeLinesCopy = new ArrayList<>(this.getScript().getCodeLines());
+        List<PythonCodeLine> codeLinesCopy = new ArrayList<>(this.getScript().codeLines());
         return this.iterate(codeLinesCopy, action, condition);
     }
 
@@ -47,7 +47,7 @@ public final class IterationPythonScriptBuilder extends AbstractPythonScriptBuil
     }
 
     public IterationPythonScriptBuilder iterateCode(ObjIntConsumer<PythonCodeLine> action, boolean condition) {
-        List<PythonCodeLine> codeLinesCopy = new ArrayList<>(this.getScript().getCodeLines());
+        List<PythonCodeLine> codeLinesCopy = new ArrayList<>(this.getScript().codeLines());
         return this.iterate(codeLinesCopy, action, condition);
     }
 
@@ -56,7 +56,6 @@ public final class IterationPythonScriptBuilder extends AbstractPythonScriptBuil
     }
 
     public <T> IterationPythonScriptBuilder iterate(Iterable<T> iterable, Consumer<T> action, boolean condition) {
-        this.getScript().clearBody();
         if (condition) iterable.forEach(action);
         return this;
     }
@@ -66,7 +65,6 @@ public final class IterationPythonScriptBuilder extends AbstractPythonScriptBuil
     }
 
     public <T> IterationPythonScriptBuilder iterate(List<T> iterable, ObjIntConsumer<T> action, boolean condition) {
-        this.getScript().clearBody();
         if (condition) {
             for (int i = 0; i < iterable.size(); i++) {
                 T element = iterable.get(i);
@@ -78,7 +76,6 @@ public final class IterationPythonScriptBuilder extends AbstractPythonScriptBuil
     }
 
     public IterationPythonScriptBuilder onCondition(Runnable action, boolean condition) {
-        this.getScript().clearBody();
         if (condition) action.run();
         return this;
     }

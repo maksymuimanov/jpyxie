@@ -8,8 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -22,7 +22,8 @@ class PythonInterpreterProviderFinalizerTest {
 
     @Test
     void finish_shouldCloseProvider() throws Exception {
-        assertDoesNotThrow(() -> finalizer.finish());
+        assertThatCode(finalizer::finish)
+                .doesNotThrowAnyException();
         verify(provider)
                 .close();
     }

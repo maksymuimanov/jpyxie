@@ -30,12 +30,12 @@ class BasicPythonFileReaderTest {
     void setUp() {
         Map<String, String> fileCache = new ConcurrentHashMap<>();
         fileReader = new BasicPythonFileReader(fileCache, inputStreamProvider, StandardCharsets.UTF_8);
-        testScript = PythonScript.fromFile("test_script", "test_script.py");
+        testScript = PythonScript.asFile("test_script", "test_script.py");
     }
 
     @Test
     void readScript_shouldReturnScriptAsIs_whenNotFile() {
-        PythonScript nonFileScript = PythonScript.fromString("test_script", "print('Hello World')");
+        PythonScript nonFileScript = PythonScript.asString("test_script", "print('Hello World')");
 
         PythonScript result = fileReader.readScript(nonFileScript);
 
@@ -55,7 +55,7 @@ class BasicPythonFileReaderTest {
 
         PythonScript result = fileReader.readScript(testScript);
 
-        assertThat(result.getSource())
+        assertThat(result.source())
                 .isEqualTo("test_script.py");
         assertThat(result.toPythonString().trim())
                 .isEqualTo(expectedContent);
@@ -68,8 +68,8 @@ class BasicPythonFileReaderTest {
     void readScript_shouldCacheFileContent() {
         String expectedContent = "print('cached content')";
         InputStream mockInputStream = new ByteArrayInputStream(expectedContent.getBytes(StandardCharsets.UTF_8));
-        PythonScript script1 = PythonScript.fromFile("script1", "test_script.py");
-        PythonScript script2 = PythonScript.fromFile("script2", "test_script.py");
+        PythonScript script1 = PythonScript.asFile("script1", "test_script.py");
+        PythonScript script2 = PythonScript.asFile("script2", "test_script.py");
 
         when(inputStreamProvider.open("test_script.py"))
                 .thenReturn(mockInputStream);
@@ -148,7 +148,7 @@ class BasicPythonFileReaderTest {
     void readScript_shouldAppendContentToExistingScript() {
         String newContent = "new line";
         InputStream mockInputStream = new ByteArrayInputStream(newContent.getBytes(StandardCharsets.UTF_8));
-        PythonScript scriptWithContent = PythonScript.fromFile("test_script", "test_script.py");
+        PythonScript scriptWithContent = PythonScript.asFile("test_script", "test_script.py");
 
         when(inputStreamProvider.open("test_script.py"))
                 .thenReturn(mockInputStream);
@@ -164,8 +164,8 @@ class BasicPythonFileReaderTest {
     @Test
     @SuppressWarnings("resource")
     void readScript_shouldHandleMultipleFilesWithDifferentContent() {
-        PythonScript script1 = PythonScript.fromFile("script1", "script1.py");
-        PythonScript script2 = PythonScript.fromFile("script2", "script2.py");
+        PythonScript script1 = PythonScript.asFile("script1", "script1.py");
+        PythonScript script2 = PythonScript.asFile("script2", "script2.py");
         String content1 = "content1";
         String content2 = "content2";
 

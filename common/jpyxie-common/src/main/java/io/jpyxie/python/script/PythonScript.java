@@ -2,34 +2,28 @@ package io.jpyxie.python.script;
 
 import io.jpyxie.python.constant.PythonConstants;
 import io.jpyxie.python.exception.PythonScriptException;
-import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PythonScript implements PythonRepresentation {
+public record PythonScript(String name, String source, boolean isFile, List<PythonImportLine> importLines,
+                           List<PythonCodeLine> codeLines) implements PythonRepresentation {
     public static final int START_INDEX = 0;
-    private final String name;
-    private final String source;
-    private final boolean isFile;
-    private final List<PythonImportLine> importLines;
-    private final List<PythonCodeLine> codeLines;
-    @Nullable
-    private String body;
 
     public static PythonScript parse(CharSequence name, CharSequence script) {
         String scriptString = script.toString();
-        return isFile(scriptString) ? fromFile(name, scriptString) : fromString(name, scriptString);
+        return isFile(scriptString) ? asFile(name, scriptString) : asString(name, scriptString);
     }
 
-    public static PythonScript fromFile(CharSequence name) {
+    public static PythonScript asFile(CharSequence name) {
         String nameString = name.toString();
-        return fromFile(nameString, isFile(nameString) ? nameString : nameString + PythonConstants.FILE_FORMAT);
+        return asFile(nameString, isFile(nameString) ? nameString : nameString + PythonConstants.FILE_FORMAT);
     }
 
-    public static PythonScript fromFile(CharSequence name, CharSequence script) {
-        if (!isFile(script)) throw new PythonScriptException("Invalid file name format. It must end with " + PythonConstants.FILE_FORMAT);
+    public static PythonScript asFile(CharSequence name, CharSequence script) {
+        if (!isFile(script))
+            throw new PythonScriptException("Invalid file name format. It must end with " + PythonConstants.FILE_FORMAT);
         return new PythonScript(name.toString(), script.toString(), true, new ArrayList<>(), new ArrayList<>());
     }
 
@@ -37,7 +31,7 @@ public class PythonScript implements PythonRepresentation {
         return source.toString().endsWith(PythonConstants.FILE_FORMAT);
     }
 
-    public static PythonScript fromString(CharSequence name, CharSequence script) {
+    public static PythonScript asString(CharSequence name, CharSequence script) {
         PythonScript pythonScript = new PythonScript(name.toString(), script.toString(), false, new ArrayList<>(), new ArrayList<>());
         BasicPythonScriptBuilder.of(pythonScript).appendAll(script);
         return pythonScript;
@@ -47,24 +41,12 @@ public class PythonScript implements PythonRepresentation {
         return new PythonScript(name.toString(), "", false, new ArrayList<>(), new ArrayList<>());
     }
 
-    public PythonScript(String name, String source, boolean isFile, List<PythonImportLine> importLines, List<PythonCodeLine> codeLines) {
-        this.name = name;
-        this.source = source;
-        this.isFile = isFile;
-        this.importLines = importLines;
-        this.codeLines = codeLines;
-    }
-
-    public void clearBody() {
-        this.body = null;
-    }
-
     public int getImportsSize() {
-        return this.getImportLines().size();
+        return this.importLines().size();
     }
 
     public int getCodeSize() {
-        return this.getCodeLines().size();
+        return this.codeLines().size();
     }
 
     public boolean containsImport(CharSequence line) {
@@ -73,22 +55,22 @@ public class PythonScript implements PythonRepresentation {
     }
 
     public boolean containsImport(PythonImportLine importLine) {
-        return this.getImportLines().contains(importLine);
+        return this.importLines().contains(importLine);
     }
 
     public boolean containsCode(CharSequence line) {
         PythonCodeLine codeLine = new PythonCodeLine(line);
-        return !this.isCodeEmpty() && this.getCodeLines().contains(codeLine);
+        return !this.isCodeEmpty() && this.codeLines().contains(codeLine);
     }
 
     public boolean containsDeepImport(CharSequence line) {
-        return this.getImportLines()
+        return this.importLines()
                 .stream()
                 .anyMatch(importLine -> importLine.has(line));
     }
 
     public boolean containsDeepCode(CharSequence line) {
-        return this.getCodeLines()
+        return this.codeLines()
                 .stream()
                 .anyMatch(codeLine -> codeLine.has(line));
     }
@@ -99,7 +81,7 @@ public class PythonScript implements PythonRepresentation {
     }
 
     public boolean startsWithCode(PythonCodeLine line) {
-        return !this.isCodeEmpty() && this.getCodeLines().get(START_INDEX).equals(line);
+        return !this.isCodeEmpty() && this.codeLines().get(START_INDEX).equals(line);
     }
 
     public boolean endsWithCode(CharSequence line) {
@@ -109,43 +91,23 @@ public class PythonScript implements PythonRepresentation {
 
     public boolean endsWithCode(PythonCodeLine line) {
         int lastElement = this.getCodeSize() - 1;
-        return !this.isCodeEmpty() && this.getCodeLines().get(lastElement).equals(line);
+        return !this.isCodeEmpty() && this.codeLines().get(lastElement).equals(line);
     }
 
     public boolean isImportEmpty() {
-        return this.getImportLines().isEmpty();
+        return this.importLines().isEmpty();
     }
 
     public boolean isCodeEmpty() {
-        return this.getCodeLines().isEmpty();
+        return this.codeLines().isEmpty();
     }
 
     public PythonImportLine getImport(int index) {
-        return this.getImportLines().get(index);
+        return this.importLines().get(index);
     }
 
     public PythonCodeLine getCode(int index) {
-        return this.getCodeLines().get(index);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public boolean isFile() {
-        return isFile;
-    }
-
-    public List<PythonImportLine> getImportLines() {
-        return importLines;
-    }
-
-    public List<PythonCodeLine> getCodeLines() {
-        return codeLines;
+        return this.codeLines().get(index);
     }
 
     @Override
@@ -153,15 +115,15 @@ public class PythonScript implements PythonRepresentation {
         if (object == null || getClass() != object.getClass()) return false;
         PythonScript that = (PythonScript) object;
         return this.isFile() == that.isFile()
-                && Objects.equals(this.getName(), that.getName())
-                && Objects.equals(this.getSource(), that.getSource())
-                && Objects.equals(this.getImportLines(), that.getImportLines())
-                && Objects.equals(this.getCodeLines(), that.getCodeLines());
+                && Objects.equals(this.name(), that.name())
+                && Objects.equals(this.source(), that.source())
+                && Objects.equals(this.importLines(), that.importLines())
+                && Objects.equals(this.codeLines(), that.codeLines());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getName(), this.getSource(), this.isFile(), this.getImportLines(), this.getCodeLines());
+        return Objects.hash(this.name(), this.source(), this.isFile(), this.importLines(), this.codeLines());
     }
 
     @Override
@@ -171,19 +133,18 @@ public class PythonScript implements PythonRepresentation {
 
     @Override
     public String toPythonString() {
-        if (this.body == null || this.body.isEmpty()) {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (PythonImportLine importLine : this.getImportLines()) {
-                String importStatement = importLine.toPythonString();
-                stringBuilder.append(importStatement).append("\n");
-            }
-            for (PythonCodeLine codeLine : this.getCodeLines()) {
-                String codeStatement = codeLine.toPythonString();
-                stringBuilder.append(codeStatement).append("\n");
-            }
-
-            this.body = stringBuilder.toString();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (PythonImportLine importLine : this.importLines()) {
+            String importStatement = importLine.toPythonString();
+            stringBuilder.append(importStatement)
+                    .append("\n");
         }
-        return this.body;
+        for (PythonCodeLine codeLine : this.codeLines()) {
+            String codeStatement = codeLine.toPythonString();
+            stringBuilder.append(codeStatement)
+                    .append("\n");
+        }
+
+        return stringBuilder.toString();
     }
 }

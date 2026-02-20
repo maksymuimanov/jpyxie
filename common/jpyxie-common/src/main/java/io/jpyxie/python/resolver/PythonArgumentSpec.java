@@ -62,9 +62,21 @@ public class PythonArgumentSpec implements MapSpec<String, Object> {
     }
 
     @Override
+    public final boolean equals(Object object) {
+        if (!(object instanceof PythonArgumentSpec entries)) return false;
+
+        return this.getArguments().equals(entries.getArguments());
+    }
+
+    @Override
+    public int hashCode() {
+        return getArguments().hashCode();
+    }
+
+    @Override
     public String toString() {
         final StringBuilder stringBuilder = new StringBuilder("PythonArgumentSpec{");
-        stringBuilder.append("arguments=").append(arguments);
+        stringBuilder.append("arguments=").append(this.getArguments());
         stringBuilder.append('}');
         return stringBuilder.toString();
     }

@@ -37,4 +37,9 @@ public class PythonCodeLine implements PythonRepresentation {
     public int hashCode() {
         return Objects.hashCode(this.getLine());
     }
+
+    @Override
+    public String toString() {
+        return this.toPythonString();
+    }
 }

@@ -59,7 +59,7 @@ class PoolPythonInterpreterProviderTest {
 
     @Test
     @SuppressWarnings("resource")
-    void acquireWithTimeout_shouldReturnInterpreterFromPool() {
+    void acquire_withTimeout_shouldReturnInterpreterFromPool() {
         this.pool.add(newInterpreter);
 
         AutoCloseable interpreter = interpreterProvider.acquire(5, TimeUnit.SECONDS);
@@ -75,7 +75,7 @@ class PoolPythonInterpreterProviderTest {
 
     @Test
     @SuppressWarnings("resource")
-    void acquireWithTimeout_shouldReturnInterpreterFromPool_whenNotInitialized() {
+    void acquire_withTimeout_shouldReturnInterpreterFromPool_whenNotInitialized() {
         when(interpreterFactory.create())
                 .thenReturn(newInterpreter);
 
@@ -92,7 +92,7 @@ class PoolPythonInterpreterProviderTest {
 
     @Test
     @SuppressWarnings("resource")
-    void acquireWithTimeout_shouldHandleWithStarvationHandler_whenEmpty() {
+    void acquire_withTimeout_shouldHandleWithStarvationHandler_whenEmpty() {
         when(interpreterFactory.create())
                 .thenReturn(newInterpreter);
 
@@ -119,7 +119,7 @@ class PoolPythonInterpreterProviderTest {
 
     @Test
     @SuppressWarnings("resource")
-    void acquireWithTimeout_shouldFail_whenClosed() throws Exception {
+    void acquire_withTimeout_shouldFail_whenClosed() throws Exception {
         interpreterProvider.close();
 
         assertThatThrownBy(() -> interpreterProvider.acquire(5, TimeUnit.SECONDS))
@@ -132,7 +132,7 @@ class PoolPythonInterpreterProviderTest {
 
     @Test
     @SuppressWarnings("resource")
-    void acquireWithTimeout_shouldFail_whenInterrupted() {
+    void acquire_withTimeout_shouldFail_whenInterrupted() {
         doAnswer(invocation -> { throw new InterruptedException(); })
                 .when(pool)
                 .isEmpty();
@@ -150,7 +150,7 @@ class PoolPythonInterpreterProviderTest {
 
     @Test
     @SuppressWarnings("resource")
-    void acquireWithTimeout_shouldFail_whenExceptionThrown() {
+    void acquire_withTimeout_shouldFail_whenExceptionThrown() {
         when(pool.isEmpty())
                 .thenThrow(RuntimeException.class);
 
@@ -164,7 +164,7 @@ class PoolPythonInterpreterProviderTest {
 
     @Test
     @SuppressWarnings("resource")
-    void acquireWithTimeout_shouldFail_whenFillingFailed() {
+    void acquire_withTimeout_shouldFail_whenFillingFailed() {
         when(interpreterFactory.create())
                 .thenReturn(newInterpreter);
         when(pool.offer(newInterpreter))

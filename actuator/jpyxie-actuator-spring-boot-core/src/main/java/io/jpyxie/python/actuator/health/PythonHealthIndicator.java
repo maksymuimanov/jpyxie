@@ -18,7 +18,7 @@ public class PythonHealthIndicator extends AbstractHealthIndicator {
     @Override
     protected void doHealthCheck(Health.Builder builder) throws Exception {
         builder.up().withDetail(PING_SCRIPT_KEY, PING_SCRIPT_VALUE);
-        PythonScript pingScript = PythonScript.fromString(PING_SCRIPT_NAME, PING_SCRIPT_VALUE);
+        PythonScript pingScript = PythonScript.asString(PING_SCRIPT_NAME, PING_SCRIPT_VALUE);
         this.pythonProcessor.process(pingScript);
     }
 }

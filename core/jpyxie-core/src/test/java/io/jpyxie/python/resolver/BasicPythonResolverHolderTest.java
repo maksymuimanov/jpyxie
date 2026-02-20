@@ -55,7 +55,7 @@ class BasicPythonResolverHolderTest {
     }
 
     @Test
-    void resolveAllWithArguments_shouldResolveEachResolver() {
+    void resolveAll_withArguments_shouldResolveEachResolver() {
         when(resolver.resolve(pythonScript, spec))
                 .thenReturn(pythonScript);
 
@@ -66,7 +66,7 @@ class BasicPythonResolverHolderTest {
     }
 
     @Test
-    void resolveAllWithArguments_shouldFail_whenExceptionThrown() {
+    void resolveAll_withArguments_shouldFail_whenExceptionThrown() {
         doThrow(RuntimeException.class)
                 .when(resolver)
                 .resolve(pythonScript, spec);

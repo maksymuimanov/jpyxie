@@ -21,8 +21,9 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
     public static PythonResultMap of(PythonResultSpec resultSpec, Function<PythonResultRequirement<?>, @Nullable Object> valueFunction) {
         if (resultSpec.isEmpty()) return empty();
         Map<String, PythonResult<?>> results = new HashMap<>();
-        resultSpec.forEach(requirement -> {
-            String name = requirement.name();
+        resultSpec.forEach(entry -> {
+            String name = entry.getKey();
+            PythonResultRequirement<?> requirement = entry.getValue();
             Object value = valueFunction.apply(requirement);
             PythonResult<?> result = PythonResult.present(name, value);
             results.put(name, result);
@@ -79,7 +80,7 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
     }
     
     public Set<PythonResult<?>> values() {
-        return Collections.unmodifiableSet((Set<? extends PythonResult<?>>) this.delegate.values());
+        return Set.copyOf(this.delegate.values());
     }
 
     public Set<Map.Entry<String, PythonResult<?>>> entries() {
@@ -89,5 +90,22 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
     @Override
     public Map<String, PythonResult<?>> toMap() {
         return Collections.unmodifiableMap(this.delegate);
+    }
+
+    @Override
+    public final boolean equals(Object object) {
+        if (!(object instanceof PythonResultMap entries)) return false;
+
+        return this.delegate.equals(entries.delegate);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.delegate.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return this.values().toString();
     }
 }

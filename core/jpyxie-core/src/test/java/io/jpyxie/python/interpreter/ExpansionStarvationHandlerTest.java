@@ -11,9 +11,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,7 +42,8 @@ class ExpansionStarvationHandlerTest {
                 .isEqualTo(newInterpreter);
         assertThat(poolSize.get())
                 .isEqualTo(10);
-        assertDoesNotThrow(() -> pool.offer(newInterpreter));
+        assertThatCode( () -> pool.offer(newInterpreter))
+                .doesNotThrowAnyException();
         verify(interpreterFactory, times(5))
                 .create();
         verify(pool, times(6))

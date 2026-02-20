@@ -17,7 +17,6 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder appendAll(CharSequence script) {
-        this.getScript().clearBody();
         script.toString()
                 .lines()
                 .forEach(this::append);
@@ -25,31 +24,36 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder append(CharSequence line) {
-        return line.toString().matches(PythonImportLine.IMPORT_REGEX)
+        return line.toString()
+                .matches(PythonImportLine.IMPORT_REGEX)
                 ? this.appendImport(line)
                 : this.appendCode(line);
     }
 
     public BasicPythonScriptBuilder prepend(CharSequence line) {
-        return line.toString().matches(PythonImportLine.IMPORT_REGEX)
+        return line.toString()
+                .matches(PythonImportLine.IMPORT_REGEX)
                 ? this.prependImport(line)
                 : this.prependCode(line);
     }
 
     public BasicPythonScriptBuilder insert(CharSequence line, int index) {
-        return line.toString().matches(PythonImportLine.IMPORT_REGEX)
+        return line.toString()
+                .matches(PythonImportLine.IMPORT_REGEX)
                 ? this.insertImport(line, index)
                 : this.insertCode(line, index);
     }
 
     public BasicPythonScriptBuilder set(CharSequence line, int index) {
-        return line.toString().matches(PythonImportLine.IMPORT_REGEX)
+        return line.toString()
+                .matches(PythonImportLine.IMPORT_REGEX)
                 ? this.setImport(line, index)
                 : this.setCode(line, index);
     }
 
     public BasicPythonScriptBuilder remove(CharSequence line) {
-        return line.toString().matches(PythonImportLine.IMPORT_REGEX)
+        return line.toString()
+                .matches(PythonImportLine.IMPORT_REGEX)
                 ? this.removeImport(line)
                 : this.removeCode(line);
     }
@@ -60,9 +64,10 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder appendImport(PythonImportLine line) {
-        this.getScript().clearBody();
         if (this.getScript().containsImport(line)) return this;
-        this.getScript().getImportLines().add(line);
+        this.getScript()
+                .importLines()
+                .add(line);
         return this;
     }
 
@@ -72,9 +77,8 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder prependImport(PythonImportLine line) {
-        this.getScript().clearBody();
         if (this.getScript().containsImport(line)) return this;
-        this.getScript().getImportLines().add(PythonScript.START_INDEX, line);
+        this.insertImport(line, PythonScript.START_INDEX);
         return this;
     }
 
@@ -84,8 +88,9 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder insertImport(PythonImportLine line, int index) {
-        this.getScript().clearBody();
-        this.getScript().getImportLines().add(index, line);
+        this.getScript()
+                .importLines()
+                .add(index, line);
         return this;
     }
 
@@ -95,14 +100,14 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder setImport(PythonImportLine line, int index) {
-        this.getScript().clearBody();
-        this.getScript().getImportLines().set(index, line);
+        this.getScript().importLines().set(index, line);
         return this;
     }
 
     public BasicPythonScriptBuilder removeImport(int index) {
-        this.getScript().clearBody();
-        this.getScript().getImportLines().remove(index);
+        this.getScript()
+                .importLines()
+                .remove(index);
         return this;
     }
 
@@ -112,8 +117,9 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder removeImport(PythonImportLine line) {
-        this.getScript().clearBody();
-        this.getScript().getImportLines().remove(line);
+        this.getScript()
+                .importLines()
+                .remove(line);
         return this;
     }
 
@@ -132,8 +138,9 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder appendCode(PythonCodeLine line) {
-        this.getScript().clearBody();
-        this.getScript().getCodeLines().add(line);
+        this.getScript()
+                .codeLines()
+                .add(line);
         return this;
     }
 
@@ -151,7 +158,6 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder prependCode(PythonCodeLine line) {
-        this.getScript().clearBody();
         return this.insertCode(line, PythonScript.START_INDEX);
     }
 
@@ -161,8 +167,9 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder insertCode(PythonCodeLine line, int index) {
-        this.getScript().clearBody();
-        this.getScript().getCodeLines().add(index, line);
+        this.getScript()
+                .codeLines()
+                .add(index, line);
         return this;
     }
 
@@ -172,14 +179,16 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder setCode(PythonCodeLine line, int index) {
-        this.getScript().clearBody();
-        this.getScript().getCodeLines().set(index, line);
+        this.getScript()
+                .codeLines()
+                .set(index, line);
         return this;
     }
 
     public BasicPythonScriptBuilder removeCode(int index) {
-        this.getScript().clearBody();
-        this.getScript().getCodeLines().remove(index);
+        this.getScript()
+                .codeLines()
+                .remove(index);
         return this;
     }
 
@@ -189,8 +198,9 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder removeCode(PythonCodeLine line) {
-        this.getScript().clearBody();
-        this.getScript().getCodeLines().remove(line);
+        this.getScript()
+                .codeLines()
+                .remove(line);
         return this;
     }
 
@@ -213,9 +223,8 @@ public final class BasicPythonScriptBuilder extends AbstractPythonScriptBuilder 
     }
 
     public BasicPythonScriptBuilder replaceAllCode(CharSequence regex, Function<MatchResult, String> function) {
-        this.getScript().clearBody();
         Pattern pattern = Pattern.compile(regex.toString());
-        List<PythonCodeLine> codeLines = this.getScript().getCodeLines();
+        List<PythonCodeLine> codeLines = this.getScript().codeLines();
         for (PythonCodeLine codeLine : codeLines) {
             CharSequence line = codeLine.getLine();
             Matcher matcher = pattern.matcher(line);

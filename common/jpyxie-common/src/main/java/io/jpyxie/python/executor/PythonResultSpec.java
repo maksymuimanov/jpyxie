@@ -1,17 +1,17 @@
 package io.jpyxie.python.executor;
 
-import io.jpyxie.python.common.SetSpec;
+import io.jpyxie.python.common.MapSpec;
 import io.jpyxie.python.exception.PythonException;
 
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
-public class PythonResultSpec implements SetSpec<PythonResultRequirement<?>> {
-    private final Set<PythonResultRequirement<?>> requirements;
+public class PythonResultSpec implements MapSpec<String, PythonResultRequirement<?>> {
+    private final Map<String, PythonResultRequirement<?>> requirements;
 
     public static PythonResultSpec empty() {
-        return new PythonResultSpec(Collections.emptySet());
+        return new PythonResultSpec(Collections.emptyMap());
     }
 
     public static PythonResultSpec of(String name, Class<?> type) {
@@ -23,20 +23,18 @@ public class PythonResultSpec implements SetSpec<PythonResultRequirement<?>> {
     }
 
     public static PythonResultSpec create() {
-        return new PythonResultSpec(new HashSet<>());
+        return new PythonResultSpec(new HashMap<>());
     }
 
-    private PythonResultSpec(Set<PythonResultRequirement<?>> requirements) {
+    private PythonResultSpec(Map<String, PythonResultRequirement<?>> requirements) {
         this.requirements = requirements;
     }
 
     public PythonResultRequirement<?> getRequirement(String name) {
-        for (PythonResultRequirement<?> requirement : this.requirements) {
-            if (requirement.name().equals(name)) {
-                return requirement;
-            }
-        }
-        throw new PythonException("Requirement not found: " + name);
+        return this.getRequirements().compute(name, (k, v) -> {
+            if (v != null) return v;
+            throw new PythonException("Requirement not found: " + name);
+        });
     }
 
     public PythonResultSpec require(String name, Class<?> type) {
@@ -45,19 +43,35 @@ public class PythonResultSpec implements SetSpec<PythonResultRequirement<?>> {
     }
     
     public PythonResultSpec require(PythonResultRequirement<?> requirement) {
-        this.requirements.add(requirement);
+        this.getRequirements().put(requirement.name(), requirement);
         return this;
     }
 
     @Override
-    public Set<PythonResultRequirement<?>> toSet() {
-        return Collections.unmodifiableSet(this.requirements);
+    public Map<String, PythonResultRequirement<?>> toMap() {
+        return Collections.unmodifiableMap(this.getRequirements());
+    }
+
+    protected Map<String, PythonResultRequirement<?>> getRequirements() {
+        return requirements;
+    }
+
+    @Override
+    public final boolean equals(Object object) {
+        if (!(object instanceof PythonResultSpec entries)) return false;
+
+        return this.getRequirements().equals(entries.getRequirements());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getRequirements().hashCode();
     }
 
     @Override
     public String toString() {
         final StringBuilder stringBuilder = new StringBuilder("PythonResultSpec{");
-        stringBuilder.append("requirements=").append(this.requirements);
+        stringBuilder.append("requirements=").append(this.getRequirements());
         stringBuilder.append('}');
         return stringBuilder.toString();
     }

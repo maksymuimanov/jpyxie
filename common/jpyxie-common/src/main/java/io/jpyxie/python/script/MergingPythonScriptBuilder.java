@@ -13,9 +13,11 @@ public final class MergingPythonScriptBuilder extends AbstractPythonScriptBuilde
     }
 
     public MergingPythonScriptBuilder mergeToStart(PythonScript script) {
-        script.getImportLines().forEach(basicPythonScriptBuilder::appendImport);
-        basicPythonScriptBuilder.prependCode();
-        for (int i = script.getCodeLines().size() - 1; i >= 0; i--) {
+        for (int i = script.getImportsSize() - 1; i >= 0; i--) {
+            PythonImportLine importLine = script.getImport(i);
+            basicPythonScriptBuilder.prependImport(importLine);
+        }
+        for (int i = script.getCodeSize() - 1; i >= 0; i--) {
             PythonCodeLine codeLine = script.getCode(i);
             basicPythonScriptBuilder.prependCode(codeLine);
         }
@@ -23,9 +25,10 @@ public final class MergingPythonScriptBuilder extends AbstractPythonScriptBuilde
     }
 
     public MergingPythonScriptBuilder merge(PythonScript script) {
-        script.getImportLines().forEach(basicPythonScriptBuilder::appendImport);
-        basicPythonScriptBuilder.appendCode();
-        script.getCodeLines().forEach(basicPythonScriptBuilder::appendCode);
+        script.importLines()
+                .forEach(basicPythonScriptBuilder::appendImport);
+        script.codeLines()
+                .forEach(basicPythonScriptBuilder::appendCode);
         return this;
     }
 }
