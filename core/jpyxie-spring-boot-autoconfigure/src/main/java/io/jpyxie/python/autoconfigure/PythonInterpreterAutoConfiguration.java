@@ -20,6 +20,7 @@ public class PythonInterpreterAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnBean(PythonInterpreterProvider.class)
     @ConditionalOnMissingBean(PythonInterpreterProviderFinalizer.class)
     public PythonFinalizer externalPythonLibraryFinalizer(PythonInterpreterProvider<?> interpreterProvider) {
         return new PythonInterpreterProviderFinalizer(interpreterProvider);

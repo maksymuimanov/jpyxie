@@ -1,8 +1,8 @@
 package io.jpyxie.python.autoconfigure;
 
 import io.jpyxie.python.file.BasicPythonFileReader;
-import io.jpyxie.python.file.ClassPathResourceInputStreamProvider;
-import io.jpyxie.python.file.InputStreamProvider;
+import io.jpyxie.python.file.ClassPathResourcePythonFileInputStreamProvider;
+import io.jpyxie.python.file.PythonFileInputStreamProvider;
 import io.jpyxie.python.file.PythonFileReader;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -29,9 +29,9 @@ import org.springframework.core.env.Environment;
 @EnableConfigurationProperties(PythonFileProperties.class)
 public class PythonFileAutoConfiguration {
     @Bean
-    @ConditionalOnMissingBean(InputStreamProvider.class)
-    public InputStreamProvider classPathResourceInputStreamProvider(PythonFileProperties fileProperties, Environment environment) {
-        return new ClassPathResourceInputStreamProvider(fileProperties, environment);
+    @ConditionalOnMissingBean(PythonFileInputStreamProvider.class)
+    public PythonFileInputStreamProvider classPathResourceInputStreamProvider(PythonFileProperties fileProperties, Environment environment) {
+        return new ClassPathResourcePythonFileInputStreamProvider(fileProperties, environment);
     }
 
     /**
@@ -42,7 +42,7 @@ public class PythonFileAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(PythonFileReader.class)
-    public PythonFileReader basicPythonFileHandler(PythonFileProperties fileProperties, InputStreamProvider inputStreamProvider) {
-        return new BasicPythonFileReader(inputStreamProvider, fileProperties.getCharset());
+    public PythonFileReader basicPythonFileHandler(PythonFileProperties fileProperties, PythonFileInputStreamProvider pythonFileInputStreamProvider) {
+        return new BasicPythonFileReader(pythonFileInputStreamProvider, fileProperties.getCharset());
     }
 }

@@ -23,13 +23,13 @@ import static org.mockito.Mockito.*;
 class BasicPythonFileReaderTest {
     private BasicPythonFileReader fileReader;
     @Mock
-    private InputStreamProvider inputStreamProvider;
+    private PythonFileInputStreamProvider pythonFileInputStreamProvider;
     private PythonScript testScript;
 
     @BeforeEach
     void setUp() {
         Map<String, String> fileCache = new ConcurrentHashMap<>();
-        fileReader = new BasicPythonFileReader(fileCache, inputStreamProvider, StandardCharsets.UTF_8);
+        fileReader = new BasicPythonFileReader(fileCache, pythonFileInputStreamProvider, StandardCharsets.UTF_8);
         testScript = PythonScript.asFile("test_script", "test_script.py");
     }
 
@@ -41,7 +41,7 @@ class BasicPythonFileReaderTest {
 
         assertThat(result)
                 .isSameAs(nonFileScript);
-        verifyNoInteractions(inputStreamProvider);
+        verifyNoInteractions(pythonFileInputStreamProvider);
     }
 
     @Test
@@ -50,7 +50,7 @@ class BasicPythonFileReaderTest {
         String expectedContent = "print('Hello World')";
         InputStream mockInputStream = new ByteArrayInputStream(expectedContent.getBytes(StandardCharsets.UTF_8));
 
-        when(inputStreamProvider.open("test_script.py"))
+        when(pythonFileInputStreamProvider.open("test_script.py"))
                 .thenReturn(mockInputStream);
 
         PythonScript result = fileReader.readScript(testScript);
@@ -59,7 +59,7 @@ class BasicPythonFileReaderTest {
                 .isEqualTo("test_script.py");
         assertThat(result.toPythonString().trim())
                 .isEqualTo(expectedContent);
-        verify(inputStreamProvider)
+        verify(pythonFileInputStreamProvider)
                 .open("test_script.py");
     }
 
@@ -71,7 +71,7 @@ class BasicPythonFileReaderTest {
         PythonScript script1 = PythonScript.asFile("script1", "test_script.py");
         PythonScript script2 = PythonScript.asFile("script2", "test_script.py");
 
-        when(inputStreamProvider.open("test_script.py"))
+        when(pythonFileInputStreamProvider.open("test_script.py"))
                 .thenReturn(mockInputStream);
 
         PythonScript result1 = fileReader.readScript(script1);
@@ -91,20 +91,20 @@ class BasicPythonFileReaderTest {
                 .isEqualTo(expectedContent);
         assertThat(result2.toPythonString().trim())
                 .isEqualTo(expectedContent);
-        verify(inputStreamProvider, times(1))
+        verify(pythonFileInputStreamProvider, times(1))
                 .open("test_script.py");
     }
 
     @Test
     @SuppressWarnings("resource")
     void readScript_shouldThrowPythonFileException_whenInputStreamFails() {
-        when(inputStreamProvider.open("test_script.py"))
+        when(pythonFileInputStreamProvider.open("test_script.py"))
                 .thenThrow(RuntimeException.class);
 
         assertThatThrownBy(() -> fileReader.readScript(testScript))
             .isInstanceOf(PythonFileException.class)
             .hasCauseInstanceOf(RuntimeException.class);
-        verify(inputStreamProvider)
+        verify(pythonFileInputStreamProvider)
                 .open("test_script.py");
     }
 
@@ -113,7 +113,7 @@ class BasicPythonFileReaderTest {
     void readScript_shouldThrowPythonFileException_whenReadingBytesFails() throws IOException {
         InputStream mockInputStream = mock(InputStream.class);
 
-        when(inputStreamProvider.open("test_script.py"))
+        when(pythonFileInputStreamProvider.open("test_script.py"))
                 .thenReturn(mockInputStream);
         when(mockInputStream.readAllBytes())
                 .thenThrow(RuntimeException.class);
@@ -121,7 +121,7 @@ class BasicPythonFileReaderTest {
         assertThatThrownBy(() -> fileReader.readScript(testScript))
                 .isInstanceOf(PythonFileException.class)
                 .hasCauseInstanceOf(RuntimeException.class);
-        verify(inputStreamProvider)
+        verify(pythonFileInputStreamProvider)
                 .open("test_script.py");
         verify(mockInputStream)
                 .close();
@@ -132,14 +132,14 @@ class BasicPythonFileReaderTest {
     void readScript_shouldHandleEmptyFile() {
         InputStream emptyStream = new ByteArrayInputStream(new byte[0]);
 
-        when(inputStreamProvider.open("test_script.py"))
+        when(pythonFileInputStreamProvider.open("test_script.py"))
                 .thenReturn(emptyStream);
 
         PythonScript result = fileReader.readScript(testScript);
 
         assertThat(result.toPythonString())
                 .isEmpty();
-        verify(inputStreamProvider)
+        verify(pythonFileInputStreamProvider)
                 .open("test_script.py");
     }
 
@@ -150,14 +150,14 @@ class BasicPythonFileReaderTest {
         InputStream mockInputStream = new ByteArrayInputStream(newContent.getBytes(StandardCharsets.UTF_8));
         PythonScript scriptWithContent = PythonScript.asFile("test_script", "test_script.py");
 
-        when(inputStreamProvider.open("test_script.py"))
+        when(pythonFileInputStreamProvider.open("test_script.py"))
                 .thenReturn(mockInputStream);
 
         PythonScript result = fileReader.readScript(scriptWithContent);
 
         assertThat(result.toPythonString().trim())
                 .isEqualTo(newContent);
-        verify(inputStreamProvider)
+        verify(pythonFileInputStreamProvider)
                 .open("test_script.py");
     }
 
@@ -169,9 +169,9 @@ class BasicPythonFileReaderTest {
         String content1 = "content1";
         String content2 = "content2";
 
-        when(inputStreamProvider.open("script1.py"))
+        when(pythonFileInputStreamProvider.open("script1.py"))
                 .thenReturn(new ByteArrayInputStream(content1.getBytes(StandardCharsets.UTF_8)));
-        when(inputStreamProvider.open("script2.py"))
+        when(pythonFileInputStreamProvider.open("script2.py"))
                 .thenReturn(new ByteArrayInputStream(content2.getBytes(StandardCharsets.UTF_8)));
 
         PythonScript result1 = fileReader.readScript(script1);
@@ -181,9 +181,9 @@ class BasicPythonFileReaderTest {
                 .isEqualTo(content1);
         assertThat(result2.toPythonString().trim())
                 .isEqualTo(content2);
-        verify(inputStreamProvider)
+        verify(pythonFileInputStreamProvider)
                 .open("script1.py");
-        verify(inputStreamProvider)
+        verify(pythonFileInputStreamProvider)
                 .open("script2.py");
     }
 }

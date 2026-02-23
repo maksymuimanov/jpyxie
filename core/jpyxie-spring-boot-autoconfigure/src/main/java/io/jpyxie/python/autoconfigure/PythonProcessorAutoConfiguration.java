@@ -7,6 +7,7 @@ import io.jpyxie.python.processor.PythonProcessor;
 import io.jpyxie.python.resolver.PythonResolver;
 import io.jpyxie.python.resolver.PythonResolverHolder;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 
@@ -37,6 +38,7 @@ public class PythonProcessorAutoConfiguration {
      * @return a non-null {@link PythonProcessor} implementation.
      */
     @Bean
+    @ConditionalOnBean({PythonFileReader.class, PythonExecutor.class, PythonResolverHolder.class})
     @ConditionalOnMissingBean(PythonProcessor.class)
     public PythonProcessor basicPythonProcessor(PythonFileReader pythonFileReader,
                                                 PythonExecutor pythonExecutor,

@@ -1,6 +1,7 @@
 package io.jpyxie.python.autoconfigure;
 
 import io.jpyxie.python.file.BasicPythonFileReader;
+import io.jpyxie.python.file.PythonFileInputStreamProvider;
 import io.jpyxie.python.file.PythonFileReader;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +35,7 @@ public class PythonFileProperties {
     /**
      * Base directory path where Python scripts are stored or loaded from.
      */
-    private String path = "/python/";
+    private String path = PythonFileInputStreamProvider.DEFAULT_PARENT_DIRECTORY;
     /**
      * Charset used to read Python script files.
      */

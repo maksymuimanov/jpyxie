@@ -1,5 +1,6 @@
 package io.jpyxie.python.autoconfigure;
 
+import io.jpyxie.python.exception.PythonLifecycleException;
 import io.jpyxie.python.lifecycle.PythonFinalizer;
 import io.jpyxie.python.lifecycle.PythonInitializer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -14,15 +15,23 @@ import java.util.Map;
 public class PythonLifecycleAutoConfiguration {
     @EventListener(classes = ApplicationStartedEvent.class)
     public void initialize(ApplicationStartedEvent event) {
-        ApplicationContext applicationContext = event.getApplicationContext();
-        Map<String, PythonInitializer> pythonInitializers = applicationContext.getBeansOfType(PythonInitializer.class);
-        pythonInitializers.forEach((beanName, initializer) -> initializer.initialize());
+        try {
+            ApplicationContext applicationContext = event.getApplicationContext();
+            Map<String, PythonInitializer> pythonInitializers = applicationContext.getBeansOfType(PythonInitializer.class);
+            pythonInitializers.forEach((beanName, initializer) -> initializer.initialize());
+        } catch (Exception e) {
+            throw new PythonLifecycleException(e);
+        }
     }
 
     @EventListener(classes = ContextClosedEvent.class)
     public void finish(ContextClosedEvent event) {
-        ApplicationContext applicationContext = event.getApplicationContext();
-        Map<String, PythonFinalizer> pythonFinalizers = applicationContext.getBeansOfType(PythonFinalizer.class);
-        pythonFinalizers.forEach((beanName, finalizer) -> finalizer.finish());
+        try {
+            ApplicationContext applicationContext = event.getApplicationContext();
+            Map<String, PythonFinalizer> pythonFinalizers = applicationContext.getBeansOfType(PythonFinalizer.class);
+            pythonFinalizers.forEach((beanName, finalizer) -> finalizer.finish());
+        } catch (Exception e) {
+            throw new PythonLifecycleException(e);
+        }
     }
 }

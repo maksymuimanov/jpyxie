@@ -7,12 +7,6 @@
       "sourceType": "io.jpyxie.python.autoconfigure.PythonFileProperties"
     },
     {
-      "name": "spring.python.executor",
-      "type": "io.jpyxie.python.autoconfigure.PythonExecutorProperties",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonExecutorProperties",
-      "description": "Configuration group for Python execution result handling."
-    },
-    {
       "name": "spring.python.pip",
       "description": "Configuration group for Python package management using pip.",
       "type": "io.jpyxie.python.autoconfigure.PythonPipProperties",
@@ -39,13 +33,6 @@
       "defaultValue": "UTF-8",
       "type": "java.lang.String",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonFileProperties"
-    },
-    {
-      "name": "spring.python.executor.result-appearance",
-      "type": "java.lang.String",
-      "description": "Defines how Python execution results are represented or converted on the Java side.",
-      "defaultValue": "r4java",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonExecutorProperties"
     },
     {
       "name": "spring.python.pip.command",
@@ -101,15 +88,6 @@
     }
   ],
   "hints": [
-    {
-      "name": "spring.python.executor.result-appearance",
-      "values": [
-        {
-          "value": "r4java",
-          "description": "Default result field name for directing from Python to Java."
-        }
-      ]
-    },
     {
       "name": "spring.python.pip.command",
       "values": [

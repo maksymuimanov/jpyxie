@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * reading file operations for Python script [name: {}]s.
  * <p>
  * This class supports reading from Python script [name: {}] files and creating script input
- * stream based on configured {@link BasicPythonFileReader#inputStreamProvider}.
+ * stream based on configured {@link BasicPythonFileReader#pythonFileInputStreamProvider}.
  * </p>
  *
  * @see PythonFileReader
@@ -28,19 +28,19 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BasicPythonFileReader implements PythonFileReader {
     public static final String DEFAULT_CHARSET_NAME = "UTF-8";
     private final Map<String, String> fileCache;
-    private final InputStreamProvider inputStreamProvider;
+    private final PythonFileInputStreamProvider pythonFileInputStreamProvider;
     private final Charset charset;
 
-    public BasicPythonFileReader(InputStreamProvider inputStreamProvider) {
-        this(inputStreamProvider, DEFAULT_CHARSET_NAME);
+    public BasicPythonFileReader(PythonFileInputStreamProvider pythonFileInputStreamProvider) {
+        this(pythonFileInputStreamProvider, DEFAULT_CHARSET_NAME);
     }
 
-    public BasicPythonFileReader(InputStreamProvider inputStreamProvider, String charsetName) {
-        this(inputStreamProvider, Charset.forName(charsetName));
+    public BasicPythonFileReader(PythonFileInputStreamProvider pythonFileInputStreamProvider, String charsetName) {
+        this(pythonFileInputStreamProvider, Charset.forName(charsetName));
     }
 
-    public BasicPythonFileReader(InputStreamProvider inputStreamProvider, Charset charset) {
-        this(new ConcurrentHashMap<>(), inputStreamProvider, charset);
+    public BasicPythonFileReader(PythonFileInputStreamProvider pythonFileInputStreamProvider, Charset charset) {
+        this(new ConcurrentHashMap<>(), pythonFileInputStreamProvider, charset);
     }
 
     /**
@@ -62,7 +62,7 @@ public class BasicPythonFileReader implements PythonFileReader {
             log.debug("Reading Python script [name: {}] from source [source: {}]", name, source);
             String body = this.fileCache.computeIfAbsent(source, path -> {
                 log.debug("Cache miss for Python script [name: {}], loading from filesystem", name);
-                try (InputStream inputStream = this.inputStreamProvider.open(path)) {
+                try (InputStream inputStream = this.pythonFileInputStreamProvider.open(path)) {
                     byte[] bytes = inputStream.readAllBytes();
                     log.debug("Successfully read [{}] bytes from Python script [name: {}] file", bytes.length, name);
                     return new String(bytes, this.charset);
