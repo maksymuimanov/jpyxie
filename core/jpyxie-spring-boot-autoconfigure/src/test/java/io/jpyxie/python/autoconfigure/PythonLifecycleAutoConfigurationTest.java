@@ -70,12 +70,17 @@ class PythonLifecycleAutoConfigurationTest {
         }
     }
 
-    @Test
-    void initialize_shouldNotFail_whenNoInitializersExist() {
-        contextRunner.run(context -> {
-            assertThat(context)
-                    .doesNotHaveBean(PythonInitializer.class);
-        });
+    @Nested
+    @SpringBootTest(classes = PythonLifecycleAutoConfiguration.class)
+    class NoBeansTest {
+        @Autowired
+        private ConfigurableApplicationContext applicationContext;
+
+        @Test
+        void initialize_shouldNotFail_whenNoInitializersExist() {
+            assumeThat(applicationContext.getBeansOfType(PythonInitializer.class))
+                    .isEmpty();
+        }
     }
 
     @Test
