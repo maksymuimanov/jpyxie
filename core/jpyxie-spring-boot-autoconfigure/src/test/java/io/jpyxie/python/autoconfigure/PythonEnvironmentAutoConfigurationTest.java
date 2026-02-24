@@ -1,7 +1,7 @@
 package io.jpyxie.python.autoconfigure;
 
+import io.jpyxie.python.environment.AbstractVenvPythonEnvironment;
 import io.jpyxie.python.environment.PythonEnvironment;
-import io.jpyxie.python.environment.VenvPythonEnvironment;
 import io.jpyxie.python.lifecycle.PythonEnvironmentInitializer;
 import io.jpyxie.python.lifecycle.PythonInitializer;
 import org.jspecify.annotations.NonNull;
@@ -32,7 +32,7 @@ class PythonEnvironmentAutoConfigurationTest {
                     .hasBean("venvPythonEnvironment");
             PythonEnvironment environment = context.getBean(PythonEnvironment.class);
             assertThat(environment)
-                    .isInstanceOf(VenvPythonEnvironment.class);
+                    .isInstanceOf(AbstractVenvPythonEnvironment.class);
         });
     }
 
@@ -59,15 +59,15 @@ class PythonEnvironmentAutoConfigurationTest {
             assertThat(properties.getOnExisting())
                     .isEqualTo(PythonEnvironmentProperties.OnExisting.SKIP);
             assertThat(properties.getParentDirectory())
-                    .isEqualTo(VenvPythonEnvironment.DEFAULT_VENV_PARENT_DIRECTORY);
+                    .isEqualTo(AbstractVenvPythonEnvironment.VENV);
             assertThat(properties.isRedirectErrorStream())
-                    .isEqualTo(VenvPythonEnvironment.DEFAULT_REDIRECT_ERROR_STREAM);
+                    .isEqualTo(AbstractVenvPythonEnvironment.DEFAULT_REDIRECT_ERROR_STREAM);
             assertThat(properties.isRedirectOutputStream())
-                    .isEqualTo(VenvPythonEnvironment.DEFAULT_REDIRECT_OUTPUT_STREAM);
+                    .isEqualTo(AbstractVenvPythonEnvironment.DEFAULT_REDIRECT_OUTPUT_STREAM);
             assertThat(properties.isReadOutput())
-                    .isEqualTo(VenvPythonEnvironment.DEFAULT_READ_OUTPUT);
+                    .isEqualTo(AbstractVenvPythonEnvironment.DEFAULT_READ_OUTPUT);
             assertThat(properties.getTimeout())
-                    .isEqualTo(VenvPythonEnvironment.DEFAULT_TIMEOUT);
+                    .isEqualTo(AbstractVenvPythonEnvironment.DEFAULT_TIMEOUT);
         });
     }
 
@@ -140,7 +140,7 @@ class PythonEnvironmentAutoConfigurationTest {
                             .hasBean("skipExistingHandler");
                     PythonEnvironment.OnExistingHandler handler = context.getBean(PythonEnvironment.OnExistingHandler.class);
                     assertThat(handler)
-                            .isInstanceOf(VenvPythonEnvironment.SkipExistingHandler.class);
+                            .isInstanceOf(AbstractVenvPythonEnvironment.SkipExistingHandler.class);
                 });
     }
 
@@ -153,7 +153,7 @@ class PythonEnvironmentAutoConfigurationTest {
                             .hasBean("failExistingHandler");
                     PythonEnvironment.OnExistingHandler handler = context.getBean(PythonEnvironment.OnExistingHandler.class);
                     assertThat(handler)
-                            .isInstanceOf(VenvPythonEnvironment.FailExistingHandler.class);
+                            .isInstanceOf(AbstractVenvPythonEnvironment.FailExistingHandler.class);
                 });
     }
 
@@ -166,7 +166,7 @@ class PythonEnvironmentAutoConfigurationTest {
                             .hasBean("removeExistingHandler");
                     PythonEnvironment.OnExistingHandler handler = context.getBean(PythonEnvironment.OnExistingHandler.class);
                     assertThat(handler)
-                            .isInstanceOf(VenvPythonEnvironment.RemoveExistingHandler.class);
+                            .isInstanceOf(AbstractVenvPythonEnvironment.RemoveExistingHandler.class);
                 });
     }
 
@@ -219,6 +219,11 @@ class PythonEnvironmentAutoConfigurationTest {
         @Override
         public @NonNull String getExecutable() {
             return "python";
+        }
+
+        @Override
+        public Path getPathOrElse(Path path) {
+            return null;
         }
 
         @Override

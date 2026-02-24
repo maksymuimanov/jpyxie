@@ -11,6 +11,8 @@ public interface PythonEnvironment {
 
     String getExecutable();
 
+    Path getPathOrElse(Path path);
+
     Path getPath();
 
     void remove();

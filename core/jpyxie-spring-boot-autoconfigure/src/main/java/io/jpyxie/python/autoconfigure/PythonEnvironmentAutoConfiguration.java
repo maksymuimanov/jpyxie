@@ -1,7 +1,9 @@
 package io.jpyxie.python.autoconfigure;
 
+import io.jpyxie.python.environment.AbstractVenvPythonEnvironment;
 import io.jpyxie.python.environment.PythonEnvironment;
-import io.jpyxie.python.environment.VenvPythonEnvironment;
+import io.jpyxie.python.environment.UnixVenvPythonEnvironment;
+import io.jpyxie.python.environment.WindowsVenvPythonEnvironment;
 import io.jpyxie.python.lifecycle.PythonEnvironmentInitializer;
 import io.jpyxie.python.lifecycle.PythonInitializer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -16,9 +18,27 @@ import org.springframework.context.annotation.Conditional;
 public class PythonEnvironmentAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(PythonEnvironment.class)
-    public PythonEnvironment venvPythonEnvironment(PythonEnvironment.OnExistingHandler onExistingHandler,
-                                                   PythonEnvironmentProperties properties) {
-        return new VenvPythonEnvironment(
+    @ConditionalOnOs({"linux", "mac"})
+    public PythonEnvironment unixVenvPythonEnvironment(PythonEnvironment.OnExistingHandler onExistingHandler,
+                                                       PythonEnvironmentProperties properties) {
+        return new UnixVenvPythonEnvironment(
+                properties.getGlobalPythonExecutable(),
+                properties.getBackupPythonExecutable(),
+                onExistingHandler,
+                properties.getParentDirectory(),
+                properties.isRedirectErrorStream(),
+                properties.isRedirectOutputStream(),
+                properties.isReadOutput(),
+                properties.getTimeout()
+        );
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(PythonEnvironment.class)
+    @ConditionalOnOs("windows")
+    public PythonEnvironment windowsVenvPythonEnvironment(PythonEnvironment.OnExistingHandler onExistingHandler,
+                                                          PythonEnvironmentProperties properties) {
+        return new WindowsVenvPythonEnvironment(
                 properties.getGlobalPythonExecutable(),
                 properties.getBackupPythonExecutable(),
                 onExistingHandler,
@@ -40,18 +60,18 @@ public class PythonEnvironmentAutoConfiguration {
     @Bean
     @Conditional(PythonEnvironmentOnExistingSkipCondition.class)
     public PythonEnvironment.OnExistingHandler skipExistingHandler() {
-        return new VenvPythonEnvironment.SkipExistingHandler();
+        return new AbstractVenvPythonEnvironment.SkipExistingHandler();
     }
 
     @Bean
     @Conditional(PythonEnvironmentOnExistingFailCondition.class)
     public PythonEnvironment.OnExistingHandler failExistingHandler() {
-        return new VenvPythonEnvironment.FailExistingHandler();
+        return new AbstractVenvPythonEnvironment.FailExistingHandler();
     }
 
     @Bean
     @Conditional(PythonEnvironmentOnExistingRemoveCondition.class)
     public PythonEnvironment.OnExistingHandler removeExistingHandler() {
-        return new VenvPythonEnvironment.RemoveExistingHandler();
+        return new AbstractVenvPythonEnvironment.RemoveExistingHandler();
     }
 }

@@ -19,13 +19,10 @@ import java.util.stream.Stream;
 import static io.jpyxie.python.constant.PythonConstants.PYTHON;
 
 @Slf4j
-public class VenvPythonEnvironment implements PythonEnvironment {
+public abstract class AbstractVenvPythonEnvironment implements PythonEnvironment {
     private static final String PROJECT_DIR_PROPERTY = "user.dir";
     private static final String CURRENT_DIRECTORY = ".";
-    public static final String SCRIPTS_DIRECTORY = "Scripts";
-    public static final String PYTHON_EXE = "python.exe";
-    public static final String BIN_DIRECTORY = "bin";
-    public static final String DEFAULT_VENV_PARENT_DIRECTORY = "venv";
+    public static final String VENV = "venv";
     public static final boolean DEFAULT_REDIRECT_ERROR_STREAM = true;
     public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = true;
     public static final boolean DEFAULT_READ_OUTPUT = true;
@@ -43,36 +40,36 @@ public class VenvPythonEnvironment implements PythonEnvironment {
     @Nullable
     private String executable;
 
-    public VenvPythonEnvironment(OnExistingHandler onExistingHandler) {
+    protected AbstractVenvPythonEnvironment(OnExistingHandler onExistingHandler) {
         this(PYTHON, onExistingHandler);
     }
 
-    public VenvPythonEnvironment(String globalPythonExecutable,
-                                 OnExistingHandler onExistingHandler) {
-        this(globalPythonExecutable, onExistingHandler, DEFAULT_VENV_PARENT_DIRECTORY);
+    protected AbstractVenvPythonEnvironment(String globalPythonExecutable,
+                                         OnExistingHandler onExistingHandler) {
+        this(globalPythonExecutable, onExistingHandler, VENV);
     }
 
-    public VenvPythonEnvironment(String globalPythonExecutable,
-                                 OnExistingHandler onExistingHandler,
-                                 String venvParentDirectory) {
+    protected AbstractVenvPythonEnvironment(String globalPythonExecutable,
+                                         OnExistingHandler onExistingHandler,
+                                         String venvParentDirectory) {
         this(globalPythonExecutable, globalPythonExecutable, onExistingHandler, venvParentDirectory);
     }
 
-    public VenvPythonEnvironment(String globalPythonExecutable,
-                                 String backupPythonExecutable,
-                                 OnExistingHandler onExistingHandler,
-                                 String venvParentDirectory) {
+    protected AbstractVenvPythonEnvironment(String globalPythonExecutable,
+                                         String backupPythonExecutable,
+                                         OnExistingHandler onExistingHandler,
+                                         String venvParentDirectory) {
         this(globalPythonExecutable, backupPythonExecutable, onExistingHandler, venvParentDirectory, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
     }
 
-    public VenvPythonEnvironment(String globalPythonExecutable,
-                                 String backupPythonExecutable,
-                                 OnExistingHandler onExistingHandler,
-                                 String venvParentDirectory,
-                                 boolean redirectErrorStream,
-                                 boolean redirectOutputStream,
-                                 boolean readOutput,
-                                 Duration timeout) {
+    protected AbstractVenvPythonEnvironment(String globalPythonExecutable,
+                                         String backupPythonExecutable,
+                                         OnExistingHandler onExistingHandler,
+                                         String venvParentDirectory,
+                                         boolean redirectErrorStream,
+                                         boolean redirectOutputStream,
+                                         boolean readOutput,
+                                         Duration timeout) {
         this.globalPythonExecutable = globalPythonExecutable;
         this.backupPythonExecutable = backupPythonExecutable;
         this.onExistingHandler = onExistingHandler;
@@ -97,7 +94,7 @@ public class VenvPythonEnvironment implements PythonEnvironment {
             log.debug("Venv environment path: {}", this.getPath());
             log.info("Creating new venv environment: {}", this.getPath());
             int exitValue = new ProcessExecutor()
-                    .command(this.globalPythonExecutable, "-m", "venv", String.valueOf(this.getPath()))
+                    .command(this.globalPythonExecutable, "-m", VENV, String.valueOf(this.getPath()))
                     .redirectErrorStream(this.redirectErrorStream)
                     .redirectOutput(this.redirectOutputStream
                             ? Slf4jStream.of(log).asDebug()
@@ -161,29 +158,35 @@ public class VenvPythonEnvironment implements PythonEnvironment {
     }
 
     private String locatePythonExecutable() {
-        this.locateLinuxPythonExecutable();
         if (this.executable != null)
             return this.executable;
-        this.locateWindowsPythonExecutable();
-        if (this.executable != null)
-            return this.executable;
-        throw new PythonEnvironmentException("Python executable not found in venv: " + this.getPath());
+        return this.locateSystemPythonExecutable();
     }
 
-    private void locateLinuxPythonExecutable() {
-        Path unix = this.getPath()
-                .resolve(BIN_DIRECTORY)
-                .resolve(PYTHON);
-        if (Files.exists(unix))
-            this.executable = unix.toString();
+    private String locateSystemPythonExecutable() {
+        try {
+            Path path = this.locateSystemPythonExecutablePath();
+            if (Files.exists(path)) {
+                this.executable = path.toString();
+                return this.executable;
+            }
+            else {
+                PythonEnvironmentException exception = new PythonEnvironmentException("Python executable not found in " + path);
+                log.error(exception.getMessage(), exception);
+                throw exception;
+            }
+        } catch (Exception e) {
+            log.error("Failed to locate system python executable", e);
+            throw new PythonEnvironmentException(e);
+        }
     }
+    protected abstract Path locateSystemPythonExecutablePath();
 
-    private void locateWindowsPythonExecutable() {
-        Path win = this.getPath()
-                .resolve(SCRIPTS_DIRECTORY)
-                .resolve(PYTHON_EXE);
-        if (Files.exists(win))
-            this.executable = win.toString();
+    @Override
+    public Path getPathOrElse(Path path) {
+        return this.exists()
+                ? this.getPath()
+                : path;
     }
 
     @Override
