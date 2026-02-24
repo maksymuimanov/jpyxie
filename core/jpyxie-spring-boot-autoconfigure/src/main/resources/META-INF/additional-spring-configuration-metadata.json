@@ -51,7 +51,7 @@
       "name": "spring.python.pip.redirect-error-stream",
       "type": "java.lang.Boolean",
       "description": "Whether to redirect error stream when executing pip commands.",
-      "defaultValue": false
+      "defaultValue": true
     },
     {
       "name": "spring.python.pip.redirect-output-stream",
@@ -69,7 +69,7 @@
       "name": "spring.python.pip.timeout",
       "type": "java.time.Duration",
       "description": "Timeout for executing pip commands.",
-      "defaultValue": "30s"
+      "defaultValue": "1m"
     },
     {
       "name": "spring.python.pip.library.enabled",
@@ -94,8 +94,22 @@
     },
     {
       "name": "spring.python.environment.enabled",
+      "description": "Whether to enable virtual environment autoconfiguration.",
+      "defaultValue": true,
+      "type": "java.lang.Boolean",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+    },
+    {
+      "name": "spring.python.environment.create-on-start",
       "description": "Whether to enable creating a virtual environment.",
       "defaultValue": true,
+      "type": "java.lang.Boolean",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+    },
+    {
+      "name": "spring.python.environment.remove-on-close",
+      "description": "Whether to remove the virtual environment when the application context is closed.",
+      "defaultValue": false,
       "type": "java.lang.Boolean",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     },
@@ -123,30 +137,35 @@
     {
       "name": "spring.python.environment.parent-directory",
       "description": "Parent directory where virtual environments are created.",
+      "defaultValue": "venv",
       "type": "java.lang.String",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     },
     {
       "name": "spring.python.environment.redirect-error-stream",
       "description": "Whether to redirect error stream when executing virtual environment commands.",
+      "defaultValue": true,
       "type": "java.lang.Boolean",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     },
     {
       "name": "spring.python.environment.redirect-output-stream",
       "description": "Whether to redirect output stream when executing virtual environment commands.",
+      "defaultValue": true,
       "type": "java.lang.Boolean",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     },
     {
       "name": "spring.python.environment.read-output",
       "description": "Whether to read the output of virtual environment commands.",
+      "defaultValue": true,
       "type": "java.lang.Boolean",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     },
     {
       "name": "spring.python.environment.timeout",
       "description": "Timeout for executing virtual environment commands.",
+      "defaultValue": "1m",
       "type": "java.time.Duration",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     }

@@ -14,13 +14,18 @@ public class PythonEnvironmentInitializer implements PythonInitializer {
 
     @Override
     public void initialize() {
-        log.debug("Initializing Python virtual environment");
         try {
+            log.info("Creating Python virtual environment");
             pythonEnvironment.create();
             log.info("Python virtual environment initialized successfully: {}", pythonEnvironment.getPath());
         } catch (Exception e) {
             log.error("Failed to initialize Python virtual environment", e);
             throw new PythonLifecycleException(e);
         }
+    }
+
+    @Override
+    public int getPriority() {
+        return HIGH_PRIORITY;
     }
 }

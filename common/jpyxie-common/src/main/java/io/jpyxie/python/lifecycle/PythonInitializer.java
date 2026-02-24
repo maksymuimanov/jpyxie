@@ -1,5 +1,7 @@
 package io.jpyxie.python.lifecycle;
 
-public interface PythonInitializer {
+import io.jpyxie.python.common.Prioritized;
+
+public interface PythonInitializer extends Prioritized {
     void initialize();
 }

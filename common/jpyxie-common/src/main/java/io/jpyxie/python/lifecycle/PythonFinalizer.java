@@ -1,5 +1,7 @@
 package io.jpyxie.python.lifecycle;
 
-public interface PythonFinalizer {
+import io.jpyxie.python.common.Prioritized;
+
+public interface PythonFinalizer extends Prioritized {
     void finish();
 }

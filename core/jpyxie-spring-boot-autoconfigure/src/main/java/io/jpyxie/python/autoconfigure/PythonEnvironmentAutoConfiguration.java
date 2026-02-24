@@ -4,7 +4,9 @@ import io.jpyxie.python.environment.AbstractVenvPythonEnvironment;
 import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.environment.UnixVenvPythonEnvironment;
 import io.jpyxie.python.environment.WindowsVenvPythonEnvironment;
+import io.jpyxie.python.lifecycle.PythonEnvironmentFinalizer;
 import io.jpyxie.python.lifecycle.PythonEnvironmentInitializer;
+import io.jpyxie.python.lifecycle.PythonFinalizer;
 import io.jpyxie.python.lifecycle.PythonInitializer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 
 @AutoConfiguration
+@ConditionalOnBooleanProperty("spring.python.environment.enabled")
 @EnableConfigurationProperties(PythonEnvironmentProperties.class)
 public class PythonEnvironmentAutoConfiguration {
     @Bean
@@ -51,13 +54,6 @@ public class PythonEnvironmentAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnBooleanProperty("spring.python.environment.enabled")
-    @ConditionalOnMissingBean(PythonEnvironmentInitializer.class)
-    public PythonInitializer pythonEnvironmentInitializer(PythonEnvironment pythonEnvironment) {
-        return new PythonEnvironmentInitializer(pythonEnvironment);
-    }
-
-    @Bean
     @Conditional(PythonEnvironmentOnExistingSkipCondition.class)
     public PythonEnvironment.OnExistingHandler skipExistingHandler() {
         return new AbstractVenvPythonEnvironment.SkipExistingHandler();
@@ -73,5 +69,19 @@ public class PythonEnvironmentAutoConfiguration {
     @Conditional(PythonEnvironmentOnExistingRemoveCondition.class)
     public PythonEnvironment.OnExistingHandler removeExistingHandler() {
         return new AbstractVenvPythonEnvironment.RemoveExistingHandler();
+    }
+
+    @Bean
+    @ConditionalOnBooleanProperty("spring.python.environment.create-on-start")
+    @ConditionalOnMissingBean(PythonEnvironmentInitializer.class)
+    public PythonInitializer pythonEnvironmentInitializer(PythonEnvironment pythonEnvironment) {
+        return new PythonEnvironmentInitializer(pythonEnvironment);
+    }
+
+    @Bean
+    @ConditionalOnBooleanProperty("spring.python.environment.enabled")
+    @ConditionalOnMissingBean(PythonEnvironmentFinalizer.class)
+    public PythonFinalizer pythonEnvironmentFinalizer(PythonEnvironment pythonEnvironment) {
+        return new PythonEnvironmentFinalizer(pythonEnvironment);
     }
 }
