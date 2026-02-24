@@ -3,10 +3,10 @@ package io.jpyxie.python.autoconfigure;
 import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.library.BasicPipManager;
 import io.jpyxie.python.library.PipManager;
-import io.jpyxie.python.lifecycle.ExternalPythonLibraryFinalizer;
-import io.jpyxie.python.lifecycle.ExternalPythonLibraryInitializer;
 import io.jpyxie.python.lifecycle.PythonFinalizer;
 import io.jpyxie.python.lifecycle.PythonInitializer;
+import io.jpyxie.python.lifecycle.PythonLibraryFinalizer;
+import io.jpyxie.python.lifecycle.PythonLibraryInitializer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -23,16 +23,16 @@ public class PythonPipAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(ExternalPythonLibraryInitializer.class)
+    @ConditionalOnMissingBean(PythonLibraryInitializer.class)
     @ConditionalOnBooleanProperty("spring.python.pip.library.enabled")
     public PythonInitializer externalPythonLibraryInitializer(PipManager pipManager, PythonPipProperties pipProperties) {
-        return new ExternalPythonLibraryInitializer(pipManager, pipProperties.getLibrary().getInstalled());
+        return new PythonLibraryInitializer(pipManager, pipProperties.getLibrary().getInstalled());
     }
 
     @Bean
-    @ConditionalOnMissingBean(ExternalPythonLibraryFinalizer.class)
+    @ConditionalOnMissingBean(PythonLibraryFinalizer.class)
     @ConditionalOnBooleanProperty("spring.python.pip.library.enabled")
     public PythonFinalizer externalPythonLibraryFinalizer(PipManager pipManager, PythonPipProperties pipProperties) {
-        return new ExternalPythonLibraryFinalizer(pipManager, pipProperties.getLibrary().getUninstalled());
+        return new PythonLibraryFinalizer(pipManager, pipProperties.getLibrary().getUninstalled());
     }
 }

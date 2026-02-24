@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class ExternalPythonLibraryFinalizer implements PythonFinalizer {
+public class PythonLibraryFinalizer implements PythonFinalizer {
     private final PipManager pipManager;
     private final PythonLibrary[] libraries;
 

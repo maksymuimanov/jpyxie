@@ -13,8 +13,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ExternalPythonLibraryInitializerTest {
-    private ExternalPythonLibraryInitializer initializer;
+class PythonLibraryFinalizerTest {
+    private PythonLibraryFinalizer finalizer;
     @Mock
     private PipManager pipManager;
     @Mock
@@ -22,46 +22,46 @@ class ExternalPythonLibraryInitializerTest {
 
     @BeforeEach
     void setUp() {
-        initializer = new ExternalPythonLibraryInitializer(pipManager, new PythonLibrary[]{mockLibrary});
+        finalizer = new PythonLibraryFinalizer(pipManager, new PythonLibrary[]{mockLibrary});
     }
 
     @Test
-    void initialize_shouldInstallLibrary_whenNotExists() {
+    void finish_shouldUninstallLibrary_whenExists() {
         when(pipManager.exists(mockLibrary))
-                .thenReturn(false);
+                .thenReturn(true);
 
-        initializer.initialize();
+        finalizer.finish();
 
         verify(pipManager)
                 .exists(mockLibrary);
         verify(pipManager)
-                .install(mockLibrary);
+                .uninstall(mockLibrary);
     }
 
     @Test
-    void initialize_shouldIgnoreLibrary_whenExists() {
+    void finish_shouldIgnoreLibrary_whenNotExists() {
         when(pipManager.exists(mockLibrary))
-                .thenReturn(true);
+                .thenReturn(false);
 
-        initializer.initialize();
+        finalizer.finish();
 
         verify(pipManager)
                 .exists(mockLibrary);
         verify(pipManager, never())
-                .install(mockLibrary);
+                .uninstall(mockLibrary);
     }
 
     @Test
-    void initialize_shouldFail_whenExceptionThrown() {
+    void finish_shouldFail_whenExceptionThrown() {
         doThrow(new RuntimeException())
                 .when(pipManager)
                 .exists(mockLibrary);
 
-        assertThatThrownBy(() -> initializer.initialize())
+        assertThatThrownBy(() -> finalizer.finish())
                 .isInstanceOf(PythonLifecycleException.class);
         verify(pipManager)
                 .exists(mockLibrary);
         verify(pipManager, never())
-                .install(mockLibrary);
+                .uninstall(mockLibrary);
     }
 }

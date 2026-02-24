@@ -3,10 +3,10 @@ package io.jpyxie.python.autoconfigure;
 import io.jpyxie.python.library.BasicPipManager;
 import io.jpyxie.python.library.PipManager;
 import io.jpyxie.python.library.PythonLibrary;
-import io.jpyxie.python.lifecycle.ExternalPythonLibraryFinalizer;
-import io.jpyxie.python.lifecycle.ExternalPythonLibraryInitializer;
 import io.jpyxie.python.lifecycle.PythonFinalizer;
 import io.jpyxie.python.lifecycle.PythonInitializer;
+import io.jpyxie.python.lifecycle.PythonLibraryFinalizer;
+import io.jpyxie.python.lifecycle.PythonLibraryInitializer;
 import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -106,7 +106,7 @@ class PythonPipAutoConfigurationTest {
                             .hasBean("externalPythonLibraryInitializer");
                     PythonInitializer initializer = context.getBean(PythonInitializer.class);
                     assertThat(initializer)
-                            .isInstanceOf(ExternalPythonLibraryInitializer.class);
+                            .isInstanceOf(PythonLibraryInitializer.class);
                 });
     }
 
@@ -131,7 +131,7 @@ class PythonPipAutoConfigurationTest {
                             .hasBean("externalPythonLibraryFinalizer");
                     PythonFinalizer finalizer = context.getBean(PythonFinalizer.class);
                     assertThat(finalizer)
-                            .isInstanceOf(ExternalPythonLibraryFinalizer.class);
+                            .isInstanceOf(PythonLibraryFinalizer.class);
                 });
     }
 
