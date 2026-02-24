@@ -187,6 +187,48 @@
           "description": "Fail if virtual environment already exists."
         }
       ]
+    },
+    {
+      "name": "spring.python.environment.global-python-executable",
+      "values": [
+        {
+          "value": "python",
+          "description": "Use the system Python executable."
+        },
+        {
+          "value": "python3",
+          "description": "Use the system Python 3 executable."
+        },
+        {
+          "value": "py",
+          "description": "Use the system Python executable (Windows only)."
+        },
+        {
+          "value": "graalpy",
+          "description": "Use GraalPy Python executable  (only available if GraalPy is installed and enabled)."
+        }
+      ]
+    },
+    {
+      "name": "spring.python.environment.backup-python-executable",
+      "values": [
+        {
+          "value": "python",
+          "description": "Use the system Python executable."
+        },
+        {
+          "value": "python3",
+          "description": "Use the system Python 3 executable."
+        },
+        {
+          "value": "py",
+          "description": "Use the system Python executable (Windows only)."
+        },
+        {
+          "value": "graalpy",
+          "description": "Use GraalPy Python executable (only available if GraalPy is installed and enabled)."
+        }
+      ]
     }
   ]
 }

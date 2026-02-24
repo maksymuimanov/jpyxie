@@ -87,67 +87,147 @@
         },
         {
           "value": "python.CompressionModulesBackend",
-          "description": "Selects backend for compression modules (zlib, bz2, lzma)."
+          "description": "Selects backend for compression modules (zlib, bz2, lzma): 'java' or 'native'."
         },
         {
           "value": "python.CoreHome",
           "description": "Overrides the location of the Python core library home directory."
         },
         {
-          "value": "python.PythonHome",
-          "description": "Sets the Python home directory (equivalent to GRAAL_PYTHONHOME)."
-        },
-        {
           "value": "python.DontWriteBytecodeFlag",
-          "description": "Equivalent to Python '-B': do not write .pyc bytecode files ('true'/'false')."
+          "description": "Equivalent to Python '-B': do not write .pyc bytecode files: 'true' or 'false'."
         },
         {
           "value": "python.EmulateJython",
-          "description": "Enable Jython-like behaviors (may affect performance) ('true'/'false')."
+          "description": "Enable Jython-like behaviors (may affect performance): 'true' or 'false'."
         },
         {
           "value": "python.IgnoreEnvironmentFlag",
-          "description": "Equivalent to Python '-E': ignore PYTHON* environment variables ('true'/'false')."
+          "description": "Equivalent to Python '-E': ignore PYTHON* environment variables: 'true' or 'false'."
+        },
+        {
+          "value": "python.InspectFlag",
+          "description": "Equivalent to Python '-i': inspect interactively after running script: 'true' or 'false'."
         },
         {
           "value": "python.InstallSignalHandlers",
-          "description": "Install default Python signal handlers on startup ('true'/'false')."
+          "description": "Install default Python signal handlers on startup: 'true' or 'false'."
+        },
+        {
+          "value": "python.IntMaxStrDigits",
+          "description": "Equivalent to the Python -X int_max_str_digits option."
         },
         {
           "value": "python.IsolateFlag",
-          "description": "Equivalent to Python '-I': isolate from environment on import path ('true'/'false')."
+          "description": "Equivalent to Python '-I': isolate from environment on import path: 'true' or 'false'."
         },
         {
           "value": "python.NoSiteFlag",
-          "description": "Equivalent to Python '-S': do not automatically import 'site' ('true'/'false')."
+          "description": "Equivalent to Python '-S': do not automatically import 'site': 'true' or 'false'."
+        },
+        {
+          "value": "python.NoUserSiteFlag",
+          "description": "Equivalent to Python '-s': do not search user's site-packages directory: 'true' or 'false'."
+        },
+        {
+          "value": "python.PosixModuleBackend",
+          "description": "Equivalent to setting PYTHONHASHSEED environment variable: 'random' or '0,4294967295'."
         },
         {
           "value": "python.PyCachePrefix",
           "description": "Specify an alternate prefix path for .pyc cache directories."
         },
         {
+          "value": "python.PythonOptimizeFlag",
+          "description": "Remove assert statements and any code conditional on the value of __debug__: 'true' or 'false'."
+        },
+        {
+          "value": "python.PythonPath",
+          "description": "Equivalent to setting the PYTHONPATH environment variable for the standard launcher."
+        },
+        {
+          "value": "python.QuietFlag",
+          "description": "Equivalent to Python '-q': suppress all output except warnings and errors: 'true' or 'false'."
+        },
+        {
+          "value": "python.SafePathFlag",
+          "description": "Equivalent to Python '-P': doesn't prepend a potentially unsafe path to sys.path: 'true' or 'false'."
+        },
+        {
+          "value": "python.Sha3ModuleBackend",
+          "description": "Selects backend for SHA3 module: 'java' or 'native'."
+        },
+        {
+          "value": "python.StandardStreamEncoding",
+          "description": "Equivalent to setting the PYTHONIOENCODING environment variable for the standard launcher."
+        },
+        {
+          "value": "python.StdLibHome",
+          "description": "Set the location of lib/python."
+        },
+        {
+          "value": "python.SysPrefix",
+          "description": "Set the location of sys.prefix. Overrides any environment variables or Java options."
+        },
+        {
+          "value": "python.UnbufferedIO",
+          "description": "Equivalent to Python '-u': unbuffered binary stdout and stderr: 'true' or 'false'."
+        },
+        {
+          "value": "python.VerboseFlag",
+          "description": "Equivalent to the Python -v flag. Turn on verbose mode: 'true' or 'false'"
+        },
+        {
+          "value": "python.WarnDefaultEncodingFlag",
+          "description": "Equivalent to the Python -X warn_default_encoding flag. Enable opt-in EncodingWarning for 'encoding=None': 'true' or 'false'."
+        },
+        {
+          "value": "python.WarnOptions",
+          "description": "Equivalent to setting the PYTHONWARNINGS environment variable for the standard launcher."
+        },
+        {
+          "value": "python.AlwaysRunExcepthook",
+          "description": "This option is set by the Python launcher to tell the language it can print exceptions directly: 'true' or 'false'."
+        },
+        {
+          "value": "python.BaseExecutable",
+          "description": "The sys._base_executable path. Set by the launcher, but may need to be overridden in certain special situations."
+        },
+        {
+          "value": "python.Executable",
+          "description": "The sys.executable path. Set by the launcher, but may need to be overridden in certain special situations."
+        },
+        {
+          "value": "python.ForceImportSite",
+          "description": "Force to automatically import site.py module: 'true' or 'false'."
+        },
+        {
+          "value": "python.InitialLocale",
+          "description": "Sets the language and territory, which will be used for initial locale. Format: 'language[_territory]', e.g., 'en_GB'. Leave empty to use the JVM default locale."
+        },
+        {
+          "value": "python.PythonHome",
+          "description": "Set the home of Python. Equivalent of GRAAL_PYTHONHOME env variable. Determines default values for the CoreHome, StdLibHome, SysBasePrefix, SysPrefix."
+        },
+        {
           "value": "python.SysBasePrefix",
-          "description": "Overrides sys.base_prefix for the embedded Python instance."
+          "description": "Set the location of sys.base_prefix. Overrides any environment variables or Java options."
         },
         {
           "value": "python.UnsupportedPlatformEmulates",
-          "description": "Allows GraalPy to emulate another platform ('windows', 'macos', or 'linux') when running on an unsupported platform."
+          "description": "Allow running on unsupported platforms, making GraalPy behave as if running on macOS, Windows, or Linux. This option is useful to run GraalPy on platforms with a compliant Java implementation, but without native support for GraalPy. When this option is set, native libraries cannot be loaded and the Java backends must be used for common operating system libraries provided by Python: 'windows', 'macos' or 'linux'."
         },
         {
           "value": "python.VenvlauncherCommand",
-          "description": "Specifies the command used by the venv launcher."
+          "description": "Option used by the venvlauncher to pass on the launcher target command."
         },
         {
           "value": "python.WarnExperimentalFeatures",
-          "description": "Print warnings for experimental features at runtime ('true' or 'false')."
-        },
-        {
-          "value": "python.InspectFlag",
-          "description": "Equivalent to Python '-i': inspect interactively after running script ('true'/'false')."
+          "description": "Print warnings when using experimental features at runtime: 'true' or 'false'."
         },
         {
           "value": "engine.WarnInterpreterOnly",
-          "description": "Suppress the interpreter-only warning when runtime compilation to native code is not available ('true'/'false')."
+          "description": "Suppress the interpreter-only warning when runtime compilation to native code is not available: 'true' or 'false'."
         },
         {
           "value": "engine.MaxHeapSize",
