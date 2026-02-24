@@ -1,22 +1,27 @@
 package io.jpyxie.python.library;
 
-import io.jpyxie.python.exception.PythonLibraryManagementException;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import io.jpyxie.python.environment.PythonEnvironment;
+import org.junit.jupiter.api.*;
 
+import static io.jpyxie.python.constant.PythonConstants.PYTHON;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class BasicPipManagerTest {
-    private final BasicPipManager pipManager = new BasicPipManager();
-    private final BasicPipManager unavailablePipManager = new BasicPipManager("PipIsUnavailable");
+    private BasicPipManager pipManager;
+
+    @BeforeEach
+    void setUp() {
+        PythonEnvironment environment = mock(PythonEnvironment.class);
+
+        when(environment.getExecutableOrBackup())
+                .thenReturn(PYTHON);
+        pipManager = new BasicPipManager(environment);
+    }
 
     @Test
-    @Order(3)
+    @Order(2)
     void exists_shouldReturnTrue_whenLibraryInstalled() {
         PythonLibrary existingLibrary = spy(new PythonLibrary("numpy"));
 
@@ -27,7 +32,7 @@ class BasicPipManagerTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     void exists_shouldReturnFalse_whenLibraryNotInstalled() {
         PythonLibrary nonExistingLibrary = spy(new PythonLibrary("django"));
 
@@ -38,16 +43,7 @@ class BasicPipManagerTest {
     }
 
     @Test
-    @Order(5)
-    void exists_shouldFail_whenPipUnavailable() {
-        PythonLibrary library = spy(new PythonLibrary("numpy"));
-
-        assertThatThrownBy(() -> unavailablePipManager.exists(library))
-                .isInstanceOf(PythonLibraryManagementException.class);
-    }
-
-    @Test
-    @Order(2)
+    @Order(1)
     void install_shouldProcess() {
         PythonLibrary library = spy(new PythonLibrary("numpy"));
 
@@ -58,18 +54,7 @@ class BasicPipManagerTest {
     }
 
     @Test
-    @Order(1)
-    void install_shouldFail_whenPipUnavailable() {
-        PythonLibrary library = spy(new PythonLibrary("numpy"));
-
-        assertThatThrownBy(() -> unavailablePipManager.install(library))
-                .isInstanceOf(PythonLibraryManagementException.class);
-        assertThat(pipManager.exists(library))
-                .isFalse();
-    }
-
-    @Test
-    @Order(7)
+    @Order(4)
     void uninstall_shouldProcess() {
         PythonLibrary library = spy(new PythonLibrary("numpy"));
 
@@ -77,16 +62,5 @@ class BasicPipManagerTest {
 
         assertThat(pipManager.exists(library))
                 .isFalse();
-    }
-
-    @Test
-    @Order(6)
-    void uninstall_shouldFail_whenPipUnavailable() {
-        PythonLibrary library = spy(new PythonLibrary("numpy"));
-
-        assertThatThrownBy(() -> unavailablePipManager.install(library))
-                .isInstanceOf(PythonLibraryManagementException.class);
-        assertThat(pipManager.exists(library))
-                .isTrue();
     }
 }

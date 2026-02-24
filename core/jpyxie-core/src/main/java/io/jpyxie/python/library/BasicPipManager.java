@@ -1,5 +1,6 @@
 package io.jpyxie.python.library;
 
+import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.exception.PythonLibraryManagementException;
 import lombok.extern.slf4j.Slf4j;
 import org.zeroturnaround.exec.ProcessExecutor;
@@ -17,28 +18,35 @@ import java.util.function.IntConsumer;
 
 @Slf4j
 public class BasicPipManager implements PipManager {
-    public static final String DEFAULT_COMMAND = "python -m pip";
-    public static final boolean DEFAULT_REDIRECT_ERROR_STREAM = false;
+    public static final String DEFAULT_COMMAND = "-m pip";
+    public static final boolean DEFAULT_REDIRECT_ERROR_STREAM = true;
     public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = false;
     public static final boolean DEFAULT_READ_OUTPUT = false;
     public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(1);
-    public static final String SHOW = "show";
-    private final String[] pipPath;
+    private final String pythonExecutable;
+    private final String[] pipCommand;
     private final boolean redirectErrorStream;
     private final boolean redirectOutputStream;
     private final boolean readOutput;
     private final Duration timeout;
 
-    public BasicPipManager() {
-        this(DEFAULT_COMMAND, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
+    public BasicPipManager(PythonEnvironment environment) {
+        this(environment, DEFAULT_COMMAND);
     }
 
-    public BasicPipManager(String pipPath) {
-        this(pipPath, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
+    public BasicPipManager(PythonEnvironment environment,
+                           String pipCommand) {
+        this(environment, pipCommand, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
     }
 
-    public BasicPipManager(String pipPath, boolean redirectErrorStream, boolean redirectOutputStream, boolean readOutput, Duration timeout) {
-        this.pipPath = pipPath.split(" ");
+    public BasicPipManager(PythonEnvironment environment,
+                           String pipCommand,
+                           boolean redirectErrorStream,
+                           boolean redirectOutputStream,
+                           boolean readOutput,
+                           Duration timeout) {
+        this.pythonExecutable = environment.getExecutableOrBackup();
+        this.pipCommand = pipCommand.split(" ");
         this.redirectErrorStream = redirectErrorStream;
         this.redirectOutputStream = redirectOutputStream;
         this.readOutput = readOutput;
@@ -88,7 +96,8 @@ public class BasicPipManager implements PipManager {
 
     protected void processCommand(String command, PythonLibrary management, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
         List<String> commands = new ArrayList<>();
-        Collections.addAll(commands, this.pipPath);
+        commands.add(this.pythonExecutable);
+        Collections.addAll(commands, this.pipCommand);
         commands.add(command);
         commands.add(management.getName());
         if (management.getOptions() != null) commands.addAll(management.getOptions());
@@ -97,20 +106,22 @@ public class BasicPipManager implements PipManager {
 
     protected void processCommand(String command, String name, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
         List<String> commands = new ArrayList<>();
-        Collections.addAll(commands, this.pipPath);
+        commands.add(this.pythonExecutable);
+        Collections.addAll(commands, this.pipCommand);
         commands.add(command);
         commands.add(name);
         this.processCommand(commands, exitValueCommandsBiConsumer);
     }
 
     protected void processCommand(List<String> commands, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
-        String combinedCommands = String.join(" ", commands);
         try {
-            log.debug("Executing pip command: [{}]", combinedCommands);
+            log.debug("Executing pip command: [{}]", commands);
             int exitValue = new ProcessExecutor()
                     .command(commands)
                     .redirectErrorStream(this.redirectErrorStream)
-                    .redirectOutput(this.redirectOutputStream ? Slf4jStream.of(log).asDebug() : NullOutputStream.NULL_OUTPUT_STREAM)
+                    .redirectOutput(this.redirectOutputStream
+                            ? Slf4jStream.of(log).asDebug()
+                            : NullOutputStream.NULL_OUTPUT_STREAM)
                     .readOutput(this.readOutput)
                     .timeout(this.timeout.toMillis(), TimeUnit.MILLISECONDS)
                     .execute()
@@ -119,10 +130,10 @@ public class BasicPipManager implements PipManager {
             exitValueCommandsBiConsumer.accept(exitValue, commands);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            log.error("Pip command interrupted: [{}]", combinedCommands, e);
+            log.error("Pip command interrupted: [{}]", commands, e);
             throw new PythonLibraryManagementException(e);
         } catch (Exception e) {
-            log.error("Pip command failed: [{}]", combinedCommands, e);
+            log.error("Pip command failed: [{}]", commands, e);
             throw new PythonLibraryManagementException(e);
         }
     }
