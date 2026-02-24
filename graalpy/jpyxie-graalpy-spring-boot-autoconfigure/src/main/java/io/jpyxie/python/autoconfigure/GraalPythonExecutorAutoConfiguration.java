@@ -2,6 +2,7 @@ package io.jpyxie.python.autoconfigure;
 
 import io.jpyxie.python.bind.GraalPythonDeserializer;
 import io.jpyxie.python.bind.PythonDeserializer;
+import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.executor.GraalPythonExecutor;
 import io.jpyxie.python.executor.PythonExecutor;
 import io.jpyxie.python.interpreter.GraalInterpreterFactory;
@@ -27,8 +28,10 @@ public class GraalPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonInterpreterFactory.class)
-    public PythonInterpreterFactory<Context> graalInterpreterFactory(GraalPyProperties properties) {
+    public PythonInterpreterFactory<Context> graalInterpreterFactory(PythonEnvironment pythonEnvironment,
+                                                                     GraalPyProperties properties) {
         return new GraalInterpreterFactory(
+                pythonEnvironment,
                 properties.getHostAccess().getValue(),
                 properties.isAllowValueSharing(),
                 properties.isAllowExperimentalOptions(),
