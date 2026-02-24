@@ -17,6 +17,12 @@
       "description": "Configuration group for Python library installation and uninstallation using pip.",
       "type": "io.jpyxie.python.autoconfigure.PythonPipProperties$LibraryProperties",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties"
+    },
+    {
+      "name": "spring.python.environment",
+      "description": "Configuration properties for managing Python virtual environments.",
+      "type": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     }
   ],
   "properties": [
@@ -36,8 +42,8 @@
     },
     {
       "name": "spring.python.pip.command",
-      "description": "Command used to invoke pip for managing Python packages. Typically 'python -m pip', but can point to an interpreter inside a virtual environment or a Windows launcher.",
-      "defaultValue": "python -m pip",
+      "description": "Command used to invoke pip for managing Python packages.",
+      "defaultValue": "-m pip",
       "type": "java.lang.String",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties"
     },
@@ -85,27 +91,81 @@
       "defaultValue": [],
       "type": "io.jpyxie.python.library.PythonLibrary[]",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties$LibraryProperties"
+    },
+    {
+      "name": "spring.python.environment.enabled",
+      "description": "Whether to enable creating a virtual environment.",
+      "defaultValue": true,
+      "type": "java.lang.Boolean",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+    },
+    {
+      "name": "spring.python.environment.global-python-executable",
+      "description": "Global Python executable used to create virtual environments.",
+      "defaultValue": "python",
+      "type": "java.lang.String",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+    },
+    {
+      "name": "spring.python.environment.backup-python-executable",
+      "description": "Backup Python executable to use when a virtual environment is not available.",
+      "defaultValue": "python",
+      "type": "java.lang.String",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+    },
+    {
+      "name": "spring.python.environment.on-existing",
+      "description": "Strategy for handling existing virtual environments. Options: SKIP, REMOVE, FAIL.",
+      "defaultValue": "SKIP",
+      "type": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties$OnExisting",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+    },
+    {
+      "name": "spring.python.environment.parent-directory",
+      "description": "Parent directory where virtual environments are created.",
+      "type": "java.lang.String",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+    },
+    {
+      "name": "spring.python.environment.redirect-error-stream",
+      "description": "Whether to redirect error stream when executing virtual environment commands.",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+    },
+    {
+      "name": "spring.python.environment.redirect-output-stream",
+      "description": "Whether to redirect output stream when executing virtual environment commands.",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+    },
+    {
+      "name": "spring.python.environment.read-output",
+      "description": "Whether to read the output of virtual environment commands.",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+    },
+    {
+      "name": "spring.python.environment.timeout",
+      "description": "Timeout for executing virtual environment commands.",
+      "type": "java.time.Duration",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     }
   ],
   "hints": [
     {
-      "name": "spring.python.pip.command",
+      "name": "spring.python.environment.on-existing",
       "values": [
         {
-          "value": "python -m pip",
-          "description": "Use the system-wide Python interpreter to run pip."
+          "value": "SKIP",
+          "description": "Skip creation if virtual environment already exists."
         },
         {
-          "value": "py -m pip",
-          "description": "Use the Windows 'py' launcher to run pip."
+          "value": "REMOVE",
+          "description": "Remove existing virtual environment and create a new one."
         },
         {
-          "value": "venv/bin/python -m pip",
-          "description": "Use pip from a virtual environment on Linux or macOS."
-        },
-        {
-          "value": "venv/Scripts/python.exe -m pip",
-          "description": "Use pip from a virtual environment on Windows."
+          "value": "FAIL",
+          "description": "Fail if virtual environment already exists."
         }
       ]
     }

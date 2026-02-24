@@ -21,7 +21,7 @@ import java.time.Duration;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-class PipAutoConfigurationTest {
+class PythonPipAutoConfigurationTest {
     private ApplicationContextRunner contextRunner;
     @Mock
     private PythonLibrary mockLibrary1;
@@ -31,7 +31,7 @@ class PipAutoConfigurationTest {
     @BeforeEach
     void setUp() {
         contextRunner = new ApplicationContextRunner()
-                .withConfiguration(AutoConfigurations.of(PipAutoConfiguration.class));
+                .withConfiguration(AutoConfigurations.of(PythonPipAutoConfiguration.class));
     }
 
     @Test

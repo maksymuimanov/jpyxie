@@ -1,5 +1,6 @@
 package io.jpyxie.python.autoconfigure;
 
+import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.library.BasicPipManager;
 import io.jpyxie.python.library.PipManager;
 import io.jpyxie.python.lifecycle.ExternalPythonLibraryFinalizer;
@@ -14,11 +15,11 @@ import org.springframework.context.annotation.Bean;
 
 @AutoConfiguration
 @EnableConfigurationProperties(PythonPipProperties.class)
-public class PipAutoConfiguration {
+public class PythonPipAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(PipManager.class)
-    public PipManager basicPipManager(PythonPipProperties pipProperties) {
-        return new BasicPipManager(pipProperties.getCommand(), pipProperties.isRedirectErrorStream(), pipProperties.isRedirectOutputStream(), pipProperties.isReadOutput(), pipProperties.getTimeout());
+    public PipManager basicPipManager(PythonEnvironment pythonEnvironment, PythonPipProperties pipProperties) {
+        return new BasicPipManager(pythonEnvironment, pipProperties.getCommand(), pipProperties.isRedirectErrorStream(), pipProperties.isRedirectOutputStream(), pipProperties.isReadOutput(), pipProperties.getTimeout());
     }
 
     @Bean
