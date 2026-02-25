@@ -244,6 +244,686 @@
         {
           "value": "engine.MultiTier",
           "description": "Enable Graal multi-tier compilation ('true' or 'false')."
+        },
+        {
+          "value": "engine.BytecodeHistogram",
+          "description": "Collect and print a histogram of executed bytecode opcodes. Set to 'true' to enable basic mode or use a comma separated list to configure grouping (e.g. source,root). Available groupings are root, tier, source, language, thread. This feature adds high overhead, use for profiling in non-production runs only. Supported only by Bytecode DSL interpreters. Prints when the engine is closed by default, or periodically if BytecodeHistogramInterval > 0."
+        },
+        {
+          "value": "engine.BytecodeHistogramInterval",
+          "description": "Print and reset the opcode histogram at a fixed interval while BytecodeHistogram is enabled. Use 0 to disable periodic printing and print only once at shutdown. Examples: 250ms, 2s, 1m."
+        },
+        {
+          "value": "engine.BytecodeLanguageFilter",
+          "description": "Limit tracing and statistics to specific language IDs. Provide a comma-separated list of language IDs, for example: js, python. Empty means that all languages are included. Applies to engine.TraceBytecode and engine.BytecodeHistogram."
+        },
+        {
+          "value": "engine.BytecodeMethodFilter",
+          "description": "Limit tracing and statistics to selected methods. Provide a comma-separated list of includes, or excludes prefixed with '~'. Empty means no restriction. Whitespace around commas is ignored. Applies to engine.TraceBytecode and engine.BytecodeHistogram."
+        },
+        {
+          "value": "engine.PreinitializeContexts",
+          "description": "Preinitialize language contexts for given languages."
+        },
+        {
+          "value": "engine.RelaxStaticObjectSafetyChecks",
+          "description": "On property accesses, the Static Object Model does not perform shape checks and uses unsafe casts."
+        },
+        {
+          "value": "engine.SourceCacheStatisticDetails",
+          "description": "Print source cache statistics for an engine when the engine is closed. With the details enabled, statistics for all individual sources are printed."
+        },
+        {
+          "value": "engine.SourceCacheStatistics",
+          "description": "Print source cache statistics for an engine when the engine is closed."
+        },
+        {
+          "value": "engine.SynchronousThreadLocalActionMaxWait",
+          "description": "How long to wait for other threads to reach a synchronous ThreadLocalAction before cancelling it, in seconds. 0 means no limit. Range: [0, inf)."
+        },
+        {
+          "value": "engine.SynchronousThreadLocalActionPrintStackTraces",
+          "description": "Print thread stacktraces when a synchronous ThreadLocalAction is waiting for more than SynchronousThreadLocalActionMaxWait seconds."
+        },
+        {
+          "value": "engine.TraceBytecode",
+          "description": "Trace every executed bytecode instruction. Very high overhead, use only for debugging, never in production. Supported only by Bytecode DSL interpreters. Combine with engine.BytecodeMethodFilter and engine.BytecodeLanguageFilter to limit output."
+        },
+        {
+          "value": "engine.TraceSourceCache",
+          "description": "Print information for source cache misses/evictions/failures."
+        },
+        {
+          "value": "engine.TraceSourceCacheDetails",
+          "description": "Print information for all source cache events including hits and uncached misses."
+        },
+        {
+          "value": "engine.TraceStackTraceInterval",
+          "description": "Prints the stack trace for all threads for a time interval. By default 0, which disables the output. Range: [1, inf)."
+        },
+        {
+          "value": "engine.DebugCacheCompileUseLastTier",
+          "description": "If true uses the last tier instead of the first tier compiler. By default the last tier compiler is used. Default: true."
+        },
+        {
+          "value": "engine.BackgroundCompilation",
+          "description": "Enable asynchronous truffle compilation in background threads. Default: true."
+        },
+        {
+          "value": "engine.Compilation",
+          "description": "Enable or disable Truffle compilation."
+        },
+        {
+          "value": "engine.CompilationFailureAction",
+          "description": "Specifies the action to take when Truffle compilation fails. Accepted values: Silent (Print nothing), Print (Print exception to console), Throw (Throw exception to caller), Diagnose (Retry compilation with extra diagnostics), ExitVM (Exit the VM process)."
+        },
+        {
+          "value": "engine.CompilerIdleDelay",
+          "description": "Set the time in milliseconds an idle Truffle compiler thread will wait for new tasks before terminating. New compiler threads will be started once new compilation tasks are submitted. Select '0' to never terminate the Truffle compiler thread. The option is not supported by all Truffle runtimes. Default: 10000."
+        },
+        {
+          "value": "engine.CompilerThreads",
+          "description": "Manually set the number of compiler threads. By default, the number of compiler threads is scaled with the number of available cores on the CPU. Range: [1, inf)."
+        },
+        {
+          "value": "engine.EncodedGraphCachePurgeDelay",
+          "description": "Delay, in milliseconds, after which the encoded graph cache is dropped when a Truffle compiler thread becomes idle. Default: 10000."
+        },
+        {
+          "value": "engine.FirstTierBackedgeCounts",
+          "description": "Whether to emit look-back-edge counters in the first-tier compilations. Default: true."
+        },
+        {
+          "value": "engine.FirstTierCompilationThreshold",
+          "description": "Number of invocations or loop iterations needed to compile a guest language root in first tier under normal compilation load. Might be reduced/increased when compilation load is low/high if DynamicCompilationThresholds is enabled. Default: 400. Range: [1, inf)."
+        },
+        {
+          "value": "engine.FirstTierMinInvokeThreshold",
+          "description": "Minimum number of calls before a call target is compiled in the first tier. Default: 1. Range: [1, inf)."
+        },
+        {
+          "value": "engine.LastTierCompilationThreshold",
+          "description": "Number of invocations or loop iterations needed to compile a guest language root in first tier under normal compilation load. Might be reduced/increased when compilation load is low/high if DynamicCompilationThresholds is enabled. Default: 10000. Range: [1, inf)."
+        },
+        {
+          "value": "engine.MaximumCompilations",
+          "description": "Maximum number of successful compilations for a single call target before a permanent bailout. Exceeding the limit will result in a compilation failure with the appropriate reason and there will be no further attempts to compile the call target. Negative integer means no limit. Default: 100. Range: (-inf, inf)."
+        },
+        {
+          "value": "engine.MinInvokeThreshold",
+          "description": "Minimum number of calls before a call target is compiled. Default: 3. Range: [1, inf)."
+        },
+        {
+          "value": "engine.Mode",
+          "description": "Configures the execution mode of the engine. Available modes are 'latency' and 'throughput'. The default value balances between the two."
+        },
+        {
+          "value": "engine.MultiTier",
+          "description": "Whether to use multiple Truffle compilation tiers by default. Default: true."
+        },
+        {
+          "value": "engine.OSR",
+          "description": "Enable automatic on-stack-replacement of loops. Default: true."
+        },
+        {
+          "value": "engine.PartialBlockCompilation",
+          "description": "Enable partial compilation for BlockNode. Default: true."
+        },
+        {
+          "value": "engine.PartialBlockCompilationSize",
+          "description": "Sets the target non-trivial Truffle node size for partial compilation of BlockNode nodes. Default: 3000. Range: [1, inf)."
+        },
+        {
+          "value": "engine.PartialBlockMaximumSize",
+          "description": "Sets the maximum non-trivial Truffle node size for partial compilation of BlockNode nodes. Default: 10000. Range: [1, inf)."
+        },
+        {
+          "value": "engine.SingleTierCompilationThreshold",
+          "description": "Minimum number of invocations or loop iterations needed to compile a guest language root when not using multi tier. Default: 1000. Range: [1, inf)."
+        },
+        {
+          "value": "engine.Splitting",
+          "description": "Enable automatic duplication of compilation profiles (splitting). Default: true."
+        },
+        {
+          "value": "engine.StoppedCompilationRetryDelay",
+          "description": "Before the Truffle runtime submits an OptimizedCallTarget for compilation, it checks for the compilation activity mode in the host VM. If the activity mode indicates a full code cache, no new compilation requests are submitted and the compilation queue is flushed. After this delay milliseconds new compilations will be submitted again. The option is only supported on the HotSpot Truffle runtime. Default: 5000."
+        },
+        {
+          "value": "engine.TraceCompilation",
+          "description": "Print information for compilation results."
+        },
+        {
+          "value": "compiler.EncodedGraphCache",
+          "description": "Cache encoded graphs across Truffle compilations to speed up partial evaluation. Default: true."
+        },
+        {
+          "value": "compiler.FirstTierUseEconomy",
+          "description": "Whether to use the economy configuration in the first-tier compilations. Default: true."
+        },
+        {
+          "value": "compiler.Inlining",
+          "description": "Enable automatic inlining of guest language call targets. Default: true."
+        },
+        {
+          "value": "compiler.InliningExpansionBudget",
+          "description": "The base expansion budget for language-agnostic inlining. Default: 12000. Range: [1, inf)."
+        },
+        {
+          "value": "compiler.InliningInliningBudget",
+          "description": "The base inlining budget for language-agnostic inlining. Default: 12000. Range: [1, inf)."
+        },
+        {
+          "value": "compiler.InliningRecursionDepth",
+          "description": "Maximum depth for recursive inlining. Default: 2. Range: [0, inf)."
+        },
+        {
+          "value": "engine.EncodedGraphCache",
+          "description": "Cache encoded graphs across Truffle compilations to speed up partial evaluation. Default: true."
+        },
+        {
+          "value": "engine.FirstTierUseEconomy",
+          "description": "Whether to use the economy configuration in the first-tier compilations. Default: true."
+        },
+        {
+          "value": "engine.Inlining",
+          "description": "Enable automatic inlining of guest language call targets. Default: true."
+        },
+        {
+          "value": "engine.InliningExpansionBudget",
+          "description": "The base expansion budget for language-agnostic inlining. Default: 12000. Range: [1, inf)."
+        },
+        {
+          "value": "engine.InliningInliningBudget",
+          "description": "The base inlining budget for language-agnostic inlining. Default: 12000. Range: [1, inf)."
+        },
+        {
+          "value": "engine.InliningRecursionDepth",
+          "description": "Maximum depth for recursive inlining. Default: 2. Range: [0, inf)."
+        },
+        {
+          "value": "engine.HostCallStackHeadRoom",
+          "description": "Stack space headroom for calls to the host. Range: [1, inf). Format: <B>|<KB>|<MB>|<GB>."
+        },
+        {
+          "value": "engine.InterpreterCallStackHeadRoom",
+          "description": "Stack space headroom for any interpreter call. Supported only in the AOT mode. Range: [0, inf). Format: <B>|<KB>|<MB>|<GB>."
+        },
+        {
+          "value": "engine.IsolateMemoryProtection",
+          "description": "Enable memory protection for the isolate."
+        },
+        {
+          "value": "engine.IsolateOption.<key>",
+          "description": "Isolate VM options. Replace <key> with the specific option name."
+        },
+        {
+          "value": "engine.AssertProbes",
+          "description": "Asserts that enter and return are always called in pairs on ProbeNode, verifies correct behavior of wrapper nodes. Java asserts need to be turned on for this option to have an effect. Default: false."
+        },
+        {
+          "value": "engine.DisableCodeSharing",
+          "description": "Option to force disable code sharing for this engine, even if the context was created with an explicit engine. This option is intended for testing purposes only."
+        },
+        {
+          "value": "engine.ForceCodeSharing",
+          "description": "Option to force enable code sharing for this engine, even if the context was created with a bound engine. This option is intended for testing purposes only."
+        },
+        {
+          "value": "engine.InstrumentExceptionsAreThrown",
+          "description": "Propagates exceptions thrown by instruments. Default: true."
+        },
+        {
+          "value": "engine.PrintInternalStackTrace",
+          "description": "Printed PolyglotException stacktrace unconditionally contains the stacktrace of the original internal exception as well as the stacktrace of the creation of the PolyglotException instance."
+        },
+        {
+          "value": "engine.SafepointALot",
+          "description": "Repeatedly submits thread local actions and collects statistics about safepoint intervals in the process. Prints event and interval statistics when the context is closed for each thread. This option significantly slows down execution and is therefore intended for testing purposes only."
+        },
+        {
+          "value": "engine.ShowInternalStackFrames",
+          "description": "Show internal frames specific to the language implementation in stack traces."
+        },
+        {
+          "value": "engine.SpecializationStatistics",
+          "description": "Enables specialization statistics for nodes generated with Truffle DSL and prints the result on exit. In order for this flag to be functional -Atruffle.dsl.GenerateSpecializationStatistics=true needs to be set at build time. Enabling this flag and the compiler option has major implications on the performance and footprint of the interpreter. Do not use in production environments."
+        },
+        {
+          "value": "engine.StaticObjectStorageStrategy",
+          "description": "Set the storage strategy used by the Static Object Model. Accepted values are: 'default', 'array-based', 'field-based'."
+        },
+        {
+          "value": "engine.TraceCodeSharing",
+          "description": "Enables printing of code sharing related information to the logger. This option is intended to support debugging language implementations."
+        },
+        {
+          "value": "engine.TraceMissingSafepointPollInterval",
+          "description": "Show Java stacktraces for missing polls longer than the supplied number of milliseconds. Implies SafepointALot. Range: [0, inf)."
+        },
+        {
+          "value": "engine.TraceThreadLocalActions",
+          "description": "Traces thread local events and when they are processed on the individual threads. Prints messages with the [engine] [tl] prefix."
+        },
+        {
+          "value": "engine.TriggerUncaughtExceptionHandlerForCancel",
+          "description": "Propagates cancel execution exception into UncaughtExceptionHandler. For testing purposes only."
+        },
+        {
+          "value": "engine.UseConservativeContextReferences",
+          "description": "Enables conservative context references. This allows invalid sharing between contexts. For testing purposes only."
+        },
+        {
+          "value": "engine.UsePreInitializedContext",
+          "description": "Use pre-initialized context when it's available. Default: true."
+        },
+        {
+          "value": "engine.DebugCacheCompile",
+          "description": "Policy to use to force compilation for executed call targets before persisting the engine. Possible values: 'none' (No compilations will be persisted), 'compiled' (No compilations will be forced but finished compilations will be persisted), 'hot' (default, All started compilations will be completed and then persisted), 'aot' (All started and AOT compilable roots will be forced to compile and persisted), 'executed' (All executed and all AOT compilable roots will be forced to compile)."
+        },
+        {
+          "value": "engine.DebugCacheLoad",
+          "description": "Prepares the engine to take the stored engine from the static field instead of reading it from disk."
+        },
+        {
+          "value": "engine.DebugCachePreinitializeContext",
+          "description": "Preinitialize a new context with all languages that support it and that were used during the run. Default: true."
+        },
+        {
+          "value": "engine.DebugCacheStore",
+          "description": "Prepares the engine for caching and stores it a static field instead of writing it to disk."
+        },
+        {
+          "value": "engine.DebugTraceCache",
+          "description": "Enables tracing for the engine cache debug feature."
+        },
+        {
+          "value": "engine.ArgumentTypeSpeculation",
+          "description": "Speculate on arguments types at call sites. Default: true."
+        },
+        {
+          "value": "engine.CompilationStatisticDetails",
+          "description": "Print additional more verbose Truffle compilation statistics at the end of a run."
+        },
+        {
+          "value": "engine.CompilationStatistics",
+          "description": "Print Truffle compilation statistics at the end of a run."
+        },
+        {
+          "value": "engine.CompileAOTOnCreate",
+          "description": "Compiles created call targets immediately with last tier. Disables background compilation if enabled."
+        },
+        {
+          "value": "engine.CompileImmediately",
+          "description": "Compile immediately to test Truffle compilation."
+        },
+        {
+          "value": "engine.CompileOnly",
+          "description": "Restrict compilation to ','-separated list of includes (or excludes prefixed with '~'). No restriction by default."
+        },
+        {
+          "value": "engine.DynamicCompilationThresholds",
+          "description": "Reduce or increase the compilation threshold depending on the size of the compilation queue. Default: true."
+        },
+        {
+          "value": "engine.DynamicCompilationThresholdsMaxNormalLoad",
+          "description": "The desired maximum compilation queue load. When the load rises above this value, the compilation thresholds are increased. The load is scaled by the number of compiler threads. Default: 10. Range: [1, inf)."
+        },
+        {
+          "value": "engine.DynamicCompilationThresholdsMinNormalLoad",
+          "description": "The desired minimum compilation queue load. When the load falls below this value, the compilation thresholds are decreased. The load is scaled by the number of compiler threads. Default: 10. Range: [1, inf)."
+        },
+        {
+          "value": "engine.DynamicCompilationThresholdsMinScale",
+          "description": "The minimal scale the compilation thresholds can be reduced to. Default: 0.1. Range: [0.0, inf)."
+        },
+        {
+          "value": "engine.OSRCompilationThreshold",
+          "description": "Number of loop iterations until on-stack-replacement compilation is triggered. Default: 100352. Range: [1, inf)."
+        },
+        {
+          "value": "engine.OSRMaxCompilationReAttempts",
+          "description": "Number of compilation re-attempts before bailing out of OSR compilation for a given method. Default: 30. This number is an approximation of the acceptable number of deopts. Range: [0, inf)."
+        },
+        {
+          "value": "engine.PriorityQueue",
+          "description": "Use the priority of compilation jobs in the compilation queue. Default: true."
+        },
+        {
+          "value": "engine.Profiling",
+          "description": "Enable/disable builtin profiles in com.oracle.truffle.api.profiles. Default: true."
+        },
+        {
+          "value": "engine.PropagateLoopCountToLexicalSingleCaller",
+          "description": "Enables hotness propagation to lexical parent to lexically parent single callers."
+        },
+        {
+          "value": "engine.PropagateLoopCountToLexicalSingleCallerMaxDepth",
+          "description": "How high to propagate call and loop count (hotness proxy) up a single caller chain to lexical scope parent. Range: [0, inf)."
+        },
+        {
+          "value": "engine.ReturnTypeSpeculation",
+          "description": "Speculate on return types at call sites. Default: true."
+        },
+        {
+          "value": "engine.SplittingAllowForcedSplits",
+          "description": "Should forced splits be allowed. Default: true."
+        },
+        {
+          "value": "engine.SplittingDumpDecisions",
+          "description": "Dumps to IGV information on polymorphic events."
+        },
+        {
+          "value": "engine.SplittingGrowthLimit",
+          "description": "Disable call target splitting if the number of nodes created by splitting exceeds this factor times node count. Default: 1.5. Range: [0.0, inf)."
+        },
+        {
+          "value": "engine.SplittingMaxCalleeSize",
+          "description": "Disable call target splitting if tree size exceeds this limit. Default: 100. Range: [1, inf)."
+        },
+        {
+          "value": "engine.SplittingMaxPropagationDepth",
+          "description": "Propagate info about a polymorphic specialize through maximum this many call targets. Default: 5. Range: [1, inf)."
+        },
+        {
+          "value": "engine.SplittingTraceEvents",
+          "description": "Trace details of splitting events and decisions."
+        },
+        {
+          "value": "engine.ThrowOnMaxOSRCompilationReAttemptsReached",
+          "description": "Whether an AssertionError is thrown when the maximum number of OSR compilation attempts is reached for a given method. Default: false. This should only be set to 'true' in testing environments."
+        },
+        {
+          "value": "engine.TraceAssumptions",
+          "description": "Print stack trace on assumption invalidation."
+        },
+        {
+          "value": "engine.TraceCompilationAST",
+          "description": "Print the entire AST after each compilation."
+        },
+        {
+          "value": "engine.TraceCompilationDetails",
+          "description": "Print information for compilation queuing."
+        },
+        {
+          "value": "engine.TraceCompilationPolymorphism",
+          "description": "Print all polymorphic and generic nodes after each compilation."
+        },
+        {
+          "value": "engine.TraceDeoptimizeFrame",
+          "description": "Print stack trace when deoptimizing a frame from the stack with `FrameInstance#getFrame(READ_WRITE|MATERIALIZE)`."
+        },
+        {
+          "value": "engine.TraceSplitting",
+          "description": "Print information for splitting decisions."
+        },
+        {
+          "value": "engine.TraceSplittingSummary",
+          "description": "Used for debugging the splitting implementation. Prints splitting summary directly to stdout on shutdown."
+        },
+        {
+          "value": "engine.TraceStackTraceLimit",
+          "description": "Number of stack trace elements printed by TraceTruffleTransferToInterpreter, TraceTruffleAssumptions and TraceDeoptimizeFrame. Default: 20. Range: [1, inf)."
+        },
+        {
+          "value": "engine.TraceTransferToInterpreter",
+          "description": "Print stack trace on transfer to interpreter."
+        },
+        {
+          "value": "engine.TraversingCompilationQueue",
+          "description": "Use a traversing compilation queue. Default: true."
+        },
+        {
+          "value": "engine.TraversingQueueFirstTierBonus",
+          "description": "Controls how much of a priority should be given to first tier compilations. Default: 15.0. Range: [0.0, inf)."
+        },
+        {
+          "value": "engine.TraversingQueueFirstTierPriority",
+          "description": "Traversing queue gives first tier compilations priority."
+        },
+        {
+          "value": "engine.TraversingQueueInvalidatedBonus",
+          "description": "Controls how much of a priority should be given to compilations after invalidations. Default: 1.0, no bonus. Range: [0.0, inf)."
+        },
+        {
+          "value": "engine.TraversingQueueOSRBonus",
+          "description": "Controls how much of a priority should be given to OSR compilations. Default: 1.0, no bonus. Range: [0.0, inf)."
+        },
+        {
+          "value": "engine.TraversingQueueRateHalfLife",
+          "description": "Sets the time, in milliseconds, after which the impact of a compilation unit's observed execution rate is halved. Default: 300 ms. Range: [0, inf)."
+        },
+        {
+          "value": "engine.TraversingQueueWeightingBothTiers",
+          "description": "Traversing queue uses rate as priority for both tier. Default: true."
+        },
+        {
+          "value": "compiler.CompilationTimeout",
+          "description": "Time limit in seconds before a compilation expires and throws a bailout (0 to disable the limit)."
+        },
+        {
+          "value": "compiler.DeoptCycleDetectionAllowedRepeats",
+          "description": "Maximum allowed repeats of the same compiled code for the same compilable. Works only if the detection of repeated compilation is enabled after DeoptCycleDetectionThreshold has been reached for the compilable. Negative integer means 0. Default: 0."
+        },
+        {
+          "value": "compiler.DeoptCycleDetectionThreshold",
+          "description": "Threshold for enabling deopt cycle detection for a call target. When the number of successful compilation of the call target reaches the threshold, deopt cycle detection is enabled for the call target. Negative integer means the detection is never enabled. Default: 15."
+        },
+        {
+          "value": "compiler.DiagnoseFailure",
+          "description": "Forces diagnostics for compilation failures. Default: false."
+        },
+        {
+          "value": "compiler.ExcludeAssertions",
+          "description": "Exclude assertion code from Truffle compilations. Default: true."
+        },
+        {
+          "value": "compiler.FirstTierInliningPolicy",
+          "description": "Explicitly pick a first tier inlining policy by name (None, TrivialOnly). If empty (default) the lowest priority policy (TrivialOnly) is chosen."
+        },
+        {
+          "value": "compiler.InlineAcrossTruffleBoundary",
+          "description": "Enable inlining across Truffle boundary."
+        },
+        {
+          "value": "compiler.InlineOnly",
+          "description": "Restrict inlined methods to ','-separated list of includes (or excludes prefixed with '~'). No restriction by default."
+        },
+        {
+          "value": "compiler.InliningPolicy",
+          "description": "Explicitly pick a inlining policy by name. If empty (default) the highest priority chosen by default."
+        },
+        {
+          "value": "compiler.InliningUseSize",
+          "description": "Use the graph size as a cost model during inlining. Default: false."
+        },
+        {
+          "value": "compiler.InstrumentBoundaries",
+          "description": "Instrument Truffle boundaries and output profiling information to the standard output."
+        },
+        {
+          "value": "compiler.InstrumentBoundariesPerInlineSite",
+          "description": "Instrument Truffle boundaries by considering different inlining sites as different branches."
+        },
+        {
+          "value": "compiler.InstrumentBranches",
+          "description": "Instrument branches and output profiling information to the standard output."
+        },
+        {
+          "value": "compiler.InstrumentBranchesPerInlineSite",
+          "description": "Instrument branches by considering different inlining sites as different branches."
+        },
+        {
+          "value": "compiler.InstrumentFilter",
+          "description": "Method filter for host methods in which to add instrumentation. Syntax: <method>,<method>,...."
+        },
+        {
+          "value": "compiler.InstrumentationTableSize",
+          "description": "Maximum number of instrumentation counters available. Default: 10000. Range: [1, inf)."
+        },
+        {
+          "value": "compiler.IterativePartialEscape",
+          "description": "Run the partial escape analysis iteratively in Truffle compilation."
+        },
+        {
+          "value": "compiler.LogInlinedTargets",
+          "description": "Logs inlined targets for statistical purposes. Default: false."
+        },
+        {
+          "value": "compiler.MaximumGraalGraphSize",
+          "description": "Stop partial evaluation when the graph exceeded this size, disabled if < 0. Default: -1. Range: [-inf, inf)."
+        },
+        {
+          "value": "compiler.MethodExpansionStatistics",
+          "description": "Print statistics on expanded Java methods during partial evaluation at the end of a run. Syntax: true|false|peTier|truffleTier|lowTier|<tier>,<tier>,... Accepted values: true (Collect data for default tier 'truffleTier'), false (No data will be collected), or one or multiple tiers separated by comma (e.g. truffleTier,lowTier): peTier (After partial evaluation without additional phases applied), truffleTier (After partial evaluation with additional phases applied), lowTier (After low tier phases were applied)."
+        },
+        {
+          "value": "compiler.NodeExpansionStatistics",
+          "description": "Print statistics on expanded Truffle nodes during partial evaluation at the end of a run. Syntax: true|false|peTier|truffleTier|lowTier|<tier>,<tier>,... Accepted values: true (Collect data for default tier 'truffleTier'), false (No data will be collected), or one or multiple tiers separated by comma (e.g. truffleTier,lowTier): peTier (After partial evaluation without additional phases applied), truffleTier (After partial evaluation with additional phases applied), lowTier (After low tier phases were applied)."
+        },
+        {
+          "value": "compiler.NodeSourcePositions",
+          "description": "Enable node source positions in truffle partial evaluations."
+        },
+        {
+          "value": "compiler.ParsePEGraphsWithAssumptions",
+          "description": "Allow assumptions during parsing of seed graphs for partial evaluation. Disables the persistent encoded graph cache 'engine.EncodedGraphCache'. Default: false."
+        },
+        {
+          "value": "compiler.TraceInlining",
+          "description": "Print information for inlining decisions."
+        },
+        {
+          "value": "compiler.TraceInliningDetails",
+          "description": "Print detailed information for inlining (i.e. the entire explored call tree)."
+        },
+        {
+          "value": "compiler.TraceMethodExpansion",
+          "description": "Print a tree of all expanded Java methods with statistics after each compilation. Syntax: true|false|peTier|truffleTier|lowTier|<tier>,<tier>,... Accepted values: true (Collect data for default tier 'truffleTier'), false (No data will be collected), or one or multiple tiers separated by comma (e.g. truffleTier,lowTier): peTier (After partial evaluation without additional phases applied), truffleTier (After partial evaluation with additional phases applied), lowTier (After low tier phases were applied)."
+        },
+        {
+          "value": "compiler.TraceNodeExpansion",
+          "description": "Print a tree of all expanded Truffle nodes with statistics after each compilation. Syntax: true|false|peTier|truffleTier|lowTier|<tier>,<tier>,... Accepted values: true (Collect data for default tier 'truffleTier'), false (No data will be collected), or one or multiple tiers separated by comma (e.g. truffleTier,lowTier): peTier (After partial evaluation without additional phases applied), truffleTier (After partial evaluation with additional phases applied), lowTier (After low tier phases were applied)."
+        },
+        {
+          "value": "compiler.TracePerformanceWarnings",
+          "description": "Print potential performance problems, Performance warnings are: call, instanceof, store, frame_merge, trivial. Syntax: none|all|<perfWarning>,<perfWarning>,..."
+        },
+        {
+          "value": "compiler.TraceStackTraceLimit",
+          "description": "Number of stack trace elements printed by TraceTruffleTransferToInterpreter, TraceTruffleAssumptions and TraceDeoptimizeFrame. Default: 20. Syntax: [1, inf)."
+        },
+        {
+          "value": "compiler.TreatPerformanceWarningsAsErrors",
+          "description": "Treat performance warnings as error. Handling of the error depends on the CompilationFailureAction option value. Performance warnings are: call, instanceof, store, frame_merge, trivial. Syntax: none|all|<perfWarning>,<perfWarning>,..."
+        },
+        {
+          "value": "engine.ExcludeAssertions",
+          "description": "Exclude assertion code from Truffle compilations. Default: true."
+        },
+        {
+          "value": "engine.FirstTierInliningPolicy",
+          "description": "Explicitly pick a first tier inlining policy by name (None, TrivialOnly). If empty (default) the lowest priority policy (TrivialOnly) is chosen."
+        },
+        {
+          "value": "engine.InlineAcrossTruffleBoundary",
+          "description": "Enable inlining across Truffle boundary."
+        },
+        {
+          "value": "engine.InlineOnly",
+          "description": "Restrict inlined methods to ','-separated list of includes (or excludes prefixed with '~'). No restriction by default."
+        },
+        {
+          "value": "engine.InliningPolicy",
+          "description": "Explicitly pick a inlining policy by name. If empty (default) the highest priority chosen by default."
+        },
+        {
+          "value": "engine.InliningUseSize",
+          "description": "Use the graph size as a cost model during inlining. Default: false."
+        },
+        {
+          "value": "engine.InstrumentBoundaries",
+          "description": "Instrument Truffle boundaries and output profiling information to the standard output."
+        },
+        {
+          "value": "engine.InstrumentBoundariesPerInlineSite",
+          "description": "Instrument Truffle boundaries by considering different inlining sites as different branches."
+        },
+        {
+          "value": "engine.InstrumentBranches",
+          "description": "Instrument branches and output profiling information to the standard output."
+        },
+        {
+          "value": "engine.InstrumentBranchesPerInlineSite",
+          "description": "Instrument branches by considering different inlining sites as different branches."
+        },
+        {
+          "value": "engine.InstrumentFilter",
+          "description": "Method filter for host methods in which to add instrumentation. Syntax: <method>,<method>,...."
+        },
+        {
+          "value": "engine.InstrumentationTableSize",
+          "description": "Maximum number of instrumentation counters available. Default: 10000. Range: [1, inf)."
+        },
+        {
+          "value": "engine.IterativePartialEscape",
+          "description": "Run the partial escape analysis iteratively in Truffle compilation."
+        },
+        {
+          "value": "engine.MaximumGraalGraphSize",
+          "description": "Stop partial evaluation when the graph exceeded this size, disabled if < 0. Default: -1. Range: [-inf, inf)."
+        },
+        {
+          "value": "engine.MethodExpansionStatistics",
+          "description": "Print statistics on expanded Java methods during partial evaluation at the end of a run. Syntax: true|false|peTier|truffleTier|lowTier|<tier>,<tier>,... Accepted values: true (Collect data for default tier 'truffleTier'), false (No data will be collected), or one or multiple tiers separated by comma (e.g. truffleTier,lowTier): peTier (After partial evaluation without additional phases applied), truffleTier (After partial evaluation with additional phases applied), lowTier (After low tier phases were applied)."
+        },
+        {
+          "value": "engine.NodeExpansionStatistics",
+          "description": "Print statistics on expanded Truffle nodes during partial evaluation at the end of a run. Syntax: true|false|peTier|truffleTier|lowTier|<tier>,<tier>,... Accepted values: true (Collect data for default tier 'truffleTier'), false (No data will be collected), or one or multiple tiers separated by comma (e.g. truffleTier,lowTier): peTier (After partial evaluation without additional phases applied), truffleTier (After partial evaluation with additional phases applied), lowTier (After low tier phases were applied)."
+        },
+        {
+          "value": "engine.NodeSourcePositions",
+          "description": "Enable node source positions in truffle partial evaluations."
+        },
+        {
+          "value": "engine.ParsePEGraphsWithAssumptions",
+          "description": "Allow assumptions during parsing of seed graphs for partial evaluation. Disables the persistent encoded graph cache 'engine.EncodedGraphCache'. Default: false."
+        },
+        {
+          "value": "engine.TraceInlining",
+          "description": "Print information for inlining decisions."
+        },
+        {
+          "value": "engine.TraceInliningDetails",
+          "description": "Print detailed information for inlining (i.e. the entire explored call tree)."
+        },
+        {
+          "value": "engine.TraceMethodExpansion",
+          "description": "Print a tree of all expanded Java methods with statistics after each compilation. Syntax: true|false|peTier|truffleTier|lowTier|<tier>,<tier>,... Accepted values: true (Collect data for default tier 'truffleTier'), false (No data will be collected), or one or multiple tiers separated by comma (e.g. truffleTier,lowTier): peTier (After partial evaluation without additional phases applied), truffleTier (After partial evaluation with additional phases applied), lowTier (After low tier phases were applied)."
+        },
+        {
+          "value": "engine.TraceNodeExpansion",
+          "description": "Print a tree of all expanded Truffle nodes with statistics after each compilation. Syntax: true|false|peTier|truffleTier|lowTier|<tier>,<tier>,... Accepted values: true (Collect data for default tier 'truffleTier'), false (No data will be collected), or one or multiple tiers separated by comma (e.g. truffleTier,lowTier): peTier (After partial evaluation without additional phases applied), truffleTier (After partial evaluation with additional phases applied), lowTier (After low tier phases were applied)."
+        },
+        {
+          "value": "engine.TracePerformanceWarnings",
+          "description": "Print potential performance problems, Performance warnings are: call, instanceof, store, frame_merge, trivial. Syntax: none|all|<perfWarning>,<perfWarning>,..."
+        },
+        {
+          "value": "engine.TraceStackTraceLimit",
+          "description": "Number of stack trace elements printed by TraceTruffleTransferToInterpreter, TraceTruffleAssumptions and TraceDeoptimizeFrame. Default: 20. Syntax: [1, inf)."
+        },
+        {
+          "value": "engine.TreatPerformanceWarningsAsErrors",
+          "description": "Treat performance warnings as error. Handling of the error depends on the CompilationFailureAction option value. Performance warnings are: call, instanceof, store, frame_merge, trivial. Syntax: none|all|<perfWarning>,<perfWarning>,..."
+        },
+        {
+          "value": "engine.IsolateLauncher",
+          "description": "Path to the external isolate launcher."
+        },
+        {
+          "value": "engine.IsolateLibrary",
+          "description": "Path to the isolate library."
         }
       ]
     }
