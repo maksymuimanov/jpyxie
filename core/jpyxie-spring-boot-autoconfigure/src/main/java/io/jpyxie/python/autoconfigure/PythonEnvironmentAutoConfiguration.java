@@ -1,5 +1,7 @@
 package io.jpyxie.python.autoconfigure;
 
+import io.conditionals.condition.ConditionalOnOs;
+import io.conditionals.condition.ConditionalOnStringProperty;
 import io.jpyxie.python.environment.AbstractVenvPythonEnvironment;
 import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.environment.UnixVenvPythonEnvironment;
@@ -13,7 +15,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProp
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 
 @AutoConfiguration
 @ConditionalOnBooleanProperty("spring.python.environment.enabled")
@@ -54,19 +55,19 @@ public class PythonEnvironmentAutoConfiguration {
     }
 
     @Bean
-    @Conditional(PythonEnvironmentOnExistingSkipCondition.class)
+    @ConditionalOnStringProperty(name = "spring.python.environment.on-existing", havingValue = "skip", ignoreCase = true)
     public PythonEnvironment.OnExistingHandler skipExistingHandler() {
         return new AbstractVenvPythonEnvironment.SkipExistingHandler();
     }
 
     @Bean
-    @Conditional(PythonEnvironmentOnExistingFailCondition.class)
+    @ConditionalOnStringProperty(name = "spring.python.environment.on-existing", havingValue = "fail", ignoreCase = true)
     public PythonEnvironment.OnExistingHandler failExistingHandler() {
         return new AbstractVenvPythonEnvironment.FailExistingHandler();
     }
 
     @Bean
-    @Conditional(PythonEnvironmentOnExistingRemoveCondition.class)
+    @ConditionalOnStringProperty(name = "spring.python.environment.on-existing", havingValue = "remove", ignoreCase = true)
     public PythonEnvironment.OnExistingHandler removeExistingHandler() {
         return new AbstractVenvPythonEnvironment.RemoveExistingHandler();
     }

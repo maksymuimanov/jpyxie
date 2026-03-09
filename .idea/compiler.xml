@@ -46,6 +46,7 @@
         <module name="jpyxie-actuator-spring-boot-core" />
         <module name="test-app" />
         <module name="jpyxie-jep-spring-boot-starter" />
+        <module name="jpyxie-spring-boot-graalpy-demo" />
         <module name="jpyxie-micrometer-spring-boot-starter" />
       </profile>
     </annotationProcessing>
@@ -117,6 +118,7 @@
       <module name="jpyxie-micrometer-core" options="" />
       <module name="jpyxie-micrometer-spring-boot-starter" options="" />
       <module name="jpyxie-rest-testcontainers" options="" />
+      <module name="jpyxie-spring-boot-graalpy-demo" options="-parameters" />
       <module name="python-executor-autoconfigure" options="" />
       <module name="python-executor-common" options="" />
       <module name="python-executor-core" options="" />

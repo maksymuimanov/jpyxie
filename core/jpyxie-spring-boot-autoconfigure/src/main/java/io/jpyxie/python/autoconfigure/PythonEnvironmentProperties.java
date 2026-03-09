@@ -22,7 +22,7 @@ public class PythonEnvironmentProperties {
     /**
      * Whether to remove the virtual environment when the application context is closed.
      */
-    private boolean removeOnClose = false;
+    private boolean removeOnClose = true;
     /**
      * Global Python executable used to create virtual environments.
      */

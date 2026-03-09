@@ -109,7 +109,7 @@
     {
       "name": "spring.python.environment.remove-on-close",
       "description": "Whether to remove the virtual environment when the application context is closed.",
-      "defaultValue": false,
+      "defaultValue": true,
       "type": "java.lang.Boolean",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     },
@@ -129,8 +129,8 @@
     },
     {
       "name": "spring.python.environment.on-existing",
-      "description": "Strategy for handling existing virtual environments. Options: SKIP, REMOVE, FAIL.",
-      "defaultValue": "SKIP",
+      "description": "Strategy for handling existing virtual environments. Options: skip, remove, fail.",
+      "defaultValue": "skip",
       "type": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties$OnExisting",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     },
@@ -175,15 +175,15 @@
       "name": "spring.python.environment.on-existing",
       "values": [
         {
-          "value": "SKIP",
+          "value": "skip",
           "description": "Skip creation if virtual environment already exists."
         },
         {
-          "value": "REMOVE",
+          "value": "remove",
           "description": "Remove existing virtual environment and create a new one."
         },
         {
-          "value": "FAIL",
+          "value": "fail",
           "description": "Fail if virtual environment already exists."
         }
       ]

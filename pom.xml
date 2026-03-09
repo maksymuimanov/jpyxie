@@ -87,6 +87,7 @@
         <jspecify.version>1.0.0</jspecify.version>
         <jetbrains-annotations.version>26.0.2-1</jetbrains-annotations.version>
         <spring-boot.version>3.5.3</spring-boot.version>
+        <conditionals-spring-boot.version>1.0.0</conditionals-spring-boot.version>
         <spring.version>6.2.8</spring.version>
         <jackson.version>2.19.1</jackson.version>
         <lombok.version>1.18.38</lombok.version>

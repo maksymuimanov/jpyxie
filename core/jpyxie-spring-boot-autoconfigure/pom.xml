@@ -49,6 +49,11 @@
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.github.maksymuimanov</groupId>
+            <artifactId>conditionals-spring-boot</artifactId>
+            <version>${conditionals-spring-boot.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring-boot.version}</version>
