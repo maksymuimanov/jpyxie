@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: jpyxie-spring-boot-graalpy-demo
+  python:
+    executor:
+      graalpy:
+        additional-options:
+          engine:
+            WarnInterpreterOnly: false

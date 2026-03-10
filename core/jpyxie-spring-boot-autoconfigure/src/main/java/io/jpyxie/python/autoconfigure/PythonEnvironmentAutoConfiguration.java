@@ -17,12 +17,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 @AutoConfiguration
-@ConditionalOnBooleanProperty("spring.python.environment.enabled")
+@ConditionalOnBooleanProperty(name = "spring.python.environment.enabled", matchIfMissing = true)
 @EnableConfigurationProperties(PythonEnvironmentProperties.class)
 public class PythonEnvironmentAutoConfiguration {
     @Bean
-    @ConditionalOnMissingBean(PythonEnvironment.class)
     @ConditionalOnOs({"linux", "mac"})
+    @ConditionalOnMissingBean(PythonEnvironment.class)
     public PythonEnvironment unixVenvPythonEnvironment(PythonEnvironment.OnExistingHandler onExistingHandler,
                                                        PythonEnvironmentProperties properties) {
         return new UnixVenvPythonEnvironment(
@@ -38,8 +38,8 @@ public class PythonEnvironmentAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(PythonEnvironment.class)
     @ConditionalOnOs("windows")
+    @ConditionalOnMissingBean(PythonEnvironment.class)
     public PythonEnvironment windowsVenvPythonEnvironment(PythonEnvironment.OnExistingHandler onExistingHandler,
                                                           PythonEnvironmentProperties properties) {
         return new WindowsVenvPythonEnvironment(
@@ -55,19 +55,22 @@ public class PythonEnvironmentAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnStringProperty(name = "spring.python.environment.on-existing", havingValue = "skip", ignoreCase = true)
+    @ConditionalOnStringProperty(name = "spring.python.environment.on-existing", havingValue = "skip", ignoreCase = true, matchIfMissing = true)
+    @ConditionalOnMissingBean(PythonEnvironment.OnExistingHandler.class)
     public PythonEnvironment.OnExistingHandler skipExistingHandler() {
         return new AbstractVenvPythonEnvironment.SkipExistingHandler();
     }
 
     @Bean
     @ConditionalOnStringProperty(name = "spring.python.environment.on-existing", havingValue = "fail", ignoreCase = true)
+    @ConditionalOnMissingBean(PythonEnvironment.OnExistingHandler.class)
     public PythonEnvironment.OnExistingHandler failExistingHandler() {
         return new AbstractVenvPythonEnvironment.FailExistingHandler();
     }
 
     @Bean
     @ConditionalOnStringProperty(name = "spring.python.environment.on-existing", havingValue = "remove", ignoreCase = true)
+    @ConditionalOnMissingBean(PythonEnvironment.OnExistingHandler.class)
     public PythonEnvironment.OnExistingHandler removeExistingHandler() {
         return new AbstractVenvPythonEnvironment.RemoveExistingHandler();
     }
@@ -80,7 +83,7 @@ public class PythonEnvironmentAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnBooleanProperty("spring.python.environment.enabled")
+    @ConditionalOnBooleanProperty("spring.python.environment.remove-on-close")
     @ConditionalOnMissingBean(PythonEnvironmentFinalizer.class)
     public PythonFinalizer pythonEnvironmentFinalizer(PythonEnvironment pythonEnvironment) {
         return new PythonEnvironmentFinalizer(pythonEnvironment);
