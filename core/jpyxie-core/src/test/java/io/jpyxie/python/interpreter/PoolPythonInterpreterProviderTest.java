@@ -27,8 +27,6 @@ class PoolPythonInterpreterProviderTest {
     private AtomicInteger poolSize;
     private Duration timeout;
     @Mock
-    private PythonInterpreterPoolStarvationHandler<AutoCloseable> poolStarvationHandler;
-    @Mock
     private AutoCloseable newInterpreter;
 
     @BeforeEach
@@ -36,11 +34,10 @@ class PoolPythonInterpreterProviderTest {
         poolSize = new AtomicInteger(8);
         pool = spy(new ArrayBlockingQueue<>(poolSize.get()));
         timeout = spy(Duration.ofSeconds(2));
-        interpreterProvider = new PoolPythonInterpreterProvider<>(interpreterFactory, pool, poolSize, timeout, poolStarvationHandler);
+        interpreterProvider = new PoolPythonInterpreterProvider<>(interpreterFactory, pool, poolSize, timeout);
     }
 
     @Test
-    @SuppressWarnings("resource")
     void acquire_shouldReturnInterpreterFromPool() {
         this.pool.add(newInterpreter);
 
@@ -51,14 +48,11 @@ class PoolPythonInterpreterProviderTest {
                 .isEqualTo(newInterpreter);
         assertThat(pool)
                 .isEmpty();
-        verify(poolStarvationHandler, never())
-                .handle(interpreterFactory, pool, poolSize);
         verify(timeout, times(1))
                 .toMillis();
     }
 
     @Test
-    @SuppressWarnings("resource")
     void acquire_withTimeout_shouldReturnInterpreterFromPool() {
         this.pool.add(newInterpreter);
 
@@ -69,12 +63,9 @@ class PoolPythonInterpreterProviderTest {
                 .isEqualTo(newInterpreter);
         assertThat(pool)
                 .isEmpty();
-        verify(poolStarvationHandler, never())
-                .handle(interpreterFactory, pool, poolSize);
     }
 
     @Test
-    @SuppressWarnings("resource")
     void acquire_withTimeout_shouldReturnInterpreterFromPool_whenNotInitialized() {
         when(interpreterFactory.create())
                 .thenReturn(newInterpreter);
@@ -86,13 +77,10 @@ class PoolPythonInterpreterProviderTest {
                 .isEqualTo(newInterpreter);
         assertThat(pool)
                 .hasSize(poolSize.get() - 1);
-        verify(poolStarvationHandler, never())
-                .handle(interpreterFactory, pool, poolSize);
     }
 
     @Test
-    @SuppressWarnings("resource")
-    void acquire_withTimeout_shouldHandleWithStarvationHandler_whenEmpty() {
+    void acquire_withTimeout_shouldThrowException_whenEmpty() {
         when(interpreterFactory.create())
                 .thenReturn(newInterpreter);
 
@@ -102,19 +90,10 @@ class PoolPythonInterpreterProviderTest {
 
         assumeThat(pool.isEmpty())
                 .isTrue();
-
-        when(poolStarvationHandler.handle(interpreterFactory, pool, poolSize))
-                .thenReturn(newInterpreter);
-
-        AutoCloseable interpreter = interpreterProvider.acquire(5, TimeUnit.SECONDS);
-
-        assertThat(interpreter)
-                .isNotNull()
-                .isEqualTo(newInterpreter);
+        assertThatThrownBy(() -> interpreterProvider.acquire(5, TimeUnit.SECONDS))
+                .isInstanceOf(PythonInterpreterProvisionException.class);
         assertThat(pool)
                 .isEmpty();
-        verify(poolStarvationHandler, times(1))
-                .handle(interpreterFactory, pool, poolSize);
     }
 
     @Test
@@ -126,8 +105,6 @@ class PoolPythonInterpreterProviderTest {
                 .isInstanceOf(PythonInterpreterProvisionException.class);
         verify(interpreterFactory, never())
                 .create();
-        verify(poolStarvationHandler, never())
-                .handle(interpreterFactory, pool, poolSize);
     }
 
     @Test
@@ -144,8 +121,6 @@ class PoolPythonInterpreterProviderTest {
                 .isTrue();
         verify(interpreterFactory, never())
                 .create();
-        verify(poolStarvationHandler, never())
-                .handle(interpreterFactory, pool, poolSize);
     }
 
     @Test
@@ -158,12 +133,9 @@ class PoolPythonInterpreterProviderTest {
                 .isInstanceOf(PythonInterpreterProvisionException.class);
         verify(interpreterFactory, never())
                 .create();
-        verify(poolStarvationHandler, never())
-                .handle(interpreterFactory, pool, poolSize);
     }
 
     @Test
-    @SuppressWarnings("resource")
     void acquire_withTimeout_shouldFail_whenFillingFailed() {
         when(interpreterFactory.create())
                 .thenReturn(newInterpreter);
@@ -173,8 +145,6 @@ class PoolPythonInterpreterProviderTest {
 
         assertThatThrownBy(() -> interpreterProvider.acquire(5, TimeUnit.SECONDS))
                 .isInstanceOf(PythonInterpreterProvisionException.class);
-        verify(poolStarvationHandler, never())
-                .handle(interpreterFactory, pool, poolSize);
     }
 
     @Test

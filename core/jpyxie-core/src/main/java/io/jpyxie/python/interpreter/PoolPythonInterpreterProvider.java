@@ -24,28 +24,26 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
     private final BlockingQueue<I> pool;
     private final AtomicInteger poolSize;
     private final Duration timeout;
-    private final PythonInterpreterPoolStarvationHandler<I> poolStarvationHandler;
     private final AtomicBoolean filled;
     private final AtomicBoolean closed;
 
-    public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, PythonInterpreterPoolStarvationHandler<I> poolStarvationHandler) {
-        this(interpreterFactory, DEFAULT_POOL_SIZE, DEFAULT_TIMEOUT, poolStarvationHandler);
+    public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory) {
+        this(interpreterFactory, DEFAULT_POOL_SIZE, DEFAULT_TIMEOUT);
     }
 
-    public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, int poolSize, Duration timeout, PythonInterpreterPoolStarvationHandler<I> poolStarvationHandler) {
-        this(interpreterFactory, new ArrayBlockingQueue<>(poolSize), poolSize, timeout, poolStarvationHandler);
+    public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, int poolSize, Duration timeout) {
+        this(interpreterFactory, new ArrayBlockingQueue<>(poolSize), poolSize, timeout);
     }
 
-    public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, BlockingQueue<I> pool, int poolSize, Duration timeout, PythonInterpreterPoolStarvationHandler<I> poolStarvationHandler) {
-        this(interpreterFactory, pool, new AtomicInteger(poolSize), timeout, poolStarvationHandler);
+    public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, BlockingQueue<I> pool, int poolSize, Duration timeout) {
+        this(interpreterFactory, pool, new AtomicInteger(poolSize), timeout);
     }
 
-    public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, BlockingQueue<I> pool, AtomicInteger poolSize, Duration timeout, PythonInterpreterPoolStarvationHandler<I> poolStarvationHandler) {
+    public PoolPythonInterpreterProvider(PythonInterpreterFactory<I> interpreterFactory, BlockingQueue<I> pool, AtomicInteger poolSize, Duration timeout) {
         this.interpreterFactory = interpreterFactory;
         this.pool = pool;
         this.poolSize = poolSize;
         this.timeout = timeout;
-        this.poolStarvationHandler = poolStarvationHandler;
         this.filled = new AtomicBoolean(false);
         this.closed = new AtomicBoolean(false);
     }
@@ -69,8 +67,9 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
             }
             I polled = this.pool.poll(timeout, unit);
             if (polled == null) {
-                log.debug("Pool starvation detected, invoking handler");
-                return this.poolStarvationHandler.handle(this.interpreterFactory, this.pool, this.poolSize);
+                PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Pool starvation detected");
+                log.error(exception.getMessage(), exception);
+                throw exception;
             }
             log.debug("Interpreter acquired from pool successfully");
             return polled;
