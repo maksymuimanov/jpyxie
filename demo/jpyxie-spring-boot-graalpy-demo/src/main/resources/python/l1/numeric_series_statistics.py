@@ -1,5 +1,5 @@
-integer = int(java{integer})
-float_value = float(java{float})
+integer = java{integer}
+float_value = java{float}
 
 values = []
 base = integer + 1

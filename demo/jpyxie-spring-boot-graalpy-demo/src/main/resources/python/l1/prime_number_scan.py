@@ -1,4 +1,4 @@
-integer = int(java{integer})
+integer = java{integer}
 
 def is_prime(n):
     if n < 2:

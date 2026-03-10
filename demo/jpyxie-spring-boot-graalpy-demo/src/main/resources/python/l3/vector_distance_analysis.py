@@ -1,6 +1,6 @@
 import math
 
-text = int(java{text})
+text = java{text}
 
 vector = []
 

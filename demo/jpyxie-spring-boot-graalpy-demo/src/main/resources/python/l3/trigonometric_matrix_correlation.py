@@ -1,6 +1,6 @@
 import math
 
-integer = int(java{integer})
+integer = java{integer}
 
 size = 30
 

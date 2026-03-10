@@ -1,4 +1,4 @@
-integer = int(java{integer})
+integer = java{integer}
 
 numbers = []
 

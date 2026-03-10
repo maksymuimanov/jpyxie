@@ -1,4 +1,4 @@
-integer = int(java{integer})
+integer = java{integer}
 
 def simulate():
     value = 1.0

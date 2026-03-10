@@ -1,4 +1,4 @@
-integer = int(java{integer})
+integer = java{integer}
 text = java{text}
 
 def count_vowels(s):

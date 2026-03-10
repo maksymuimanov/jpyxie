@@ -1,6 +1,6 @@
 import math
 
-integer = int(java{integer})
+integer = java{integer}
 
 def integrate(f, a, b, steps):
     step = (b - a) / steps

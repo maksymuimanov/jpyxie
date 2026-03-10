@@ -1,4 +1,4 @@
-float_value = float(java{float})
+float_value = java{float}
 
 values = []
 
