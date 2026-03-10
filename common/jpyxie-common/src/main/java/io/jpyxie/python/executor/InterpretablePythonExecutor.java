@@ -20,14 +20,22 @@ public abstract class InterpretablePythonExecutor<F, I extends AutoCloseable> ex
     public PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec) {
         try {
             I interpreter = interpreterProvider.acquire();
-            PythonResultMap resultMap = this.execute(script, resultSpec, interpreter);
-            if (interpreterProvider instanceof PythonReleasableInterpreterProvider<I> releasableProvider) {
-                releasableProvider.release(interpreter);
-            }
-            return resultMap;
+            return this.executeAndRelease(script, resultSpec, interpreter);
         } catch (Exception e) {
             throw new PythonExecutionException(e);
         }
+    }
+
+    private PythonResultMap executeAndRelease(PythonScript script, PythonResultSpec resultSpec, I interpreter) throws Exception {
+        PythonResultMap resultMap;
+        try {
+            resultMap = this.execute(script, resultSpec, interpreter);
+        } finally {
+            if (interpreterProvider instanceof PythonReleasableInterpreterProvider<I> releasableProvider) {
+                releasableProvider.release(interpreter);
+            }
+        }
+        return resultMap;
     }
 
     protected abstract PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec, I interpreter) throws Exception;

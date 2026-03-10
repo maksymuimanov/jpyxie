@@ -4,7 +4,6 @@ import io.jpyxie.python.exception.PythonInterpreterProvisionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.time.Duration;
@@ -16,7 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Getter(AccessLevel.PROTECTED)
-@ApiStatus.Experimental
 public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements PythonReleasableInterpreterProvider<I> {
     public static final int DEFAULT_POOL_SIZE = 8;
     public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
