@@ -1,7 +1,6 @@
 package io.jpyxie.python.autoconfigure;
 
 import io.conditionals.condition.ConditionalOnOs;
-import io.conditionals.condition.ConditionalOnStringProperty;
 import io.jpyxie.python.environment.AbstractVenvPythonEnvironment;
 import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.environment.UnixVenvPythonEnvironment;
@@ -55,35 +54,20 @@ public class PythonEnvironmentAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnStringProperty(name = "spring.python.environment.on-existing", havingValue = "skip", ignoreCase = true, matchIfMissing = true)
     @ConditionalOnMissingBean(PythonEnvironment.OnExistingHandler.class)
     public PythonEnvironment.OnExistingHandler skipExistingHandler() {
         return new AbstractVenvPythonEnvironment.SkipExistingHandler();
     }
 
     @Bean
-    @ConditionalOnStringProperty(name = "spring.python.environment.on-existing", havingValue = "fail", ignoreCase = true)
-    @ConditionalOnMissingBean(PythonEnvironment.OnExistingHandler.class)
-    public PythonEnvironment.OnExistingHandler failExistingHandler() {
-        return new AbstractVenvPythonEnvironment.FailExistingHandler();
-    }
-
-    @Bean
-    @ConditionalOnStringProperty(name = "spring.python.environment.on-existing", havingValue = "remove", ignoreCase = true)
-    @ConditionalOnMissingBean(PythonEnvironment.OnExistingHandler.class)
-    public PythonEnvironment.OnExistingHandler removeExistingHandler() {
-        return new AbstractVenvPythonEnvironment.RemoveExistingHandler();
-    }
-
-    @Bean
-    @ConditionalOnBooleanProperty("spring.python.environment.create-on-start")
+    @ConditionalOnBooleanProperty(name = "spring.python.environment.create-on-start", matchIfMissing = true)
     @ConditionalOnMissingBean(PythonEnvironmentInitializer.class)
     public PythonInitializer pythonEnvironmentInitializer(PythonEnvironment pythonEnvironment) {
         return new PythonEnvironmentInitializer(pythonEnvironment);
     }
 
     @Bean
-    @ConditionalOnBooleanProperty("spring.python.environment.remove-on-close")
+    @ConditionalOnBooleanProperty(name = "spring.python.environment.remove-on-close", matchIfMissing = true)
     @ConditionalOnMissingBean(PythonEnvironmentFinalizer.class)
     public PythonFinalizer pythonEnvironmentFinalizer(PythonEnvironment pythonEnvironment) {
         return new PythonEnvironmentFinalizer(pythonEnvironment);

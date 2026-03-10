@@ -32,7 +32,8 @@ public class GraalInterpreterFactory extends AbstractGraalInterpreterFactory {
 
     @Override
     protected void configureContext(Context.Builder builder) {
-        builder.option(PYTHON_EXECUTABLE, this.pythonEnvironment.getExecutableOrBackup());
+        String pythonExecutable = this.pythonEnvironment.getExecutableOrBackup();
+        builder.option(PYTHON_EXECUTABLE, pythonExecutable);
         super.configureContext(builder);
     }
 }

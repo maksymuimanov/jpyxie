@@ -128,13 +128,6 @@
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     },
     {
-      "name": "spring.python.environment.on-existing",
-      "description": "Strategy for handling existing virtual environments. Options: skip, remove, fail.",
-      "defaultValue": "skip",
-      "type": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties$OnExisting",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
-    },
-    {
       "name": "spring.python.environment.parent-directory",
       "description": "Parent directory where virtual environments are created.",
       "defaultValue": "venv",
@@ -172,23 +165,6 @@
   ],
   "hints": [
     {
-      "name": "spring.python.environment.on-existing",
-      "values": [
-        {
-          "value": "skip",
-          "description": "Skip creation if virtual environment already exists."
-        },
-        {
-          "value": "remove",
-          "description": "Remove existing virtual environment and create a new one."
-        },
-        {
-          "value": "fail",
-          "description": "Fail if virtual environment already exists."
-        }
-      ]
-    },
-    {
       "name": "spring.python.environment.global-python-executable",
       "values": [
         {
@@ -204,8 +180,8 @@
           "description": "Use the system Python executable (Windows only)."
         },
         {
-          "value": "graalpy",
-          "description": "Use GraalPy Python executable  (only available if GraalPy is installed and enabled)."
+          "value": "graalpython",
+          "description": "Use GraalPy Python executable (only available if GraalPy is installed and enabled)."
         }
       ]
     },
@@ -225,8 +201,21 @@
           "description": "Use the system Python executable (Windows only)."
         },
         {
-          "value": "graalpy",
+          "value": "graalpython",
           "description": "Use GraalPy Python executable (only available if GraalPy is installed and enabled)."
+        }
+      ]
+    },
+    {
+      "name": "spring.python.pip.command",
+      "values": [
+        {
+          "value": "-m pip",
+          "description": "Use the system pip module."
+        },
+        {
+          "value": "-m ginstall",
+          "description": "Use the system ginstall module (only available if GraalPy is installed and enabled)."
         }
       ]
     }

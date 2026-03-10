@@ -32,10 +32,6 @@ public class PythonEnvironmentProperties {
      */
     private String backupPythonExecutable = PythonConstants.PYTHON;
     /**
-     * Strategy for handling existing virtual environments. Options: SKIP, REMOVE, FAIL.
-     */
-    private OnExisting onExisting = OnExisting.SKIP;
-    /**
      * Parent directory where virtual environments are created.
      */
     private String parentDirectory = AbstractVenvPythonEnvironment.VENV;
@@ -55,22 +51,4 @@ public class PythonEnvironmentProperties {
      * Timeout for executing virtual environment commands.
      */
     private Duration timeout = AbstractVenvPythonEnvironment.DEFAULT_TIMEOUT;
-
-    /**
-     * Enumeration of strategies for handling existing virtual environments.
-     */
-    public enum OnExisting {
-        /**
-         * Skip creation if virtual environment already exists.
-         */
-        SKIP,
-        /**
-         * Remove existing virtual environment and create a new one.
-         */
-        REMOVE,
-        /**
-         * Fail if virtual environment already exists.
-         */
-        FAIL
-    }
 }

@@ -3,13 +3,12 @@ package io.jpyxie.python.autoconfigure;
 import io.jpyxie.python.exception.PythonLifecycleException;
 import io.jpyxie.python.lifecycle.PythonFinalizer;
 import io.jpyxie.python.lifecycle.PythonInitializer;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
-
-import java.util.Map;
 
 @AutoConfiguration
 public class PythonLifecycleAutoConfiguration {
@@ -17,8 +16,9 @@ public class PythonLifecycleAutoConfiguration {
     public void initialize(ApplicationStartedEvent event) {
         try {
             ApplicationContext applicationContext = event.getApplicationContext();
-            Map<String, PythonInitializer> pythonInitializers = applicationContext.getBeansOfType(PythonInitializer.class);
-            pythonInitializers.forEach((beanName, initializer) -> initializer.initialize());
+            ObjectProvider<PythonInitializer> beanProvider = applicationContext.getBeanProvider(PythonInitializer.class);
+            beanProvider.orderedStream()
+                    .forEach(PythonInitializer::initialize);
         } catch (Exception e) {
             throw new PythonLifecycleException(e);
         }
@@ -28,8 +28,9 @@ public class PythonLifecycleAutoConfiguration {
     public void finish(ContextClosedEvent event) {
         try {
             ApplicationContext applicationContext = event.getApplicationContext();
-            Map<String, PythonFinalizer> pythonFinalizers = applicationContext.getBeansOfType(PythonFinalizer.class);
-            pythonFinalizers.forEach((beanName, finalizer) -> finalizer.finish());
+            ObjectProvider<PythonFinalizer> beanProvider = applicationContext.getBeanProvider(PythonFinalizer.class);
+            beanProvider.orderedStream()
+                    .forEach(PythonFinalizer::finish);
         } catch (Exception e) {
             throw new PythonLifecycleException(e);
         }

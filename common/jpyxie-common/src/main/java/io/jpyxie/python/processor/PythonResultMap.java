@@ -62,6 +62,15 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
         return this.delegate.containsKey(name);
     }
 
+    //TODO
+    public <R> R get(String name, Class<R> clazz) {
+        PythonResult<?> pythonResult = this.get(name);
+        if (clazz.isAssignableFrom(pythonResult.getType())) {
+            return clazz.cast(pythonResult.getBody());
+        }
+        throw new ClassCastException("Cannot cast " + pythonResult.getType() + " to " + clazz);
+    }
+
     public PythonResult<?> get(String name) {
         return this.delegate.get(name);
     }

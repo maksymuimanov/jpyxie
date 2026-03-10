@@ -310,10 +310,6 @@
           "description": "Enable asynchronous truffle compilation in background threads. Default: true."
         },
         {
-          "value": "engine.Compilation",
-          "description": "Enable or disable Truffle compilation."
-        },
-        {
           "value": "engine.CompilationFailureAction",
           "description": "Specifies the action to take when Truffle compilation fails. Accepted values: Silent (Print nothing), Print (Print exception to console), Throw (Throw exception to caller), Diagnose (Retry compilation with extra diagnostics), ExitVM (Exit the VM process)."
         },
@@ -352,14 +348,6 @@
         {
           "value": "engine.MinInvokeThreshold",
           "description": "Minimum number of calls before a call target is compiled. Default: 3. Range: [1, inf)."
-        },
-        {
-          "value": "engine.Mode",
-          "description": "Configures the execution mode of the engine. Available modes are 'latency' and 'throughput'. The default value balances between the two."
-        },
-        {
-          "value": "engine.MultiTier",
-          "description": "Whether to use multiple Truffle compilation tiers by default. Default: true."
         },
         {
           "value": "engine.OSR",

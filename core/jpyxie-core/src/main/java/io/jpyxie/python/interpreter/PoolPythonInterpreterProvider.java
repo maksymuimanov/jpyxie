@@ -16,8 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 @Getter(AccessLevel.PROTECTED)
 public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements PythonReleasableInterpreterProvider<I> {
-    public static final int DEFAULT_POOL_SIZE = 8;
-    public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
+    public static final int DEFAULT_POOL_SIZE = 16;
+    public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(1);
     private final PythonInterpreterFactory<I> interpreterFactory;
     private final BlockingQueue<I> pool;
     private final AtomicInteger poolSize;

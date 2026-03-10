@@ -23,7 +23,7 @@ public class BasicPipManager implements PipManager {
     public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = false;
     public static final boolean DEFAULT_READ_OUTPUT = false;
     public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(1);
-    private final String pythonExecutable;
+    private final PythonEnvironment environment;
     private final String[] pipCommand;
     private final boolean redirectErrorStream;
     private final boolean redirectOutputStream;
@@ -45,7 +45,7 @@ public class BasicPipManager implements PipManager {
                            boolean redirectOutputStream,
                            boolean readOutput,
                            Duration timeout) {
-        this.pythonExecutable = environment.getExecutableOrBackup();
+        this.environment = environment;
         this.pipCommand = pipCommand.split(" ");
         this.redirectErrorStream = redirectErrorStream;
         this.redirectOutputStream = redirectOutputStream;
@@ -96,7 +96,8 @@ public class BasicPipManager implements PipManager {
 
     protected void processCommand(String command, PythonLibrary management, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
         List<String> commands = new ArrayList<>();
-        commands.add(this.pythonExecutable);
+        String pythonExecutable = this.environment.getExecutableOrBackup();
+        commands.add(pythonExecutable);
         Collections.addAll(commands, this.pipCommand);
         commands.add(command);
         commands.add(management.getName());
@@ -106,7 +107,8 @@ public class BasicPipManager implements PipManager {
 
     protected void processCommand(String command, String name, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
         List<String> commands = new ArrayList<>();
-        commands.add(this.pythonExecutable);
+        String pythonExecutable = this.environment.getExecutableOrBackup();
+        commands.add(pythonExecutable);
         Collections.addAll(commands, this.pipCommand);
         commands.add(command);
         commands.add(name);
