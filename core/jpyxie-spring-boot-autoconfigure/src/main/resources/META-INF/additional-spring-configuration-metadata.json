@@ -57,7 +57,7 @@
     },
     {
       "name": "spring.python.environment.enabled",
-      "description": "Whether to enable virtual environment autoconfiguration.",
+      "description": "Whether to enable environment autoconfiguration.",
       "defaultValue": true,
       "type": "java.lang.Boolean",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
@@ -65,14 +65,14 @@
     {
       "name": "spring.python.environment.create-on-start",
       "description": "Whether to enable creating a virtual environment.",
-      "defaultValue": true,
+      "defaultValue": false,
       "type": "java.lang.Boolean",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     },
     {
       "name": "spring.python.environment.remove-on-close",
       "description": "Whether to remove the virtual environment when the application context is closed.",
-      "defaultValue": true,
+      "defaultValue": false,
       "type": "java.lang.Boolean",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     },
@@ -121,7 +121,7 @@
     {
       "name": "spring.python.environment.timeout",
       "description": "Timeout for executing virtual environment commands.",
-      "defaultValue": "1m",
+      "defaultValue": "3m",
       "type": "java.time.Duration",
       "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
     }
@@ -143,7 +143,7 @@
           "description": "Use the system Python executable (Windows only)."
         },
         {
-          "value": "graalpython",
+          "value": "graalpy",
           "description": "Use GraalPy Python executable (only available if GraalPy is installed and enabled)."
         }
       ]
@@ -164,7 +164,7 @@
           "description": "Use the system Python executable (Windows only)."
         },
         {
-          "value": "graalpython",
+          "value": "graalpy",
           "description": "Use GraalPy Python executable (only available if GraalPy is installed and enabled)."
         }
       ]

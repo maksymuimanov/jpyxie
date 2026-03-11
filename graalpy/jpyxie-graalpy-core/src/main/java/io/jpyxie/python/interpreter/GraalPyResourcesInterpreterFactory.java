@@ -8,20 +8,20 @@ import org.graalvm.python.embedding.VirtualFileSystem;
 
 import java.util.Map;
 
-public class GraalPyNativeInterpreterFactory extends AbstractGraalInterpreterFactory {
+public class GraalPyResourcesInterpreterFactory extends AbstractGraalInterpreterFactory {
     private final VirtualFileSystem virtualFileSystem;
 
-    public GraalPyNativeInterpreterFactory(VirtualFileSystem virtualFileSystem) {
+    public GraalPyResourcesInterpreterFactory(VirtualFileSystem virtualFileSystem) {
         this.virtualFileSystem = virtualFileSystem;
     }
 
-    public GraalPyNativeInterpreterFactory(IOAccess ioAccess,
-                                           HostAccess hostAccess,
-                                           boolean allowValueSharing,
-                                           boolean allowCreateProcess,
-                                           boolean allowExperimentalOptions,
-                                           Map<String, String> additionalOptions,
-                                           VirtualFileSystem virtualFileSystem) {
+    public GraalPyResourcesInterpreterFactory(VirtualFileSystem virtualFileSystem,
+                                              IOAccess ioAccess,
+                                              HostAccess hostAccess,
+                                              boolean allowValueSharing,
+                                              boolean allowCreateProcess,
+                                              boolean allowExperimentalOptions,
+                                              Map<String, String> additionalOptions) {
         super(ioAccess, hostAccess, allowValueSharing, allowCreateProcess, allowExperimentalOptions, additionalOptions);
         this.virtualFileSystem = virtualFileSystem;
     }

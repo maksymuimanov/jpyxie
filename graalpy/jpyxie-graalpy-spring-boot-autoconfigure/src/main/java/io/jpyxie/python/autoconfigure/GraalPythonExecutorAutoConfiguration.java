@@ -5,14 +5,13 @@ import io.jpyxie.python.bind.PythonDeserializer;
 import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.executor.GraalPythonExecutor;
 import io.jpyxie.python.executor.PythonExecutor;
-import io.jpyxie.python.interpreter.AbstractGraalInterpreterFactory;
-import io.jpyxie.python.interpreter.GraalInterpreterFactory;
-import io.jpyxie.python.interpreter.PythonInterpreterFactory;
-import io.jpyxie.python.interpreter.PythonInterpreterProvider;
+import io.jpyxie.python.interpreter.*;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 import org.graalvm.polyglot.io.IOAccess;
+import org.graalvm.python.embedding.VirtualFileSystem;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -35,12 +34,29 @@ public class GraalPythonExecutorAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(PythonInterpreterFactory.class)
+    @ConditionalOnMissingBean({PythonInterpreterFactory.class, VirtualFileSystem.class})
     public PythonInterpreterFactory<Context> graalInterpreterFactory(PythonEnvironment pythonEnvironment,
                                                                      IOAccess ioAccess,
                                                                      GraalPyProperties properties) {
         return new GraalInterpreterFactory(
                 pythonEnvironment,
+                ioAccess,
+                properties.getHostAccess().getValue(),
+                properties.isAllowValueSharing(),
+                properties.isAllowCreateProcess(),
+                properties.isAllowExperimentalOptions(),
+                properties.getAdditionalOptions()
+        );
+    }
+
+    @Bean
+    @ConditionalOnBean(VirtualFileSystem.class)
+    @ConditionalOnMissingBean(PythonInterpreterFactory.class)
+    public PythonInterpreterFactory<Context> graalInterpreterFactory(VirtualFileSystem virtualFileSystem, 
+                                                                     IOAccess ioAccess,
+                                                                     GraalPyProperties properties) {
+        return new GraalPyResourcesInterpreterFactory(
+                virtualFileSystem,
                 ioAccess,
                 properties.getHostAccess().getValue(),
                 properties.isAllowValueSharing(),

@@ -26,7 +26,7 @@ public abstract class AbstractVenvPythonEnvironment implements PythonEnvironment
     public static final boolean DEFAULT_REDIRECT_ERROR_STREAM = true;
     public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = true;
     public static final boolean DEFAULT_READ_OUTPUT = true;
-    public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(1);
+    public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(3);
     private final String globalPythonExecutable;
     private final String backupPythonExecutable;
     private final OnExistingHandler onExistingHandler;

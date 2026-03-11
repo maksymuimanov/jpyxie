@@ -25,6 +25,6 @@ public class PythonInterpreterProviderFinalizer implements PythonFinalizer {
 
     @Override
     public int getPriority() {
-        return LOW_PRIORITY;
+        return VERY_LOW_PRIORITY;
     }
 }

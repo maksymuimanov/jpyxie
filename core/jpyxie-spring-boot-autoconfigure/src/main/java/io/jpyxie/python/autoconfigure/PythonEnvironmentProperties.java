@@ -12,17 +12,17 @@ import java.time.Duration;
 @ConfigurationProperties("spring.python.environment")
 public class PythonEnvironmentProperties {
     /**
-     * Whether to enable virtual environment autoconfiguration.
+     * Whether to enable environment autoconfiguration.
      */
     private boolean enabled = true;
     /**
      * Whether to enable creating a virtual environment.
      */
-    private boolean createOnStart = true;
+    private boolean createOnStart = false;
     /**
      * Whether to remove the virtual environment when the application context is closed.
      */
-    private boolean removeOnClose = true;
+    private boolean removeOnClose = false;
     /**
      * Global Python executable used to create virtual environments.
      */

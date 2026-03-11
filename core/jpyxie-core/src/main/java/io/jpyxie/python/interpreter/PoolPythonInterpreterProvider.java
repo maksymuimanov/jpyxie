@@ -63,6 +63,7 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
                     && this.filled.compareAndSet(false, true)) {
                 this.fillPool(interpreterFactory);
             }
+            log.debug("Attempting to acquire interpreter from pool");
             I polled = this.pool.poll(timeout, unit);
             if (polled == null) {
                 PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Pool starvation detected");
@@ -82,17 +83,19 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
     }
 
     protected void fillPool(PythonInterpreterFactory<I> interpreterFactory) {
-        log.debug("Filling interpreter pool [size: {}]", this.pool.size());
-        for (int i = 0; i < this.poolSize.get(); i++) {
-            I interpreter = interpreterFactory.create();
-            boolean offered = this.pool.offer(interpreter);
-            if (!offered) {
-                PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to create interpreter during pool expansion");
-                log.error(exception.getMessage(), exception);
-                throw exception;
+        synchronized (this.pool) {
+            log.debug("Filling interpreter pool [size: {}]", this.pool.size());
+            for (int i = 0; i < this.poolSize.get(); i++) {
+                I interpreter = interpreterFactory.create();
+                boolean offered = this.pool.offer(interpreter);
+                if (!offered) {
+                    PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to create interpreter during pool expansion");
+                    log.error(exception.getMessage(), exception);
+                    throw exception;
+                }
             }
+            log.debug("Pool filled successfully [available: {}]", this.pool.size());
         }
-        log.debug("Pool filled successfully [available: {}]", this.pool.size());
     }
 
     @Override

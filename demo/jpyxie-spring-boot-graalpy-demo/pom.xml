@@ -35,12 +35,29 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-spring-boot-starter</artifactId>
-            <version>2.0.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.github.maksymuimanov</groupId>-->
+<!--            <artifactId>jpyxie-spring-boot-starter</artifactId>-->
+<!--            <version>2.0.0</version>-->
+<!--        </dependency>-->
 
+        <dependency>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>polyglot</artifactId>
+            <version>25.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>python</artifactId>
+            <version>25.0.2</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.python</groupId>
+            <artifactId>python-embedding</artifactId>
+            <version>25.0.2</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -54,16 +71,19 @@
                 <groupId>org.graalvm.python</groupId>
                 <artifactId>graalpy-maven-plugin</artifactId>
                 <version>25.0.1</version>
+                <configuration>
+                    <packages>
+                        <package>numpy</package>
+                        <package>scipy</package>
+                        <package>pandas</package>
+                        <package>matplotlib</package>
+                    </packages>
+                    <externalDirectory>
+                        ${project.basedir}/python-resources
+                    </externalDirectory>
+                </configuration>
                 <executions>
                     <execution>
-                        <configuration>
-                            <packages>
-                                <package>numpy</package>
-                                <package>scipy</package>
-                                <package>pandas</package>
-                                <package>matplotlib</package>
-                            </packages>
-                        </configuration>
                         <goals>
                             <goal>process-graalpy-resources</goal>
                         </goals>

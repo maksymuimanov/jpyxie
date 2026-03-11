@@ -2,18 +2,18 @@ spring:
   application:
     name: jpyxie-spring-boot-graalpy-demo
   python:
-    library:
-      enabled: true
-      installed:
-        - name: numpy
-        - name: pandas
-        - name: matplotlib
-        - name: scipy
-      uninstalled:
-        - name: numpy
-        - name: pandas
-        - name: matplotlib
-        - name: scipy
+#    library:
+#      enabled: true
+#      installed:
+#        - name: numpy
+#        - name: pandas
+#        - name: matplotlib
+#        - name: scipy
+#      uninstalled:
+#        - name: numpy
+#        - name: pandas
+#        - name: matplotlib
+#        - name: scipy
     executor:
       graalpy:
         additional-options:

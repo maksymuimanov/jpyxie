@@ -2,9 +2,11 @@ package io.jpyxie.python.common;
 
 public interface Prioritized extends Comparable<Prioritized> {
     int MAX_PRIORITY = Integer.MAX_VALUE;
+    int VERY_HIGH_PRIORITY = 2000;
     int HIGH_PRIORITY = 1000;
     int DEFAULT_PRIORITY = 0;
     int LOW_PRIORITY = -1000;
+    int VERY_LOW_PRIORITY = -2000;
     int MIN_PRIORITY = Integer.MIN_VALUE;
 
     default int getPriority() {
