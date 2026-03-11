@@ -55,8 +55,8 @@ public class PythonEnvironmentAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonEnvironment.OnExistingHandler.class)
-    public PythonEnvironment.OnExistingHandler skipExistingHandler() {
-        return new AbstractVenvPythonEnvironment.SkipExistingHandler();
+    public PythonEnvironment.OnExistingHandler existingHandler() {
+        return new AbstractVenvPythonEnvironment.RemoveExistingHandler();
     }
 
     @Bean

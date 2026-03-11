@@ -3,7 +3,7 @@ package io.jpyxie.python.autoconfigure;
 import io.jpyxie.python.executor.PythonExecutor;
 import io.jpyxie.python.executor.RestPythonExecutor;
 import io.jpyxie.python.http.BasicPythonServerRequestSender;
-import io.jpyxie.python.library.RestPipManager;
+import io.jpyxie.python.library.RestPythonLibraryManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -45,6 +45,6 @@ public class RestPythonExecutorProperties {
     private String token = BasicPythonServerRequestSender.DEFAULT_TOKEN;
     private String scriptEndpoint = RestPythonExecutor.DEFAULT_ENDPOINT;
     private String executeUri = this.host + ":" + this.port + this.scriptEndpoint;
-    private String pipEndpoint = RestPipManager.DEFAULT_ENDPOINT;
+    private String pipEndpoint = RestPythonLibraryManager.DEFAULT_ENDPOINT;
     private String pipUri = this.host + ":" + this.port + this.pipEndpoint;
 }

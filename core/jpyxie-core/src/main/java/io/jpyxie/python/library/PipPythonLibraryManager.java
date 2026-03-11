@@ -17,7 +17,7 @@ import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
 
 @Slf4j
-public class BasicPipManager implements PipManager {
+public class PipPythonLibraryManager implements PythonLibraryManager {
     public static final String DEFAULT_COMMAND = "-m pip";
     public static final boolean DEFAULT_REDIRECT_ERROR_STREAM = true;
     public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = false;
@@ -30,21 +30,21 @@ public class BasicPipManager implements PipManager {
     private final boolean readOutput;
     private final Duration timeout;
 
-    public BasicPipManager(PythonEnvironment environment) {
+    public PipPythonLibraryManager(PythonEnvironment environment) {
         this(environment, DEFAULT_COMMAND);
     }
 
-    public BasicPipManager(PythonEnvironment environment,
-                           String pipCommand) {
+    public PipPythonLibraryManager(PythonEnvironment environment,
+                                          String pipCommand) {
         this(environment, pipCommand, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
     }
 
-    public BasicPipManager(PythonEnvironment environment,
-                           String pipCommand,
-                           boolean redirectErrorStream,
-                           boolean redirectOutputStream,
-                           boolean readOutput,
-                           Duration timeout) {
+    public PipPythonLibraryManager(PythonEnvironment environment,
+                                          String pipCommand,
+                                          boolean redirectErrorStream,
+                                          boolean redirectOutputStream,
+                                          boolean readOutput,
+                                          Duration timeout) {
         this.environment = environment;
         this.pipCommand = pipCommand.split(" ");
         this.redirectErrorStream = redirectErrorStream;

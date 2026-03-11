@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Map;
 
 @Getter @Setter
-@ConfigurationProperties(prefix = "spring.python.executor.graalpy")
+@ConfigurationProperties("spring.python.executor.graalpy")
 public class GraalPyProperties {
     /**
      * Whether the GraalPy executor autoconfiguration is enabled.
@@ -29,6 +29,10 @@ public class GraalPyProperties {
      * Allows sharing values across contexts.
      */
     private boolean allowValueSharing = GraalInterpreterFactory.DEFAULT_ALLOW_VALUE_SHARING;
+    /**
+     * Allows creating subprocess.
+     */
+    private boolean allowCreateProcess = GraalInterpreterFactory.DEFAULT_ALLOW_CREATE_PROCESS;
     /**
      * Enables experimental options in GraalPy.
      */

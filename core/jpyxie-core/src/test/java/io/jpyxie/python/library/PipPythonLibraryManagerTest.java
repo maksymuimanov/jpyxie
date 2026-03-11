@@ -8,8 +8,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class BasicPipManagerTest {
-    private BasicPipManager pipManager;
+class PipPythonLibraryManagerTest {
+    private PipPythonLibraryManager pipManager;
 
     @BeforeEach
     void setUp() {
@@ -17,7 +17,7 @@ class BasicPipManagerTest {
 
         when(environment.getExecutableOrBackup())
                 .thenReturn(PYTHON);
-        pipManager = new BasicPipManager(environment);
+        pipManager = new PipPythonLibraryManager(environment);
     }
 
     @Test

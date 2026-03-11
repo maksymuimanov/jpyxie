@@ -2,25 +2,25 @@ spring:
   application:
     name: jpyxie-spring-boot-graalpy-demo
   python:
-    pip:
-      library:
-        enabled: true
-        installed:
-          - name: numpy
-          - name: pandas
-          - name: matplotlib
-          - name: scipy
-        uninstalled:
-          - name: numpy
-          - name: pandas
-          - name: matplotlib
-          - name: scipy
-      timeout: 5m
+    library:
+      enabled: true
+      installed:
+        - name: numpy
+        - name: pandas
+        - name: matplotlib
+        - name: scipy
+      uninstalled:
+        - name: numpy
+        - name: pandas
+        - name: matplotlib
+        - name: scipy
     executor:
       graalpy:
         additional-options:
           engine:
             WarnInterpreterOnly: false
+          python:
+            ForceImportSite: true
 logging:
   level:
     io:

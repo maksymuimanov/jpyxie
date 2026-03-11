@@ -33,6 +33,12 @@
       "description": "Whether values may be shared across GraalPy contexts."
     },
     {
+      "name": "spring.python.executor.graalpy.allow-create-process",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Whether the 'subprocess' module may be used to create new processes."
+    },
+    {
       "name": "spring.python.executor.graalpy.allow-experimental-options",
       "type": "java.lang.Boolean",
       "defaultValue": false,

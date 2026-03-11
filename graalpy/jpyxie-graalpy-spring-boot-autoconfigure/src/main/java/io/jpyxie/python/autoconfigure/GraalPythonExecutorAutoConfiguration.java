@@ -5,11 +5,13 @@ import io.jpyxie.python.bind.PythonDeserializer;
 import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.executor.GraalPythonExecutor;
 import io.jpyxie.python.executor.PythonExecutor;
+import io.jpyxie.python.interpreter.AbstractGraalInterpreterFactory;
 import io.jpyxie.python.interpreter.GraalInterpreterFactory;
 import io.jpyxie.python.interpreter.PythonInterpreterFactory;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
+import org.graalvm.polyglot.io.IOAccess;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,13 +29,22 @@ public class GraalPythonExecutorAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(IOAccess.class)
+    public IOAccess graalIOAccess() {
+        return AbstractGraalInterpreterFactory.DEFAULT_IO_ACCESS;
+    }
+
+    @Bean
     @ConditionalOnMissingBean(PythonInterpreterFactory.class)
     public PythonInterpreterFactory<Context> graalInterpreterFactory(PythonEnvironment pythonEnvironment,
+                                                                     IOAccess ioAccess,
                                                                      GraalPyProperties properties) {
         return new GraalInterpreterFactory(
                 pythonEnvironment,
+                ioAccess,
                 properties.getHostAccess().getValue(),
                 properties.isAllowValueSharing(),
+                properties.isAllowCreateProcess(),
                 properties.isAllowExperimentalOptions(),
                 properties.getAdditionalOptions()
         );

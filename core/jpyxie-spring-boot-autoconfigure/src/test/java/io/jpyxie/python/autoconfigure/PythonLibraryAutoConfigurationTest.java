@@ -1,8 +1,8 @@
 package io.jpyxie.python.autoconfigure;
 
-import io.jpyxie.python.library.BasicPipManager;
-import io.jpyxie.python.library.PipManager;
 import io.jpyxie.python.library.PythonLibrary;
+import io.jpyxie.python.library.PythonLibraryManager;
+import io.jpyxie.python.library.SubprocessPythonLibraryManager;
 import io.jpyxie.python.lifecycle.PythonFinalizer;
 import io.jpyxie.python.lifecycle.PythonInitializer;
 import io.jpyxie.python.lifecycle.PythonLibraryFinalizer;
@@ -16,12 +16,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import java.time.Duration;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-class PythonPipAutoConfigurationTest {
+class PythonLibraryAutoConfigurationTest {
     private ApplicationContextRunner contextRunner;
     @Mock
     private PythonLibrary mockLibrary1;
@@ -31,74 +29,34 @@ class PythonPipAutoConfigurationTest {
     @BeforeEach
     void setUp() {
         contextRunner = new ApplicationContextRunner()
-                .withConfiguration(AutoConfigurations.of(PythonPipAutoConfiguration.class));
+                .withConfiguration(AutoConfigurations.of(PythonLibraryAutoConfiguration.class));
     }
 
     @Test
-    void basicPipManager_shouldCreateBean_whenMissingBean() {
+    void subprocessPythonLibraryManager_shouldCreateBean_whenMissingBean() {
         contextRunner.run(context -> {
             assertThat(context)
-                    .hasSingleBean(PipManager.class)
-                    .hasBean("basicPipManager");
-            PipManager manager = context.getBean(PipManager.class);
+                    .hasSingleBean(PythonLibraryManager.class)
+                    .hasBean("subprocessPythonLibraryManager");
+            PythonLibraryManager manager = context.getBean(PythonLibraryManager.class);
             assertThat(manager)
-                    .isInstanceOf(BasicPipManager.class);
+                    .isInstanceOf(SubprocessPythonLibraryManager.class);
         });
     }
 
     @Test
-    void basicPipManager_shouldNotCreateBean_whenCustomBeanExists() {
-        contextRunner.withBean(PipManager.class, TestPipManager::new)
+    void subprocessPythonLibraryManager_shouldNotCreateBean_whenCustomBeanExists() {
+        contextRunner.withBean(PythonLibraryManager.class, TestPythonLibraryManager::new)
                 .run(context -> {
                     assertThat(context)
-                            .hasSingleBean(PipManager.class)
-                            .doesNotHaveBean("basicPipManager");
+                            .hasSingleBean(PythonLibraryManager.class)
+                            .doesNotHaveBean("subprocessPythonLibraryManager");
                 });
     }
 
     @Test
-    void basicPipManager_shouldUseDefaultProperties() {
-        contextRunner.run(context -> {
-            PythonPipProperties properties = context.getBean(PythonPipProperties.class);
-            assertThat(properties.getCommand())
-                    .isEqualTo(BasicPipManager.DEFAULT_COMMAND);
-            assertThat(properties.isRedirectErrorStream())
-                    .isEqualTo(BasicPipManager.DEFAULT_REDIRECT_ERROR_STREAM);
-            assertThat(properties.isRedirectOutputStream())
-                    .isEqualTo(BasicPipManager.DEFAULT_REDIRECT_OUTPUT_STREAM);
-            assertThat(properties.isReadOutput())
-                    .isEqualTo(BasicPipManager.DEFAULT_READ_OUTPUT);
-            assertThat(properties.getTimeout())
-                    .isEqualTo(BasicPipManager.DEFAULT_TIMEOUT);
-        });
-    }
-
-    @Test
-    void basicPipManager_shouldUseCustomProperties() {
-        contextRunner.withPropertyValues(
-                "spring.python.pip.command=custom-pip",
-                "spring.python.pip.redirect-error-stream=true",
-                "spring.python.pip.redirect-output-stream=false",
-                "spring.python.pip.read-output=true",
-                "spring.python.pip.timeout=PT30S"
-        ).run(context -> {
-            PythonPipProperties properties = context.getBean(PythonPipProperties.class);
-            assertThat(properties.getCommand())
-                    .isEqualTo("custom-pip");
-            assertThat(properties.isRedirectErrorStream())
-                    .isTrue();
-            assertThat(properties.isRedirectOutputStream())
-                    .isFalse();
-            assertThat(properties.isReadOutput())
-                    .isTrue();
-            assertThat(properties.getTimeout())
-                    .isEqualTo(Duration.ofSeconds(30));
-        });
-    }
-
-    @Test
     void externalPythonLibraryInitializer_shouldCreateBean_whenLibraryEnabled() {
-        contextRunner.withBean(PipManager.class, TestPipManager::new)
+        contextRunner.withBean(PythonLibraryManager.class, TestPythonLibraryManager::new)
                 .withPropertyValues("spring.python.pip.library.enabled=true")
                 .run(context -> {
                     assertThat(context)
@@ -112,7 +70,7 @@ class PythonPipAutoConfigurationTest {
 
     @Test
     void externalPythonLibraryInitializer_shouldNotCreateBean_whenLibraryDisabled() {
-        contextRunner.withBean(PipManager.class, TestPipManager::new)
+        contextRunner.withBean(PythonLibraryManager.class, TestPythonLibraryManager::new)
                 .withPropertyValues("spring.python.pip.library.enabled=false")
                 .run(context -> {
                     assertThat(context)
@@ -123,7 +81,7 @@ class PythonPipAutoConfigurationTest {
 
     @Test
     void externalPythonLibraryFinalizer_shouldCreateBean_whenLibraryEnabled() {
-        contextRunner.withBean(PipManager.class, TestPipManager::new)
+        contextRunner.withBean(PythonLibraryManager.class, TestPythonLibraryManager::new)
                 .withPropertyValues("spring.python.pip.library.enabled=true")
                 .run(context -> {
                     assertThat(context)
@@ -137,7 +95,7 @@ class PythonPipAutoConfigurationTest {
 
     @Test
     void externalPythonLibraryFinalizer_shouldNotCreateBean_whenLibraryDisabled() {
-        contextRunner.withBean(PipManager.class, TestPipManager::new)
+        contextRunner.withBean(PythonLibraryManager.class, TestPythonLibraryManager::new)
                 .withPropertyValues("spring.python.pip.library.enabled=false")
                 .run(context -> {
                     assertThat(context)
@@ -149,8 +107,8 @@ class PythonPipAutoConfigurationTest {
     @Test
     void libraryProperties_shouldHaveDefaultValues() {
         contextRunner.run(context -> {
-            PythonPipProperties properties = context.getBean(PythonPipProperties.class);
-            PythonPipProperties.LibraryProperties libraryProperties = properties.getLibrary();
+            PythonLibraryProperties properties = context.getBean(PythonLibraryProperties.class);
+            PythonLibraryProperties.LibraryProperties libraryProperties = properties.getLibrary();
             assertThat(libraryProperties.isEnabled())
                     .isFalse();
             assertThat(libraryProperties.getInstalled())
@@ -164,8 +122,8 @@ class PythonPipAutoConfigurationTest {
     void libraryProperties_shouldBindCustomValues() {
         contextRunner.withPropertyValues("spring.python.pip.library.enabled=true")
                 .run(context -> {
-                    PythonPipProperties properties = context.getBean(PythonPipProperties.class);
-                    PythonPipProperties.LibraryProperties libraryProperties = properties.getLibrary();
+                    PythonLibraryProperties properties = context.getBean(PythonLibraryProperties.class);
+                    PythonLibraryProperties.LibraryProperties libraryProperties = properties.getLibrary();
                     assertThat(libraryProperties.isEnabled())
                             .isTrue();
                 });
@@ -173,11 +131,11 @@ class PythonPipAutoConfigurationTest {
 
     @Test
     void configuration_shouldCreateAllBeans_whenLibraryEnabled() {
-        contextRunner.withBean(PipManager.class, TestPipManager::new)
+        contextRunner.withBean(PythonLibraryManager.class, TestPythonLibraryManager::new)
                 .withPropertyValues("spring.python.pip.library.enabled=true")
                 .run(context -> {
                     assertThat(context)
-                            .hasSingleBean(PipManager.class)
+                            .hasSingleBean(PythonLibraryManager.class)
                             .hasSingleBean(PythonInitializer.class)
                             .hasSingleBean(PythonFinalizer.class);
                 });
@@ -185,17 +143,17 @@ class PythonPipAutoConfigurationTest {
 
     @Test
     void configuration_shouldCreateOnlyPipManager_whenLibraryDisabled() {
-        contextRunner.withBean(PipManager.class, TestPipManager::new)
+        contextRunner.withBean(PythonLibraryManager.class, TestPythonLibraryManager::new)
                 .withPropertyValues("spring.python.pip.library.enabled=false")
                 .run(context -> {
                     assertThat(context)
-                            .hasSingleBean(PipManager.class)
+                            .hasSingleBean(PythonLibraryManager.class)
                             .doesNotHaveBean(PythonInitializer.class)
                             .doesNotHaveBean(PythonFinalizer.class);
                 });
     }
 
-    private static class TestPipManager implements PipManager {
+    private static class TestPythonLibraryManager implements PythonLibraryManager {
         @Override
         public boolean exists(@NonNull PythonLibrary management) {
             return false;

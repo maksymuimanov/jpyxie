@@ -7,16 +7,10 @@
       "sourceType": "io.jpyxie.python.autoconfigure.PythonFileProperties"
     },
     {
-      "name": "spring.python.pip",
-      "description": "Configuration group for Python package management using pip.",
-      "type": "io.jpyxie.python.autoconfigure.PythonPipProperties",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties"
-    },
-    {
-      "name": "spring.python.pip.library",
-      "description": "Configuration group for Python library installation and uninstallation using pip.",
-      "type": "io.jpyxie.python.autoconfigure.PythonPipProperties$LibraryProperties",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties"
+      "name": "spring.python.library",
+      "description": "Configuration group for Python library installation and uninstallation.",
+      "type": "io.jpyxie.python.autoconfigure.PythonLibraryProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonLibraryProperties"
     },
     {
       "name": "spring.python.environment",
@@ -41,56 +35,25 @@
       "sourceType": "io.jpyxie.python.autoconfigure.PythonFileProperties"
     },
     {
-      "name": "spring.python.pip.command",
-      "description": "Command used to invoke pip for managing Python packages.",
-      "defaultValue": "-m pip",
-      "type": "java.lang.String",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties"
-    },
-    {
-      "name": "spring.python.pip.redirect-error-stream",
-      "type": "java.lang.Boolean",
-      "description": "Whether to redirect error stream when executing pip commands.",
-      "defaultValue": true
-    },
-    {
-      "name": "spring.python.pip.redirect-output-stream",
-      "type": "java.lang.Boolean",
-      "description": "Whether to redirect output stream when executing pip commands.",
-      "defaultValue": false
-    },
-    {
-      "name": "spring.python.pip.read-output",
-      "type": "java.lang.Boolean",
-      "description": "Whether to read the output of pip commands.",
-      "defaultValue": false
-    },
-    {
-      "name": "spring.python.pip.timeout",
-      "type": "java.time.Duration",
-      "description": "Timeout for executing pip commands.",
-      "defaultValue": "1m"
-    },
-    {
-      "name": "spring.python.pip.library.enabled",
+      "name": "spring.python.library.enabled",
       "description": "Enables or disables automatic Python library management on Spring application lifecycle. When true, the system can preinstall or uninstall required packages.",
       "defaultValue": false,
       "type": "java.lang.Boolean",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties$LibraryProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonLibraryProperties"
     },
     {
-      "name": "spring.python.pip.library.installed",
+      "name": "spring.python.library.installed",
       "description": "List of Python libraries to install before executing any Python scripts. Each entry defines a PythonLibraryManagement object.",
       "defaultValue": [],
       "type": "io.jpyxie.python.library.PythonLibrary[]",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties$LibraryProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonLibraryProperties"
     },
     {
-      "name": "spring.python.pip.library.uninstalled",
+      "name": "spring.python.library.uninstalled",
       "description": "List of Python libraries to uninstall before whole application shutdown. Each entry defines a PythonLibraryManagement object.",
       "defaultValue": [],
       "type": "io.jpyxie.python.library.PythonLibrary[]",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonPipProperties$LibraryProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonLibraryProperties"
     },
     {
       "name": "spring.python.environment.enabled",
@@ -203,19 +166,6 @@
         {
           "value": "graalpython",
           "description": "Use GraalPy Python executable (only available if GraalPy is installed and enabled)."
-        }
-      ]
-    },
-    {
-      "name": "spring.python.pip.command",
-      "values": [
-        {
-          "value": "-m pip",
-          "description": "Use the system pip module."
-        },
-        {
-          "value": "-m ginstall",
-          "description": "Use the system ginstall module (only available if GraalPy is installed and enabled)."
         }
       ]
     }

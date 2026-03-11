@@ -6,7 +6,7 @@ import io.jpyxie.python.executor.PythonExecutor;
 import io.jpyxie.python.file.PythonFileReader;
 import io.jpyxie.python.interpreter.PythonInterpreterFactory;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
-import io.jpyxie.python.library.PipManager;
+import io.jpyxie.python.library.PythonLibraryManager;
 import io.jpyxie.python.lifecycle.PythonFinalizer;
 import io.jpyxie.python.lifecycle.PythonInitializer;
 import io.jpyxie.python.processor.PythonProcessor;
@@ -33,7 +33,7 @@ public class PythonEndpoint {
             PythonFileReader.class,
             PythonInterpreterFactory.class,
             PythonInterpreterProvider.class,
-            PipManager.class,
+            PythonLibraryManager.class,
             PythonInitializer.class,
             PythonFinalizer.class,
             PythonProcessor.class,

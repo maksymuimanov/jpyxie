@@ -41,17 +41,11 @@ public class PythonTestApplicationRunner implements ApplicationRunner {
             "l3/geometric_path_length_computation",
             "l3/numerical_integration_solver",
 
-            "l4/turtle_starburst",
-            "l4/turtle_color_spiral",
-            "l4/turtle_geometric_hover",
-            "l4/turtle_circles_grid",
-            "l4/turtle_random_walk",
-
-            "l5/numpy_matrix_ops",
-            "l5/scipy_ode_lorenz",
-            "l5/pandas_data_transform",
-            "l5/numpy_fft_spectrum",
-            "l5/matplotlib_script_plot"
+            "l4/numpy_matrix_ops",
+            "l4/scipy_ode_lorenz",
+            "l4/pandas_data_transform",
+            "l4/numpy_fft_spectrum",
+            "l4/matplotlib_script_plot"
     };
     private final Map<String, Long> timeMap;
     private final PythonProcessor pythonProcessor;
@@ -64,7 +58,7 @@ public class PythonTestApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         List<CompletableFuture<Void>> futures = new ArrayList<>();
-        for (int i = 0; i < 25; i++) {
+        for (int i = 15; i < 20; i++) {
             String name = NAMES[Math.abs(i % NAMES.length)];
             PythonScript pythonScript = PythonScript.asFile(name + "_" + i, name + PythonConstants.FILE_FORMAT);
             PythonContext pythonContext = PythonContext.builder(pythonScript)

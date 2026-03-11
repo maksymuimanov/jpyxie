@@ -51,6 +51,26 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.graalvm.python</groupId>
+                <artifactId>graalpy-maven-plugin</artifactId>
+                <version>25.0.1</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <packages>
+                                <package>numpy</package>
+                                <package>scipy</package>
+                                <package>pandas</package>
+                                <package>matplotlib</package>
+                            </packages>
+                        </configuration>
+                        <goals>
+                            <goal>process-graalpy-resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>

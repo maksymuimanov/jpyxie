@@ -7,7 +7,7 @@ import io.jpyxie.python.http.PythonServerRequestSender;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class RestPipManager implements PipManager {
+public class RestPythonLibraryManager implements PythonLibraryManager {
     public static final String DEFAULT_ENDPOINT = "/pip";
     public static final String DEFAULT_URI = BasicPythonServerRequestSender.DEFAULT_HOST + ":" + BasicPythonServerRequestSender.DEFAULT_PORT + DEFAULT_ENDPOINT;
     public static final String INSTALLATION_FAILURE_EXCEPTION_MESSAGE = "Installation has failed";
@@ -17,8 +17,8 @@ public class RestPipManager implements PipManager {
     private final PythonServerRequestSender requestSender;
     private final ObjectMapper objectMapper;
 
-    public RestPipManager(PythonServerRequestSender requestSender,
-                          ObjectMapper objectMapper) {
+    public RestPythonLibraryManager(PythonServerRequestSender requestSender,
+                                    ObjectMapper objectMapper) {
         this(DEFAULT_URI, BasicPythonServerRequestSender.DEFAULT_TOKEN, requestSender, objectMapper);
     }
 

@@ -13,8 +13,8 @@ import io.jpyxie.python.executor.RestPythonExecutor;
 import io.jpyxie.python.executor.RestPythonResponse;
 import io.jpyxie.python.http.BasicPythonServerRequestSender;
 import io.jpyxie.python.http.PythonServerRequestSender;
-import io.jpyxie.python.library.PipManager;
-import io.jpyxie.python.library.RestPipManager;
+import io.jpyxie.python.library.PythonLibraryManager;
+import io.jpyxie.python.library.RestPythonLibraryManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -105,10 +105,10 @@ public class RestPythonExecutorAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(PipManager.class)
-    public PipManager pipManager(RestPythonServerConnectionDetails connectionDetails,
-                                 PythonServerRequestSender requestSender,
-                                 ObjectMapper objectMapper) {
-        return new RestPipManager(connectionDetails.getExecuteUri(), connectionDetails.getToken(), requestSender, objectMapper);
+    @ConditionalOnMissingBean(PythonLibraryManager.class)
+    public PythonLibraryManager pipManager(RestPythonServerConnectionDetails connectionDetails,
+                                           PythonServerRequestSender requestSender,
+                                           ObjectMapper objectMapper) {
+        return new RestPythonLibraryManager(connectionDetails.getExecuteUri(), connectionDetails.getToken(), requestSender, objectMapper);
     }
 }

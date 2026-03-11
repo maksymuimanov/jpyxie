@@ -7,7 +7,7 @@ import io.jpyxie.python.proto.PythonGrpcServiceGrpc;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GrpcPipManager implements PipManager {
+public class GrpcPythonLibraryManager implements PythonLibraryManager {
     public static final String INSTALLATION_FAILURE_EXCEPTION_MESSAGE = "Installation has failed";
     public static final String UNINSTALLATION_FAILURE_EXCEPTION_MESSAGE = "Uninstallation has failed";
     private final PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub;

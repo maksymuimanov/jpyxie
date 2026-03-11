@@ -2,6 +2,7 @@ package io.jpyxie.python.interpreter;
 
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
+import org.graalvm.polyglot.io.IOAccess;
 import org.graalvm.python.embedding.GraalPyResources;
 import org.graalvm.python.embedding.VirtualFileSystem;
 
@@ -14,12 +15,14 @@ public class GraalPyNativeInterpreterFactory extends AbstractGraalInterpreterFac
         this.virtualFileSystem = virtualFileSystem;
     }
 
-    public GraalPyNativeInterpreterFactory(HostAccess hostAccess,
+    public GraalPyNativeInterpreterFactory(IOAccess ioAccess,
+                                           HostAccess hostAccess,
                                            boolean allowValueSharing,
+                                           boolean allowCreateProcess,
                                            boolean allowExperimentalOptions,
                                            Map<String, String> additionalOptions,
                                            VirtualFileSystem virtualFileSystem) {
-        super(hostAccess, allowValueSharing, allowExperimentalOptions, additionalOptions);
+        super(ioAccess, hostAccess, allowValueSharing, allowCreateProcess, allowExperimentalOptions, additionalOptions);
         this.virtualFileSystem = virtualFileSystem;
     }
 

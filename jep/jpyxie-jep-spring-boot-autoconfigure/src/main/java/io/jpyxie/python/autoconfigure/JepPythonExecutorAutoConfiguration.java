@@ -7,7 +7,7 @@ import io.jpyxie.python.executor.PythonExecutor;
 import io.jpyxie.python.interpreter.JepInterpreterFactory;
 import io.jpyxie.python.interpreter.PythonInterpreterFactory;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
-import io.jpyxie.python.library.PipManager;
+import io.jpyxie.python.library.PythonLibraryManager;
 import io.jpyxie.python.lifecycle.JepFinalizer;
 import io.jpyxie.python.lifecycle.JepInitializer;
 import io.jpyxie.python.lifecycle.PythonFinalizer;
@@ -26,8 +26,8 @@ public class JepPythonExecutorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(JepInitializer.class)
     @ConditionalOnBooleanProperty(name = "spring.python.executor.jep.library.enabled", matchIfMissing = true)
-    public PythonInitializer jepInitializer(PipManager pipManager, JepProperties properties) {
-        return new JepInitializer(pipManager, properties.getLibrary().getInstall());
+    public PythonInitializer jepInitializer(PythonLibraryManager pythonLibraryManager, JepProperties properties) {
+        return new JepInitializer(pythonLibraryManager, properties.getLibrary().getInstall());
     }
 
     @Bean
@@ -51,7 +51,7 @@ public class JepPythonExecutorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(JepFinalizer.class)
     @ConditionalOnBooleanProperty(name = "spring.python.executor.jep.library.enabled", matchIfMissing = true)
-    public PythonFinalizer jepFinalizer(PipManager pipManager, JepProperties properties) {
-        return new JepFinalizer(pipManager, properties.getLibrary().getUninstall());
+    public PythonFinalizer jepFinalizer(PythonLibraryManager pythonLibraryManager, JepProperties properties) {
+        return new JepFinalizer(pythonLibraryManager, properties.getLibrary().getUninstall());
     }
 }

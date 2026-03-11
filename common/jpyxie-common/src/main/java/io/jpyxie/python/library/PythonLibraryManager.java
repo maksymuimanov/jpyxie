@@ -1,6 +1,6 @@
 package io.jpyxie.python.library;
 
-public interface PipManager {
+public interface PythonLibraryManager {
     String SHOW = "show";
     String INSTALL = "install";
     String UNINSTALL = "uninstall";

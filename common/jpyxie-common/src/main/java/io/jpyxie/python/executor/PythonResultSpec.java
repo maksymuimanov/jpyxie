@@ -8,10 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PythonResultSpec implements MapSpec<String, PythonResultRequirement<?>> {
+    private static final PythonResultSpec EMPTY = new PythonResultSpec(Collections.emptyMap());
     private final Map<String, PythonResultRequirement<?>> requirements;
 
     public static PythonResultSpec empty() {
-        return new PythonResultSpec(Collections.emptyMap());
+        return EMPTY;
     }
 
     public static PythonResultSpec of(String name, Class<?> type) {

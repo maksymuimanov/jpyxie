@@ -4,6 +4,7 @@ import io.jpyxie.python.constant.PythonConstants;
 import io.jpyxie.python.environment.PythonEnvironment;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
+import org.graalvm.polyglot.io.IOAccess;
 
 import java.util.Map;
 
@@ -17,11 +18,13 @@ public class GraalInterpreterFactory extends AbstractGraalInterpreterFactory {
     }
 
     public GraalInterpreterFactory(PythonEnvironment pythonEnvironment,
+                                   IOAccess ioAccess,
                                    HostAccess hostAccess,
                                    boolean allowValueSharing,
+                                   boolean allowCreateProcess,
                                    boolean allowExperimentalOptions,
                                    Map<String, String> additionalOptions) {
-        super(hostAccess, allowValueSharing, allowExperimentalOptions, additionalOptions);
+        super(ioAccess, hostAccess, allowValueSharing, allowCreateProcess, allowExperimentalOptions, additionalOptions);
         this.pythonEnvironment = pythonEnvironment;
     }
 

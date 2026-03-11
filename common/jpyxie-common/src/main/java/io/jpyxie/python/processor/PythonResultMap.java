@@ -1,6 +1,7 @@
 package io.jpyxie.python.processor;
 
 import io.jpyxie.python.common.MapSpec;
+import io.jpyxie.python.exception.PythonProcessionException;
 import io.jpyxie.python.executor.PythonResultRequirement;
 import io.jpyxie.python.executor.PythonResultSpec;
 import org.jspecify.annotations.Nullable;
@@ -62,13 +63,13 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
         return this.delegate.containsKey(name);
     }
 
-    //TODO
     public <R> R get(String name, Class<R> clazz) {
         PythonResult<?> pythonResult = this.get(name);
-        if (clazz.isAssignableFrom(pythonResult.getType())) {
+        boolean isAssignable = clazz.isAssignableFrom(pythonResult.getType());
+        if (isAssignable) {
             return clazz.cast(pythonResult.getBody());
         }
-        throw new ClassCastException("Cannot cast " + pythonResult.getType() + " to " + clazz);
+        throw new PythonProcessionException("Cannot cast " + pythonResult.getType() + " to " + clazz);
     }
 
     public PythonResult<?> get(String name) {

@@ -13,8 +13,8 @@ import io.jpyxie.python.bind.GrpcPythonDeserializer;
 import io.jpyxie.python.bind.PythonDeserializer;
 import io.jpyxie.python.executor.GrpcPythonExecutor;
 import io.jpyxie.python.executor.PythonExecutor;
-import io.jpyxie.python.library.GrpcPipManager;
-import io.jpyxie.python.library.PipManager;
+import io.jpyxie.python.library.GrpcPythonLibraryManager;
+import io.jpyxie.python.library.PythonLibraryManager;
 import io.jpyxie.python.proto.GrpcPythonResponse;
 import io.jpyxie.python.proto.PythonGrpcServiceGrpc;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -106,8 +106,8 @@ public class GrpcPythonExecutorAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(PipManager.class)
-    public PipManager pipManager(PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub) {
-        return new GrpcPipManager(stub);
+    @ConditionalOnMissingBean(PythonLibraryManager.class)
+    public PythonLibraryManager pipManager(PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub) {
+        return new GrpcPythonLibraryManager(stub);
     }
 }

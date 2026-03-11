@@ -22,4 +22,9 @@ public class PythonInterpreterProviderFinalizer implements PythonFinalizer {
             throw new PythonLifecycleException(e);
         }
     }
+
+    @Override
+    public int getPriority() {
+        return LOW_PRIORITY;
+    }
 }

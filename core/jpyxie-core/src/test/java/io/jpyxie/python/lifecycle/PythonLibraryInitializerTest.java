@@ -1,8 +1,8 @@
 package io.jpyxie.python.lifecycle;
 
 import io.jpyxie.python.exception.PythonLifecycleException;
-import io.jpyxie.python.library.PipManager;
 import io.jpyxie.python.library.PythonLibrary;
+import io.jpyxie.python.library.PythonLibraryManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,52 +16,52 @@ import static org.mockito.Mockito.*;
 class PythonLibraryInitializerTest {
     private PythonLibraryInitializer initializer;
     @Mock
-    private PipManager pipManager;
+    private PythonLibraryManager pythonLibraryManager;
     @Mock
     private PythonLibrary mockLibrary;
 
     @BeforeEach
     void setUp() {
-        initializer = new PythonLibraryInitializer(pipManager, new PythonLibrary[]{mockLibrary});
+        initializer = new PythonLibraryInitializer(pythonLibraryManager, new PythonLibrary[]{mockLibrary});
     }
 
     @Test
     void initialize_shouldInstallLibrary_whenNotExists() {
-        when(pipManager.exists(mockLibrary))
+        when(pythonLibraryManager.exists(mockLibrary))
                 .thenReturn(false);
 
         initializer.initialize();
 
-        verify(pipManager)
+        verify(pythonLibraryManager)
                 .exists(mockLibrary);
-        verify(pipManager)
+        verify(pythonLibraryManager)
                 .install(mockLibrary);
     }
 
     @Test
     void initialize_shouldIgnoreLibrary_whenExists() {
-        when(pipManager.exists(mockLibrary))
+        when(pythonLibraryManager.exists(mockLibrary))
                 .thenReturn(true);
 
         initializer.initialize();
 
-        verify(pipManager)
+        verify(pythonLibraryManager)
                 .exists(mockLibrary);
-        verify(pipManager, never())
+        verify(pythonLibraryManager, never())
                 .install(mockLibrary);
     }
 
     @Test
     void initialize_shouldFail_whenExceptionThrown() {
         doThrow(new RuntimeException())
-                .when(pipManager)
+                .when(pythonLibraryManager)
                 .exists(mockLibrary);
 
         assertThatThrownBy(() -> initializer.initialize())
                 .isInstanceOf(PythonLifecycleException.class);
-        verify(pipManager)
+        verify(pythonLibraryManager)
                 .exists(mockLibrary);
-        verify(pipManager, never())
+        verify(pythonLibraryManager, never())
                 .install(mockLibrary);
     }
 }
