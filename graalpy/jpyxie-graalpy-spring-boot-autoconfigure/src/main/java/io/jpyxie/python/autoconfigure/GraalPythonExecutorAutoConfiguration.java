@@ -50,9 +50,24 @@ public class GraalPythonExecutorAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnBooleanProperty(name = "spring.python.executor.graalpy.resources.enabled")
+    @ConditionalOnMissingBean(VirtualFileSystem.class)
+    public VirtualFileSystem virtualFileSystem(GraalPyProperties properties) throws ClassNotFoundException {
+        GraalPyProperties.Resources resources = properties.getResources();
+        VirtualFileSystem.Builder builder = VirtualFileSystem.newBuilder()
+                .caseInsensitive(resources.isCaseSensitive())
+                .allowHostIO(resources.getAllowHostIO())
+                .unixMountPoint(resources.getUnixMountPoint())
+                .windowsMountPoint(resources.getWindowsMountPoint());
+        if (resources.getResourceDirectory() != null) builder.resourceDirectory(resources.getResourceDirectory());
+        if (resources.getResourceLoadingClass() != null) builder.resourceLoadingClass(Class.forName(resources.getResourceLoadingClass()));
+        return builder.build();
+    }
+
+    @Bean
     @ConditionalOnBean(VirtualFileSystem.class)
     @ConditionalOnMissingBean(PythonInterpreterFactory.class)
-    public PythonInterpreterFactory<Context> graalInterpreterFactory(VirtualFileSystem virtualFileSystem, 
+    public PythonInterpreterFactory<Context> graalInterpreterFactory(VirtualFileSystem virtualFileSystem,
                                                                      IOAccess ioAccess,
                                                                      GraalPyProperties properties) {
         return new GraalPyResourcesInterpreterFactory(

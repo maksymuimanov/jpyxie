@@ -5,6 +5,12 @@
       "type": "io.jpyxie.python.autoconfigure.GraalPyProperties",
       "sourceType": "io.jpyxie.python.autoconfigure.GraalPyProperties",
       "description": "Configuration properties for the GraalPy-based Python executor integration."
+    },
+    {
+      "name": "spring.python.executor.graalpy.resources",
+      "type": "io.jpyxie.python.autoconfigure.GraalPyProperties$Resources",
+      "sourceType": "io.jpyxie.python.autoconfigure.GraalPyProperties",
+      "description": "Configuration for GraalPy virtual file system resources."
     }
   ],
   "properties": [
@@ -48,6 +54,46 @@
       "name": "spring.python.executor.graalpy.additional-options",
       "type": "java.util.Map<java.lang.String,java.lang.String>",
       "description": "Additional custom GraalPy context options provided as key-value pairs."
+    },
+    {
+      "name": "spring.python.executor.graalpy.resources.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Whether GraalPy virtual file system resources are enabled."
+    },
+    {
+      "name": "spring.python.executor.graalpy.resources.case-sensitive",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Whether the virtual file system should be case sensitive. Default value is based on whether the OS is Windows or not."
+    },
+    {
+      "name": "spring.python.executor.graalpy.resources.allow-host-io",
+      "type": "org.graalvm.python.embedding.VirtualFileSystem$HostIO",
+      "defaultValue": "READ_WRITE",
+      "description": "Specifies the level of host I/O access allowed for the virtual file system."
+    },
+    {
+      "name": "spring.python.executor.graalpy.resources.resource-directory",
+      "type": "java.lang.String",
+      "description": "Directory path for loading resources into the virtual file system."
+    },
+    {
+      "name": "spring.python.executor.graalpy.resources.resource-loading-class",
+      "type": "java.lang.String",
+      "description": "Class name for custom resource loading logic."
+    },
+    {
+      "name": "spring.python.executor.graalpy.resources.windows-mount-point",
+      "type": "java.lang.String",
+      "defaultValue": "X:\\graalpy_vfs",
+      "description": "Mount point path for Windows systems."
+    },
+    {
+      "name": "spring.python.executor.graalpy.resources.unix-mount-point",
+      "type": "java.lang.String",
+      "defaultValue": "/graalpy_vfs",
+      "description": "Mount point path for Unix-like systems."
     }
   ],
   "hints": [
@@ -918,6 +964,23 @@
         {
           "value": "engine.IsolateLibrary",
           "description": "Path to the isolate library."
+        }
+      ]
+    },
+    {
+      "name": "spring.python.executor.graalpy.resources.allow-host-io",
+      "values": [
+        {
+          "value": "NONE",
+          "description": "Disables all host I/O access."
+        },
+        {
+          "value": "READ_ONLY",
+          "description": "Allows read-only access to host file system."
+        },
+        {
+          "value": "READ_WRITE",
+          "description": "Allows read and write access to host file system."
         }
       ]
     }
