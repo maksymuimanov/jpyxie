@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: jpyxie-spring-boot-graalpy-demo
+  python:
+    environment:
+      global-python-executable: python
+      create-on-start: true
+      remove-on-close: true
+logging:
+  level:
+    io:
+      jpyxie:
+        python: DEBUG

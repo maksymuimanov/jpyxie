@@ -37,6 +37,7 @@
         <module name="jpyxie-spelython-spring-boot-autoconfigure" />
         <module name="jpyxie-bind-spring-boot-autoconfigure" />
         <module name="jpyxie-grpc-core" />
+        <module name="jpyxie-spring-boot-jep-demo" />
         <module name="jpyxie-graalpy-spring-boot-autoconfigure" />
         <module name="jpyxie-javython-spring-boot-autoconfigure" />
         <module name="jpyxie-common" />
@@ -119,6 +120,7 @@
       <module name="jpyxie-micrometer-spring-boot-starter" options="" />
       <module name="jpyxie-rest-testcontainers" options="" />
       <module name="jpyxie-spring-boot-graalpy-demo" options="-parameters" />
+      <module name="jpyxie-spring-boot-jep-demo" options="-parameters" />
       <module name="python-executor-autoconfigure" options="" />
       <module name="python-executor-common" options="" />
       <module name="python-executor-core" options="" />

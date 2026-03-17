@@ -87,6 +87,7 @@
         <option value="$PROJECT_DIR$/javython/jpyxie-javython-spring-boot-starter/pom.xml" />
         <option value="$PROJECT_DIR$/jpyxie-bbind/pom.xml" />
         <option value="$PROJECT_DIR$/demo/jpyxie-spring-boot-graalpy-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/demo/jpyxie-spring-boot-jep-demo/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
