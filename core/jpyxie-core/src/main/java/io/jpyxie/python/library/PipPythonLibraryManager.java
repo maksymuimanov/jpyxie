@@ -22,7 +22,7 @@ public class PipPythonLibraryManager implements PythonLibraryManager {
     public static final boolean DEFAULT_REDIRECT_ERROR_STREAM = true;
     public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = false;
     public static final boolean DEFAULT_READ_OUTPUT = false;
-    public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(1);
+    public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(5);
     private final PythonEnvironment environment;
     private final String[] pipCommand;
     private final boolean redirectErrorStream;
@@ -35,16 +35,22 @@ public class PipPythonLibraryManager implements PythonLibraryManager {
     }
 
     public PipPythonLibraryManager(PythonEnvironment environment,
-                                          String pipCommand) {
-        this(environment, pipCommand, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
+                                   String pipCommand) {
+        this(environment, pipCommand, DEFAULT_TIMEOUT);
     }
 
     public PipPythonLibraryManager(PythonEnvironment environment,
-                                          String pipCommand,
-                                          boolean redirectErrorStream,
-                                          boolean redirectOutputStream,
-                                          boolean readOutput,
-                                          Duration timeout) {
+                                   String pipCommand,
+                                   Duration timeout) {
+        this(environment, pipCommand, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, timeout);
+    }
+
+    public PipPythonLibraryManager(PythonEnvironment environment,
+                                   String pipCommand,
+                                   boolean redirectErrorStream,
+                                   boolean redirectOutputStream,
+                                   boolean readOutput,
+                                   Duration timeout) {
         this.environment = environment;
         this.pipCommand = pipCommand.split(" ");
         this.redirectErrorStream = redirectErrorStream;

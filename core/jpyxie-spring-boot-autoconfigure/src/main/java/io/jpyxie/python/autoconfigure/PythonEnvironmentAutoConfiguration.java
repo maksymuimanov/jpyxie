@@ -60,14 +60,14 @@ public class PythonEnvironmentAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnBooleanProperty(name = "spring.python.environment.create-on-start", matchIfMissing = true)
+    @ConditionalOnBooleanProperty(name = "spring.python.environment.create-on-start")
     @ConditionalOnMissingBean(PythonEnvironmentInitializer.class)
     public PythonInitializer pythonEnvironmentInitializer(PythonEnvironment pythonEnvironment) {
         return new PythonEnvironmentInitializer(pythonEnvironment);
     }
 
     @Bean
-    @ConditionalOnBooleanProperty(name = "spring.python.environment.remove-on-close", matchIfMissing = true)
+    @ConditionalOnBooleanProperty(name = "spring.python.environment.remove-on-close")
     @ConditionalOnMissingBean(PythonEnvironmentFinalizer.class)
     public PythonFinalizer pythonEnvironmentFinalizer(PythonEnvironment pythonEnvironment) {
         return new PythonEnvironmentFinalizer(pythonEnvironment);

@@ -67,7 +67,7 @@ public class GraalPythonExecutorAutoConfiguration {
     @Bean
     @ConditionalOnBean(VirtualFileSystem.class)
     @ConditionalOnMissingBean(PythonInterpreterFactory.class)
-    public PythonInterpreterFactory<Context> graalInterpreterFactory(VirtualFileSystem virtualFileSystem,
+    public PythonInterpreterFactory<Context> graalPyResourcesInterpreterFactory(VirtualFileSystem virtualFileSystem,
                                                                      IOAccess ioAccess,
                                                                      GraalPyProperties properties) {
         return new GraalPyResourcesInterpreterFactory(
