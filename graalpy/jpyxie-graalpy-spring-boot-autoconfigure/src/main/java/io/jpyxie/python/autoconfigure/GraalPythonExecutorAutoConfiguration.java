@@ -29,8 +29,12 @@ public class GraalPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(IOAccess.class)
-    public IOAccess graalIOAccess() {
-        return AbstractGraalInterpreterFactory.DEFAULT_IO_ACCESS;
+    public IOAccess ioAccess(GraalPyProperties properties) {
+        GraalPyProperties.IO io = properties.getIo();
+        return IOAccess.newBuilder(AbstractGraalInterpreterFactory.DEFAULT_IO_ACCESS)
+                .allowHostFileAccess(io.isAllowHostFileAccess())
+                .allowHostSocketAccess(io.isAllowHostSocketAccess())
+                .build();
     }
 
     @Bean
@@ -68,8 +72,8 @@ public class GraalPythonExecutorAutoConfiguration {
     @ConditionalOnBean(VirtualFileSystem.class)
     @ConditionalOnMissingBean(PythonInterpreterFactory.class)
     public PythonInterpreterFactory<Context> graalPyResourcesInterpreterFactory(VirtualFileSystem virtualFileSystem,
-                                                                     IOAccess ioAccess,
-                                                                     GraalPyProperties properties) {
+                                                                                IOAccess ioAccess,
+                                                                                GraalPyProperties properties) {
         return new GraalPyResourcesInterpreterFactory(
                 virtualFileSystem,
                 ioAccess,

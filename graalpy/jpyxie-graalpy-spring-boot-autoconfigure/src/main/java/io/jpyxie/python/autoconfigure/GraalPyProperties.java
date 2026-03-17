@@ -44,7 +44,14 @@ public class GraalPyProperties {
      * Additional custom options for GraalPy context.
      */
     private Map<String, String> additionalOptions = AbstractGraalInterpreterFactory.DEFAULT_ADDITIONAL_OPTIONS;
+    /**
+     * Resources configuration for GraalPy.
+     */
     private Resources resources = new Resources();
+    /**
+     * IO access configuration for GraalPy.
+     */
+    private IO io = new IO();
 
     @Getter
     @RequiredArgsConstructor
@@ -97,5 +104,20 @@ public class GraalPyProperties {
          * Mount point path for Unix-like systems.
          */
         private String unixMountPoint = "/graalpy_vfs";
+    }
+
+    /**
+     * Configuration for GraalPy IO access.
+     */
+    @Getter @Setter
+    public static class IO {
+        /**
+         * Whether to allow access to host files.
+         */
+        private boolean allowHostFileAccess = false;
+        /**
+         * Whether to allow access to host sockets.
+         */
+        private boolean allowHostSocketAccess = false;
     }
 }

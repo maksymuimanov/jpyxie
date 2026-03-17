@@ -11,6 +11,12 @@
       "type": "io.jpyxie.python.autoconfigure.GraalPyProperties$Resources",
       "sourceType": "io.jpyxie.python.autoconfigure.GraalPyProperties",
       "description": "Configuration for GraalPy virtual file system resources."
+    },
+    {
+      "name": "spring.python.executor.graalpy.io",
+      "type": "io.jpyxie.python.autoconfigure.GraalPyProperties$IO",
+      "sourceType": "io.jpyxie.python.autoconfigure.GraalPyProperties",
+      "description": "Configuration for GraalPy IO access."
     }
   ],
   "properties": [
@@ -94,6 +100,18 @@
       "type": "java.lang.String",
       "defaultValue": "/graalpy_vfs",
       "description": "Mount point path for Unix-like systems."
+    },
+    {
+      "name": "spring.python.executor.graalpy.io.allow-host-file-access",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Whether to allow access to host files."
+    },
+    {
+      "name": "spring.python.executor.graalpy.io.allow-host-socket-access",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Whether to allow access to host sockets."
     }
   ],
   "hints": [

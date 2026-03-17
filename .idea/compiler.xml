@@ -44,7 +44,6 @@
         <module name="jpyxie-graalpy-core" />
         <module name="jpyxie-grpc-testcontainers" />
         <module name="jpyxie-actuator-spring-boot-core" />
-        <module name="test-app" />
         <module name="jpyxie-jep-spring-boot-starter" />
         <module name="jpyxie-spring-boot-graalpy-demo" />
         <module name="jpyxie-micrometer-spring-boot-starter" />
@@ -99,6 +98,7 @@
       <module name="python-server-testcontainers" target="17" />
       <module name="python-server-tset" target="17" />
       <module name="spring-boot-python-executor-testcontainers" target="17" />
+      <module name="test-app" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

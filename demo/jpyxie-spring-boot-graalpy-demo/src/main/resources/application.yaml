@@ -6,18 +6,6 @@ spring:
       global-python-executable: graalpy
       create-on-start: true
       remove-on-close: true
-    library:
-      enabled: true
-      installed:
-        - name: numpy
-        - name: pandas
-        - name: matplotlib
-        - name: scipy
-      uninstalled:
-        - name: numpy
-        - name: pandas
-        - name: matplotlib
-        - name: scipy
     executor:
       graalpy:
         additional-options:

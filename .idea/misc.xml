@@ -99,6 +99,7 @@
         <option value="$PROJECT_DIR$/spring-boot-python-executor-py4j-starter/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot-python-executor-spelython-resolver-autoconfigure/pom.xml" />
         <option value="$PROJECT_DIR$/spring-python-executor/pom.xml" />
+        <option value="$PROJECT_DIR$/test-app/pom.xml" />
         <option value="$PROJECT_DIR$/test/python-server-testcontainers/pom.xml" />
         <option value="$PROJECT_DIR$/test/spring-boot-python-executor-testcontainers/pom.xml" />
       </set>
