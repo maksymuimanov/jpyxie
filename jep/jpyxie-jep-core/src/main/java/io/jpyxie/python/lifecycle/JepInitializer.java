@@ -13,25 +13,24 @@ import java.nio.file.Path;
 @RequiredArgsConstructor
 public class JepInitializer implements PythonInitializer {
     private final PythonEnvironment pythonEnvironment;
+    private final String pythonLibraryPath;
 
     //TODO
     @Override
     public void initialize() {
         try {
             log.info("Starting JEP initialization");
-            Path path = pythonEnvironment.getPath();
+            Path path = this.pythonEnvironment.getPath();
             if (!Files.exists(path)) {
                 PythonLifecycleException exception = new PythonLifecycleException("Python environment path [%s] does not exist".formatted(path));
                 log.error(exception.getMessage(), exception);
                 throw exception;
             } else {
                 log.info("Python environment path [{}] exists", path);
-
-                Path jepDllPath = path.toAbsolutePath()
-                        .resolve("Lib")
-                        .resolve("site-packages")
-                        .resolve("jep")
-                        .resolve("jep.dll");
+                log.debug("Loading python to [{}]", this.pythonLibraryPath);
+                System.load(this.pythonLibraryPath);
+                log.debug("Loading jep to [{}]", this.pythonLibraryPath);
+                Path jepDllPath = this.locateJepDll(path);
                 MainInterpreter.setJepLibraryPath(jepDllPath.toString());
 
                 log.debug("Set jep library path to [{}]", jepDllPath);
@@ -42,6 +41,14 @@ public class JepInitializer implements PythonInitializer {
             log.error(exception.getMessage(), exception);
             throw exception;
         }
+    }
+
+    private Path locateJepDll(Path path) {
+        return path.toAbsolutePath()
+                .resolve("Lib")
+                .resolve("site-packages")
+                .resolve("jep")
+                .resolve("jep.dll");
     }
 
     @Override

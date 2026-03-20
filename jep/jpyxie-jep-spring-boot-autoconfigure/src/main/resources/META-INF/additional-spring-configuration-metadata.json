@@ -1,7 +1,7 @@
 {
   "groups": [
     {
-      "name": "spring.python.executor.jep",
+      "name": "spring.python.jep",
       "type": "io.jpyxie.python.autoconfigure.JepProperties",
       "sourceType": "io.jpyxie.python.autoconfigure.JepProperties",
       "description": "Configuration properties for the JEP-based Python executor integration."
@@ -9,21 +9,26 @@
   ],
   "properties": [
     {
-      "name": "spring.python.executor.jep.enabled",
+      "name": "spring.python.jep.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
       "description": "Whether the JEP (Java Embedded Python) executor autoconfiguration is enabled."
     },
     {
-      "name": "spring.python.executor.jep.interpreter-type",
+      "name": "spring.python.jep.interpreter-type",
       "type": "io.jpyxie.python.interpreter.JepInterpreterType",
       "defaultValue": "SHARED",
       "description": "The type of JEP interpreter to use."
+    },
+    {
+      "name": "spring.python.jep.python-library-path",
+      "type": "java.lang.String",
+      "description": "The absolute path to the Python library ('.../libpythonXY.so' or '.../pythonXY.dll' or etc)."
     }
   ],
   "hints": [
     {
-      "name": "spring.python.executor.jep.interpreter-type",
+      "name": "spring.python.jep.interpreter-type",
       "values": [
         {
           "value": "SHARED",

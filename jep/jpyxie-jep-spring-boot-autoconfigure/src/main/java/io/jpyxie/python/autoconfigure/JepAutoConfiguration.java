@@ -42,7 +42,7 @@ public class JepAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(JepInitializer.class)
     @ConditionalOnBooleanProperty(name = "spring.python.environment.create-on-start")
-    public PythonInitializer jepLibraryInitializer(PythonEnvironment pythonEnvironment) {
-        return new JepInitializer(pythonEnvironment);
+    public PythonInitializer jepLibraryInitializer(PythonEnvironment pythonEnvironment, JepProperties properties) {
+        return new JepInitializer(pythonEnvironment, properties.getPythonLibraryPath());
     }
 }

@@ -2,6 +2,8 @@ spring:
   application:
     name: jpyxie-spring-boot-graalpy-demo
   python:
+    jep:
+      python-library-path: C:\Python314\python314.dll
     environment:
       global-python-executable: python
       create-on-start: true
