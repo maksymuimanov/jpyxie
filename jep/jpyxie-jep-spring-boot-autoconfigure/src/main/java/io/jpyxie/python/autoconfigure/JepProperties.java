@@ -21,4 +21,8 @@ public class JepProperties {
      * The absolute path to the Python library ('.../libpythonXY.so' or '.../pythonXY.dll' or etc).
      */
     private String pythonLibraryPath;
+    /**
+     * The absolute path to the JEP library ('.../libjep.so' or '.../jep.dll' or etc).
+     */
+    private String jepLibraryPath;
 }

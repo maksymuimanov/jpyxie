@@ -2,7 +2,6 @@ package io.jpyxie.python.autoconfigure;
 
 import io.jpyxie.python.bind.JepPythonDeserializer;
 import io.jpyxie.python.bind.PythonDeserializer;
-import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.executor.JepPythonExecutor;
 import io.jpyxie.python.executor.PythonExecutor;
 import io.jpyxie.python.interpreter.JepInterpreterFactory;
@@ -41,8 +40,7 @@ public class JepAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(JepInitializer.class)
-    @ConditionalOnBooleanProperty(name = "spring.python.environment.create-on-start")
-    public PythonInitializer jepLibraryInitializer(PythonEnvironment pythonEnvironment, JepProperties properties) {
-        return new JepInitializer(pythonEnvironment, properties.getPythonLibraryPath());
+    public PythonInitializer jepLibraryInitializer(JepProperties properties) {
+        return new JepInitializer(properties.getPythonLibraryPath(), properties.getJepLibraryPath());
     }
 }

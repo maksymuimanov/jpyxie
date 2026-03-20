@@ -1,8 +1,8 @@
 package io.jpyxie.demo;
 
-import io.jpyxie.python.interpreter.PoolPythonInterpreterProvider;
 import io.jpyxie.python.interpreter.PythonInterpreterFactory;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
+import io.jpyxie.python.interpreter.SingletonPythonInterpreterProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +15,6 @@ public class JPyxieJepDemoApplication {
 
     @Bean
     public PythonInterpreterProvider<?> interpreterProvider(PythonInterpreterFactory<?> factory) {
-        return new PoolPythonInterpreterProvider<>(factory);
+        return new SingletonPythonInterpreterProvider<>(factory);
     }
 }

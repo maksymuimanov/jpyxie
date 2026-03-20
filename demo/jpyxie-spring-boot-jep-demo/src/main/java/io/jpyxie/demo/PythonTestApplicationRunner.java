@@ -12,12 +12,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 
 @Component
@@ -51,8 +48,7 @@ public class PythonTestApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        List<CompletableFuture<Void>> futures = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 600; i++) {
             String name = NAMES[Math.abs(i % NAMES.length)];
             PythonScript pythonScript = PythonScript.asFile(name + "_" + i, name + PythonConstants.FILE_FORMAT);
             PythonContext pythonContext = PythonContext.builder(pythonScript)
@@ -64,11 +60,8 @@ public class PythonTestApplicationRunner implements ApplicationRunner {
                     .resultSpec(PythonResultSpec.create()
                             .require("result", String.class))
                     .build();
-            CompletableFuture<Void> taskFuture = CompletableFuture.runAsync(() -> record(pythonContext), ForkJoinPool.commonPool());
-            futures.add(taskFuture);
+            record(pythonContext);
         }
-
-        CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).get();
         printTime();
     }
 

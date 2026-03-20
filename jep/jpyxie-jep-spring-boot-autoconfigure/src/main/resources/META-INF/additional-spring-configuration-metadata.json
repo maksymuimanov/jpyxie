@@ -24,6 +24,11 @@
       "name": "spring.python.jep.python-library-path",
       "type": "java.lang.String",
       "description": "The absolute path to the Python library ('.../libpythonXY.so' or '.../pythonXY.dll' or etc)."
+    },
+    {
+      "name": "spring.python.jep.jep-library-path",
+      "type": "java.lang.String",
+      "description": "The absolute path to the JEP library ('.../libjep.so' or '.../jep.dll' or etc)."
     }
   ],
   "hints": [

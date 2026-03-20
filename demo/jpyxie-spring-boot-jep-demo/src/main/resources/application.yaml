@@ -1,21 +1,16 @@
 spring:
   application:
     name: jpyxie-spring-boot-graalpy-demo
+  profiles:
+    active: dev
   python:
     jep:
-      python-library-path: C:\Python314\python314.dll
+      python-library-path: ${PYTHON_LIBRARY_PATH}\python314.dll
+      jep-library-path: ${JEP_LIBRARY_PATH}\jep.dll
     environment:
       global-python-executable: python
       create-on-start: true
       remove-on-close: true
-    library:
-      enabled: true
-      installed:
-        - name: jep
-          options:
-            - --no-cache-dir
-      uninstalled:
-        - name: jep
 logging:
   level:
     io:
