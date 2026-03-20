@@ -46,6 +46,11 @@
             <artifactId>jpyxie-graalpy-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.maksymuimanov</groupId>
+            <artifactId>jpyxie-spring-boot-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

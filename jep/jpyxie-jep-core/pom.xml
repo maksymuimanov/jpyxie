@@ -36,7 +36,7 @@
 		<version>2.0.0</version>
 	</parent>
 	<properties>
-		<jep.version>4.2.2</jep.version>
+		<jep.version>4.3.1</jep.version>
 	</properties>
 	<dependencies>
 		<dependency>

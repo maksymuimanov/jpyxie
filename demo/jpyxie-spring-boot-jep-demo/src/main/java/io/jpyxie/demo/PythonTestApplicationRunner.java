@@ -52,7 +52,7 @@ public class PythonTestApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         List<CompletableFuture<Void>> futures = new ArrayList<>();
-        for (int i = 0; i < 300; i++) {
+        for (int i = 0; i < 1; i++) {
             String name = NAMES[Math.abs(i % NAMES.length)];
             PythonScript pythonScript = PythonScript.asFile(name + "_" + i, name + PythonConstants.FILE_FORMAT);
             PythonContext pythonContext = PythonContext.builder(pythonScript)

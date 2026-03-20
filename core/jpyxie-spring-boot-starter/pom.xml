@@ -48,11 +48,6 @@
         </dependency>
         <dependency>
             <groupId>io.github.maksymuimanov</groupId>
-            <artifactId>jpyxie-graalpy-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.maksymuimanov</groupId>
             <artifactId>jpyxie-spelython-spring-boot-starter</artifactId>
             <version>${project.version}</version>
         </dependency>

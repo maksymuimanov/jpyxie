@@ -17,7 +17,8 @@ public class PythonLifecycleAutoConfiguration {
         try {
             ApplicationContext applicationContext = event.getApplicationContext();
             ObjectProvider<PythonInitializer> beanProvider = applicationContext.getBeanProvider(PythonInitializer.class);
-            beanProvider.orderedStream()
+            beanProvider.stream()
+                    .sorted()
                     .forEach(PythonInitializer::initialize);
         } catch (Exception e) {
             throw new PythonLifecycleException(e);

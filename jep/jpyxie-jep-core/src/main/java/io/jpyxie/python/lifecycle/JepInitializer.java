@@ -1,8 +1,7 @@
 package io.jpyxie.python.lifecycle;
 
+import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.exception.PythonLifecycleException;
-import io.jpyxie.python.library.JepLibrary;
-import io.jpyxie.python.library.PythonLibraryManager;
 import jep.MainInterpreter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,41 +12,40 @@ import java.nio.file.Path;
 @Slf4j
 @RequiredArgsConstructor
 public class JepInitializer implements PythonInitializer {
-    private final PythonLibraryManager pythonLibraryManager;
-    private final JepLibrary jepLibraryManagement;
+    private final PythonEnvironment pythonEnvironment;
 
+    //TODO
     @Override
     public void initialize() {
         try {
             log.info("Starting JEP initialization");
-            if (!pythonLibraryManager.exists(jepLibraryManagement)) {
-                log.info("JEP library not found. Installing via PipManager");
-                pythonLibraryManager.install(jepLibraryManagement);
+            Path path = pythonEnvironment.getPath();
+            if (!Files.exists(path)) {
+                PythonLifecycleException exception = new PythonLifecycleException("Python environment path [%s] does not exist".formatted(path));
+                log.error(exception.getMessage(), exception);
+                throw exception;
             } else {
-                log.info("JEP library already installed");
-            }
-            String pythonExecutablePath = jepLibraryManagement.getPythonExecutablePath();
-            String jepExecutablePath = jepLibraryManagement.getJepExecutablePath();
-            if (pythonExecutablePath != null
-                    && jepExecutablePath != null
-                    && Files.exists(Path.of(pythonExecutablePath))
-                    && Files.exists(Path.of(jepExecutablePath))) {
-                log.info("Loading Python executable from: {}", pythonExecutablePath);
-                System.load(pythonExecutablePath);
-                log.info("Setting JEP library path: {}", jepExecutablePath);
-                MainInterpreter.setJepLibraryPath(jepExecutablePath);
-                log.info("JEP successfully initialized");
-            } else if (pythonExecutablePath != null) {
-                log.error("Invalid Python executable path: {}", pythonExecutablePath);
-                throw new PythonLifecycleException("Python executable path is not valid!");
-            } else if (jepExecutablePath != null) {
-                log.error("Invalid JEP executable path: {}", jepExecutablePath);
-                throw new PythonLifecycleException("JEP executable path is not valid!");
+                log.info("Python environment path [{}] exists", path);
+
+                Path jepDllPath = path.toAbsolutePath()
+                        .resolve("Lib")
+                        .resolve("site-packages")
+                        .resolve("jep")
+                        .resolve("jep.dll");
+                MainInterpreter.setJepLibraryPath(jepDllPath.toString());
+
+                log.debug("Set jep library path to [{}]", jepDllPath);
             }
             log.info("JEP initialization is finished");
         } catch (Exception e) {
-            log.error("Failed to initialize JEP", e);
-            throw new PythonLifecycleException(e);
+            PythonLifecycleException exception = new PythonLifecycleException("Failed to initialize JEP", e);
+            log.error(exception.getMessage(), exception);
+            throw exception;
         }
+    }
+
+    @Override
+    public int getPriority() {
+        return LOW_PRIORITY;
     }
 }

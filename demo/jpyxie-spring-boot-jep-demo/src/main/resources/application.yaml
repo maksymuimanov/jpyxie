@@ -6,6 +6,14 @@ spring:
       global-python-executable: python
       create-on-start: true
       remove-on-close: true
+    library:
+      enabled: true
+      installed:
+        - name: jep
+          options:
+            - --no-cache-dir
+      uninstalled:
+        - name: jep
 logging:
   level:
     io:

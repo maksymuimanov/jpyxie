@@ -5,12 +5,6 @@
       "type": "io.jpyxie.python.autoconfigure.JepProperties",
       "sourceType": "io.jpyxie.python.autoconfigure.JepProperties",
       "description": "Configuration properties for the JEP-based Python executor integration."
-    },
-    {
-      "name": "spring.python.executor.jep.library",
-      "type": "io.jpyxie.python.autoconfigure.JepProperties",
-      "sourceType": "io.jpyxie.python.autoconfigure.JepProperties$LibraryProperties",
-      "description": "Configuration properties for the JEP library management."
     }
   ],
   "properties": [
@@ -25,56 +19,6 @@
       "type": "io.jpyxie.python.interpreter.JepInterpreterType",
       "defaultValue": "SHARED",
       "description": "The type of JEP interpreter to use."
-    },
-    {
-      "name": "spring.python.executor.jep.library.enabled",
-      "type": "java.lang.Boolean",
-      "defaultValue": true,
-      "description": "Whether the automatic JEP library management is enabled."
-    },
-    {
-      "name": "spring.python.executor.jep.library.install.name",
-      "type": "java.lang.String",
-      "defaultValue": "jep",
-      "description": "The name of the JEP Python library to install via pip."
-    },
-    {
-      "name": "spring.python.executor.jep.library.install.options",
-      "type": "java.util.List<java.lang.String>",
-      "description": "Additional pip installation options used when installing JEP."
-    },
-    {
-      "name": "spring.python.executor.jep.library.install.no-cache-dir",
-      "type": "java.lang.Boolean",
-      "defaultValue": true,
-      "description": "Whether to disable pip caching when installing JEP (`--no-cache-dir`)."
-    },
-    {
-      "name": "spring.python.executor.jep.library.install.no-build-isolation",
-      "type": "java.lang.Boolean",
-      "defaultValue": true,
-      "description": "Whether to disable pip build isolation when installing JEP (`--no-build-isolation`)."
-    },
-    {
-      "name": "spring.python.executor.jep.library.install.python-executable-path",
-      "type": "java.lang.String",
-      "description": "Absolute path to the Python dynamic library (e.g., python314.dll or libpython3.11.so)."
-    },
-    {
-      "name": "spring.python.executor.jep.library.install.jep-executable-path",
-      "type": "java.lang.String",
-      "description": "Absolute path to the compiled JEP shared library (e.g., jep.dll or libjep.so)."
-    },
-    {
-      "name": "spring.python.executor.jep.library.uninstall.name",
-      "type": "java.lang.String",
-      "defaultValue": "jep",
-      "description": "The name of the Python package to uninstall using pip (typically 'jep')."
-    },
-    {
-      "name": "spring.python.executor.jep.library.uninstall.options",
-      "type": "java.util.List<java.lang.String>",
-      "description": "Additional pip options to use when uninstalling the JEP library."
     }
   ],
   "hints": [

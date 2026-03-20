@@ -90,21 +90,6 @@
         <option value="$PROJECT_DIR$/demo/jpyxie-spring-boot-jep-demo/pom.xml" />
       </list>
     </option>
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/observability/metrics/python-executor-metrics-core/pom.xml" />
-        <option value="$PROJECT_DIR$/python-executor-jython-executor-spring-boot-starter/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-grpc-executor-core/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-process-executor-autoconfigure/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-process-executor-core/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-py4j-starter/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-boot-python-executor-spelython-resolver-autoconfigure/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-python-executor/pom.xml" />
-        <option value="$PROJECT_DIR$/test-app/pom.xml" />
-        <option value="$PROJECT_DIR$/test/python-server-testcontainers/pom.xml" />
-        <option value="$PROJECT_DIR$/test/spring-boot-python-executor-testcontainers/pom.xml" />
-      </set>
-    </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

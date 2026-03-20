@@ -20,8 +20,8 @@ import java.util.function.IntConsumer;
 public class PipPythonLibraryManager implements PythonLibraryManager {
     public static final String DEFAULT_COMMAND = "-m pip";
     public static final boolean DEFAULT_REDIRECT_ERROR_STREAM = true;
-    public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = false;
-    public static final boolean DEFAULT_READ_OUTPUT = false;
+    public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = true;
+    public static final boolean DEFAULT_READ_OUTPUT = true;
     public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(5);
     private final PythonEnvironment environment;
     private final String[] pipCommand;

@@ -2,8 +2,6 @@ package io.jpyxie.python.autoconfigure;
 
 import io.jpyxie.python.interpreter.JepInterpreterFactory;
 import io.jpyxie.python.interpreter.JepInterpreterType;
-import io.jpyxie.python.library.JepLibrary;
-import io.jpyxie.python.library.PythonLibrary;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -16,27 +14,7 @@ public class JepProperties {
      */
     private boolean enabled = true;
     /**
-     * Configuration properties for the JEP library management.
-     */
-    private LibraryProperties library = new LibraryProperties();
-    /**
      * The type of the JEP interpreter to use.
      */
     private JepInterpreterType interpreterType = JepInterpreterFactory.DEFAULT_INTERPRETER_TYPE;
-
-    @Getter @Setter
-    public static class LibraryProperties {
-        /**
-         * Whether the automatic JEP library management is enabled.
-         */
-        private boolean enabled = true;
-        /**
-         * The library management object of the JEP Python library to install via pip.
-         */
-        private JepLibrary install = new JepLibrary();
-        /**
-         * The library management object of the JEP Python library to uninstall via pip.
-         */
-        private PythonLibrary uninstall = new PythonLibrary(JepLibrary.JEP_LIBRARY_NAME);
-    }
 }
