@@ -51,7 +51,6 @@ public class PoolPythonInterpreterProvider<I extends AutoCloseable> implements P
         return this.acquire(this.timeout.toMillis(), TimeUnit.MILLISECONDS);
     }
 
-    @Override
     public I acquire(long timeout, TimeUnit unit) {
         log.debug("Acquiring interpreter from pool [available: {}, pool size: {}]", this.pool.size(), this.poolSize.get());
         if (this.closed.get()) {
