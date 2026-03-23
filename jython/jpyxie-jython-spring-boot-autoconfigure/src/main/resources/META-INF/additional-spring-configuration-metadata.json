@@ -1,7 +1,7 @@
 {
   "groups": [
     {
-      "name": "spring.python.executor.jython",
+      "name": "spring.python.jython",
       "type": "io.jpyxie.python.autoconfigure.JythonProperties",
       "sourceType": "io.jpyxie.python.autoconfigure.JythonProperties",
       "description": "Configuration properties for the Jython-based Python executor integration."
@@ -9,19 +9,19 @@
   ],
   "properties": [
     {
-      "name": "spring.python.executor.jython.enabled",
+      "name": "spring.python.jython.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
       "description": "Whether the Jython executor autoconfiguration is enabled."
     },
     {
-      "name": "spring.python.executor.jython.python-home",
+      "name": "spring.python.jython.python-home",
       "type": "java.lang.String",
       "defaultValue": "",
       "description": "Specifies the path to the Python Home directory."
     },
     {
-      "name": "spring.python.executor.jython.import-site",
+      "name": "spring.python.jython.import-site",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "description": "Determines whether the default Python library site modules should be imported when initializing the Python interpreter."

@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: jpyxie-spring-boot-graalpy-demo
+  profiles:
+    active: dev
+  python:
+    environment:
+      global-python-executable: ${PYTHON_HOME}/python
+    jython:
+      python-home: ${PYTHON_HOME}
+logging:
+  level:
+    io:
+      jpyxie:
+        python: DEBUG

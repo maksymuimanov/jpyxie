@@ -88,6 +88,7 @@
         <option value="$PROJECT_DIR$/jpyxie-bbind/pom.xml" />
         <option value="$PROJECT_DIR$/demo/jpyxie-spring-boot-graalpy-demo/pom.xml" />
         <option value="$PROJECT_DIR$/demo/jpyxie-spring-boot-jep-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/demo/jpyxie-spring-boot-jython-demo/pom.xml" />
       </list>
     </option>
   </component>

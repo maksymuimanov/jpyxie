@@ -29,4 +29,9 @@ public class JythonInitializer implements PythonInitializer {
             throw new PythonLifecycleException(e);
         }
     }
+
+    @Override
+    public int getPriority() {
+        return VERY_HIGH_PRIORITY;
+    }
 }

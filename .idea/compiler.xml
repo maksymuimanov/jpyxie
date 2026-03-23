@@ -20,6 +20,7 @@
         <module name="jpyxie-spring-boot-starter" />
         <module name="jpyxie-jep-spring-boot-autoconfigure" />
         <module name="jpyxie-javython-spring-boot-starter" />
+        <module name="jpyxie-spring-boot-jython-demo" />
         <module name="jpyxie-actuator-spring-boot-starter" />
         <module name="jpyxie-process-core" />
         <module name="jpyxie-actuator-spring-boot-autoconfigure" />
@@ -121,6 +122,7 @@
       <module name="jpyxie-rest-testcontainers" options="" />
       <module name="jpyxie-spring-boot-graalpy-demo" options="-parameters" />
       <module name="jpyxie-spring-boot-jep-demo" options="-parameters" />
+      <module name="jpyxie-spring-boot-jython-demo" options="-parameters" />
       <module name="python-executor-autoconfigure" options="" />
       <module name="python-executor-common" options="" />
       <module name="python-executor-core" options="" />

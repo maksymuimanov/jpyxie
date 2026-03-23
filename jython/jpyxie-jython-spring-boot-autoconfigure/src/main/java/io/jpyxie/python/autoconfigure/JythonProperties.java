@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter @Setter
-@ConfigurationProperties(prefix = "spring.python.executor.jython")
+@ConfigurationProperties(prefix = "spring.python.jython")
 public class JythonProperties {
     /**
      * Whether the Jython executor autoconfiguration is enabled.
