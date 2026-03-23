@@ -17,7 +17,7 @@
     {
       "name": "spring.python.jep.interpreter-type",
       "type": "io.jpyxie.python.interpreter.JepInterpreterType",
-      "defaultValue": "SHARED",
+      "defaultValue": "shared",
       "description": "The type of JEP interpreter to use."
     },
     {
@@ -36,11 +36,11 @@
       "name": "spring.python.jep.interpreter-type",
       "values": [
         {
-          "value": "SHARED",
+          "value": "shared",
           "description": "Uses a jep.SharedInterpreter instance."
         },
         {
-          "value": "SUB",
+          "value": "sub",
           "description": "Uses a jep.SubInterpreter instance."
         }
       ]
