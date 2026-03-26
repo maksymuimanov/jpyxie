@@ -90,6 +90,7 @@
         <option value="$PROJECT_DIR$/demo/jpyxie-spring-boot-jep-demo/pom.xml" />
         <option value="$PROJECT_DIR$/demo/jpyxie-spring-boot-jython-demo/pom.xml" />
         <option value="$PROJECT_DIR$/demo/jpyxie-spring-boot-process-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/demo/jpyxie-spring-boot-rest-demo/pom.xml" />
       </list>
     </option>
   </component>

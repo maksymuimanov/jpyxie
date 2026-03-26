@@ -36,25 +36,25 @@ import java.net.http.HttpClient;
  * @since 1.0.0
  */
 @AutoConfiguration(beforeName = RestPythonExecutorAutoConfiguration.MAIN_PIP_AUTO_CONFIGURATION_REFERENCE)
-@EnableConfigurationProperties(RestPythonExecutorProperties.class)
+@EnableConfigurationProperties(RestPythonProperties.class)
 public class RestPythonExecutorAutoConfiguration {
     protected static final String MAIN_PIP_AUTO_CONFIGURATION_REFERENCE = "io.maksymuimanov.python.autoconfigure.PipAutoConfiguration";
 
     /**
      * Creates {@link RestPythonServerConnectionDetails} for REST Python execution from
-     * {@link RestPythonExecutorProperties}.
+     * {@link RestPythonProperties}.
      *
      * <p>Activated when:
      * <ul>
      *   <li>No other {@link RestPythonServerConnectionDetails} bean is present</li>
      * </ul>
      *
-     * @param properties non-null {@link RestPythonExecutorProperties} containing REST configuration
+     * @param properties non-null {@link RestPythonProperties} containing REST configuration
      * @return never {@code null}, immutable connection details instance
      */
     @Bean
     @ConditionalOnMissingBean(RestPythonServerConnectionDetails.class)
-    public RestPythonServerConnectionDetails restConnectionDetails(RestPythonExecutorProperties properties) {
+    public RestPythonServerConnectionDetails restConnectionDetails(RestPythonProperties properties) {
         return RestPythonServerConnectionDetails.of(properties.getToken(), properties.getExecuteUri(), properties.getPipUri());
     }
 

@@ -1,39 +1,39 @@
 {
   "groups": [
     {
-      "name": "spring.python.executor.rest",
+      "name": "spring.python.rest",
       "description": "Configuration properties for the REST-based Python executor.",
-      "type": "io.jpyxie.python.autoconfigure.RestPythonExecutorProperties",
-      "sourceType": "io.jpyxie.python.autoconfigure.RestPythonExecutorProperties"
+      "type": "io.jpyxie.python.autoconfigure.RestPythonProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.RestPythonProperties"
     }
   ],
   "properties": [
     {
-      "name": "spring.python.executor.rest.host",
+      "name": "spring.python.rest.host",
       "description": "Base host URL of the REST Python executor service.",
       "defaultValue": "http://localhost",
       "type": "java.lang.String",
-      "sourceType": "io.jpyxie.python.autoconfigure.RestPythonExecutorProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.RestPythonProperties"
     },
     {
-      "name": "spring.python.executor.rest.port",
+      "name": "spring.python.rest.port",
       "description": "Port number used to connect to the REST Python executor service.",
       "defaultValue": 8000,
       "type": "java.lang.Integer",
-      "sourceType": "io.jpyxie.python.autoconfigure.RestPythonExecutorProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.RestPythonProperties"
     },
     {
-      "name": "spring.python.executor.rest.token",
+      "name": "spring.python.rest.token",
       "description": "Authentication token for securing REST requests to the Python executor.",
       "type": "java.lang.String",
-      "sourceType": "io.jpyxie.python.autoconfigure.RestPythonExecutorProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.RestPythonProperties"
     },
     {
-      "name": "spring.python.executor.rest.uri",
+      "name": "spring.python.rest.uri",
       "description": "Full URI composed of host and port, pointing to the '/script' REST endpoint.",
       "defaultValue": "http://localhost:8000/script",
       "type": "java.lang.String",
-      "sourceType": "io.jpyxie.python.autoconfigure.RestPythonExecutorProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.RestPythonProperties"
     }
   ]
 }

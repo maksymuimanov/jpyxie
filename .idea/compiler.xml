@@ -50,6 +50,7 @@
         <module name="jpyxie-jep-spring-boot-starter" />
         <module name="jpyxie-spring-boot-graalpy-demo" />
         <module name="jpyxie-micrometer-spring-boot-starter" />
+        <module name="jpyxie-spring-boot-rest-demo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -125,6 +126,7 @@
       <module name="jpyxie-spring-boot-jep-demo" options="-parameters" />
       <module name="jpyxie-spring-boot-jython-demo" options="-parameters" />
       <module name="jpyxie-spring-boot-process-demo" options="-parameters" />
+      <module name="jpyxie-spring-boot-rest-demo" options="-parameters" />
       <module name="python-executor-autoconfigure" options="" />
       <module name="python-executor-common" options="" />
       <module name="python-executor-core" options="" />
