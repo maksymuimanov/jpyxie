@@ -17,4 +17,5 @@ for i in range(limit):
     if is_prime(i):
         primes.append(i)
 
-result = "primes_found={0}".format(len(primes))
+result = f"primes_found={len(primes)}"
+print(result)

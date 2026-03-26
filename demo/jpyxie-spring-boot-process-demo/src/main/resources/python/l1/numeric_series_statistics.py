@@ -12,4 +12,5 @@ avg = sum(values) / len(values)
 minimum = min(values)
 maximum = max(values)
 
-result = "avg={0},min={1},max={2}".format(avg, minimum, maximum)
+result = f"avg={avg},min={minimum},max={maximum}"
+print(result)

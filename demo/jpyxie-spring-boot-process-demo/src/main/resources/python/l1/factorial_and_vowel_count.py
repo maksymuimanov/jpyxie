@@ -1,3 +1,5 @@
+import json
+
 integer = java{integer}
 text = java{text}
 
@@ -17,4 +19,5 @@ for i in range(1, integer + 5):
 
 value = factorial + vowel_count
 
-result = "factorial_part={0},vowels={1},value={2}".format(factorial, vowel_count, value)
+result = f"factorial_part={factorial},vowels={vowel_count},value={value}"
+print(result)

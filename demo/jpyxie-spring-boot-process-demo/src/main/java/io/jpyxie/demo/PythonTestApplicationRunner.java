@@ -1,7 +1,6 @@
 package io.jpyxie.demo;
 
 import io.jpyxie.python.constant.PythonConstants;
-import io.jpyxie.python.executor.PythonResultSpec;
 import io.jpyxie.python.processor.PythonContext;
 import io.jpyxie.python.processor.PythonProcessor;
 import io.jpyxie.python.resolver.PythonArgumentSpec;
@@ -57,8 +56,6 @@ public class PythonTestApplicationRunner implements ApplicationRunner {
                             .with("float", Math.random())
                             .with("text", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                             .with("boolean", Math.random() > 0.5))
-                    .resultSpec(PythonResultSpec.create()
-                            .require("result", String.class))
                     .build();
             record(pythonContext);
         }

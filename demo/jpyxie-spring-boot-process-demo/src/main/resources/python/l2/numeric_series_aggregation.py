@@ -17,4 +17,5 @@ minimum = min(series)
 
 text_score = sum(ord(c) for c in text)
 
-result = "sum={0},max={1},min={2},text_score={3}".format(total, maximum, minimum, text_score)
+result = f"sum={total},max={maximum},min={minimum},text_score={text_score}"
+print(result)

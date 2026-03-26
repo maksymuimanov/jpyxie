@@ -13,4 +13,5 @@ numbers.sort()
 median = numbers[len(numbers)//2]
 average = sum(numbers) / len(numbers)
 
-result = "median={0},avg={1}".format(median, average)
+result = f"median={median},avg={average}"
+print(result)

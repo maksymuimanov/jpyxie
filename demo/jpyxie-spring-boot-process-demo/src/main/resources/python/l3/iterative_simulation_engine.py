@@ -17,4 +17,5 @@ for _ in range(runs):
 
 avg = sum(results) / len(results)
 
-result = "simulation_avg={0}".format(avg)
+result = f"simulation_avg={avg}"
+print(result)

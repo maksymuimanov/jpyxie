@@ -1,7 +1,7 @@
 {
   "groups": [
     {
-      "name": "spring.python.executor.process",
+      "name": "spring.python.process",
       "description": "Configuration properties for the process-based Python executor.",
       "type": "io.jpyxie.python.autoconfigure.ProcessPythonExecutorProperties",
       "sourceType": "io.jpyxie.python.autoconfigure.ProcessPythonExecutorProperties"
@@ -9,7 +9,7 @@
   ],
   "properties": [
     {
-      "name": "spring.python.executor.process.loggable",
+      "name": "spring.python.process.loggable",
       "description": "Whether process execution details (input, output, errors) should be logged.",
       "defaultValue": true,
       "type": "java.lang.Boolean",

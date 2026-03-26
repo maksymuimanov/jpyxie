@@ -20,4 +20,5 @@ for i in range(1, len(points)):
 
     distance_sum += math.sqrt(dx*dx + dy*dy)
 
-result = "path_length={0}".format(distance_sum)
+result = f"path_length={distance_sum}"
+print(result)

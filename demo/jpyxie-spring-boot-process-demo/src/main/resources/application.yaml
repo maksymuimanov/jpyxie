@@ -1,6 +1,10 @@
 spring:
   application:
-    name: jpyxie-spring-boot-jython-demo
+    name: jpyxie-spring-boot-process-demo
+  python:
+    environment:
+      create-on-start: true
+      remove-on-close: true
 logging:
   level:
     io:

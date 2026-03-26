@@ -1,51 +1,21 @@
 package io.jpyxie.python.executor;
 
-import io.jpyxie.python.bind.PythonDeserializer;
 import io.jpyxie.python.exception.PythonExecutionException;
 import io.jpyxie.python.processor.PythonResultMap;
 import io.jpyxie.python.script.PythonScript;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * Implementation of the {@link PythonExecutor} interface that executes Python scripts locally via Process API.
- * <p>
- * This class manages the lifecycle of a local Python process by:
- * <ul>
- *   <li>Starting the Python process with the provided script using {@link ProcessStarter}.</li>
- *   <li>Handling the process's input stream to capture the Python script output via {@link ProcessOutputHandler}.</li>
- *   <li>Handling the process's error stream to capture error messages via {@link ProcessErrorHandler}.</li>
- *   <li>Ensuring the process completes correctly using {@link ProcessFinisher}.</li>
- *   <li>Converting the captured JSON output into the specified Java type from {@link ProcessOutputHandler}.</li>
- * </ul>
- * <p>
- * Usage example:
- * <pre>{@code
- * PythonExecutor executor = new LocalPythonExecutor(processStarter, inputHandler, errorHandler, objectMapper, processFinisher);
- * String script = "print('Hello from Python')";
- * String body = executor.execute(script, String.class);
- * }</pre>
- *
- * @see PythonExecutor
- * @see ProcessStarter
- * @see ProcessOutputHandler
- * @see ProcessErrorHandler
- * @see ProcessFinisher
- * @author w4t3rcs
- * @since 1.0.0
- */
 @Slf4j
-public class ProcessPythonExecutor extends AbstractPythonExecutor<ProcessPythonResponse> {
+public class ProcessPythonExecutor implements PythonExecutor {
     private final ProcessStarter processStarter;
     private final ProcessOutputHandler processOutputHandler;
     private final ProcessErrorHandler processErrorHandler;
     private final ProcessFinisher processFinisher;
 
-    public ProcessPythonExecutor(PythonDeserializer<ProcessPythonResponse> pythonDeserializer,
-                                 ProcessStarter processStarter,
+    public ProcessPythonExecutor(ProcessStarter processStarter,
                                  ProcessOutputHandler processOutputHandler,
                                  ProcessErrorHandler processErrorHandler,
                                  ProcessFinisher processFinisher) {
-        super(pythonDeserializer);
         this.processStarter = processStarter;
         this.processOutputHandler = processOutputHandler;
         this.processErrorHandler = processErrorHandler;
@@ -57,19 +27,18 @@ public class ProcessPythonExecutor extends AbstractPythonExecutor<ProcessPythonR
         try {
             Process process = this.processStarter.start(script);
             this.processErrorHandler.handle(process);
-            ProcessPythonResponse processResponse = this.processOutputHandler.handle(process, resultSpec);
+            this.processOutputHandler.handle(process);
             this.processFinisher.finish(process);
-            PythonResultMap resultMap = this.createResultMap(resultSpec, processResponse);
-            this.validateResult(resultSpec, resultMap);
-            return resultMap;
+            this.ensureResultIsEmpty(resultSpec);
+            return PythonResultMap.empty();
         } catch (Exception e) {
             throw new PythonExecutionException(e);
         }
     }
 
-    private void validateResult(PythonResultSpec resultSpec, PythonResultMap resultMap) {
-        if (!resultSpec.isEmpty() && resultMap.isEmpty()) {
-            PythonExecutionException exception = new PythonExecutionException("Result is null! Consider to print the needed field with '$' identifier!");
+    private void ensureResultIsEmpty(PythonResultSpec resultSpec) {
+        if (!resultSpec.isEmpty()) {
+            PythonExecutionException exception = new PythonExecutionException("Result is null! ProcessPythonExecutor is fire-and-forget executor!");
             log.error(exception.getMessage(), exception);
             throw exception;
         }

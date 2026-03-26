@@ -20,4 +20,5 @@ steps = 200000 + integer * 1000
 
 value = integrate(func, 0, math.pi, steps)
 
-result = "integral={0}".format(value)
+result = f"integral={value}"
+print(result)

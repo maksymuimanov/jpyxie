@@ -15,4 +15,5 @@ for v in values:
 
 variance /= len(values)
 
-result = "mean={0},var={1}".format(mean, variance)
+result = f"mean={mean},var={variance}"
+print(result)

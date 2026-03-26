@@ -9,4 +9,5 @@ for w in words:
 total = sum(lengths)
 average = total / len(lengths) if lengths else 0
 
-result = "words={0},avg_len={1}".format(len(words), average)
+result = f"words={len(words)},avg_len={average}"
+print(result)

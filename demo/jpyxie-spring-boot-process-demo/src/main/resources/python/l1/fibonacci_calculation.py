@@ -15,4 +15,5 @@ fib = fibonacci(n)
 length = len(text)
 score = fib + length
 
-result = "fib({0})={1},score={2}".format(n, fib, score)
+result = f"fib({n})={fib},score={score}"
+print(result)

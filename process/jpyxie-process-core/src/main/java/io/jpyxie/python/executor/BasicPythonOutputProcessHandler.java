@@ -6,13 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
 public class BasicPythonOutputProcessHandler implements ProcessOutputHandler {
-    public static final String RESULT_PREFIX = "$";
     public static final boolean DEFAULT_LOGGABLE = true;
     private final boolean loggable;
 
@@ -21,26 +18,18 @@ public class BasicPythonOutputProcessHandler implements ProcessOutputHandler {
     }
 
     @Override
-    public ProcessPythonResponse handle(Process process, PythonResultSpec resultSpec) {
-        Map<String, String> resultJsons = new HashMap<>();
-        resultSpec.forEach(requirement -> {
+    public void handle(Process process) {
+        this.logProcessOutput(process);
+    }
+
+    private void logProcessOutput(Process process) {
+        if (this.loggable) {
             try (BufferedReader bufferedReader = process.inputReader()) {
-                bufferedReader.lines().forEach(line -> {
-                    String fieldName = requirement.name();
-                    String resultIdentifier = RESULT_PREFIX + fieldName;
-                    if (line.startsWith(resultIdentifier)) {
-                        String resultJson = line.replace(resultIdentifier, "");
-                        resultJsons.put(fieldName, resultJson);
-                    }
-                    if (this.loggable) {
-                        log.info(line);
-                    }
-                });
+                bufferedReader.lines()
+                        .forEach(log::info);
             } catch (IOException e) {
                 throw new PythonProcessReadingException(e);
             }
-        });
-
-        return new ProcessPythonResponse(resultJsons);
+        }
     }
 }

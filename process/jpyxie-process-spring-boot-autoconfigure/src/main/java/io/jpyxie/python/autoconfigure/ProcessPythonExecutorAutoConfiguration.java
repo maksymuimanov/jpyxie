@@ -6,11 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.jpyxie.python.bind.ProcessPythonDeserializer;
-import io.jpyxie.python.bind.PythonDeserializer;
 import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.executor.*;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -47,19 +44,12 @@ public class ProcessPythonExecutorAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
-    public PythonDeserializer<ProcessPythonResponse> processPythonDeserializer(@Qualifier("pythonObjectMapper") ObjectMapper objectMapper) {
-        return new ProcessPythonDeserializer(objectMapper);
-    }
-
-    @Bean
     @ConditionalOnMissingBean(PythonExecutor.class)
-    public PythonExecutor processPythonExecutor(PythonDeserializer<ProcessPythonResponse> jsonPythonDeserializer,
-                                                ProcessStarter processStarter,
+    public PythonExecutor processPythonExecutor(ProcessStarter processStarter,
                                                 ProcessOutputHandler processOutputHandler,
                                                 ProcessErrorHandler processErrorHandler,
                                                 ProcessFinisher processFinisher) {
-        return new ProcessPythonExecutor(jsonPythonDeserializer, processStarter, processOutputHandler, processErrorHandler, processFinisher);
+        return new ProcessPythonExecutor(processStarter, processOutputHandler, processErrorHandler, processFinisher);
     }
 
     @Bean

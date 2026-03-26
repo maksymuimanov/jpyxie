@@ -24,4 +24,5 @@ C = matrix_multiply(A, B)
 
 diag = sum(C[i][i] for i in range(size))
 
-result = "matrix_size={0},diag={1}".format(size, diag)
+result = f"matrix_size={size},diag={diag}"
+print(result)

@@ -18,4 +18,5 @@ for i in range(size):
     for j in range(size):
         score += matrix[i][j] * matrix[j][i]
 
-result = "matrix_score={0}".format(score)
+result = f"matrix_score={score}"
+print(result)

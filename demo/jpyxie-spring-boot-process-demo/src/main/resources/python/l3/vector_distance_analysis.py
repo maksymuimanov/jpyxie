@@ -15,4 +15,5 @@ for i in range(len(vector)):
 
 average = total / len(vector)
 
-result = "vector_avg={0}".format(average)
+result = f"vector_avg={average}"
+print(result)
