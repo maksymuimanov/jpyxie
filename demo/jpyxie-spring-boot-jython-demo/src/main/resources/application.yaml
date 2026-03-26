@@ -1,6 +1,6 @@
 spring:
   application:
-    name: jpyxie-spring-boot-graalpy-demo
+    name: jpyxie-spring-boot-jython-demo
   profiles:
     active: dev
   python:

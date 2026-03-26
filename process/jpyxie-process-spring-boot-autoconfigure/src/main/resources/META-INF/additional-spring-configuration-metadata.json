@@ -9,49 +9,11 @@
   ],
   "properties": [
     {
-      "name": "spring.python.executor.process.start-command",
-      "description": "The base command used to start the Python interpreter process.",
-      "defaultValue": "python",
-      "type": "java.lang.String",
-      "sourceType": "io.jpyxie.python.autoconfigure.ProcessPythonExecutorProperties"
-    },
-    {
       "name": "spring.python.executor.process.loggable",
       "description": "Whether process execution details (input, output, errors) should be logged.",
       "defaultValue": true,
       "type": "java.lang.Boolean",
       "sourceType": "io.jpyxie.python.autoconfigure.ProcessPythonExecutorProperties"
-    }
-  ],
-  "hints": [
-    {
-      "name": "spring.python.executor.process.start-command",
-      "values": [
-        {
-          "value": "python",
-          "description": "Use the default Python interpreter in PATH (common on Windows, may point to Python 3 or 2)."
-        },
-        {
-          "value": "python3",
-          "description": "Use the system-wide Python 3 interpreter (default on most Linux and macOS systems)."
-        },
-        {
-          "value": "py",
-          "description": "Use the Windows Python Launcher to run the default registered Python interpreter."
-        },
-        {
-          "value": "py -3",
-          "description": "Use the Windows Python Launcher to explicitly run the latest installed Python 3 interpreter."
-        },
-        {
-          "value": "venv/bin/python",
-          "description": "Use the Python interpreter from a virtual environment on Linux or macOS."
-        },
-        {
-          "value": "venv/Scripts/python.exe",
-          "description": "Use the Python interpreter from a virtual environment on Windows."
-        }
-      ]
     }
   ]
 }

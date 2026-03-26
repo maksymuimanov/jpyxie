@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: jpyxie-spring-boot-jython-demo
+logging:
+  level:
+    io:
+      jpyxie:
+        python: DEBUG

@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.jpyxie.python.bind.ProcessPythonDeserializer;
 import io.jpyxie.python.bind.PythonDeserializer;
+import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.executor.*;
-import io.jpyxie.python.file.PythonFileReader;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -62,23 +62,10 @@ public class ProcessPythonExecutorAutoConfiguration {
         return new ProcessPythonExecutor(jsonPythonDeserializer, processStarter, processOutputHandler, processErrorHandler, processFinisher);
     }
 
-    /**
-     * Creates the {@link ProcessStarter} bean for initializing and starting
-     * local Python processes.
-     *
-     * <p>
-     * The returned instance is based on {@link BasicPythonProcessStarter}, which uses the
-     * provided {@link ProcessPythonExecutorProperties} and {@link PythonFileReader}
-     * to configure and manage process startup.
-     * </p>
-     *
-     * @param executorProperties non-null execution settings for Python processes
-     * @return a non-null {@link ProcessStarter} implementation
-     */
     @Bean
     @ConditionalOnMissingBean(ProcessStarter.class)
-    public ProcessStarter processStarter(ProcessPythonExecutorProperties executorProperties) {
-        return new BasicPythonProcessStarter(executorProperties.getStartCommand());
+    public ProcessStarter processStarter(PythonEnvironment pythonEnvironment) {
+        return new BasicPythonProcessStarter(pythonEnvironment);
     }
 
     @Bean

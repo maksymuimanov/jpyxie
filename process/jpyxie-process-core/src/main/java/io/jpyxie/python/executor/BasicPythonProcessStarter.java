@@ -1,6 +1,6 @@
 package io.jpyxie.python.executor;
 
-import io.jpyxie.python.constant.PythonConstants;
+import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.exception.PythonProcessStartException;
 import io.jpyxie.python.file.PythonFileReader;
 import io.jpyxie.python.script.PythonScript;
@@ -46,12 +46,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class BasicPythonProcessStarter implements ProcessStarter {
     private static final String COMMAND_HEADER = "-c";
-    public static final String DEFAULT_START_COMMAND = PythonConstants.PYTHON;
-    private final String startCommand;
-
-    public BasicPythonProcessStarter() {
-        this(DEFAULT_START_COMMAND);
-    }
+    private final PythonEnvironment pythonEnvironment;
 
     /**
      * Starts a Python process from either a file or inline code.
@@ -65,7 +60,8 @@ public class BasicPythonProcessStarter implements ProcessStarter {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
             String scriptBody = script.toString();
-            processBuilder.command(this.startCommand, COMMAND_HEADER, scriptBody.replace("\"", "\"\""));
+            String pythonExecutable = this.pythonEnvironment.getExecutableOrBackup();
+            processBuilder.command(pythonExecutable, COMMAND_HEADER, scriptBody.replace("\"", "\"\""));
             log.info("Python script is going to be executed");
             Process process = processBuilder.start();
             process.waitFor();

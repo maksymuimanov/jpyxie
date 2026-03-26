@@ -1,7 +1,6 @@
 package io.jpyxie.python.autoconfigure;
 
 import io.jpyxie.python.executor.BasicPythonOutputProcessHandler;
-import io.jpyxie.python.executor.BasicPythonProcessStarter;
 import io.jpyxie.python.executor.ProcessPythonExecutor;
 import io.jpyxie.python.executor.PythonExecutor;
 import lombok.Getter;
@@ -35,10 +34,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter @Setter
 @ConfigurationProperties("spring.python.executor.process")
 public class ProcessPythonExecutorProperties {
-    /**
-     * The base command used to start the Python interpreter process.
-     */
-    private String startCommand = BasicPythonProcessStarter.DEFAULT_START_COMMAND;
     /**
      * Whether process execution details (input, output, errors) should be logged.
      */

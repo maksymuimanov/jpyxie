@@ -35,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ProcessPythonExecutor extends AbstractPythonExecutor<ProcessPythonResponse> {
-    private static final String EMPTY_RESULT_ERROR_MESSAGE = "Result is null! Consider to print the needed field with '$' identifier!";
     private final ProcessStarter processStarter;
     private final ProcessOutputHandler processOutputHandler;
     private final ProcessErrorHandler processErrorHandler;
@@ -70,8 +69,9 @@ public class ProcessPythonExecutor extends AbstractPythonExecutor<ProcessPythonR
 
     private void validateResult(PythonResultSpec resultSpec, PythonResultMap resultMap) {
         if (!resultSpec.isEmpty() && resultMap.isEmpty()) {
-            log.error(EMPTY_RESULT_ERROR_MESSAGE);
-            throw new PythonExecutionException(EMPTY_RESULT_ERROR_MESSAGE);
+            PythonExecutionException exception = new PythonExecutionException("Result is null! Consider to print the needed field with '$' identifier!");
+            log.error(exception.getMessage(), exception);
+            throw exception;
         }
     }
 }
