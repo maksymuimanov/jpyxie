@@ -12,7 +12,9 @@ public class BasicPythonProcessFinisher implements ProcessFinisher {
             if (exitCode == 0) {
                 log.info("Python script is executed with code: {}", exitCode);
             } else {
-                log.error("Something went wrong! Python script is executed with code: {}", exitCode);
+                PythonProcessFinishException exception = new PythonProcessFinishException("Python script is executed with code: " + exitCode);
+                log.error(exception.getMessage(), exception);
+                throw exception;
             }
             process.destroy();
         } catch (Exception e) {
