@@ -1,6 +1,6 @@
 package io.jpyxie.python.autoconfigure;
 
-import io.jpyxie.python.constant.PythonConstants;
+import io.jpyxie.python.PythonConstants;
 import io.jpyxie.python.environment.AbstractVenvPythonEnvironment;
 import lombok.Getter;
 import lombok.Setter;

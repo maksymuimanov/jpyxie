@@ -2,7 +2,7 @@ package io.jpyxie.python.bind;
 
 import io.jpyxie.python.exception.PythonSerializationException;
 import io.jpyxie.python.script.PythonNone;
-import io.jpyxie.python.script.PythonRepresentation;
+import io.jpyxie.python.PythonRepresentation;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
@@ -17,12 +17,12 @@ public class DictionaryPythonSerializer implements PythonSerializer {
     }
 
     @Override
-    public PythonRepresentation serialize(@Nullable Object o) {
+    public PythonRepresentation serialize(@Nullable Object object) {
         try {
-            if (o == null) return new PythonNone();
+            if (object == null) return new PythonNone();
             for (PythonTypeConverter typeConverter : converters) {
-                Class<?> clazz = o.getClass();
-                if (typeConverter.supports(clazz)) return typeConverter.convert(o, this);
+                Class<?> clazz = object.getClass();
+                if (typeConverter.supports(clazz)) return typeConverter.convert(object, this);
             }
             return new PythonNone();
         } catch (Exception e) {
@@ -31,16 +31,16 @@ public class DictionaryPythonSerializer implements PythonSerializer {
     }
 
     @Override
-    public PythonRepresentation serialize(@Nullable Object o, Class<? extends PythonTypeConverter> typeConverterClass) {
+    public PythonRepresentation serialize(@Nullable Object object, Class<? extends PythonTypeConverter> typeConverterClass) {
         try {
-            if (o == null) return new PythonNone();
+            if (object == null) return new PythonNone();
             for (PythonTypeConverter typeConverter : converters) {
                 if (!typeConverterClass.equals(typeConverter.getClass())) continue;
-                Class<?> clazz = o.getClass();
-                if (typeConverter.supports(clazz)) return typeConverter.convert(o, this);
+                Class<?> clazz = object.getClass();
+                if (typeConverter.supports(clazz)) return typeConverter.convert(object, this);
             }
             PythonTypeConverter typeConverter = typeConverterClass.getConstructor().newInstance();
-            return typeConverter.convert(o, this);
+            return typeConverter.convert(object, this);
         } catch (Exception e) {
             throw new PythonSerializationException(e);
         }

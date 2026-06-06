@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Stream;
 
-import static io.jpyxie.python.constant.PythonConstants.PYTHON;
+import static io.jpyxie.python.PythonConstants.PYTHON;
 
 @Slf4j
 public abstract class AbstractVenvPythonEnvironment implements PythonEnvironment {
@@ -29,7 +29,7 @@ public abstract class AbstractVenvPythonEnvironment implements PythonEnvironment
     public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(3);
     private final String globalPythonExecutable;
     private final String backupPythonExecutable;
-    private final OnExistingHandler onExistingHandler;
+    private final ExistingEnvironmentHandler existingEnvironmentHandler;
     private final String venvParentDirectory;
     private final boolean redirectErrorStream;
     private final boolean redirectOutputStream;
@@ -40,31 +40,31 @@ public abstract class AbstractVenvPythonEnvironment implements PythonEnvironment
     @Nullable
     private String executable;
 
-    protected AbstractVenvPythonEnvironment(OnExistingHandler onExistingHandler) {
-        this(PYTHON, onExistingHandler);
+    protected AbstractVenvPythonEnvironment(ExistingEnvironmentHandler existingEnvironmentHandler) {
+        this(PYTHON, existingEnvironmentHandler);
     }
 
     protected AbstractVenvPythonEnvironment(String globalPythonExecutable,
-                                         OnExistingHandler onExistingHandler) {
-        this(globalPythonExecutable, onExistingHandler, VENV);
+                                         ExistingEnvironmentHandler existingEnvironmentHandler) {
+        this(globalPythonExecutable, existingEnvironmentHandler, VENV);
     }
 
     protected AbstractVenvPythonEnvironment(String globalPythonExecutable,
-                                         OnExistingHandler onExistingHandler,
+                                         ExistingEnvironmentHandler existingEnvironmentHandler,
                                          String venvParentDirectory) {
-        this(globalPythonExecutable, globalPythonExecutable, onExistingHandler, venvParentDirectory);
+        this(globalPythonExecutable, globalPythonExecutable, existingEnvironmentHandler, venvParentDirectory);
     }
 
     protected AbstractVenvPythonEnvironment(String globalPythonExecutable,
                                          String backupPythonExecutable,
-                                         OnExistingHandler onExistingHandler,
+                                         ExistingEnvironmentHandler existingEnvironmentHandler,
                                          String venvParentDirectory) {
-        this(globalPythonExecutable, backupPythonExecutable, onExistingHandler, venvParentDirectory, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
+        this(globalPythonExecutable, backupPythonExecutable, existingEnvironmentHandler, venvParentDirectory, DEFAULT_REDIRECT_ERROR_STREAM, DEFAULT_REDIRECT_OUTPUT_STREAM, DEFAULT_READ_OUTPUT, DEFAULT_TIMEOUT);
     }
 
     protected AbstractVenvPythonEnvironment(String globalPythonExecutable,
                                          String backupPythonExecutable,
-                                         OnExistingHandler onExistingHandler,
+                                         ExistingEnvironmentHandler existingEnvironmentHandler,
                                          String venvParentDirectory,
                                          boolean redirectErrorStream,
                                          boolean redirectOutputStream,
@@ -72,7 +72,7 @@ public abstract class AbstractVenvPythonEnvironment implements PythonEnvironment
                                          Duration timeout) {
         this.globalPythonExecutable = globalPythonExecutable;
         this.backupPythonExecutable = backupPythonExecutable;
-        this.onExistingHandler = onExistingHandler;
+        this.existingEnvironmentHandler = existingEnvironmentHandler;
         this.venvParentDirectory = venvParentDirectory;
         this.redirectErrorStream = redirectErrorStream;
         this.redirectOutputStream = redirectOutputStream;
@@ -86,7 +86,7 @@ public abstract class AbstractVenvPythonEnvironment implements PythonEnvironment
             log.debug("Creating venv environment");
             this.executable = null;
             if (this.exists()
-                    && this.onExistingHandler.handle(this)) {
+                    && this.existingEnvironmentHandler.handle(this)) {
                 log.info("Venv environment already exists: {}", this.getPath());
                 return;
             }
@@ -231,7 +231,7 @@ public abstract class AbstractVenvPythonEnvironment implements PythonEnvironment
         }
     }
 
-    public static class SkipExistingHandler implements OnExistingHandler {
+    public static class SkipExistingEnvironmentHandler implements ExistingEnvironmentHandler {
         @Override
         public boolean handle(PythonEnvironment environment) {
             log.info("Skipping creation of venv environment: {}", environment);
@@ -239,7 +239,7 @@ public abstract class AbstractVenvPythonEnvironment implements PythonEnvironment
         }
     }
 
-    public static class RemoveExistingHandler implements OnExistingHandler {
+    public static class RemoveExistingEnvironmentHandler implements ExistingEnvironmentHandler {
         @Override
         public boolean handle(PythonEnvironment environment) {
             environment.remove();
@@ -247,7 +247,7 @@ public abstract class AbstractVenvPythonEnvironment implements PythonEnvironment
         }
     }
 
-    public static class FailExistingHandler implements OnExistingHandler {
+    public static class FailExistingEnvironmentHandler implements ExistingEnvironmentHandler {
         @Override
         public boolean handle(PythonEnvironment environment) {
             throw new PythonEnvironmentException("Virtual environment already exists at: " + environment);

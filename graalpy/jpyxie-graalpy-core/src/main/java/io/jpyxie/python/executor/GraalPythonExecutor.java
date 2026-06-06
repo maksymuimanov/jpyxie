@@ -1,7 +1,7 @@
 package io.jpyxie.python.executor;
 
 import io.jpyxie.python.bind.PythonDeserializer;
-import io.jpyxie.python.constant.PythonConstants;
+import io.jpyxie.python.PythonConstants;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
 import io.jpyxie.python.processor.PythonResultMap;
 import io.jpyxie.python.script.PythonScript;

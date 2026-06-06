@@ -86,7 +86,7 @@ public interface PythonResolverHolder extends Iterable<PythonResolver> {
      * @return the fully resolved Python script (never {@code null})
      */
     default PythonScript resolveAll(PythonScript script) {
-        return this.resolveAll(script, PythonArgumentSpec.create());
+        return this.resolveAll(script, PythonArgumentSpec.of());
     }
 
     /**

@@ -2,13 +2,20 @@ package io.jpyxie.python.executor;
 
 import io.jpyxie.python.common.MapSpec;
 import io.jpyxie.python.exception.PythonException;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@Data
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PythonResultSpec implements MapSpec<String, PythonResultRequirement<?>> {
     private static final PythonResultSpec EMPTY = new PythonResultSpec(Collections.emptyMap());
+    @Getter(AccessLevel.PROTECTED)
     private final Map<String, PythonResultRequirement<?>> requirements;
 
     public static PythonResultSpec empty() {
@@ -16,24 +23,20 @@ public class PythonResultSpec implements MapSpec<String, PythonResultRequirement
     }
 
     public static PythonResultSpec of(String name, Class<?> type) {
-        return create().require(name, type);
+        return of().require(name, type);
     }
 
     public static PythonResultSpec of(PythonResultRequirement<?> resultRequirement) {
-        return create().require(resultRequirement);
+        return of().require(resultRequirement);
     }
 
-    public static PythonResultSpec create() {
+    public static PythonResultSpec of() {
         return new PythonResultSpec(new HashMap<>());
     }
 
-    private PythonResultSpec(Map<String, PythonResultRequirement<?>> requirements) {
-        this.requirements = requirements;
-    }
-
     public PythonResultRequirement<?> getRequirement(String name) {
-        return this.getRequirements().compute(name, (k, v) -> {
-            if (v != null) return v;
+        return this.getRequirements().compute(name, (key, value) -> {
+            if (value != null) return value;
             throw new PythonException("Requirement not found: " + name);
         });
     }
@@ -51,29 +54,5 @@ public class PythonResultSpec implements MapSpec<String, PythonResultRequirement
     @Override
     public Map<String, PythonResultRequirement<?>> toMap() {
         return Collections.unmodifiableMap(this.getRequirements());
-    }
-
-    protected Map<String, PythonResultRequirement<?>> getRequirements() {
-        return requirements;
-    }
-
-    @Override
-    public final boolean equals(Object object) {
-        if (!(object instanceof PythonResultSpec entries)) return false;
-
-        return this.getRequirements().equals(entries.getRequirements());
-    }
-
-    @Override
-    public int hashCode() {
-        return this.getRequirements().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder stringBuilder = new StringBuilder("PythonResultSpec{");
-        stringBuilder.append("requirements=").append(this.getRequirements());
-        stringBuilder.append('}');
-        return stringBuilder.toString();
     }
 }

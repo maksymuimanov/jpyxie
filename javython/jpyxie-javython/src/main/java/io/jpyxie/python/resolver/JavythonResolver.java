@@ -1,9 +1,9 @@
 package io.jpyxie.python.resolver;
 
 import io.jpyxie.python.bind.PythonSerializer;
+import io.jpyxie.python.PythonConstants;
 import io.jpyxie.python.exception.PythonScriptException;
-import io.jpyxie.python.script.BasicPythonScriptBuilder;
-import io.jpyxie.python.script.PythonRepresentation;
+import io.jpyxie.python.PythonRepresentation;
 import io.jpyxie.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +24,7 @@ public class JavythonResolver implements PythonResolver {
     @Override
     public PythonScript resolve(PythonScript pythonScript, PythonArgumentSpec argumentSpec) {
         return BasicPythonScriptBuilder.of(pythonScript)
-                .appendImport(IMPORT_JSON)
+                .appendImport(PythonConstants.IMPORT_JSON)
                 .replaceAllCode(this.regex,
                         this.positionFromStart,
                         this.positionFromEnd,

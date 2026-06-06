@@ -1,6 +1,6 @@
 package io.jpyxie.python.environment;
 
-import io.jpyxie.python.constant.PythonConstants;
+import io.jpyxie.python.PythonConstants;
 import io.jpyxie.python.exception.PythonEnvironmentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class UnixVenvPythonEnvironmentTest {
 
     @Test
     void create_shouldNotRecreateVenv_whenExistsAndUsingSkipExistingHandler() {
-        unixVenvPythonEnvironment = createSpyEnvironment(new AbstractVenvPythonEnvironment.SkipExistingHandler());
+        unixVenvPythonEnvironment = createSpyEnvironment(new AbstractVenvPythonEnvironment.SkipExistingEnvironmentHandler());
 
         unixVenvPythonEnvironment.create();
 
@@ -49,7 +49,7 @@ class UnixVenvPythonEnvironmentTest {
 
     @Test
     void create_shouldOverrideExistingVenv_whenExistsAndUsingRemoveExistingHandler() {
-        unixVenvPythonEnvironment = createSpyEnvironment(new AbstractVenvPythonEnvironment.RemoveExistingHandler());
+        unixVenvPythonEnvironment = createSpyEnvironment(new AbstractVenvPythonEnvironment.RemoveExistingEnvironmentHandler());
 
         unixVenvPythonEnvironment.create();
 
@@ -63,7 +63,7 @@ class UnixVenvPythonEnvironmentTest {
 
     @Test
     void create_shouldThrowException_whenExistsAndUsingFailExistingHandler() {
-        unixVenvPythonEnvironment = createSpyEnvironment(new AbstractVenvPythonEnvironment.FailExistingHandler());
+        unixVenvPythonEnvironment = createSpyEnvironment(new AbstractVenvPythonEnvironment.FailExistingEnvironmentHandler());
 
         unixVenvPythonEnvironment.create();
 
@@ -216,10 +216,10 @@ class UnixVenvPythonEnvironmentTest {
     }
 
     private static UnixVenvPythonEnvironment createSpyEnvironment() {
-        return createSpyEnvironment(new UnixVenvPythonEnvironment.SkipExistingHandler());
+        return createSpyEnvironment(new AbstractVenvPythonEnvironment.SkipExistingEnvironmentHandler());
     }
 
-    private static UnixVenvPythonEnvironment createSpyEnvironment(PythonEnvironment.OnExistingHandler onExistingHandler) {
-        return spy(new UnixVenvPythonEnvironment(PythonConstants.PYTHON, onExistingHandler));
+    private static UnixVenvPythonEnvironment createSpyEnvironment(PythonEnvironment.ExistingEnvironmentHandler existingEnvironmentHandler) {
+        return spy(new UnixVenvPythonEnvironment(PythonConstants.PYTHON, existingEnvironmentHandler));
     }
 }

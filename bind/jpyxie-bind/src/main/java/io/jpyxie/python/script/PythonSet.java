@@ -1,5 +1,7 @@
 package io.jpyxie.python.script;
 
+import io.jpyxie.python.PythonRepresentation;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;

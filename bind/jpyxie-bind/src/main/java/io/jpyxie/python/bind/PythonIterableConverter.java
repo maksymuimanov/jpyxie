@@ -1,6 +1,6 @@
 package io.jpyxie.python.bind;
 
-import io.jpyxie.python.script.PythonRepresentation;
+import io.jpyxie.python.PythonRepresentation;
 import io.jpyxie.python.util.JavaTypeUtils;
 import org.jspecify.annotations.Nullable;
 
@@ -9,8 +9,8 @@ import java.util.List;
 
 public class PythonIterableConverter implements PythonTypeConverter {
     @Override
-    public PythonRepresentation convert(@Nullable Object value, PythonSerializer pythonSerializer) {
-        Iterable<?> iterable = (Iterable<?>) value;
+    public PythonRepresentation convert(@Nullable Object object, PythonSerializer pythonSerializer) {
+        Iterable<?> iterable = (Iterable<?>) object;
         List<Object> list = new ArrayList<>();
         iterable.forEach(list::add);
         return pythonSerializer.serialize(list, PythonListConverter.class);

@@ -12,20 +12,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
-    private final Map<String, PythonResult<?>> delegate;
+public record PythonResultMap(
+        Map<String, PythonResult<?>> delegate
+) implements MapSpec<String, PythonResult<?>> {
+    private static final PythonResultMap EMPTY = new PythonResultMap(Collections.emptyMap());
 
-    public static PythonResultMap create() {
+    public static PythonResultMap of() {
         return new PythonResultMap(new HashMap<>());
     }
 
-    public static PythonResultMap of(PythonResultSpec resultSpec, Function<PythonResultRequirement<?>, @Nullable Object> valueFunction) {
+    public static PythonResultMap of(PythonResultSpec resultSpec, Function<PythonResultRequirement<?>, @Nullable Object> function) {
         if (resultSpec.isEmpty()) return empty();
         Map<String, PythonResult<?>> results = new HashMap<>();
         resultSpec.forEach(entry -> {
             String name = entry.getKey();
             PythonResultRequirement<?> requirement = entry.getValue();
-            Object value = valueFunction.apply(requirement);
+            Object value = function.apply(requirement);
             PythonResult<?> result = PythonResult.present(name, value);
             results.put(name, result);
         });
@@ -43,11 +45,7 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
     }
 
     public static PythonResultMap empty() {
-        return new PythonResultMap(Collections.emptyMap());
-    }
-
-    private PythonResultMap(Map<String, PythonResult<?>> delegate) {
-        this.delegate = delegate;
+        return EMPTY;
     }
 
     public int size() {
@@ -65,11 +63,11 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
 
     public <R> R get(String name, Class<R> clazz) {
         PythonResult<?> pythonResult = this.get(name);
-        boolean isAssignable = clazz.isAssignableFrom(pythonResult.getType());
+        boolean isAssignable = clazz.isAssignableFrom(pythonResult.type());
         if (isAssignable) {
-            return clazz.cast(pythonResult.getBody());
+            return clazz.cast(pythonResult.body());
         }
-        throw new PythonProcessionException("Cannot cast " + pythonResult.getType() + " to " + clazz);
+        throw new PythonProcessionException("Cannot cast " + pythonResult.type() + " to " + clazz);
     }
 
     public PythonResult<?> get(String name) {
@@ -84,11 +82,11 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
     public void put(String name, PythonResult<?> result) {
         this.delegate.put(name, result);
     }
-    
+
     public Set<String> keys() {
         return Collections.unmodifiableSet(this.delegate.keySet());
     }
-    
+
     public Set<PythonResult<?>> values() {
         return Set.copyOf(this.delegate.values());
     }
@@ -100,22 +98,5 @@ public class PythonResultMap implements MapSpec<String, PythonResult<?>> {
     @Override
     public Map<String, PythonResult<?>> toMap() {
         return Collections.unmodifiableMap(this.delegate);
-    }
-
-    @Override
-    public final boolean equals(Object object) {
-        if (!(object instanceof PythonResultMap entries)) return false;
-
-        return this.delegate.equals(entries.delegate);
-    }
-
-    @Override
-    public int hashCode() {
-        return this.delegate.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return this.values().toString();
     }
 }

@@ -2,15 +2,14 @@ package io.jpyxie.python.processor;
 
 import org.jspecify.annotations.Nullable;
 
-import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 
-public class PythonResult<R> {
-    private final String name;
-    @Nullable
-    private final R body;
-    private final Class<R> type;
-
+public record PythonResult<R>(
+        String name,
+        @Nullable R body,
+        Class<R> type
+) {
     @SuppressWarnings({"unchecked", "NullableProblems"})
     public static <R> PythonResult<R> present(String name, @Nullable R body) {
         if (body == null) return (PythonResult<R>) absent(name);
@@ -21,57 +20,21 @@ public class PythonResult<R> {
         return new PythonResult<>(name, null, Void.class);
     }
 
-    private PythonResult(String name, @Nullable R body, Class<R> type) {
-        this.name = name;
-        this.body = body;
-        this.type = type;
+    public R getBodyOrElse(R other) {
+        return Optional.ofNullable(this.body())
+                .orElse(other);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    @SuppressWarnings("DataFlowIssue")
-    public R getBodyOrElse(Supplier<R> onAbsent) {
-        return this.isPresent() ? this.getBody() : onAbsent.get();
+    public R getBodyOrElse(Supplier<R> supplier) {
+        return Optional.ofNullable(this.body())
+                .orElseGet(supplier);
     }
 
     public boolean isPresent() {
-        return !isAbsent();
+        return !this.isAbsent();
     }
 
     public boolean isAbsent() {
-        return this.getBody() == null;
-    }
-
-    @Nullable
-    public R getBody() {
-        return body;
-    }
-
-    public Class<R> getType() {
-        return type;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        PythonResult<?> that = (PythonResult<?>) o;
-        return Objects.equals(this.getName(), that.getName()) && Objects.equals(this.getBody(), that.getBody()) && Objects.equals(this.getType(), that.getType());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.getName(), this.getBody(), this.getType());
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("PythonResult{");
-        sb.append("name='").append(name).append('\'');
-        sb.append(", body=").append(body);
-        sb.append(", type=").append(type);
-        sb.append('}');
-        return sb.toString();
+        return this.body() == null;
     }
 }

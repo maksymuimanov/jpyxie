@@ -6,7 +6,7 @@ import io.jpyxie.python.annotation.PythonIgnore;
 import io.jpyxie.python.annotation.PythonInclude;
 import io.jpyxie.python.exception.PythonTypeConversionException;
 import io.jpyxie.python.script.PythonDictionary;
-import io.jpyxie.python.script.PythonRepresentation;
+import io.jpyxie.python.PythonRepresentation;
 import io.jpyxie.python.script.PythonString;
 import org.jspecify.annotations.Nullable;
 
@@ -15,15 +15,15 @@ import java.lang.reflect.Modifier;
 
 public class PythonObjectDictionaryConverter implements PythonTypeConverter {
     @Override
-    public PythonRepresentation convert(@Nullable Object value, PythonSerializer pythonSerializer) {
-        Class<?> clazz = value.getClass();
+    public PythonRepresentation convert(@Nullable Object object, PythonSerializer pythonSerializer) {
+        Class<?> clazz = object.getClass();
         Field[] fields = clazz.getDeclaredFields();
         PythonDictionary pythonDictionary = new PythonDictionary();
         for (Field field : fields) {
             if (this.isSpecialField(field) || this.isIgnored(field) || this.isNotIncluded(clazz, field)) continue;
             field.setAccessible(true);
             PythonString pythonObjectKey = this.getDictionaryKey(field);
-            PythonRepresentation pythonObjectValue = this.getDictionaryValue(pythonSerializer, field, value);
+            PythonRepresentation pythonObjectValue = this.getDictionaryValue(pythonSerializer, field, object);
             pythonDictionary.put(pythonObjectKey, pythonObjectValue);
         }
 

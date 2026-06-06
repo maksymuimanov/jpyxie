@@ -136,11 +136,11 @@ class PythonEnvironmentAutoConfigurationTest {
         contextRunner.withPropertyValues("spring.python.environment.on-existing=SKIP")
                 .run(context -> {
                     assertThat(context)
-                            .hasSingleBean(PythonEnvironment.OnExistingHandler.class)
+                            .hasSingleBean(PythonEnvironment.ExistingEnvironmentHandler.class)
                             .hasBean("skipExistingHandler");
-                    PythonEnvironment.OnExistingHandler handler = context.getBean(PythonEnvironment.OnExistingHandler.class);
+                    PythonEnvironment.ExistingEnvironmentHandler handler = context.getBean(PythonEnvironment.ExistingEnvironmentHandler.class);
                     assertThat(handler)
-                            .isInstanceOf(AbstractVenvPythonEnvironment.SkipExistingHandler.class);
+                            .isInstanceOf(AbstractVenvPythonEnvironment.SkipExistingEnvironmentHandler.class);
                 });
     }
 
@@ -149,11 +149,11 @@ class PythonEnvironmentAutoConfigurationTest {
         contextRunner.withPropertyValues("spring.python.environment.on-existing=FAIL")
                 .run(context -> {
                     assertThat(context)
-                            .hasSingleBean(PythonEnvironment.OnExistingHandler.class)
+                            .hasSingleBean(PythonEnvironment.ExistingEnvironmentHandler.class)
                             .hasBean("failExistingHandler");
-                    PythonEnvironment.OnExistingHandler handler = context.getBean(PythonEnvironment.OnExistingHandler.class);
+                    PythonEnvironment.ExistingEnvironmentHandler handler = context.getBean(PythonEnvironment.ExistingEnvironmentHandler.class);
                     assertThat(handler)
-                            .isInstanceOf(AbstractVenvPythonEnvironment.FailExistingHandler.class);
+                            .isInstanceOf(AbstractVenvPythonEnvironment.FailExistingEnvironmentHandler.class);
                 });
     }
 
@@ -162,11 +162,11 @@ class PythonEnvironmentAutoConfigurationTest {
         contextRunner.withPropertyValues("spring.python.environment.on-existing=REMOVE")
                 .run(context -> {
                     assertThat(context)
-                            .hasSingleBean(PythonEnvironment.OnExistingHandler.class)
+                            .hasSingleBean(PythonEnvironment.ExistingEnvironmentHandler.class)
                             .hasBean("removeExistingHandler");
-                    PythonEnvironment.OnExistingHandler handler = context.getBean(PythonEnvironment.OnExistingHandler.class);
+                    PythonEnvironment.ExistingEnvironmentHandler handler = context.getBean(PythonEnvironment.ExistingEnvironmentHandler.class);
                     assertThat(handler)
-                            .isInstanceOf(AbstractVenvPythonEnvironment.RemoveExistingHandler.class);
+                            .isInstanceOf(AbstractVenvPythonEnvironment.RemoveExistingEnvironmentHandler.class);
                 });
     }
 
@@ -177,7 +177,7 @@ class PythonEnvironmentAutoConfigurationTest {
                     assertThat(context)
                             .hasSingleBean(PythonEnvironment.class)
                             .hasSingleBean(PythonInitializer.class)
-                            .hasSingleBean(PythonEnvironment.OnExistingHandler.class);
+                            .hasSingleBean(PythonEnvironment.ExistingEnvironmentHandler.class);
                 });
     }
 
@@ -188,7 +188,7 @@ class PythonEnvironmentAutoConfigurationTest {
                     assertThat(context)
                             .hasSingleBean(PythonEnvironment.class)
                             .doesNotHaveBean(PythonInitializer.class)
-                            .hasSingleBean(PythonEnvironment.OnExistingHandler.class);
+                            .hasSingleBean(PythonEnvironment.ExistingEnvironmentHandler.class);
                 });
     }
 

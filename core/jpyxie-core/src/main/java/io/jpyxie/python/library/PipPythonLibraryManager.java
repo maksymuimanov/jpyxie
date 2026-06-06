@@ -60,31 +60,31 @@ public class PipPythonLibraryManager implements PythonLibraryManager {
     }
 
     @Override
-    public boolean exists(PythonLibrary management) {
-        log.debug("Checking if library [{}] exists", management.getName());
+    public boolean exists(PythonLibrary library) {
+        log.debug("Checking if library [{}] exists", library.getName());
         AtomicBoolean exists = new AtomicBoolean(false);
-        this.processCommand(SHOW, management.getName(), exitValue -> {
+        this.processCommand(SHOW_COMMAND, library.getName(), exitValue -> {
             if (exitValue == 0) {
                 exists.set(true);
-                log.debug("Library [{}] exists", management.getName());
+                log.debug("Library [{}] exists", library.getName());
             } else {
-                log.debug("Library [{}] does not exist (exit code: [{}])", management.getName(), exitValue);
+                log.debug("Library [{}] does not exist (exit code: [{}])", library.getName(), exitValue);
             }
         });
         return exists.get();
     }
 
     @Override
-    public void install(PythonLibrary management) {
-        log.info("Installing Python library [{}] with options [{}]", management.getName(), management.getOptions());
-        this.processCommand(INSTALL, management);
+    public void install(PythonLibrary library) {
+        log.info("Installing Python library [{}] with options [{}]", library.getName(), library.getOptions());
+        this.processCommand(INSTALL_COMMAND, library);
     }
 
     @Override
-    public void uninstall(PythonLibrary management) {
-        log.info("Uninstalling Python library [{}] with options [{}]", management.getName(), management.getOptions());
-        management.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
-        this.processCommand(UNINSTALL, management);
+    public void uninstall(PythonLibrary library) {
+        log.info("Uninstalling Python library [{}] with options [{}]", library.getName(), library.getOptions());
+        library.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
+        this.processCommand(UNINSTALL_COMMAND, library);
     }
 
     protected void processCommand(String command, PythonLibrary management) {

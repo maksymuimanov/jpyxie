@@ -1,7 +1,7 @@
 package io.jpyxie.python.bind;
 
 import io.jpyxie.python.script.PythonQueue;
-import io.jpyxie.python.script.PythonRepresentation;
+import io.jpyxie.python.PythonRepresentation;
 import io.jpyxie.python.util.JavaTypeUtils;
 import org.jspecify.annotations.Nullable;
 
@@ -10,8 +10,8 @@ import java.util.Queue;
 
 public class PythonQueueConverter implements PythonTypeConverter {
     @Override
-    public PythonRepresentation convert(@Nullable Object value, PythonSerializer pythonSerializer) {
-        Queue<?> queue = (Queue<?>) value;
+    public PythonRepresentation convert(@Nullable Object object, PythonSerializer pythonSerializer) {
+        Queue<?> queue = (Queue<?>) object;
         Queue<PythonRepresentation> representations = new ArrayDeque<>(queue.size());
         for (Object element : queue) {
             representations.add(pythonSerializer.serialize(element));

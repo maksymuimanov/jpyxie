@@ -23,22 +23,22 @@ public class RestPythonLibraryManager implements PythonLibraryManager {
     }
 
     @Override
-    public boolean exists(PythonLibrary management) {
-        return this.executePipCommand(SHOW, management);
+    public boolean exists(PythonLibrary library) {
+        return this.executePipCommand(SHOW_COMMAND, library);
     }
 
     @Override
-    public void install(PythonLibrary management) {
-        boolean isSuccessful = this.executePipCommand(INSTALL, management);
+    public void install(PythonLibrary library) {
+        boolean isSuccessful = this.executePipCommand(INSTALL_COMMAND, library);
         if (!isSuccessful) {
             throw new PythonLibraryManagementException(INSTALLATION_FAILURE_EXCEPTION_MESSAGE);
         }
     }
 
     @Override
-    public void uninstall(PythonLibrary management) {
-        management.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
-        boolean isSuccessful = this.executePipCommand(UNINSTALL, management);
+    public void uninstall(PythonLibrary library) {
+        library.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
+        boolean isSuccessful = this.executePipCommand(UNINSTALL_COMMAND, library);
         if (!isSuccessful) {
             throw new PythonLibraryManagementException(UNINSTALLATION_FAILURE_EXCEPTION_MESSAGE);
         }

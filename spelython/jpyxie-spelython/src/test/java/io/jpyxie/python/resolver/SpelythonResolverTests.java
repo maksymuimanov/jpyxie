@@ -44,7 +44,7 @@ class SpelythonResolverTests {
                 .when(objectMapper.writeValueAsString(expressionValue))
                 .thenReturn(expressionValue);
 
-        spelythonResolver.resolve(pythonScript, PythonArgumentSpec.create("a", expressionValue).with("b", expressionValue));
+        spelythonResolver.resolve(pythonScript, PythonArgumentSpec.of("a", expressionValue).with("b", expressionValue));
         Assertions.assertFalse(pythonScript.containsDeepCode(REGEX));
         Assertions.assertTrue(pythonScript.containsDeepCode("json.loads('" + expressionValue + "')"));
     }

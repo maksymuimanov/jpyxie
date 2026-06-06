@@ -29,12 +29,6 @@ import io.jpyxie.python.script.PythonScript;
  */
 public interface PythonResolver extends Prioritized {
     /**
-     * Constant representing a Python JSON import statement.
-     * <p>This line is automatically added to Python scripts that require JSON processing.</p>
-     */
-    String IMPORT_JSON = "import json";
-
-    /**
      * Resolves the given Python script by applying transformations or expression resolution.
      *
      * @param pythonScript the Python script content to resolve (non-{@code null})

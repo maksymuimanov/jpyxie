@@ -1,6 +1,6 @@
 package io.jpyxie.demo;
 
-import io.jpyxie.python.constant.PythonConstants;
+import io.jpyxie.python.PythonConstants;
 import io.jpyxie.python.processor.PythonContext;
 import io.jpyxie.python.processor.PythonProcessor;
 import io.jpyxie.python.resolver.PythonArgumentSpec;
@@ -51,7 +51,7 @@ public class PythonTestApplicationRunner implements ApplicationRunner {
             String name = NAMES[Math.abs(i % NAMES.length)];
             PythonScript pythonScript = PythonScript.asFile(name + "_" + i, name + PythonConstants.FILE_FORMAT);
             PythonContext pythonContext = PythonContext.builder(pythonScript)
-                    .argumentSpec(PythonArgumentSpec.create()
+                    .argumentSpec(PythonArgumentSpec.of()
                             .with("integer", i)
                             .with("float", Math.random())
                             .with("text", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.")

@@ -19,7 +19,7 @@ public interface PythonEnvironment {
 
     boolean exists();
 
-    interface OnExistingHandler {
+    interface ExistingEnvironmentHandler {
         boolean handle(PythonEnvironment environment);
     }
 }

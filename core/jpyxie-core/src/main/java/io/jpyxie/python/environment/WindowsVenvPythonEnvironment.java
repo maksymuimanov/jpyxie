@@ -10,24 +10,24 @@ public class WindowsVenvPythonEnvironment extends AbstractVenvPythonEnvironment 
     public static final String SCRIPTS_DIRECTORY = "Scripts";
     public static final String PYTHON_EXE = "python.exe";
 
-    public WindowsVenvPythonEnvironment(OnExistingHandler onExistingHandler) {
-        super(onExistingHandler);
+    public WindowsVenvPythonEnvironment(ExistingEnvironmentHandler existingEnvironmentHandler) {
+        super(existingEnvironmentHandler);
     }
 
-    public WindowsVenvPythonEnvironment(String globalPythonExecutable, OnExistingHandler onExistingHandler) {
-        super(globalPythonExecutable, onExistingHandler);
+    public WindowsVenvPythonEnvironment(String globalPythonExecutable, ExistingEnvironmentHandler existingEnvironmentHandler) {
+        super(globalPythonExecutable, existingEnvironmentHandler);
     }
 
-    public WindowsVenvPythonEnvironment(String globalPythonExecutable, OnExistingHandler onExistingHandler, String venvParentDirectory) {
-        super(globalPythonExecutable, onExistingHandler, venvParentDirectory);
+    public WindowsVenvPythonEnvironment(String globalPythonExecutable, ExistingEnvironmentHandler existingEnvironmentHandler, String venvParentDirectory) {
+        super(globalPythonExecutable, existingEnvironmentHandler, venvParentDirectory);
     }
 
-    public WindowsVenvPythonEnvironment(String globalPythonExecutable, String backupPythonExecutable, OnExistingHandler onExistingHandler, String venvParentDirectory) {
-        super(globalPythonExecutable, backupPythonExecutable, onExistingHandler, venvParentDirectory);
+    public WindowsVenvPythonEnvironment(String globalPythonExecutable, String backupPythonExecutable, ExistingEnvironmentHandler existingEnvironmentHandler, String venvParentDirectory) {
+        super(globalPythonExecutable, backupPythonExecutable, existingEnvironmentHandler, venvParentDirectory);
     }
 
-    public WindowsVenvPythonEnvironment(String globalPythonExecutable, String backupPythonExecutable, OnExistingHandler onExistingHandler, String venvParentDirectory, boolean redirectErrorStream, boolean redirectOutputStream, boolean readOutput, Duration timeout) {
-        super(globalPythonExecutable, backupPythonExecutable, onExistingHandler, venvParentDirectory, redirectErrorStream, redirectOutputStream, readOutput, timeout);
+    public WindowsVenvPythonEnvironment(String globalPythonExecutable, String backupPythonExecutable, ExistingEnvironmentHandler existingEnvironmentHandler, String venvParentDirectory, boolean redirectErrorStream, boolean redirectOutputStream, boolean readOutput, Duration timeout) {
+        super(globalPythonExecutable, backupPythonExecutable, existingEnvironmentHandler, venvParentDirectory, redirectErrorStream, redirectOutputStream, readOutput, timeout);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package io.jpyxie.python.file;
 
 import io.jpyxie.python.exception.PythonFileException;
-import io.jpyxie.python.script.BasicPythonScriptBuilder;
 import io.jpyxie.python.script.PythonScript;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

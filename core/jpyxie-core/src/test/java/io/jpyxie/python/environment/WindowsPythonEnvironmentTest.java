@@ -1,6 +1,6 @@
 package io.jpyxie.python.environment;
 
-import io.jpyxie.python.constant.PythonConstants;
+import io.jpyxie.python.PythonConstants;
 import io.jpyxie.python.exception.PythonEnvironmentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class WindowsPythonEnvironmentTest {
 
     @Test
     void create_shouldNotRecreateVenv_whenExistsAndUsingSkipExistingHandler() {
-        windowsVenvPythonEnvironment = createSpyEnvironment(new WindowsVenvPythonEnvironment.SkipExistingHandler());
+        windowsVenvPythonEnvironment = createSpyEnvironment(new AbstractVenvPythonEnvironment.SkipExistingEnvironmentHandler());
 
         windowsVenvPythonEnvironment.create();
 
@@ -49,7 +49,7 @@ class WindowsPythonEnvironmentTest {
 
     @Test
     void create_shouldOverrideExistingVenv_whenExistsAndUsingRemoveExistingHandler() {
-        windowsVenvPythonEnvironment = createSpyEnvironment(new WindowsVenvPythonEnvironment.RemoveExistingHandler());
+        windowsVenvPythonEnvironment = createSpyEnvironment(new AbstractVenvPythonEnvironment.RemoveExistingEnvironmentHandler());
 
         windowsVenvPythonEnvironment.create();
 
@@ -63,7 +63,7 @@ class WindowsPythonEnvironmentTest {
 
     @Test
     void create_shouldThrowException_whenExistsAndUsingFailExistingHandler() {
-        windowsVenvPythonEnvironment = createSpyEnvironment(new WindowsVenvPythonEnvironment.FailExistingHandler());
+        windowsVenvPythonEnvironment = createSpyEnvironment(new AbstractVenvPythonEnvironment.FailExistingEnvironmentHandler());
 
         windowsVenvPythonEnvironment.create();
 
@@ -216,10 +216,10 @@ class WindowsPythonEnvironmentTest {
     }
 
     private static WindowsVenvPythonEnvironment createSpyEnvironment() {
-        return createSpyEnvironment(new WindowsVenvPythonEnvironment.SkipExistingHandler());
+        return createSpyEnvironment(new AbstractVenvPythonEnvironment.SkipExistingEnvironmentHandler());
     }
 
-    private static WindowsVenvPythonEnvironment createSpyEnvironment(PythonEnvironment.OnExistingHandler onExistingHandler) {
-        return spy(new WindowsVenvPythonEnvironment(PythonConstants.PYTHON, onExistingHandler));
+    private static WindowsVenvPythonEnvironment createSpyEnvironment(PythonEnvironment.ExistingEnvironmentHandler existingEnvironmentHandler) {
+        return spy(new WindowsVenvPythonEnvironment(PythonConstants.PYTHON, existingEnvironmentHandler));
     }
 }

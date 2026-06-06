@@ -22,12 +22,12 @@ public class PythonEnvironmentAutoConfiguration {
     @Bean
     @ConditionalOnOs({"linux", "mac"})
     @ConditionalOnMissingBean(PythonEnvironment.class)
-    public PythonEnvironment unixVenvPythonEnvironment(PythonEnvironment.OnExistingHandler onExistingHandler,
+    public PythonEnvironment unixVenvPythonEnvironment(PythonEnvironment.ExistingEnvironmentHandler existingEnvironmentHandler,
                                                        PythonEnvironmentProperties properties) {
         return new UnixVenvPythonEnvironment(
                 properties.getGlobalPythonExecutable(),
                 properties.getBackupPythonExecutable(),
-                onExistingHandler,
+                existingEnvironmentHandler,
                 properties.getParentDirectory(),
                 properties.isRedirectErrorStream(),
                 properties.isRedirectOutputStream(),
@@ -39,12 +39,12 @@ public class PythonEnvironmentAutoConfiguration {
     @Bean
     @ConditionalOnOs("windows")
     @ConditionalOnMissingBean(PythonEnvironment.class)
-    public PythonEnvironment windowsVenvPythonEnvironment(PythonEnvironment.OnExistingHandler onExistingHandler,
+    public PythonEnvironment windowsVenvPythonEnvironment(PythonEnvironment.ExistingEnvironmentHandler existingEnvironmentHandler,
                                                           PythonEnvironmentProperties properties) {
         return new WindowsVenvPythonEnvironment(
                 properties.getGlobalPythonExecutable(),
                 properties.getBackupPythonExecutable(),
-                onExistingHandler,
+                existingEnvironmentHandler,
                 properties.getParentDirectory(),
                 properties.isRedirectErrorStream(),
                 properties.isRedirectOutputStream(),
@@ -54,9 +54,9 @@ public class PythonEnvironmentAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(PythonEnvironment.OnExistingHandler.class)
-    public PythonEnvironment.OnExistingHandler existingHandler() {
-        return new AbstractVenvPythonEnvironment.RemoveExistingHandler();
+    @ConditionalOnMissingBean(PythonEnvironment.ExistingEnvironmentHandler.class)
+    public PythonEnvironment.ExistingEnvironmentHandler existingHandler() {
+        return new AbstractVenvPythonEnvironment.RemoveExistingEnvironmentHandler();
     }
 
     @Bean

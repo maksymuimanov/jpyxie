@@ -66,8 +66,8 @@ class BasicPythonProcessorTest {
         failureHandlerCalled = false;
         successHandlerCalled = false;
         context = PythonContext.builder(pythonScript)
-                .preResolution(preResolution)
-                .preExecution(preExecution)
+                .beforeResolvers(preResolution)
+                .beforeExecutor(preExecution)
                 .onFail(failureHandler)
                 .onSuccess(successHandler)
                 .build();

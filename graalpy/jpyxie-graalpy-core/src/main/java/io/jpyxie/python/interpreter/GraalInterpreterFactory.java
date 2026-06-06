@@ -1,6 +1,6 @@
 package io.jpyxie.python.interpreter;
 
-import io.jpyxie.python.constant.PythonConstants;
+import io.jpyxie.python.PythonConstants;
 import io.jpyxie.python.environment.PythonEnvironment;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;

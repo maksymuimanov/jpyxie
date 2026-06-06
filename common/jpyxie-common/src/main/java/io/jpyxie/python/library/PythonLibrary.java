@@ -1,11 +1,17 @@
 package io.jpyxie.python.library;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Data
+@AllArgsConstructor
 public class PythonLibrary {
     private String name;
     @Nullable
@@ -19,30 +25,8 @@ public class PythonLibrary {
         this(name, new ArrayList<>());
     }
 
-    public PythonLibrary(String name, List<String> options) {
-        this.name = name;
-        this.options = options;
-    }
-
     public void addOption(String option) {
         Objects.requireNonNull(this.options);
         this.options.add(option);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Nullable
-    public List<String> getOptions() {
-        return options;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setOptions(@Nullable List<String> options) {
-        this.options = options;
     }
 }

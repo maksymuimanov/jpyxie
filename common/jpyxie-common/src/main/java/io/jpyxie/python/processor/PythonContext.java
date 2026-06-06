@@ -1,87 +1,46 @@
 package io.jpyxie.python.processor;
 
+import io.jpyxie.python.PythonRepresentation;
 import io.jpyxie.python.exception.PythonProcessionException;
 import io.jpyxie.python.executor.PythonResultSpec;
 import io.jpyxie.python.resolver.PythonArgumentSpec;
 import io.jpyxie.python.script.PythonScript;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record PythonContext(PythonScript script,
-                            PythonResultSpec resultSpec,
-                            PythonArgumentSpec argumentSpec,
-                            PreOperator preResolution,
-                            PreOperator preExecution,
-                            SuccessHandler successHandler,
-                            FailureHandler failureHandler) {
-    public static PythonContext.Builder builder(PythonScript script) {
-        return new Builder(script);
-    }
-
-    public static final class Builder {
-        private final PythonScript script;
-        private PythonResultSpec resultSpec;
-        private PythonArgumentSpec argumentSpec;
-        private PreOperator preResolution;
-        private PreOperator preExecution;
-        private SuccessHandler successHandler;
-        private FailureHandler failureHandler;
-
-        private Builder(PythonScript script) {
-            this.script = script;
-            this.resultSpec = PythonResultSpec.empty();
-            this.argumentSpec = PythonArgumentSpec.empty();
-            this.preResolution = (s, r, a) -> {};
-            this.preExecution = (s, r, a) -> {};
-            this.successHandler = r -> r;
-            this.failureHandler = t -> {throw new PythonProcessionException(t);};
-        }
-
-        public Builder resultSpec(PythonResultSpec resultSpec) {
-            this.resultSpec = resultSpec;
-            return this;
-        }
-
-        public Builder argumentSpec(PythonArgumentSpec argumentSpec) {
-            this.argumentSpec = argumentSpec;
-            return this;
-        }
-
-        public Builder preResolution(PreOperator preResolution) {
-            this.preResolution = preResolution;
-            return this;
-        }
-
-        public Builder preExecution(PreOperator preExecution) {
-            this.preExecution = preExecution;
-            return this;
-        }
-
-        public Builder onSuccess(SuccessHandler successHandler) {
-            this.successHandler = successHandler;
-            return this;
-        }
-
-        public Builder onFail(FailureHandler failureHandler) {
-            this.failureHandler = failureHandler;
-            return this;
-        }
-
-        public PythonContext build() {
-            return new PythonContext(this.script, this.resultSpec, this.argumentSpec, this.preResolution, this.preExecution, this.successHandler, this.failureHandler);
-        }
-    }
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PythonContext {
+    private PythonRepresentation script;
+    @Builder.Default
+    private PythonResultSpec resultSpec = PythonResultSpec.empty();
+    @Builder.Default
+    private PythonArgumentSpec argumentSpec = PythonArgumentSpec.empty();
+    @Builder.Default
+    private PreOperator beforeResolvers = (s, r, a) -> {};
+    @Builder.Default
+    private PreOperator beforeExecutor = (s, r, a) -> {};
+    @Builder.Default
+    private SuccessHandler onSuccess = r -> r;
+    @Builder.Default
+    private FailureHandler onFail = t -> { throw new PythonProcessionException(t); };
 
     @FunctionalInterface
     public interface PreOperator {
-        void operate(PythonScript script, PythonResultSpec resultSpec, PythonArgumentSpec argumentSpec);
+        void operate(PythonRepresentation script, PythonResultSpec resultSpec, PythonArgumentSpec argumentSpec);
     }
 
     @FunctionalInterface
     public interface SuccessHandler {
-        PythonResultMap onSuccess(PythonResultMap resultMap);
+        PythonResultMap handleSuccess(PythonResultMap resultMap);
     }
 
     @FunctionalInterface
     public interface FailureHandler {
-        PythonResultMap onFail(Throwable throwable);
+        PythonResultMap handleFailure(Throwable throwable);
     }
 }

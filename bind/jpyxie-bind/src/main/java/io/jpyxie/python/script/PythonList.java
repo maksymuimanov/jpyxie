@@ -1,5 +1,7 @@
 package io.jpyxie.python.script;
 
+import io.jpyxie.python.PythonRepresentation;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -5,30 +5,30 @@ import lombok.extern.slf4j.Slf4j;
 import java.nio.file.Path;
 import java.time.Duration;
 
-import static io.jpyxie.python.constant.PythonConstants.PYTHON;
+import static io.jpyxie.python.PythonConstants.PYTHON;
 
 @Slf4j
 public class UnixVenvPythonEnvironment extends AbstractVenvPythonEnvironment {
     public static final String BIN_DIRECTORY = "bin";
 
-    public UnixVenvPythonEnvironment(OnExistingHandler onExistingHandler) {
-        super(onExistingHandler);
+    public UnixVenvPythonEnvironment(ExistingEnvironmentHandler existingEnvironmentHandler) {
+        super(existingEnvironmentHandler);
     }
 
-    public UnixVenvPythonEnvironment(String globalPythonExecutable, OnExistingHandler onExistingHandler) {
-        super(globalPythonExecutable, onExistingHandler);
+    public UnixVenvPythonEnvironment(String globalPythonExecutable, ExistingEnvironmentHandler existingEnvironmentHandler) {
+        super(globalPythonExecutable, existingEnvironmentHandler);
     }
 
-    public UnixVenvPythonEnvironment(String globalPythonExecutable, OnExistingHandler onExistingHandler, String venvParentDirectory) {
-        super(globalPythonExecutable, onExistingHandler, venvParentDirectory);
+    public UnixVenvPythonEnvironment(String globalPythonExecutable, ExistingEnvironmentHandler existingEnvironmentHandler, String venvParentDirectory) {
+        super(globalPythonExecutable, existingEnvironmentHandler, venvParentDirectory);
     }
 
-    public UnixVenvPythonEnvironment(String globalPythonExecutable, String backupPythonExecutable, OnExistingHandler onExistingHandler, String venvParentDirectory) {
-        super(globalPythonExecutable, backupPythonExecutable, onExistingHandler, venvParentDirectory);
+    public UnixVenvPythonEnvironment(String globalPythonExecutable, String backupPythonExecutable, ExistingEnvironmentHandler existingEnvironmentHandler, String venvParentDirectory) {
+        super(globalPythonExecutable, backupPythonExecutable, existingEnvironmentHandler, venvParentDirectory);
     }
 
-    public UnixVenvPythonEnvironment(String globalPythonExecutable, String backupPythonExecutable, OnExistingHandler onExistingHandler, String venvParentDirectory, boolean redirectErrorStream, boolean redirectOutputStream, boolean readOutput, Duration timeout) {
-        super(globalPythonExecutable, backupPythonExecutable, onExistingHandler, venvParentDirectory, redirectErrorStream, redirectOutputStream, readOutput, timeout);
+    public UnixVenvPythonEnvironment(String globalPythonExecutable, String backupPythonExecutable, ExistingEnvironmentHandler existingEnvironmentHandler, String venvParentDirectory, boolean redirectErrorStream, boolean redirectOutputStream, boolean readOutput, Duration timeout) {
+        super(globalPythonExecutable, backupPythonExecutable, existingEnvironmentHandler, venvParentDirectory, redirectErrorStream, redirectOutputStream, readOutput, timeout);
     }
 
     @Override

@@ -1,4 +1,4 @@
 @NullMarked
-package io.jpyxie.python.file;
+package io.jpyxie.python;
 
 import org.jspecify.annotations.NullMarked;

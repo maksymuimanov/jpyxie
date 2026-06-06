@@ -37,8 +37,8 @@ public class SubprocessPythonLibraryManager implements PythonLibraryManager {
     private final PythonExecutor pythonExecutor;
 
     @Override
-    public boolean exists(PythonLibrary management) {
-        String name = management.getName();
+    public boolean exists(PythonLibrary library) {
+        String name = library.getName();
         log.debug("Checking if library [{}] exists", name);
         String scriptString = EXISTS_SCRIPT_STRING.formatted(name);
         PythonScript script = PythonScript.asString("exists_" + name, scriptString);
@@ -49,9 +49,9 @@ public class SubprocessPythonLibraryManager implements PythonLibraryManager {
     }
 
     @Override
-    public void install(PythonLibrary management) {
-        String name = management.getName();
-        List<String> options = management.getOptions();
+    public void install(PythonLibrary library) {
+        String name = library.getName();
+        List<String> options = library.getOptions();
         log.info("Installing Python library [{}] with options [{}]", name, options);
         String joinedOptions = this.joinOptions(options);
         String scriptString = INSTALL_SCRIPT_STRING.formatted(name, joinedOptions);
@@ -60,9 +60,9 @@ public class SubprocessPythonLibraryManager implements PythonLibraryManager {
     }
 
     @Override
-    public void uninstall(PythonLibrary management) {
-        String name = management.getName();
-        List<String> options = management.getOptions();
+    public void uninstall(PythonLibrary library) {
+        String name = library.getName();
+        List<String> options = library.getOptions();
         log.info("Uninstalling Python library [{}] with options [{}]", name, options);
         String joinedOptions = this.joinOptions(options);
         String scriptString = UNINSTALL_SCRIPT_STRING.formatted(name, joinedOptions);

@@ -3,7 +3,7 @@ package io.jpyxie.python.library;
 import io.jpyxie.python.environment.PythonEnvironment;
 import org.junit.jupiter.api.*;
 
-import static io.jpyxie.python.constant.PythonConstants.PYTHON;
+import static io.jpyxie.python.PythonConstants.PYTHON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 

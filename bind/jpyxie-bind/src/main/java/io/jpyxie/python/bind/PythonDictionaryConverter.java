@@ -1,7 +1,7 @@
 package io.jpyxie.python.bind;
 
 import io.jpyxie.python.script.PythonDictionary;
-import io.jpyxie.python.script.PythonRepresentation;
+import io.jpyxie.python.PythonRepresentation;
 import io.jpyxie.python.util.JavaTypeUtils;
 import org.jspecify.annotations.Nullable;
 
@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class PythonDictionaryConverter implements PythonTypeConverter {
     @Override
-    public PythonRepresentation convert(@Nullable Object value, PythonSerializer pythonSerializer) {
-        Map<?, ?> map = ((Map<?, ?>) value);
+    public PythonRepresentation convert(@Nullable Object object, PythonSerializer pythonSerializer) {
+        Map<?, ?> map = ((Map<?, ?>) object);
         Map<PythonRepresentation, PythonRepresentation> representations = new HashMap<>(map.size());
         for (Map.Entry<?, ?> entry : map.entrySet()) {
             Object entryKey = entry.getKey();

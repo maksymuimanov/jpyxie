@@ -155,16 +155,16 @@ class PythonLibraryAutoConfigurationTest {
 
     private static class TestPythonLibraryManager implements PythonLibraryManager {
         @Override
-        public boolean exists(@NonNull PythonLibrary management) {
+        public boolean exists(@NonNull PythonLibrary library) {
             return false;
         }
 
         @Override
-        public void install(@NonNull PythonLibrary management) {
+        public void install(@NonNull PythonLibrary library) {
         }
 
         @Override
-        public void uninstall(@NonNull PythonLibrary management) {
+        public void uninstall(@NonNull PythonLibrary library) {
         }
     }
 }

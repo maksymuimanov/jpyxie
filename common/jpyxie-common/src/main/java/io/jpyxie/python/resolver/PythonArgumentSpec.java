@@ -6,15 +6,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PythonArgumentSpec implements MapSpec<String, Object> {
-    private final Map<String, Object> arguments;
+public record PythonArgumentSpec(
+        Map<String, Object> delegate
+) implements MapSpec<String, Object> {
+    private static final PythonArgumentSpec EMPTY = new PythonArgumentSpec(Collections.emptyMap());
 
     public static PythonArgumentSpec empty() {
-        return new PythonArgumentSpec(Collections.emptyMap());
+        return EMPTY;
     }
 
     public static PythonArgumentSpec of(String name, Object value, Object... others) {
-        PythonArgumentSpec spec = create();
+        PythonArgumentSpec spec = of();
         spec.with(name, value);
         for (int i = 0; i < others.length; i += 2) {
             spec.with((String) others[i], others[i + 1]);
@@ -23,61 +25,33 @@ public class PythonArgumentSpec implements MapSpec<String, Object> {
     }
 
     public static PythonArgumentSpec of(Map<String, Object> arguments) {
-        return create().putAll(arguments);
+        return of().putAll(arguments);
     }
 
     public static PythonArgumentSpec of(String name, Object value) {
-        return create().with(name, value);
+        return of().with(name, value);
     }
 
-    public static PythonArgumentSpec create() {
+    public static PythonArgumentSpec of() {
         return new PythonArgumentSpec(new HashMap<>());
     }
 
-    private PythonArgumentSpec(Map<String, Object> arguments) {
-        this.arguments = arguments;
-    }
-
     public Object get(String name) {
-        return this.getArguments().get(name);
+        return this.delegate().get(name);
     }
 
     public PythonArgumentSpec with(String name, Object value) {
-        this.getArguments().put(name, value);
+        this.delegate().put(name, value);
         return this;
     }
 
     public PythonArgumentSpec putAll(Map<String, Object> arguments) {
-        this.getArguments().putAll(arguments);
+        this.delegate().putAll(arguments);
         return this;
     }
 
     @Override
     public Map<String, Object> toMap() {
-        return Collections.unmodifiableMap(this.getArguments());
-    }
-
-    protected Map<String, Object> getArguments() {
-        return arguments;
-    }
-
-    @Override
-    public final boolean equals(Object object) {
-        if (!(object instanceof PythonArgumentSpec entries)) return false;
-
-        return this.getArguments().equals(entries.getArguments());
-    }
-
-    @Override
-    public int hashCode() {
-        return getArguments().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder stringBuilder = new StringBuilder("PythonArgumentSpec{");
-        stringBuilder.append("arguments=").append(this.getArguments());
-        stringBuilder.append('}');
-        return stringBuilder.toString();
+        return Collections.unmodifiableMap(this.delegate());
     }
 }

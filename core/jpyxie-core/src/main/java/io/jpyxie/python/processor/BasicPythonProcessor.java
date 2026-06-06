@@ -32,11 +32,11 @@ public class BasicPythonProcessor implements PythonProcessor {
             preExecution.operate(script, resultSpec, argumentSpec);
             PythonResultMap resultMap = this.pythonExecutor.execute(script, resultSpec);
             PythonContext.SuccessHandler successHandler = context.successHandler();
-            return successHandler.onSuccess(resultMap);
+            return successHandler.handleSuccess(resultMap);
         } catch (Exception e) {
             log.warn("Python script [name: {}] processing failed, applying failure handler", name, e);
             PythonContext.FailureHandler failureHandler = context.failureHandler();
-            return failureHandler.onFail(e);
+            return failureHandler.handleFailure(e);
         }
     }
 }

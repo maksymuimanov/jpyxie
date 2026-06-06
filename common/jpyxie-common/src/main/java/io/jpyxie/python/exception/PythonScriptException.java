@@ -1,6 +1,16 @@
 package io.jpyxie.python.exception;
 
+import java.io.IOException;
+
 public class PythonScriptException extends PythonException {
+    public static PythonScriptException invalidFileFormatException() {
+        return new PythonScriptException("Invalid file format. The valid format is .py");
+    }
+
+    public static PythonScriptException inputStreamException(IOException exception) {
+        return new PythonScriptException("Something wrong with reading from reading InputStream", exception);
+    }
+
     public PythonScriptException() {
     }
 

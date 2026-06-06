@@ -1,4 +1,4 @@
-package io.jpyxie.python.script;
+package io.jpyxie.python;
 
 import java.io.Serializable;
 
