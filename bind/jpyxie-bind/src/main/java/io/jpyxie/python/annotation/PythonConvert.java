@@ -2,11 +2,9 @@ package io.jpyxie.python.annotation;
 
 import io.jpyxie.python.bind.PythonTypeConverter;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
+@Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PythonConvert {

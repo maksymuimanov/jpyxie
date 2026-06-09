@@ -1,7 +1,7 @@
 package io.jpyxie.python.bind;
 
 import io.jpyxie.python.PythonRepresentation;
-import io.jpyxie.python.script.PythonNone;
+import io.jpyxie.python.bind.type.PythonNone;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
