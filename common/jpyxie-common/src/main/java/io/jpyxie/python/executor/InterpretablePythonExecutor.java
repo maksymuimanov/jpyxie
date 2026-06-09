@@ -2,11 +2,9 @@ package io.jpyxie.python.executor;
 
 import io.jpyxie.python.PythonRepresentation;
 import io.jpyxie.python.bind.PythonDeserializer;
-import io.jpyxie.python.exception.PythonExecutionException;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
 import io.jpyxie.python.interpreter.PythonReleasableInterpreterProvider;
 import io.jpyxie.python.processor.PythonResultMap;
-import io.jpyxie.python.script.PythonScript;
 import lombok.AccessLevel;
 import lombok.Getter;
 

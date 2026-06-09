@@ -1,7 +1,1 @@
-io.jpyxie.python.autoconfigure.PythonEnvironmentAutoConfiguration
-io.jpyxie.python.autoconfigure.PythonFileAutoConfiguration
-io.jpyxie.python.autoconfigure.PythonProcessorAutoConfiguration
-io.jpyxie.python.autoconfigure.PythonResolverAutoConfiguration
-io.jpyxie.python.autoconfigure.PythonLibraryAutoConfiguration
-io.jpyxie.python.autoconfigure.PythonLifecycleAutoConfiguration
-io.jpyxie.python.autoconfigure.PythonInterpreterAutoConfiguration
+io.jpyxie.python.autoconfigure.PythonAutoConfiguration

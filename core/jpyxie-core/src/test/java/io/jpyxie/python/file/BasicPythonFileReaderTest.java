@@ -1,6 +1,6 @@
 package io.jpyxie.python.file;
 
-import io.jpyxie.python.exception.PythonFileException;
+import io.jpyxie.python.common.PythonFileException;
 import io.jpyxie.python.script.PythonScript;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BasicPythonFileReaderTest {
-    private BasicPythonFileReader fileReader;
+    private BasicPythonFileProvider fileReader;
     @Mock
     private PythonFileInputStreamProvider pythonFileInputStreamProvider;
     private PythonScript testScript;
@@ -29,7 +29,7 @@ class BasicPythonFileReaderTest {
     @BeforeEach
     void setUp() {
         Map<String, String> fileCache = new ConcurrentHashMap<>();
-        fileReader = new BasicPythonFileReader(fileCache, pythonFileInputStreamProvider, StandardCharsets.UTF_8);
+        fileReader = new BasicPythonFileProvider(fileCache, pythonFileInputStreamProvider, StandardCharsets.UTF_8);
         testScript = PythonScript.asFile("test_script", "test_script.py");
     }
 

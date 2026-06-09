@@ -1,7 +1,6 @@
 package io.jpyxie.python.library;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jpyxie.python.exception.PythonLibraryManagementException;
 import io.jpyxie.python.http.BasicPythonServerRequestSender;
 import io.jpyxie.python.http.PythonServerRequestSender;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,7 @@ public class RestPythonLibraryManager implements PythonLibraryManager {
     public void install(PythonLibrary library) {
         boolean isSuccessful = this.executePipCommand(INSTALL_COMMAND, library);
         if (!isSuccessful) {
-            throw new PythonLibraryManagementException(INSTALLATION_FAILURE_EXCEPTION_MESSAGE);
+            throw new PythonLibraryException(INSTALLATION_FAILURE_EXCEPTION_MESSAGE);
         }
     }
 
@@ -40,7 +39,7 @@ public class RestPythonLibraryManager implements PythonLibraryManager {
         library.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
         boolean isSuccessful = this.executePipCommand(UNINSTALL_COMMAND, library);
         if (!isSuccessful) {
-            throw new PythonLibraryManagementException(UNINSTALLATION_FAILURE_EXCEPTION_MESSAGE);
+            throw new PythonLibraryException(UNINSTALLATION_FAILURE_EXCEPTION_MESSAGE);
         }
     }
 
@@ -51,7 +50,7 @@ public class RestPythonLibraryManager implements PythonLibraryManager {
             String responseJson = this.requestSender.send(this.uri, this.token, requestJson);
             return Boolean.parseBoolean(responseJson);
         } catch (Exception e) {
-            throw new PythonLibraryManagementException(e);
+            throw new PythonLibraryException(e);
         }
     }
 }

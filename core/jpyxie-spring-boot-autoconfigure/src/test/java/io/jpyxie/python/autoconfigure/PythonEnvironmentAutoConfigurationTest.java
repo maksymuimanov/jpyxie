@@ -1,6 +1,5 @@
 package io.jpyxie.python.autoconfigure;
 
-import io.jpyxie.python.environment.AbstractVenvPythonEnvironment;
 import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.lifecycle.PythonEnvironmentInitializer;
 import io.jpyxie.python.lifecycle.PythonInitializer;

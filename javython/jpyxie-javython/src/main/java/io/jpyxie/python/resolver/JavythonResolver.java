@@ -1,10 +1,10 @@
 package io.jpyxie.python.resolver;
 
-import io.jpyxie.python.bind.PythonSerializer;
 import io.jpyxie.python.PythonConstants;
-import io.jpyxie.python.exception.PythonScriptException;
 import io.jpyxie.python.PythonRepresentation;
+import io.jpyxie.python.bind.PythonSerializer;
 import io.jpyxie.python.script.PythonScript;
+import io.jpyxie.python.script.PythonScriptException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

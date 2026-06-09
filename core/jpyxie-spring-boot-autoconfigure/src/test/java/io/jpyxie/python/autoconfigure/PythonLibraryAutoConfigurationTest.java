@@ -29,7 +29,7 @@ class PythonLibraryAutoConfigurationTest {
     @BeforeEach
     void setUp() {
         contextRunner = new ApplicationContextRunner()
-                .withConfiguration(AutoConfigurations.of(PythonLibraryAutoConfiguration.class));
+                .withConfiguration(AutoConfigurations.of(PythonAutoConfiguration.class));
     }
 
     @Test

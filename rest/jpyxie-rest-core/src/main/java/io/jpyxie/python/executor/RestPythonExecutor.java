@@ -3,7 +3,6 @@ package io.jpyxie.python.executor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jpyxie.python.bind.PythonDeserializer;
-import io.jpyxie.python.exception.PythonExecutionException;
 import io.jpyxie.python.http.BasicPythonServerRequestSender;
 import io.jpyxie.python.http.PythonServerRequestSender;
 import io.jpyxie.python.processor.PythonResultMap;

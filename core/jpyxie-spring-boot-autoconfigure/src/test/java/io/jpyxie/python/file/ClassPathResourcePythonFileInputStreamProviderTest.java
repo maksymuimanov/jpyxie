@@ -1,7 +1,6 @@
 package io.jpyxie.python.file;
 
 import io.jpyxie.python.autoconfigure.PythonFileProperties;
-import io.jpyxie.python.exception.PythonFileException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

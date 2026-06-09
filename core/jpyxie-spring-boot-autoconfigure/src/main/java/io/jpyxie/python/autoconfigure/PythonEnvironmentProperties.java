@@ -1,7 +1,7 @@
 package io.jpyxie.python.autoconfigure;
 
 import io.jpyxie.python.PythonConstants;
-import io.jpyxie.python.environment.AbstractVenvPythonEnvironment;
+import io.jpyxie.python.environment.VenvPythonEnvironment;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -34,21 +34,21 @@ public class PythonEnvironmentProperties {
     /**
      * Parent directory where virtual environments are created.
      */
-    private String parentDirectory = AbstractVenvPythonEnvironment.VENV;
+    private String parentDirectory = VenvPythonEnvironment.VENV;
     /**
      * Whether to redirect error stream when executing virtual environment commands.
      */
-    private boolean redirectErrorStream = AbstractVenvPythonEnvironment.DEFAULT_REDIRECT_ERROR_STREAM;
+    private boolean redirectErrorStream = VenvPythonEnvironment.DEFAULT_REDIRECT_ERROR_STREAM;
     /**
      * Whether to redirect output stream when executing virtual environment commands.
      */
-    private boolean redirectOutputStream = AbstractVenvPythonEnvironment.DEFAULT_REDIRECT_OUTPUT_STREAM;
+    private boolean redirectOutputStream = VenvPythonEnvironment.DEFAULT_REDIRECT_OUTPUT_STREAM;
     /**
      * Whether to read the output of virtual environment commands.
      */
-    private boolean readOutput = AbstractVenvPythonEnvironment.DEFAULT_READ_OUTPUT;
+    private boolean readOutput = VenvPythonEnvironment.DEFAULT_READ_OUTPUT;
     /**
      * Timeout for executing virtual environment commands.
      */
-    private Duration timeout = AbstractVenvPythonEnvironment.DEFAULT_TIMEOUT;
+    private Duration timeout = VenvPythonEnvironment.DEFAULT_TIMEOUT;
 }

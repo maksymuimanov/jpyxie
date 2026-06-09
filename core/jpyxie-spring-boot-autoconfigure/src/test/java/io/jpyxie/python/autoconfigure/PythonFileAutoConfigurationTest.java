@@ -1,6 +1,6 @@
 package io.jpyxie.python.autoconfigure;
 
-import io.jpyxie.python.file.BasicPythonFileReader;
+import io.jpyxie.python.file.BasicPythonFileProvider;
 import io.jpyxie.python.file.ClassPathResourcePythonFileInputStreamProvider;
 import io.jpyxie.python.file.PythonFileInputStreamProvider;
 import io.jpyxie.python.file.PythonFileReader;
@@ -57,7 +57,7 @@ class PythonFileAutoConfigurationTest {
                     .hasBean("basicPythonFileHandler");
             PythonFileReader reader = context.getBean(PythonFileReader.class);
             assertThat(reader)
-                    .isInstanceOf(BasicPythonFileReader.class);
+                    .isInstanceOf(BasicPythonFileProvider.class);
         });
     }
 
@@ -83,7 +83,7 @@ class PythonFileAutoConfigurationTest {
             assertThat(properties.getPath())
                     .isEqualTo(PythonFileInputStreamProvider.DEFAULT_PARENT_DIRECTORY);
             assertThat(properties.getCharset())
-                    .isEqualTo(BasicPythonFileReader.DEFAULT_CHARSET_NAME);
+                    .isEqualTo(BasicPythonFileProvider.DEFAULT_CHARSET_NAME);
         });
     }
 

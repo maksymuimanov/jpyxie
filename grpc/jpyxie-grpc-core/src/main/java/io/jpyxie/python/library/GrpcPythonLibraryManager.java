@@ -1,6 +1,5 @@
 package io.jpyxie.python.library;
 
-import io.jpyxie.python.exception.PythonLibraryManagementException;
 import io.jpyxie.python.proto.GrpcPythonPipRequest;
 import io.jpyxie.python.proto.GrpcPythonPipResponse;
 import io.jpyxie.python.proto.PythonGrpcServiceGrpc;
@@ -21,7 +20,7 @@ public class GrpcPythonLibraryManager implements PythonLibraryManager {
     public void install(PythonLibrary library) {
         boolean isSuccessful = this.executePipCommand(INSTALL_COMMAND, library);
         if (!isSuccessful) {
-            throw new PythonLibraryManagementException(INSTALLATION_FAILURE_EXCEPTION_MESSAGE);
+            throw new PythonLibraryException(INSTALLATION_FAILURE_EXCEPTION_MESSAGE);
         }
     }
 
@@ -30,7 +29,7 @@ public class GrpcPythonLibraryManager implements PythonLibraryManager {
         library.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
         boolean isSuccessful = this.executePipCommand(UNINSTALL_COMMAND, library);
         if (!isSuccessful) {
-            throw new PythonLibraryManagementException(UNINSTALLATION_FAILURE_EXCEPTION_MESSAGE);
+            throw new PythonLibraryException(UNINSTALLATION_FAILURE_EXCEPTION_MESSAGE);
         }
     }
 
@@ -44,7 +43,7 @@ public class GrpcPythonLibraryManager implements PythonLibraryManager {
             GrpcPythonPipResponse pipResponse = stub.sendPip(pipRequest);
             return pipResponse.getSuccessful();
         } catch (Exception e) {
-            throw new PythonLibraryManagementException(e);
+            throw new PythonLibraryException(e);
         }
     }
 }

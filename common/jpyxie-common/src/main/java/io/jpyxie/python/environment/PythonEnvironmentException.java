@@ -1,4 +1,6 @@
-package io.jpyxie.python.exception;
+package io.jpyxie.python.environment;
+
+import io.jpyxie.python.common.PythonFileException;
 
 public class PythonEnvironmentException extends PythonFileException {
     public PythonEnvironmentException() {

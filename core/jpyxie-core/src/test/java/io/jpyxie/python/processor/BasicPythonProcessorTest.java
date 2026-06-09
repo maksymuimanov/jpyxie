@@ -68,7 +68,7 @@ class BasicPythonProcessorTest {
         context = PythonContext.builder(pythonScript)
                 .beforeResolvers(preResolution)
                 .beforeExecutor(preExecution)
-                .onFail(failureHandler)
+                .onFailure(failureHandler)
                 .onSuccess(successHandler)
                 .build();
     }

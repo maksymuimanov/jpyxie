@@ -1,7 +1,5 @@
 package io.jpyxie.python.processor;
 
-import io.jpyxie.python.PythonRepresentation;
-import io.jpyxie.python.exception.PythonProcessionException;
 import io.jpyxie.python.executor.PythonResultSpec;
 import io.jpyxie.python.resolver.PythonArgumentSpec;
 import io.jpyxie.python.script.PythonScript;
@@ -15,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PythonContext {
-    private PythonRepresentation script;
+    private PythonScript script;
     @Builder.Default
     private PythonResultSpec resultSpec = PythonResultSpec.empty();
     @Builder.Default
@@ -27,11 +25,11 @@ public class PythonContext {
     @Builder.Default
     private SuccessHandler onSuccess = r -> r;
     @Builder.Default
-    private FailureHandler onFail = t -> { throw new PythonProcessionException(t); };
+    private FailureHandler onFailure = t -> { throw PythonProcessionException.failedToProcess(this.script, t); };
 
     @FunctionalInterface
     public interface PreOperator {
-        void operate(PythonRepresentation script, PythonResultSpec resultSpec, PythonArgumentSpec argumentSpec);
+        void operate(PythonScript script, PythonResultSpec resultSpec, PythonArgumentSpec argumentSpec);
     }
 
     @FunctionalInterface

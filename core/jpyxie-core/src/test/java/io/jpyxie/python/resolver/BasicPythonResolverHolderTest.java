@@ -1,7 +1,7 @@
 package io.jpyxie.python.resolver;
 
-import io.jpyxie.python.exception.PythonScriptException;
 import io.jpyxie.python.script.PythonScript;
+import io.jpyxie.python.script.PythonScriptException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

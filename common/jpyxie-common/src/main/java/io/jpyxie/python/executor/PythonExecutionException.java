@@ -1,20 +1,7 @@
-package io.jpyxie.python.exception;
+package io.jpyxie.python.executor;
 
-import io.jpyxie.python.executor.PythonExecutor;
+import io.jpyxie.python.PythonException;
 
-/**
- * Exception thrown when a Python script execution process is interrupted.
- * <p>
- * This typically occurs when a thread running the Python script is interrupted,
- * or when the execution process is forcibly terminated.
- * <p>
- * This exception extends {@link PythonException} and signals
- * an abnormal termination of the script execution flow.
- *
- * @see PythonExecutor
- * @since 1.0.0
- * @author w4t3rcs
- */
 public class PythonExecutionException extends PythonException {
     public PythonExecutionException() {
     }

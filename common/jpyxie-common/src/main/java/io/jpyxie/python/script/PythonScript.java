@@ -1,59 +1,22 @@
 package io.jpyxie.python.script;
 
 import io.jpyxie.python.PythonRepresentation;
-import io.jpyxie.python.PythonConstants;
-import io.jpyxie.python.exception.PythonScriptException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.io.*;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Data
 @AllArgsConstructor
 public class PythonScript implements PythonRepresentation {
-    private static final PythonScript EMPTY = PythonScript.empty("empty");
     protected static final int START_INDEX = 0;
     @Serial
     private static final long serialVersionUID = 0L;
     private final String name;
     private final List<PythonScriptLine> importLines;
     private final List<PythonScriptLine> codeLines;
-
-    public static PythonScript empty() {
-        return EMPTY;
-    }
-
-    public static PythonScript empty(String name) {
-        return new PythonScript(name, List.of(), List.of());
-    }
-
-    public static PythonScript fromInputStream(String name, InputStream inputStream) {
-        return fromReader(name, new InputStreamReader(inputStream));
-    }
-
-    public static PythonScript fromReader(String name, Reader reader) {
-        try (BufferedReader bufferedReader = new BufferedReader(reader)) {
-            return fromStream(name, bufferedReader.lines());
-        } catch (IOException e) {
-            throw PythonScriptException.inputStreamException(e);
-        }
-    }
-
-    public static PythonScript fromStream(String name, Stream<String> lines) {
-        PythonScript script = new PythonScript(name);
-        lines.forEach(line -> {
-            PythonScriptLine scriptLine = new PythonScriptLine(line);
-            if (line.matches(PythonConstants.IMPORT_REGEX)) {
-                script.getImportLines().add(scriptLine);
-            } else {
-                script.getCodeLines().add(scriptLine);
-            }
-        });
-        return script;
-    }
 
     public PythonScript(String name) {
         this(name, new ArrayList<>(), new ArrayList<>());

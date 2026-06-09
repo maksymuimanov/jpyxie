@@ -1,6 +1,5 @@
 package io.jpyxie.python.interpreter;
 
-import io.jpyxie.python.exception.PythonInterpreterProvisionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +24,7 @@ public class SingletonPythonInterpreterProvider<I extends AutoCloseable> impleme
     public I acquire() {
         try {
             if (this.closed.get()) {
-                PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to acquire interpreter, interpreter is closed");
-                log.error(exception.getMessage(), exception);
-                throw exception;
+                throw PythonInterpreterProviderException.closed();
             }
 
             if (this.interpreter == null) {
@@ -42,9 +39,7 @@ public class SingletonPythonInterpreterProvider<I extends AutoCloseable> impleme
 
             return this.interpreter;
         } catch (Exception e) {
-            PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Failed to acquire singleton interpreter", e);
-            log.error(exception.getMessage(), e);
-            throw exception;
+            throw PythonInterpreterProviderException.failedToAcquireInterpreter(e);
         }
     }
 
@@ -61,8 +56,7 @@ public class SingletonPythonInterpreterProvider<I extends AutoCloseable> impleme
                 this.interpreter.close();
             }
         } catch (Exception e) {
-            log.error("Failed to close singleton interpreter", e);
-            throw new PythonInterpreterProvisionException(e);
+            throw PythonInterpreterProviderException.failedToClose(e);
         }
     }
 }

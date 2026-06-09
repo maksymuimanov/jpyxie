@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 
 @Slf4j
-public class WindowsVenvPythonEnvironment extends AbstractVenvPythonEnvironment {
+public class WindowsVenvPythonEnvironment extends VenvPythonEnvironment {
     public static final String SCRIPTS_DIRECTORY = "Scripts";
     public static final String PYTHON_EXE = "python.exe";
 
@@ -31,7 +31,7 @@ public class WindowsVenvPythonEnvironment extends AbstractVenvPythonEnvironment 
     }
 
     @Override
-    protected Path locateSystemPythonExecutablePath() {
+    protected Path locateSystemExecutablePath() {
         return this.getPath()
                 .resolve(SCRIPTS_DIRECTORY)
                 .resolve(PYTHON_EXE);

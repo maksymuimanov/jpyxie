@@ -1,6 +1,5 @@
 package io.jpyxie.python.interpreter;
 
-import io.jpyxie.python.exception.PythonInterpreterProvisionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -72,7 +71,7 @@ class ThreadLocalPythonInterpreterProviderTest {
         interpreterProvider.close();
 
         assertThatThrownBy(() -> interpreterProvider.acquire())
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
         verify(interpreterFactory, never())
                 .create();
     }
@@ -85,7 +84,7 @@ class ThreadLocalPythonInterpreterProviderTest {
                 .create();
 
         assertThatThrownBy(() -> interpreterProvider.acquire())
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
         verify(interpreterFactory, times(1))
                 .create();
     }
@@ -135,7 +134,7 @@ class ThreadLocalPythonInterpreterProviderTest {
                 .close();
 
         assertThatThrownBy(() -> interpreterProvider.close())
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
         verify(newInterpreter, times(1))
                 .close();
     }

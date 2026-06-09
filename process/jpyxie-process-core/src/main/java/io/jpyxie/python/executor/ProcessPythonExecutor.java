@@ -1,6 +1,5 @@
 package io.jpyxie.python.executor;
 
-import io.jpyxie.python.exception.PythonExecutionException;
 import io.jpyxie.python.processor.PythonResultMap;
 import io.jpyxie.python.script.PythonScript;
 import lombok.extern.slf4j.Slf4j;

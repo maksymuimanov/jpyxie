@@ -1,6 +1,5 @@
 package io.jpyxie.python.lifecycle;
 
-import io.jpyxie.python.exception.PythonLifecycleException;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

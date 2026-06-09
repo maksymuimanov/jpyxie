@@ -2,7 +2,6 @@ package io.jpyxie.python.bind;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jpyxie.python.exception.PythonDeserializationException;
 import io.jpyxie.python.executor.PythonResultRequirement;
 import io.jpyxie.python.proto.GrpcPythonResponse;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package io.jpyxie.python.executor;
 
+import io.jpyxie.python.PythonException;
 import io.jpyxie.python.common.MapSpec;
-import io.jpyxie.python.exception.PythonException;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;

@@ -1,31 +1,32 @@
-package io.jpyxie.python.file;
+package io.jpyxie.python.script;
 
 import io.jpyxie.python.autoconfigure.PythonFileProperties;
-import io.jpyxie.python.exception.PythonFileException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.charset.Charset;
 
 @Slf4j
 @RequiredArgsConstructor
-public class ClassPathResourcePythonFileInputStreamProvider implements PythonFileInputStreamProvider {
+public class SpringPythonScriptFactory {
+    public static final String DEFAULT_PARENT_DIRECTORY = "/python/";
+    public static final String DEFAULT_CHARSET_NAME = "UTF-8";
     private final PythonFileProperties fileProperties;
     private final Environment environment;
 
-    @Override
-    public InputStream open(CharSequence path) {
-        if (path.isEmpty()) throw new PythonFileException("Path cannot be empty");
+    public FilePythonScript fromResource(String name, CharSequence path) {
+        if (path.isEmpty()) throw SpringPythonScriptFactoryException.emptyPath();
         try {
             log.debug("Opening file: [{}]", path);
             String parentPath = fileProperties.getPath();
             ClassPathResource resource = new ClassPathResource(parentPath + path);
+            Charset charset = Charset.forName(fileProperties.getCharset());
             if (resource.exists()) {
                 log.debug("File found: [{}]", path);
-                return resource.getInputStream();
+                return PythonScriptFactory.fromFile(name, resource.getFile(), charset);
             } else {
                 log.debug("File not found: [{}], trying to seek in profile packages", path);
                 String[] activeProfiles = environment.getActiveProfiles();
@@ -33,14 +34,14 @@ public class ClassPathResourcePythonFileInputStreamProvider implements PythonFil
                     ClassPathResource profileResource = new ClassPathResource(parentPath + activeProfile + "/" + path);
                     if (profileResource.exists()) {
                         log.debug("File found in profile package: [{}: {}]", activeProfile, path);
-                        return profileResource.getInputStream();
+                        return PythonScriptFactory.fromFile(name, profileResource.getFile(), charset);
                     }
                 }
-                throw new PythonFileException(path + " not found");
+                throw SpringPythonScriptFactoryException.notFound(path);
             }
         } catch (IOException e) {
-            log.error("Failed to open file: [{}]", path, e);
-            throw new PythonFileException(e);
+            throw SpringPythonScriptFactoryException.failedToOpen(name, path, e);
         }
     }
+
 }

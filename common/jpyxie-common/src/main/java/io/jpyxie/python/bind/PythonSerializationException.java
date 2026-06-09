@@ -1,4 +1,6 @@
-package io.jpyxie.python.exception;
+package io.jpyxie.python.bind;
+
+import io.jpyxie.python.PythonException;
 
 public class PythonSerializationException extends PythonException {
     public PythonSerializationException() {

@@ -1,4 +1,6 @@
-package io.jpyxie.python.exception;
+package io.jpyxie.python.lifecycle;
+
+import io.jpyxie.python.PythonException;
 
 public class PythonLifecycleException extends PythonException {
     public PythonLifecycleException() {

@@ -1,7 +1,6 @@
 package io.jpyxie.python.executor;
 
 import io.jpyxie.python.bind.PythonDeserializer;
-import io.jpyxie.python.exception.PythonExecutionException;
 import io.jpyxie.python.processor.PythonResultMap;
 import io.jpyxie.python.proto.GrpcPythonRequest;
 import io.jpyxie.python.proto.GrpcPythonResponse;

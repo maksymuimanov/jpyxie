@@ -1,6 +1,5 @@
 package io.jpyxie.python.interpreter;
 
-import io.jpyxie.python.exception.PythonInterpreterProvisionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +36,7 @@ public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> imple
     public I acquire() {
         try {
             if (this.closed.get()) {
-                PythonInterpreterProvisionException exception = new PythonInterpreterProvisionException("Attempted to acquire interpreter from closed thread-local provider");
-                log.error(exception.getMessage(), exception);
-                throw exception;
+                throw PythonInterpreterProviderException.closed();
             }
 
             I threadLocalInterpreter = threadLocal.get();
@@ -55,8 +52,7 @@ public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> imple
             log.debug("Reusing existing thread-local interpreter for thread [{}]", threadName);
             return threadLocalInterpreter;
         } catch (Exception e) {
-            log.error("Failed to acquire thread-local interpreter", e);
-            throw new PythonInterpreterProvisionException(e);
+            throw PythonInterpreterProviderException.failedToAcquireInterpreter(e);
         }
     }
 
@@ -75,8 +71,7 @@ public class ThreadLocalPythonInterpreterProvider<I extends AutoCloseable> imple
             }
             log.info("Successfully closed [{}] thread-local interpreters", size);
         } catch (Exception e) {
-            log.error("Failed to close thread-local interpreters", e);
-            throw new PythonInterpreterProvisionException(e);
+            throw PythonInterpreterProviderException.failedToClose(e);
         }
     }
 }

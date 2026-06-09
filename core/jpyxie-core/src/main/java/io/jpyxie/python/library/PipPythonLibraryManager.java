@@ -1,7 +1,7 @@
 package io.jpyxie.python.library;
 
+import io.jpyxie.python.PythonConstants;
 import io.jpyxie.python.environment.PythonEnvironment;
-import io.jpyxie.python.exception.PythonLibraryManagementException;
 import lombok.extern.slf4j.Slf4j;
 import org.zeroturnaround.exec.ProcessExecutor;
 import org.zeroturnaround.exec.stream.NullOutputStream;
@@ -18,7 +18,7 @@ import java.util.function.IntConsumer;
 
 @Slf4j
 public class PipPythonLibraryManager implements PythonLibraryManager {
-    public static final String DEFAULT_COMMAND = "-m pip";
+    public static final String DEFAULT_COMMAND = "pip";
     public static final boolean DEFAULT_REDIRECT_ERROR_STREAM = true;
     public static final boolean DEFAULT_REDIRECT_OUTPUT_STREAM = true;
     public static final boolean DEFAULT_READ_OUTPUT = true;
@@ -52,7 +52,7 @@ public class PipPythonLibraryManager implements PythonLibraryManager {
                                    boolean readOutput,
                                    Duration timeout) {
         this.environment = environment;
-        this.pipCommand = pipCommand.split(" ");
+        this.pipCommand = new String[]{PythonConstants.M, pipCommand};
         this.redirectErrorStream = redirectErrorStream;
         this.redirectOutputStream = redirectOutputStream;
         this.readOutput = readOutput;
@@ -61,36 +61,48 @@ public class PipPythonLibraryManager implements PythonLibraryManager {
 
     @Override
     public boolean exists(PythonLibrary library) {
-        log.debug("Checking if library [{}] exists", library.getName());
-        AtomicBoolean exists = new AtomicBoolean(false);
-        this.processCommand(SHOW_COMMAND, library.getName(), exitValue -> {
-            if (exitValue == 0) {
-                exists.set(true);
-                log.debug("Library [{}] exists", library.getName());
-            } else {
-                log.debug("Library [{}] does not exist (exit code: [{}])", library.getName(), exitValue);
-            }
-        });
-        return exists.get();
+        try {
+            log.debug("Checking if library [{}] exists", library.getName());
+            AtomicBoolean exists = new AtomicBoolean(false);
+            this.processCommand(SHOW_COMMAND, library.getName(), exitValue -> {
+                if (exitValue == 0) {
+                    exists.set(true);
+                    log.debug("Library [{}] exists", library.getName());
+                } else {
+                    log.debug("Library [{}] does not exist (exit code: [{}])", library.getName(), exitValue);
+                }
+            });
+            return exists.get();
+        } catch (Exception e) {
+            throw PipPythonLibraryManagerException.failedToCheckExistence(library, e);
+        }
     }
 
     @Override
     public void install(PythonLibrary library) {
-        log.info("Installing Python library [{}] with options [{}]", library.getName(), library.getOptions());
-        this.processCommand(INSTALL_COMMAND, library);
+        try {
+            log.info("Installing Python library [{}] with options [{}]", library.getName(), library.getOptions());
+            this.processCommand(INSTALL_COMMAND, library);
+        } catch (Exception e) {
+            throw PipPythonLibraryManagerException.failedToInstall(library, e);
+        }
     }
 
     @Override
     public void uninstall(PythonLibrary library) {
-        log.info("Uninstalling Python library [{}] with options [{}]", library.getName(), library.getOptions());
-        library.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
-        this.processCommand(UNINSTALL_COMMAND, library);
+        try {
+            log.info("Uninstalling Python library [{}] with options [{}]", library.getName(), library.getOptions());
+            library.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
+            this.processCommand(UNINSTALL_COMMAND, library);
+        } catch (Exception e) {
+            throw PipPythonLibraryManagerException.failedToUninstall(library, e);
+        }
     }
 
-    protected void processCommand(String command, PythonLibrary management) {
-        this.processCommand(command, management, (exitValue, commandList) -> {
+    protected void processCommand(String command, PythonLibrary library) {
+        this.processCommand(command, library, (exitValue, commandList) -> {
             if (exitValue != 0) {
-                throw new PythonLibraryManagementException(commandList, exitValue);
+                throw PipPythonLibraryManagerException.failedPipCommand(commandList, exitValue);
             }
         });
     }
@@ -100,14 +112,14 @@ public class PipPythonLibraryManager implements PythonLibraryManager {
                 exitValueConsumer.accept(exitValue));
     }
 
-    protected void processCommand(String command, PythonLibrary management, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
+    protected void processCommand(String command, PythonLibrary library, BiConsumer<Integer, List<String>> exitValueCommandsBiConsumer) {
         List<String> commands = new ArrayList<>();
         String pythonExecutable = this.environment.getExecutableOrBackup();
         commands.add(pythonExecutable);
         Collections.addAll(commands, this.pipCommand);
         commands.add(command);
-        commands.add(management.getName());
-        if (management.getOptions() != null) commands.addAll(management.getOptions());
+        commands.add(library.getName());
+        if (library.getOptions() != null) commands.addAll(library.getOptions());
         this.processCommand(commands, exitValueCommandsBiConsumer);
     }
 
@@ -138,11 +150,9 @@ public class PipPythonLibraryManager implements PythonLibraryManager {
             exitValueCommandsBiConsumer.accept(exitValue, commands);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            log.error("Pip command interrupted: [{}]", commands, e);
-            throw new PythonLibraryManagementException(e);
+            throw PipPythonLibraryManagerException.interrupted(e);
         } catch (Exception e) {
-            log.error("Pip command failed: [{}]", commands, e);
-            throw new PythonLibraryManagementException(e);
+            throw PipPythonLibraryManagerException.failedPipCommand(commands, e);
         }
     }
 }

@@ -1,6 +1,5 @@
 package io.jpyxie.python.lifecycle;
 
-import io.jpyxie.python.exception.PythonLifecycleException;
 import io.jpyxie.python.library.PythonLibrary;
 import io.jpyxie.python.library.PythonLibraryManager;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ public class PythonLibraryInitializer implements PythonInitializer {
             log.info("Starting Python libraries installation for [{}] libraries", libraries.length);
             for (PythonLibrary library : libraries) {
                 if (pythonLibraryManager.exists(library)) {
-                    log.debug("Library [{}] already exists, skipping installation", library.getName());
+                    log.info("Library [{}] already exists, skipping installation", library.getName());
                     continue;
                 }
                 pythonLibraryManager.install(library);
@@ -26,8 +25,7 @@ public class PythonLibraryInitializer implements PythonInitializer {
             }
             log.info("Completed Python libraries installation, installed [{}] libraries", libraries.length);
         } catch (Exception e) {
-            log.error("Failed to install Python libraries", e);
-            throw new PythonLifecycleException(e);
+            throw PythonLibraryInitializerException.failedToInitialize(e);
         }
     }
 }

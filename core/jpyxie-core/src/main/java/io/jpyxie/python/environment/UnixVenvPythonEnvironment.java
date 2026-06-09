@@ -1,14 +1,13 @@
 package io.jpyxie.python.environment;
 
+import io.jpyxie.python.PythonConstants;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.file.Path;
 import java.time.Duration;
 
-import static io.jpyxie.python.PythonConstants.PYTHON;
-
 @Slf4j
-public class UnixVenvPythonEnvironment extends AbstractVenvPythonEnvironment {
+public class UnixVenvPythonEnvironment extends VenvPythonEnvironment {
     public static final String BIN_DIRECTORY = "bin";
 
     public UnixVenvPythonEnvironment(ExistingEnvironmentHandler existingEnvironmentHandler) {
@@ -32,9 +31,9 @@ public class UnixVenvPythonEnvironment extends AbstractVenvPythonEnvironment {
     }
 
     @Override
-    protected Path locateSystemPythonExecutablePath() {
+    protected Path locateSystemExecutablePath() {
         return this.getPath()
                 .resolve(BIN_DIRECTORY)
-                .resolve(PYTHON);
+                .resolve(PythonConstants.PYTHON);
     }
 }

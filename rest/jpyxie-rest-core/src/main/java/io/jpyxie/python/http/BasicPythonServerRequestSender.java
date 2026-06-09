@@ -1,7 +1,7 @@
 package io.jpyxie.python.http;
 
-import io.jpyxie.python.exception.PythonExecutionException;
 import io.jpyxie.python.exception.PythonHttpRequestSendingException;
+import io.jpyxie.python.executor.PythonExecutionException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 

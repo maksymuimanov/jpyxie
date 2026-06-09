@@ -1,6 +1,5 @@
 package io.jpyxie.python.interpreter;
 
-import io.jpyxie.python.exception.PythonInterpreterProvisionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -22,14 +21,12 @@ public class PrototypePythonInterpreterProvider<I extends AutoCloseable> impleme
     @Override
     public I acquire() {
         if (this.closed.get()) {
-            log.warn("Attempted to acquire interpreter from closed prototype interpreter provider");
-            throw new PythonInterpreterProvisionException("Prototype interpreter provider is closed");
+            throw PythonInterpreterProviderException.closed();
         }
         try {
             return this.interpreterFactory.create();
         } catch (Exception e) {
-            log.error("Failed to acquire interpreter from prototype interpreter provider", e);
-            throw new PythonInterpreterProvisionException(e);
+            throw PythonInterpreterProviderException.failedToAcquireInterpreter(e);
         }
     }
 
@@ -43,8 +40,7 @@ public class PrototypePythonInterpreterProvider<I extends AutoCloseable> impleme
             interpreter.close();
             log.debug("Interpreter closed");
         } catch (Exception e) {
-            log.error("Failed to release interpreter to prototype interpreter provider", e);
-            throw new PythonInterpreterProvisionException(e);
+            throw PythonInterpreterProviderException.failedToReleaseInterpreter(e);
         }
     }
 
@@ -57,8 +53,7 @@ public class PrototypePythonInterpreterProvider<I extends AutoCloseable> impleme
             }
             log.info("Successfully closed prototype interpreter provider");
         } catch (Exception e) {
-            log.error("Failed to close prototype interpreter provider", e);
-            throw new PythonInterpreterProvisionException(e);
+            throw PythonInterpreterProviderException.failedToClose(e);
         }
     }
 }

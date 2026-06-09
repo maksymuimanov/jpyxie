@@ -1,5 +1,7 @@
 package io.jpyxie.python.exception;
 
+import io.jpyxie.python.executor.PythonExecutionException;
+
 public class PythonProcessExecutionException extends PythonExecutionException {
     public PythonProcessExecutionException() {
     }

@@ -1,7 +1,6 @@
 package io.jpyxie.python.environment;
 
 import io.jpyxie.python.PythonConstants;
-import io.jpyxie.python.exception.PythonEnvironmentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;

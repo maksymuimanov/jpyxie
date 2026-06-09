@@ -1,6 +1,5 @@
 package io.jpyxie.python.interpreter;
 
-import io.jpyxie.python.exception.PythonInterpreterProvisionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -91,7 +90,7 @@ class PoolPythonInterpreterProviderTest {
         assumeThat(pool.isEmpty())
                 .isTrue();
         assertThatThrownBy(() -> interpreterProvider.acquire(5, TimeUnit.SECONDS))
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
         assertThat(pool)
                 .isEmpty();
     }
@@ -102,7 +101,7 @@ class PoolPythonInterpreterProviderTest {
         interpreterProvider.close();
 
         assertThatThrownBy(() -> interpreterProvider.acquire(5, TimeUnit.SECONDS))
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
         verify(interpreterFactory, never())
                 .create();
     }
@@ -115,7 +114,7 @@ class PoolPythonInterpreterProviderTest {
                 .isEmpty();
 
         assertThatThrownBy(() -> interpreterProvider.acquire(5, TimeUnit.SECONDS))
-                .isInstanceOf(PythonInterpreterProvisionException.class)
+                .isInstanceOf(PythonInterpreterProviderException.class)
                 .hasCauseInstanceOf(InterruptedException.class);
         assertThat(Thread.interrupted())
                 .isTrue();
@@ -130,7 +129,7 @@ class PoolPythonInterpreterProviderTest {
                 .thenThrow(RuntimeException.class);
 
         assertThatThrownBy(() -> interpreterProvider.acquire(5, TimeUnit.SECONDS))
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
         verify(interpreterFactory, never())
                 .create();
     }
@@ -144,7 +143,7 @@ class PoolPythonInterpreterProviderTest {
         pool.clear();
 
         assertThatThrownBy(() -> interpreterProvider.acquire(5, TimeUnit.SECONDS))
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
     }
 
     @Test
@@ -191,7 +190,7 @@ class PoolPythonInterpreterProviderTest {
         interpreterProvider.close();
 
         assertThatThrownBy(() -> interpreterProvider.release(newInterpreter))
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
         assertThat(pool)
                 .isEmpty();
         verify(pool, never())
@@ -204,7 +203,7 @@ class PoolPythonInterpreterProviderTest {
                 .thenReturn(false);
 
         assertThatThrownBy(() -> interpreterProvider.release(newInterpreter))
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
         verify(pool, times(1))
                 .offer(newInterpreter);
     }
@@ -216,7 +215,7 @@ class PoolPythonInterpreterProviderTest {
                 .offer(newInterpreter);
 
         assertThatThrownBy(() -> interpreterProvider.release(newInterpreter))
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
         verify(pool, times(1))
                 .offer(newInterpreter);
     }
@@ -249,7 +248,7 @@ class PoolPythonInterpreterProviderTest {
                 .close();
 
         assertThatThrownBy(() -> interpreterProvider.close())
-                .isInstanceOf(PythonInterpreterProvisionException.class);
+                .isInstanceOf(PythonInterpreterProviderException.class);
         verify(newInterpreter, times(1))
                 .close();
     }

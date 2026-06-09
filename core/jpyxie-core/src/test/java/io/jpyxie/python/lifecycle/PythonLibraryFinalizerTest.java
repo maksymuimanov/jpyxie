@@ -1,6 +1,5 @@
 package io.jpyxie.python.lifecycle;
 
-import io.jpyxie.python.exception.PythonLifecycleException;
 import io.jpyxie.python.library.PythonLibrary;
 import io.jpyxie.python.library.PythonLibraryManager;
 import org.junit.jupiter.api.BeforeEach;

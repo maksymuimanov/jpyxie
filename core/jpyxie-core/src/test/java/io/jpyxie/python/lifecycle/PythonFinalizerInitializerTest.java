@@ -1,7 +1,6 @@
 package io.jpyxie.python.lifecycle;
 
 import io.jpyxie.python.environment.PythonEnvironment;
-import io.jpyxie.python.exception.PythonLifecycleException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

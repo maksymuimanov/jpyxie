@@ -1,6 +1,12 @@
-package io.jpyxie.python.exception;
+package io.jpyxie.python.common;
+
+import io.jpyxie.python.PythonException;
 
 public class PythonFileException extends PythonException {
+    public static PythonFileException projectDirectoryIsNotUserDirectoryChild(String directory) {
+        return new PythonFileException("Project directory is not a child of user directory: " + directory);
+    }
+
     public PythonFileException() {
     }
 

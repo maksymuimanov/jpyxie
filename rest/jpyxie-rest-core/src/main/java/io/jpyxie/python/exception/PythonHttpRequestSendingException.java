@@ -1,5 +1,7 @@
 package io.jpyxie.python.exception;
 
+import io.jpyxie.python.PythonException;
+
 public class PythonHttpRequestSendingException extends PythonException {
     public PythonHttpRequestSendingException() {
     }

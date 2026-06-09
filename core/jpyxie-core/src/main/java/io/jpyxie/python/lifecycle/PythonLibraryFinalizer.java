@@ -1,6 +1,5 @@
 package io.jpyxie.python.lifecycle;
 
-import io.jpyxie.python.exception.PythonLifecycleException;
 import io.jpyxie.python.library.PythonLibrary;
 import io.jpyxie.python.library.PythonLibraryManager;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +25,7 @@ public class PythonLibraryFinalizer implements PythonFinalizer {
             }
             log.info("Completed Python libraries uninstallation, removed [{}] libraries", libraries.length);
         } catch (Exception e) {
-            log.error("Failed to uninstall Python libraries", e);
-            throw new PythonLifecycleException(e);
+            throw PythonLibraryFinalizerException.failedToFinalize(e);
         }
     }
 }

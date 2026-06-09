@@ -1,6 +1,5 @@
 package io.jpyxie.python.lifecycle;
 
-import io.jpyxie.python.exception.PythonLifecycleException;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

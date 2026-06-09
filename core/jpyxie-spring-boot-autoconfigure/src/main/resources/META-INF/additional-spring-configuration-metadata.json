@@ -1,171 +1,145 @@
 {
   "groups": [
     {
+      "name": "spring.python.environment",
+      "type": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties",
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties",
+      "description": "Configuration properties for Python environment autoconfiguration."
+    },
+    {
       "name": "spring.python.file",
-      "description": "Configuration properties for managing Python files.",
       "type": "io.jpyxie.python.autoconfigure.PythonFileProperties",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonFileProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonFileProperties",
+      "description": "Configuration properties for Python script file handling."
     },
     {
       "name": "spring.python.library",
-      "description": "Configuration group for Python library installation and uninstallation.",
       "type": "io.jpyxie.python.autoconfigure.PythonLibraryProperties",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonLibraryProperties"
-    },
-    {
-      "name": "spring.python.environment",
-      "description": "Configuration properties for managing Python virtual environments.",
-      "type": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "sourceType": "io.jpyxie.python.autoconfigure.PythonLibraryProperties",
+      "description": "Configuration properties for automatic Python library management."
     }
   ],
   "properties": [
     {
-      "name": "spring.python.file.path",
-      "description": "Base directory path where Python scripts are stored or loaded from.",
-      "defaultValue": "/python/",
-      "type": "java.lang.String",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonFileProperties"
-    },
-    {
-      "name": "spring.python.file.charset",
-      "description": "Charset used to read Python script files.",
-      "defaultValue": "UTF-8",
-      "type": "java.lang.String",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonFileProperties"
-    },
-    {
-      "name": "spring.python.library.enabled",
-      "description": "Enables or disables automatic Python library management on Spring application lifecycle. When true, the system can preinstall or uninstall required packages.",
-      "defaultValue": false,
-      "type": "java.lang.Boolean",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonLibraryProperties"
-    },
-    {
-      "name": "spring.python.library.installed",
-      "description": "List of Python libraries to install before executing any Python scripts. Each entry defines a PythonLibraryManagement object.",
-      "defaultValue": [],
-      "type": "io.jpyxie.python.library.PythonLibrary[]",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonLibraryProperties"
-    },
-    {
-      "name": "spring.python.library.uninstalled",
-      "description": "List of Python libraries to uninstall before whole application shutdown. Each entry defines a PythonLibraryManagement object.",
-      "defaultValue": [],
-      "type": "io.jpyxie.python.library.PythonLibrary[]",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonLibraryProperties"
-    },
-    {
       "name": "spring.python.environment.enabled",
-      "description": "Whether to enable environment autoconfiguration.",
-      "defaultValue": true,
       "type": "java.lang.Boolean",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "defaultValue": true,
+      "description": "Whether to enable environment autoconfiguration."
     },
     {
       "name": "spring.python.environment.create-on-start",
-      "description": "Whether to enable creating a virtual environment.",
-      "defaultValue": false,
       "type": "java.lang.Boolean",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "defaultValue": false,
+      "description": "Whether to enable creating a virtual environment."
     },
     {
       "name": "spring.python.environment.remove-on-close",
-      "description": "Whether to remove the virtual environment when the application context is closed.",
-      "defaultValue": false,
       "type": "java.lang.Boolean",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "defaultValue": false,
+      "description": "Whether to remove the virtual environment when the application context is closed."
     },
     {
       "name": "spring.python.environment.global-python-executable",
-      "description": "Global Python executable used to create virtual environments.",
-      "defaultValue": "python",
       "type": "java.lang.String",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "defaultValue": "python",
+      "description": "Global Python executable used to create virtual environments."
     },
     {
       "name": "spring.python.environment.backup-python-executable",
-      "description": "Backup Python executable to use when a virtual environment is not available.",
-      "defaultValue": "python",
       "type": "java.lang.String",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "defaultValue": "python",
+      "description": "Backup Python executable to use when a virtual environment is not available."
     },
     {
       "name": "spring.python.environment.parent-directory",
-      "description": "Parent directory where virtual environments are created.",
-      "defaultValue": "venv",
       "type": "java.lang.String",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "defaultValue": "venv",
+      "description": "Parent directory where virtual environments are created."
     },
     {
       "name": "spring.python.environment.redirect-error-stream",
-      "description": "Whether to redirect error stream when executing virtual environment commands.",
-      "defaultValue": true,
       "type": "java.lang.Boolean",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "defaultValue": true,
+      "description": "Whether to redirect error stream when executing virtual environment commands."
     },
     {
       "name": "spring.python.environment.redirect-output-stream",
-      "description": "Whether to redirect output stream when executing virtual environment commands.",
-      "defaultValue": true,
       "type": "java.lang.Boolean",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "defaultValue": true,
+      "description": "Whether to redirect output stream when executing virtual environment commands."
     },
     {
       "name": "spring.python.environment.read-output",
-      "description": "Whether to read the output of virtual environment commands.",
-      "defaultValue": true,
       "type": "java.lang.Boolean",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "defaultValue": true,
+      "description": "Whether to read the output of virtual environment commands."
     },
     {
       "name": "spring.python.environment.timeout",
-      "description": "Timeout for executing virtual environment commands.",
-      "defaultValue": "3m",
       "type": "java.time.Duration",
-      "sourceType": "io.jpyxie.python.autoconfigure.PythonEnvironmentProperties"
+      "defaultValue": "PT3M",
+      "description": "Timeout for executing virtual environment commands."
+    },
+    {
+      "name": "spring.python.file.path",
+      "type": "java.lang.String",
+      "defaultValue": "/python/",
+      "description": "Base directory path where Python scripts are stored or loaded from."
+    },
+    {
+      "name": "spring.python.file.charset",
+      "type": "java.lang.String",
+      "defaultValue": "UTF-8",
+      "description": "Charset used to read Python script files."
+    },
+    {
+      "name": "spring.python.library.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Enables or disables automatic Python library management on Spring application lifecycle."
+    },
+    {
+      "name": "spring.python.library.installed",
+      "type": "io.jpyxie.python.library.PythonLibrary[]",
+      "description": "List of Python libraries to install before executing any Python scripts."
+    },
+    {
+      "name": "spring.python.library.uninstalled",
+      "type": "io.jpyxie.python.library.PythonLibrary[]",
+      "description": "List of Python libraries to uninstall before whole application shutdown."
     }
   ],
   "hints": [
     {
-      "name": "spring.python.environment.global-python-executable",
+      "name": "spring.python.file.charset",
       "values": [
         {
-          "value": "python",
-          "description": "Use the system Python executable."
+          "value": "UTF-8",
+          "description": "UTF-8 character set."
         },
         {
-          "value": "python3",
-          "description": "Use the system Python 3 executable."
+          "value": "US-ASCII",
+          "description": "US-ASCII character set."
         },
         {
-          "value": "py",
-          "description": "Use the system Python executable (Windows only)."
-        },
-        {
-          "value": "graalpy",
-          "description": "Use GraalPy Python executable (only available if GraalPy is installed and enabled)."
+          "value": "ISO-8859-1",
+          "description": "ISO-8859-1 character set."
         }
       ]
     },
     {
-      "name": "spring.python.environment.backup-python-executable",
-      "values": [
+      "name": "spring.python.environment.parent-directory",
+      "providers": [
         {
-          "value": "python",
-          "description": "Use the system Python executable."
-        },
+          "name": "handle-as-directory"
+        }
+      ]
+    },
+    {
+      "name": "spring.python.file.path",
+      "providers": [
         {
-          "value": "python3",
-          "description": "Use the system Python 3 executable."
-        },
-        {
-          "value": "py",
-          "description": "Use the system Python executable (Windows only)."
-        },
-        {
-          "value": "graalpy",
-          "description": "Use GraalPy Python executable (only available if GraalPy is installed and enabled)."
+          "name": "handle-as-directory"
         }
       ]
     }
