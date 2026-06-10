@@ -13,9 +13,8 @@ public class PythonScriptBuilder {
     private final PythonScript script;
 
     public PythonScriptBuilder computeAllImports(Predicate<PythonScriptLine> predicate, Function<PythonScriptLine, PythonScriptLine> function) {
-        List<PythonScriptLine> importLines = this.script.getImportLines();
-        for (int i = 0; i < importLines.size(); i++) {
-            PythonScriptLine importLine = importLines.get(i);
+        for (int i = 0; i < this.script.getImportsSize(); i++) {
+            PythonScriptLine importLine = this.script.getImport(i);
             if (predicate.test(importLine)) {
                 script.setImport(function.apply(importLine), i);
             }
@@ -24,9 +23,8 @@ public class PythonScriptBuilder {
     }
 
     public PythonScriptBuilder computeAllCode(Predicate<PythonScriptLine> predicate, Function<PythonScriptLine, PythonScriptLine> function) {
-        List<PythonScriptLine> codeLines = this.script.getCodeLines();
-        for (int i = 0; i < codeLines.size(); i++) {
-            PythonScriptLine codeLine = codeLines.get(i);
+        for (int i = 0; i < this.script.getCodeSize(); i++) {
+            PythonScriptLine codeLine = this.script.getCode(i);
             if (predicate.test(codeLine)) {
                 script.setCode(function.apply(codeLine), i);
             }
