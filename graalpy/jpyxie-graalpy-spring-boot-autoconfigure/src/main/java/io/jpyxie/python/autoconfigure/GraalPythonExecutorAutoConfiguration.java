@@ -6,6 +6,7 @@ import io.jpyxie.python.environment.PythonEnvironment;
 import io.jpyxie.python.executor.GraalPythonExecutor;
 import io.jpyxie.python.executor.PythonExecutor;
 import io.jpyxie.python.interpreter.*;
+import lombok.SneakyThrows;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 import org.graalvm.polyglot.io.IOAccess;
@@ -16,6 +17,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProp
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+
+import java.util.Optional;
 
 @AutoConfiguration
 @EnableConfigurationProperties(GraalPyProperties.class)
@@ -53,6 +56,7 @@ public class GraalPythonExecutorAutoConfiguration {
         );
     }
 
+    @SneakyThrows
     @Bean
     @ConditionalOnBooleanProperty(name = "spring.python.executor.graalpy.resources.enabled")
     @ConditionalOnMissingBean(VirtualFileSystem.class)
@@ -63,8 +67,11 @@ public class GraalPythonExecutorAutoConfiguration {
                 .allowHostIO(resources.getAllowHostIO())
                 .unixMountPoint(resources.getUnixMountPoint())
                 .windowsMountPoint(resources.getWindowsMountPoint());
-        if (resources.getResourceDirectory() != null) builder.resourceDirectory(resources.getResourceDirectory());
-        if (resources.getResourceLoadingClass() != null) builder.resourceLoadingClass(Class.forName(resources.getResourceLoadingClass()));
+        Optional.ofNullable(resources.getResourceDirectory())
+                .ifPresent(builder::resourceDirectory);
+        Optional.ofNullable(resources.getResourceLoadingClass())
+                .map(Class::forName)
+                .ifPresent(builder::resourceLoadingClass);
         return builder.build();
     }
 

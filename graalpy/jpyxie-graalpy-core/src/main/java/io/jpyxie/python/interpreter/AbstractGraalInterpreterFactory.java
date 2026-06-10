@@ -2,6 +2,8 @@ package io.jpyxie.python.interpreter;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.io.IOAccess;
@@ -61,14 +63,14 @@ public abstract class AbstractGraalInterpreterFactory implements PythonInterpret
         this.putOptions(builder, this.additionalOptions);
     }
 
-    protected void putOptions(Context.Builder builder, @Nullable Map<String, String> options) {
-        if (options != null && !options.isEmpty()) {
+    protected void putOptions(Context.Builder builder, @Nullable Map<String, @Nullable String> options) {
+        if (MapUtils.isNotEmpty(options)) {
             options.forEach((key, value) -> this.putOption(builder, key, value));
         }
     }
 
     protected void putOption(Context.Builder builder, String key, @Nullable String value) {
-        if (value != null && !value.isBlank()) {
+        if (StringUtils.isNotBlank(value)) {
             builder.option(key, value);
         }
     }

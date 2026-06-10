@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/grpc/jpyxie-grpc-server/jpyxie-grpc-server.iml" filepath="$PROJECT_DIR$/grpc/jpyxie-grpc-server/jpyxie-grpc-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/jpyxie-parent.iml" filepath="$PROJECT_DIR$/jpyxie-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/rest/jpyxie-rest-server/jpyxie-rest-server.iml" filepath="$PROJECT_DIR$/rest/jpyxie-rest-server/jpyxie-rest-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-python-executor-parent.iml" filepath="$PROJECT_DIR$/spring-boot-python-executor-parent.iml" />
     </modules>
   </component>
 </project>

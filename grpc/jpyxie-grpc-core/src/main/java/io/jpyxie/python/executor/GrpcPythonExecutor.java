@@ -30,7 +30,7 @@ public class GrpcPythonExecutor extends AbstractPythonExecutor<GrpcPythonRespons
             GrpcPythonResponse response = stub.sendCode(request);
             return this.createResultMap(resultSpec, response);
         } catch (Exception e) {
-            throw new PythonExecutionException(e);
+            throw GrpcPythonExecutorException.failedToExecute(script, e);
         }
     }
 }

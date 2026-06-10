@@ -13,7 +13,6 @@ public abstract class AbstractPythonExecutor<F> implements PythonExecutor {
 
     protected PythonResultMap createResultMap(PythonResultSpec resultSpec, F from) {
         return PythonResultMap.of(resultSpec, requirement ->
-                this.getPythonDeserializer()
-                        .deserialize(from, requirement));
+                this.getPythonDeserializer().deserialize(from, requirement));
     }
 }

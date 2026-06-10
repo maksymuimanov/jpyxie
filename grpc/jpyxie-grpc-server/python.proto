@@ -16,7 +16,7 @@ message GrpcPythonResponse {
 }
 
 message GrpcPythonPipRequest {
-  string name = 1;
+  string command = 1;
   string libraryName = 2;
   repeated string options = 3;
 }

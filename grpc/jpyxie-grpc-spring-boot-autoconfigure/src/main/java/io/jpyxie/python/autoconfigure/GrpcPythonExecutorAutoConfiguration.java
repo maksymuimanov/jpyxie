@@ -107,7 +107,7 @@ public class GrpcPythonExecutorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PythonLibraryManager.class)
-    public PythonLibraryManager pipManager(PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub) {
+    public PythonLibraryManager grpcPythonLibraryManager(PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub) {
         return new GrpcPythonLibraryManager(stub);
     }
 }

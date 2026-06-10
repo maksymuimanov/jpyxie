@@ -1,10 +1,10 @@
 package io.jpyxie.python.executor;
 
-import io.jpyxie.python.PythonRepresentation;
 import io.jpyxie.python.bind.PythonDeserializer;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
 import io.jpyxie.python.interpreter.PythonReleasableInterpreterProvider;
 import io.jpyxie.python.processor.PythonResultMap;
+import io.jpyxie.python.script.PythonScript;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -19,7 +19,7 @@ public abstract class InterpretablePythonExecutor<F, I extends AutoCloseable> ex
     }
 
     @Override
-    public PythonResultMap execute(PythonRepresentation script, PythonResultSpec resultSpec) {
+    public PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec) {
         try {
             I interpreter = interpreterProvider.acquire();
             return this.executeAndRelease(script, resultSpec, interpreter);
@@ -28,7 +28,7 @@ public abstract class InterpretablePythonExecutor<F, I extends AutoCloseable> ex
         }
     }
 
-    private PythonResultMap executeAndRelease(PythonRepresentation script, PythonResultSpec resultSpec, I interpreter) throws Exception {
+    private PythonResultMap executeAndRelease(PythonScript script, PythonResultSpec resultSpec, I interpreter) throws Exception {
         PythonResultMap resultMap;
         try {
             resultMap = this.execute(script, resultSpec, interpreter);
@@ -40,6 +40,6 @@ public abstract class InterpretablePythonExecutor<F, I extends AutoCloseable> ex
         return resultMap;
     }
 
-    protected abstract PythonResultMap execute(PythonRepresentation script, PythonResultSpec resultSpec, I interpreter) throws Exception;
+    protected abstract PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec, I interpreter) throws Exception;
 }
 

@@ -84,6 +84,8 @@
     </modules>
     <properties>
         <java.version>17</java.version>
+        <commons-lang.version>3.20.0</commons-lang.version>
+        <commons-collections.version>4.5.0</commons-collections.version>
         <jspecify.version>1.0.0</jspecify.version>
         <jetbrains-annotations.version>26.0.2-1</jetbrains-annotations.version>
         <spring-boot.version>3.5.3</spring-boot.version>
@@ -98,6 +100,16 @@
         <zt-exec.version>1.12</zt-exec.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.jspecify</groupId>
             <artifactId>jspecify</artifactId>

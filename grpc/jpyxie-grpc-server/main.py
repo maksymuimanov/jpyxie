@@ -6,16 +6,14 @@ import sys
 from concurrent import futures
 
 import grpc
-
 import python_pb2
 import python_pb2_grpc
 
 TOKEN = os.getenv("PYTHON_SERVER_TOKEN")
 os.environ.pop("PYTHON_SERVER_TOKEN", None)
-HOST = os.getenv("PYTHON_SERVER_HOST")
-PORT = os.getenv("PYTHON_SERVER_PORT")
-MAX_WORKERS = int(os.getenv("PYTHON_SERVER_THREAD_POOL_MAX_WORKERS"))
-APPEARANCE = os.getenv("PYTHON_RESULT_APPEARANCE")
+HOST = os.getenv("PYTHON_SERVER_HOST", "0.0.0.0")
+PORT = os.getenv("PYTHON_SERVER_PORT", "50051")
+MAX_WORKERS = int(os.getenv("PYTHON_SERVER_THREAD_POOL_MAX_WORKERS", "10"))
 SUBPROCESS_TIMEOUT = float(os.getenv("PYTHON_SUBPROCESS_TIMEOUT", "30"))
 LOGGING_ENABLED = os.getenv("PYTHON_LOGGING_ENABLED", "true").lower() == "true"
 if LOGGING_ENABLED:
@@ -50,9 +48,6 @@ class PythonService(python_pb2_grpc.PythonGrpcServiceServicer):
                         context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
                         return python_pb2.GrpcPythonResponse()
                     result[field_name] = json.dumps(java_execution_context[field_name])
-            elif APPEARANCE and APPEARANCE in java_execution_context:
-                result[APPEARANCE] = json.dumps(java_execution_context[APPEARANCE])
-
             return python_pb2.GrpcPythonResponse(fields=result)
         except Exception as e:
             if LOGGING_ENABLED:
@@ -73,18 +68,18 @@ class PythonService(python_pb2_grpc.PythonGrpcServiceServicer):
             return python_pb2.GrpcPythonPipResponse(successful=False)
         try:
             process = subprocess.run(
-                [sys.executable, "-m", "pip", request.name, request.libraryName, *request.options],
+                [sys.executable, "-m", "pip", request.command, request.libraryName, *request.options],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
                 timeout=SUBPROCESS_TIMEOUT,
             )
             if LOGGING_ENABLED:
-                logging.info(f"Client executed the pip command: {request.name}, {request.libraryName}")
+                logging.info(f"Client executed the pip command: {request.command}, {request.libraryName}")
             return python_pb2.GrpcPythonPipResponse(successful=process.returncode == 0)
         except Exception as e:
             if LOGGING_ENABLED:
                 logging.info(
-                    f"Client failed to execute the pip command: {request.name}, {request.libraryName}, {str(e)}"
+                    f"Client failed to execute the pip command: {request.command}, {request.libraryName}, {str(e)}"
                 )
             context.set_details(str(e))
             context.set_code(grpc.StatusCode.INTERNAL)

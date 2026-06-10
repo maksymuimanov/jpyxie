@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class GrpcPythonLibraryManager implements PythonLibraryManager {
-    public static final String INSTALLATION_FAILURE_EXCEPTION_MESSAGE = "Installation has failed";
-    public static final String UNINSTALLATION_FAILURE_EXCEPTION_MESSAGE = "Uninstallation has failed";
     private final PythonGrpcServiceGrpc.PythonGrpcServiceBlockingStub stub;
 
     @Override
@@ -20,7 +18,7 @@ public class GrpcPythonLibraryManager implements PythonLibraryManager {
     public void install(PythonLibrary library) {
         boolean isSuccessful = this.executePipCommand(INSTALL_COMMAND, library);
         if (!isSuccessful) {
-            throw new PythonLibraryException(INSTALLATION_FAILURE_EXCEPTION_MESSAGE);
+            throw GrpcPythonLibraryManagerException.failedToInstall(library);
         }
     }
 
@@ -29,21 +27,21 @@ public class GrpcPythonLibraryManager implements PythonLibraryManager {
         library.addOption(UNINSTALL_WITHOUT_CONFIRMATION_OPTION);
         boolean isSuccessful = this.executePipCommand(UNINSTALL_COMMAND, library);
         if (!isSuccessful) {
-            throw new PythonLibraryException(UNINSTALLATION_FAILURE_EXCEPTION_MESSAGE);
+            throw GrpcPythonLibraryManagerException.failedToUninstall(library);
         }
     }
 
-    protected boolean executePipCommand(String name, PythonLibrary management) {
+    protected boolean executePipCommand(String command, PythonLibrary management) {
         try {
             GrpcPythonPipRequest pipRequest = GrpcPythonPipRequest.newBuilder()
-                    .setName(name)
+                    .setCommand(command)
                     .setLibraryName(management.getName())
                     .addAllOptions(management.getOptions())
                     .build();
             GrpcPythonPipResponse pipResponse = stub.sendPip(pipRequest);
             return pipResponse.getSuccessful();
         } catch (Exception e) {
-            throw new PythonLibraryException(e);
+            throw GrpcPythonLibraryManagerException.failedToExecutePipCommand(command, management, e);
         }
     }
 }

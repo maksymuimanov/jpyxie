@@ -1,7 +1,7 @@
 package io.jpyxie.python.executor;
 
-import io.jpyxie.python.bind.PythonDeserializer;
 import io.jpyxie.python.PythonConstants;
+import io.jpyxie.python.bind.PythonDeserializer;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
 import io.jpyxie.python.processor.PythonResultMap;
 import io.jpyxie.python.script.PythonScript;
@@ -22,8 +22,9 @@ public class GraalPythonExecutor extends InterpretablePythonExecutor<Value, Cont
 
     @Override
     protected PythonResultMap execute(PythonScript script, PythonResultSpec resultSpec, Context interpreter) throws Exception {
-        String scriptSource = script.name();
-        Source source = Source.newBuilder(PythonConstants.PYTHON, script.toPythonString(), scriptSource)
+        String scriptName = script.getName();
+        String scriptBody = script.toPythonString();
+        Source source = Source.newBuilder(PythonConstants.PYTHON, scriptBody, scriptName)
                 .cached(this.cached)
                 .build();
         Value value = interpreter.eval(source);

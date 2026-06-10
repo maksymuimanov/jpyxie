@@ -20,7 +20,7 @@ public class GrpcPythonDeserializer implements PythonDeserializer<GrpcPythonResp
             String resultJson = from.getFieldsOrThrow(name);
             return objectMapper.readValue(resultJson, type);
         } catch (JsonProcessingException e) {
-            throw new PythonDeserializationException(e);
+            throw GrpcPythonDeserializerException.failedToReadJson(e);
         }
     }
 }
