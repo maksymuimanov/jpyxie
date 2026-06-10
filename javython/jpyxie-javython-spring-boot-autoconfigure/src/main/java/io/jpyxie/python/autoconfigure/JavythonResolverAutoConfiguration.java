@@ -13,6 +13,6 @@ public class JavythonResolverAutoConfiguration {
     @Bean
     public PythonResolver javythonResolver(PythonSerializer pythonSerializer,
                                            JavythonResolverProperties resolverProperties) {
-        return new JavythonResolver(pythonSerializer, resolverProperties.getRegex(), resolverProperties.getPositionFromStart(), resolverProperties.getPositionFromEnd());
+        return new JavythonResolver(pythonSerializer, resolverProperties.getRegex());
     }
 }

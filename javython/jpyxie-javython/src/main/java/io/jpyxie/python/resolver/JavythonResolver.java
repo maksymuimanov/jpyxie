@@ -1,42 +1,38 @@
 package io.jpyxie.python.resolver;
 
-import io.jpyxie.python.PythonConstants;
-import io.jpyxie.python.PythonRepresentation;
 import io.jpyxie.python.bind.PythonSerializer;
 import io.jpyxie.python.script.PythonScript;
-import io.jpyxie.python.script.PythonScriptException;
+import io.jpyxie.python.script.PythonScriptBuilder;
+import io.jpyxie.python.script.PythonScriptLine;
 import lombok.RequiredArgsConstructor;
+
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 public class JavythonResolver implements PythonResolver {
-    public static final String DEFAULT_REGEX = "java\\{.+?}";
-    public static final int DEFAULT_POSITION_FROM_START = 5;
-    public static final int DEFAULT_POSITION_FROM_END = 1;
+    public static final String DEFAULT_REGEX = "java\\{([^}]+)}";
     private final PythonSerializer pythonSerializer;
-    private final String regex;
-    private final int positionFromStart;
-    private final int positionFromEnd;
+    private final Pattern pattern;
 
     public JavythonResolver(PythonSerializer pythonSerializer) {
-        this(pythonSerializer, DEFAULT_REGEX, DEFAULT_POSITION_FROM_START, DEFAULT_POSITION_FROM_END);
+        this(pythonSerializer, DEFAULT_REGEX);
+    }
+
+    public JavythonResolver(PythonSerializer pythonSerializer, String regex) {
+        this(pythonSerializer, Pattern.compile(regex));
     }
 
     @Override
     public PythonScript resolve(PythonScript pythonScript, PythonArgumentSpec argumentSpec) {
-        return BasicPythonScriptBuilder.of(pythonScript)
-                .appendImport(PythonConstants.IMPORT_JSON)
-                .replaceAllCode(this.regex,
-                        this.positionFromStart,
-                        this.positionFromEnd,
-                        (group, result) -> {
-                            try {
-                                Object argument = argumentSpec.get(group);
-                                PythonRepresentation pythonRepresentation = pythonSerializer.serialize(argument);
-                                result.append(pythonRepresentation.toPythonString());
-                            } catch (Exception e) {
-                                throw new PythonScriptException(e);
-                            }
-                        })
-                .getScript();
+        PythonScriptBuilder scriptBuilder = new PythonScriptBuilder(pythonScript);
+        return scriptBuilder.mapAllCode(scriptLine -> {
+            String line = scriptLine.getLine();
+            String result = this.pattern.matcher(line).replaceAll(matchResult -> {
+                String argumentName = matchResult.group(1);
+                Object argument = argumentSpec.get(argumentName);
+                return this.pythonSerializer.serialize(argument).toPythonString();
+            });
+            return new PythonScriptLine(result);
+        }).getScript();
     }
 }

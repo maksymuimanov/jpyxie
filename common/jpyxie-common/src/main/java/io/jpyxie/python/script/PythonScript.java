@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class PythonScript implements PythonRepresentation {
+public class PythonScript implements PythonRepresentation, Cloneable {
     protected static final int START_INDEX = 0;
     @Serial
     private static final long serialVersionUID = 0L;
@@ -208,5 +208,10 @@ public class PythonScript implements PythonRepresentation {
         }
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public PythonScript clone() {
+        return new PythonScript(this.name, new ArrayList<>(this.importLines), new ArrayList<>(this.codeLines));
     }
 }
