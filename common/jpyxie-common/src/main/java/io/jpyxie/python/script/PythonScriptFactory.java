@@ -49,13 +49,13 @@ public class PythonScriptFactory {
         try {
             byte[] bytes = inputStream.readAllBytes();
             String scriptString = new String(bytes, charset);
-            return fromCharSequence(name, scriptString);
+            return fromString(name, scriptString);
         } catch (IOException e) {
             throw PythonScriptException.readingFailure(e);
         }
     }
 
-    public static PythonScript fromCharSequence(String name, CharSequence charSequence) {
+    public static PythonScript fromString(String name, CharSequence charSequence) {
         String scriptString = charSequence.toString();
         return PythonScriptFactory.fromStream(name, scriptString.lines());
     }

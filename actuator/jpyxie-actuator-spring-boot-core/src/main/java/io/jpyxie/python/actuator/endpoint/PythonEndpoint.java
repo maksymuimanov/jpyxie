@@ -1,9 +1,9 @@
 package io.jpyxie.python.actuator.endpoint;
 
+import io.jpyxie.python.PythonConstants;
 import io.jpyxie.python.bind.PythonDeserializer;
 import io.jpyxie.python.bind.PythonSerializer;
 import io.jpyxie.python.executor.PythonExecutor;
-import io.jpyxie.python.file.PythonFileReader;
 import io.jpyxie.python.interpreter.PythonInterpreterFactory;
 import io.jpyxie.python.interpreter.PythonInterpreterProvider;
 import io.jpyxie.python.library.PythonLibraryManager;
@@ -12,6 +12,7 @@ import io.jpyxie.python.lifecycle.PythonInitializer;
 import io.jpyxie.python.processor.PythonProcessor;
 import io.jpyxie.python.resolver.PythonResolver;
 import io.jpyxie.python.resolver.PythonResolverHolder;
+import io.jpyxie.python.script.SpringPythonScriptFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.actuate.endpoint.OperationResponseBody;
@@ -24,13 +25,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Endpoint(id = "python")
+@Endpoint(id = PythonConstants.PYTHON)
 public class PythonEndpoint {
     private static final Class<?>[] BEAN_TYPES = new Class<?>[]{
             PythonDeserializer.class,
             PythonSerializer.class,
             PythonExecutor.class,
-            PythonFileReader.class,
+            SpringPythonScriptFactory.class,
             PythonInterpreterFactory.class,
             PythonInterpreterProvider.class,
             PythonLibraryManager.class,
@@ -47,6 +48,7 @@ public class PythonEndpoint {
         this.context = context;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @ReadOperation
     public PythonBeansDescriptor pythonBeans() {
         ApplicationContext target = this.context;
@@ -68,7 +70,7 @@ public class PythonEndpoint {
             context.getBeansOfType(beanClass)
                     .forEach((name, bean) -> beanMap.put(name, new PythonBeanDescriptor(name, bean, beanClass)));
         } catch (BeansException e) {
-            log.debug("No beans of type {}", beanClass.getName(), e);
+            log.warn("No beans of type {}", beanClass.getName(), e);
         }
     }
 

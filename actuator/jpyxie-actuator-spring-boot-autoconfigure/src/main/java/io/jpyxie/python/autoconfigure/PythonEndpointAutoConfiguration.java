@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-@AutoConfiguration(after = PythonProcessorAutoConfiguration.class)
+@AutoConfiguration(after = PythonAutoConfiguration.class)
 @ConditionalOnClass(PythonProcessor.class)
 @ConditionalOnBean(PythonProcessor.class)
 @ConditionalOnAvailableEndpoint(PythonEndpoint.class)

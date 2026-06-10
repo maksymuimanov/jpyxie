@@ -45,7 +45,7 @@ public class SubprocessPythonLibraryManager implements PythonLibraryManager {
             String name = library.getName();
             log.debug("Checking if library [{}] exists", name);
             String scriptString = EXISTS_SCRIPT_STRING.formatted(name);
-            PythonScript script = PythonScriptFactory.fromCharSequence("exists_" + name, scriptString);
+            PythonScript script = PythonScriptFactory.fromString("exists_" + name, scriptString);
             PythonResultMap resultMap = pythonExecutor.execute(script, EXISTS_ARGUMENT_SPEC);
             boolean exists = resultMap.get(EXISTS, Boolean.class);
             log.debug(exists ? "Library [{}] exists" : "Library [{}] does not exist", name);
@@ -63,7 +63,7 @@ public class SubprocessPythonLibraryManager implements PythonLibraryManager {
             log.info("Installing Python library [{}] with options [{}]", name, options);
             String joinedOptions = this.joinOptions(options);
             String scriptString = INSTALL_SCRIPT_STRING.formatted(name, joinedOptions);
-            PythonScript script = PythonScriptFactory.fromCharSequence("install_" + name, scriptString);
+            PythonScript script = PythonScriptFactory.fromString("install_" + name, scriptString);
             pythonExecutor.execute(script, PythonResultSpec.empty());
         } catch (Exception e) {
             throw SubprocessPythonLibraryManagerException.failedToInstall(library, e);
@@ -78,7 +78,7 @@ public class SubprocessPythonLibraryManager implements PythonLibraryManager {
             log.info("Uninstalling Python library [{}] with options [{}]", name, options);
             String joinedOptions = this.joinOptions(options);
             String scriptString = UNINSTALL_SCRIPT_STRING.formatted(name, joinedOptions);
-            PythonScript script = PythonScriptFactory.fromCharSequence("uninstall_" + name, scriptString);
+            PythonScript script = PythonScriptFactory.fromString("uninstall_" + name, scriptString);
             pythonExecutor.execute(script, PythonResultSpec.empty());
         } catch (Exception e) {
             throw SubprocessPythonLibraryManagerException.failedToUninstall(library, e);

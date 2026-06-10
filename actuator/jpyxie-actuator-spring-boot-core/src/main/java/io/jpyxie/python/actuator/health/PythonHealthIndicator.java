@@ -2,6 +2,7 @@ package io.jpyxie.python.actuator.health;
 
 import io.jpyxie.python.processor.PythonProcessor;
 import io.jpyxie.python.script.PythonScript;
+import io.jpyxie.python.script.PythonScriptFactory;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health;
 
@@ -16,9 +17,9 @@ public class PythonHealthIndicator extends AbstractHealthIndicator {
     }
 
     @Override
-    protected void doHealthCheck(Health.Builder builder) throws Exception {
+    protected void doHealthCheck(Health.Builder builder) {
         builder.up().withDetail(PING_SCRIPT_KEY, PING_SCRIPT_VALUE);
-        PythonScript pingScript = PythonScript.asString(PING_SCRIPT_NAME, PING_SCRIPT_VALUE);
+        PythonScript pingScript = PythonScriptFactory.fromString(PING_SCRIPT_NAME, PING_SCRIPT_VALUE);
         this.pythonProcessor.process(pingScript);
     }
 }

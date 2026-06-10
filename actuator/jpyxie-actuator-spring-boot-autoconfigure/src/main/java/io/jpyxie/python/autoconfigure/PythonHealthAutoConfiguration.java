@@ -1,5 +1,6 @@
 package io.jpyxie.python.autoconfigure;
 
+import io.jpyxie.python.PythonConstants;
 import io.jpyxie.python.actuator.health.PythonHealthIndicator;
 import io.jpyxie.python.processor.PythonProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -12,10 +13,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 
-@AutoConfiguration(after = PythonProcessorAutoConfiguration.class)
+@AutoConfiguration(after = PythonAutoConfiguration.class)
 @ConditionalOnClass(PythonProcessor.class)
 @ConditionalOnBean(PythonProcessor.class)
-@ConditionalOnEnabledHealthIndicator("python")
+@ConditionalOnEnabledHealthIndicator(PythonConstants.PYTHON)
 public class PythonHealthAutoConfiguration extends CompositeHealthContributorConfiguration<PythonHealthIndicator, PythonProcessor> {
     public PythonHealthAutoConfiguration() {
         super(PythonHealthIndicator::new);
